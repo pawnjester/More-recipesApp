@@ -3,5 +3,186 @@
 <html lang = "en">
   <head>
     <title>Welcome to Recipe App</title>
+    <link rel="stylesheet" href="css/index.css">   
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/a42b7208df.js"></script>
+
+    <style>
+      body{
+        background:#333;
+        color: #fff;
+        }
+      
+      .navbar{
+        border-bottom: #FF4500 3px solid;
+        opacity: 0.8;
+        
+      }    
+
+      #home-section{
+        background: url('img/food1.jpg') no-repeat;
+        min-height: 700px;
+        background-size: cover;
+        background-attachment: fixed;
+      } 
+
+      .dark-overlay{
+        background-color:rgba(0,0, 0, 0.7);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        min-height: 700px; 
+      } 
+
+      .home-inner{
+        padding-top: 100px; 
+      }
+
+      .card-form{
+        opacity: 0.8;
+      }
+
+      .fa{
+        color: #FF4500;
+        background: #fff;
+        padding: 4px;
+        border-radius: 5px;
+        font-size: 15px;
+      }
+
+          
+    </style>
+    
   </head>
+  <body>
+    <nav class ="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+      <div class= "container">
+        <a href="index.html" class="navbar-brand">More-Recipe</a>
+        <button type="navbar-toggler" data-toggle ="collapse" data-target="#navbarCollapse">
+          <span class="navbar-toggler-icon"></span>
+        </button>        
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class ="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a href="#signup" class="nav-link">Sign Up</a>
+            </li>
+            <li class="nav-item">
+              <a href="#signin" class="nav-link">Sign In</a>
+            </li>
+            
+          </ul>
+        </div>        
+      </div>     
+      
+    </nav>
+
+    <!--- HOME SECTION -->
+    <header id ="home-section">
+      <div class= "dark-overlay">
+      <div class= "home-inner">
+        <div class ="container">
+          <div class= "row">
+            <div class="col-lg-8 d-none d-lg-block">
+              <h1 class= "display-4">Let the  world know about your <strong>Recipe</strong></h1>
+              <div class="d-flex flex-row">
+                <div class ="p-4 align-self-start" >
+                  <i class="fa fa-check"></i>
+                  
+                </div>
+                <div class= "p-4 align-self-end">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac suscipit mi, eu dictum arcu. Vestibulum nec nulla eu diam ornare facilisis. Ut tristique eget odio a elementum. Nunc consequat ipsum non tortor posuere varius. Proin ac felis nibh.
+                </div>
+                
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class ="p-4 align-self-start" >
+                  <i class="fa fa-check"></i>
+                  
+                </div>
+                <div class= "p-4 align-self-end">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac suscipit mi, eu dictum arcu. Vestibulum nec nulla eu diam ornare facilisis. Ut tristique eget odio a elementum. Nunc consequat ipsum non tortor posuere varius. Proin ac felis nibh.  
+                </div>
+                
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class ="p-4 align-self-start" >
+                  <i class="fa fa-check"></i>
+                  
+                </div>
+                <div class= "p-4 align-self-end">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac suscipit mi, eu dictum arcu. Vestibulum nec nulla eu diam ornare facilisis. Ut tristique eget odio a elementum. Nunc consequat ipsum non tortor posuere varius. Proin ac felis nibh. 
+                </div>
+                
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class= "card bg-danger text-center card-form">
+                <div class="card-body">
+                  <h3>Sign Up Today</h3>
+                  <p>Please fill this form to register</p>
+                  <form>
+                    <div class= "form-group">
+                      <input type="email" class="form-control form-control-lg" placeholder="Email"/>
+                      
+                    </div>
+                    <div class= "form-group">
+                      <input type="text" class="form-control form-control-lg" placeholder="Username"/>
+                      
+                    </div>
+                    <div class= "form-group">
+                      <input type="password" class="form-control form-control-lg" placeholder="Password"/>
+                      
+                    </div>
+                    <div class= "form-group">
+                      <input type="password" class="form-control form-control-lg" placeholder="Confirm Password"/>
+                      
+                    </div>
+                    <input type="submit" value ="Submit" class="btn btn-outline-light btn-block">
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+      </div>
+      
+    </header>
+
+    <!--- Explore meals -->
+
+    <section id ="explore-head-section">
+      <div class= "container">
+        <div class ="row">
+          <div class="col text-center">
+            <div class= "p-5">
+              <h1 class="display-5">Search </h1>
+              <p class="lead">Search for amazing recipes available</p>
+              <a href="#" class="btn btn-outline-secondary">Find Out More Recipes</a>
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+      
+    </section>
+
+
+
+    
+    
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  </body>
 </html>

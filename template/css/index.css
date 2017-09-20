@@ -1,0 +1,42 @@
+body{
+        background:#333;
+        color: #fff;
+        }
+      
+      .navbar{
+        border-bottom: #FF4500 3px solid;
+        opacity: 0.8;
+        
+      }    
+
+      #home-section{
+        background: url('../img/food1.jpg') no-repeat;
+        min-height: 700px;
+        background-size: cover;
+        background-attachment: fixed;
+      } 
+
+      .dark-overlay{
+        background-color:rgba(0,0, 0, 0.7);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        min-height: 700px; 
+      } 
+
+      .home-inner{
+        padding-top: 100px; 
+      }
+
+      .card-form{
+        opacity: 0.8;
+      }
+
+      .fa{
+        color: #FF4500;
+        background: #fff;
+        padding: 4px;
+        border-radius: 5px;
+        font-size: 15px;
+      }
