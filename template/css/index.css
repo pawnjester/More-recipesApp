@@ -40,3 +40,6 @@ body{
         border-radius: 5px;
         font-size: 15px;
       }
+      #explore-head-section{
+        border-bottom: #FF4500 1px solid;
+      }
