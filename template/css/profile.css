@@ -1,0 +1,16 @@
+body{
+        background:#fff;
+        color: black;
+}
+
+.navbar{
+  background-color:black;
+  margin-bottom: 0;
+  border-radius: 0;
+  padding: 1% 0;
+}
+
+.heading{
+  padding-top: 100px; 
+}
+

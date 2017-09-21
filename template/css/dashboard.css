@@ -1,0 +1,39 @@
+
+
+body{
+        background:#fff;
+        color: black;
+}
+
+.popular-recipes{
+  max-height: 30px;
+  background-color: green; 
+
+}
+.fa{
+  background: #fff;
+  padding: 4px;
+  border-radius: 5px;
+  font-size: 20px;
+  }
+
+.active {
+  color: greenyellow;
+}
+
+.home-inner{
+        padding-top: 100px; 
+      }
+.heading{
+  padding-top: 100px; 
+}
+.card{
+  margin-bottom: 15px;
+}
+
+.navbar{
+  background-color:black;
+  margin-bottom: 0;
+  border-radius: 0;
+  padding: 1% 0;
+}

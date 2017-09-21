@@ -32,6 +32,9 @@ body{
       .card-form{
         opacity: 0.8;
       }
+      .left{
+        float: left;
+      }
 
       .fa{
         color: #FF4500;
