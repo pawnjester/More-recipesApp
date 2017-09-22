@@ -36,9 +36,17 @@ body{
         float: left;
       }
 
-      .fa{
+      .fa, {
         color: #FF4500;
         background: #fff;
+        padding: 4px;
+        border-radius: 5px;
+        font-size: 15px;
+      }
+
+      .fa cut{
+        color: #FF4500;
+        background: #FF4500;
         padding: 4px;
         border-radius: 5px;
         font-size: 15px;

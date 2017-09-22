@@ -19,29 +19,25 @@
 
 </head>
 <body>
-  <nav class ="navbar navbar-expand-sm navbar-dark fixed-top">
-      <div class= "container">
-        <a href="index.html" class="navbar-brand">More-Recipe</a>
-        <button type="navbar-toggler" data-toggle ="collapse" data-target="#navbarCollapse">
-          <span class="navbar-toggler-icon"></span>
-        </button>        
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class ="navbar-nav ml-auto">
-            <li class="nav-item">
-              <form class="row">
-                  <input placeholder="Search Recipe" id="search-input" type="text">
-                  <a id="search-button" class="waves-effect waves-light btn col s2 m3 search green lighten-3"><i class="fa fa-search" aria-hidden="true"></i></a>
-                </form>
+  
+  <nav class="navbar navbar-expand-sm navbar-dark navbar-inverse bg-dark fixed-top ">
+  <a class="navbar-brand" href="#">More-Recipes</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+              <a href="#signup" class="nav-link">Sign Up</a>
             </li>
             <li class="nav-item">
-              <a href="" class="nav-link">Emmanuel</a>
-            </li>
-            
-          </ul>
-        </div>        
-      </div>     
-      
-    </nav>
+              <a href="#signin" class="nav-link">Sign In</a>
+      </li>
+    </ul>
+    
+  </div>
+</nav>
 
     <div class= "container text-center">
       <div class ="heading">
@@ -169,9 +165,12 @@
     </div>
     
     </div>
+    
+    
 
     <!--- MAIN FOOTER -->
-    <footer id="main-footer" class ="bg-danger">
+    
+    <footer id="main-footer" class ="bg-danger navbar-static-bottom">
       <div class= "container">
         <div class="row">
           <div class ="col text-center">
@@ -188,6 +187,9 @@
       </div>
       
     </footer>
+      
+      
+    
 
     
 <script src="js/recipes.js"></script>
