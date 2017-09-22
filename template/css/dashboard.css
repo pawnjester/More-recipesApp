@@ -21,6 +21,10 @@ body{
   color: greenyellow;
 }
 
+input .dashboard{
+  width:2px;
+}
+
 .home-inner{
         padding-top: 100px; 
       }
