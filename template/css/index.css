@@ -36,7 +36,7 @@ body{
         float: left;
       }
 
-      .fa, {
+      .fa{
         color: #FF4500;
         background: #fff;
         padding: 4px;
