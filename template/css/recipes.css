@@ -31,13 +31,17 @@ body{
         padding-top: 100px; 
       }
 .heading{
-  padding-top: 100px; 
+  padding-top: 20px; 
 }
 .card{
   margin-bottom: 15px;
 }
 #clickableAwesomeFont{
   cursor:pointer
+}
+
+.container{
+  position: relative;
 }
 
 .navbar{
@@ -49,6 +53,15 @@ body{
 html{
     min-height: 100%;
     
+}
+.py-4{
+  padding-bottom: 0px !important;
+}
+
+.addrecipebtn{
+  position: absolute;
+  top: 5.3%;
+  right: 20px;
 }
 
 .search input { 
@@ -65,3 +78,10 @@ html{
 
 
 
+
+
+@media only screen and (max-width: 765px) {
+    .addrecipebtn{
+        position: relative !important;
+    }
+}
