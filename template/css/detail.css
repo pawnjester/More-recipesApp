@@ -1,0 +1,45 @@
+ul{
+  list-style: disc;
+}
+
+btn:focus{
+  outline: none !important;
+}
+
+.header-banner{
+  position: relative;
+  width: 100%;
+  height: 250px;
+  background-repeat:  no-repeat;
+  background-size: cover;
+  -webkit-filter: blur(2px);
+  filter: blur(2px);
+  overflow: hidden;
+  z-index: -1;
+}
+/*
+.container-holder{
+}*/
+
+.detail-container{
+  background: #fff !important;
+  margin-top: -150px;
+  padding: 30px;
+  border-radius: 5px;
+}
+
+.no-border-r{
+  border-radius: 0px !important;
+}
+
+.detail-card{
+  border: none !important;
+}
+
+.detail-card .card-body{
+  padding: 1.25rem 0px !important;
+}
+
+.detail-holder h1{
+  text-transform: capitalize;
+}
