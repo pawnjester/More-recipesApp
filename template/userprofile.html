@@ -19,77 +19,89 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-sm navbar-dark navbar-inverse bg-dark fixed-top ">
-  <a class="navbar-brand" href="#">More-Recipes</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    
-    
-  </div>
-</nav>
+  <nav class="navbar navbar-expand-sm navbar-dark navbar-inverse bg-dark justify-content-between fixed-top">
+      <a class="navbar-brand d-none d-sm-block text-white">More-Recipes</a>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">      
+        </form>
+    </nav>
 
   <div class="container ">
     <div class="heading">
-      <h1 class="p-5 text-center">User Profile</h1>
+      <h1 class="p-5 text-center">User Profile </h1>
       <div class="container">
         <div class ="row">
         <div class ="col-2 col-sm-12 col-md-2 col-xs-2">
-        <img class="card-img-top img-fluid picture img-thumbnail" src="img/me.jpg" alt="Card image cap" >          
+        <img class="card-img-top img-fluid picture " src="img/me.jpg" alt="Card image cap" >          
         </div>
-        <div class ="col-10">
+        <div class =" container col-10">
           <div class="row">           
           
-        <div class ="col-md-6">
-         <h4 class="name">Okonji Emmanuel</h4>
+        <div class ="col-md-4">
+         <h4 class="name"><b>Okonji Emmanuel</b></h4>
           
         </div>
-        <div class ="col-md-6 float-right">
-         <h4 ><i class="fa fa-pencil float-right text-primary" style ="width: 2px;" aria-hidden="true"></i></h4>   
+        <div class ="col-md-8 float-right">
+         <h5 ><span id='clickableAwesomeFont'><i class="fa fa-pencil float-right text-primary" data-toggle="modal" data-target="#editProfile" style ="width: 2px;" aria-hidden="true"></i></span></h5>   
         </div>
-        
-        </div>
-        <hr class="hr-color">
-          
-        </div>
-        <div class ="col-10 mt-3">
-          <div class="row">           
-          
-        <div class ="col-md-6">
+        <hr>
+
+        <div class ="col-md-4 mt-5">
          <h6 >Email </h6>
           
         </div>
-        <div class ="col-md-6 float-right">
+        <div class ="col-md-8 float-right mt-5">
          <h6 >example@gmail.com</h6>   
-        </div>        
-        </div>       
-          
         </div>
-        <div class ="col-10 mt-3">
-          <div class="row">           
-          
-        <div class ="col-md-6">
+
+        <div class ="col-md-4 mt-5">
          <h6 >Phone number </h6>
           
         </div>
-        <div class ="col-md-6 float-right">
+        <div class ="col-md-8 float-right mt-5">
          <h6 >0800004567</h6>   
-        </div>        
-        </div>   
-          
         </div>
-        <div class ="col-10 mt-3">
-          <div class="row">           
-          
-        <div class ="col-md-6">
+
+        <div class ="col-md-4 mt-5">
          <h6 >Address </h6>
           
         </div>
-        <div class ="col-md-6 float-right">
+        <div class ="col-md-8 float-right mt-5">
+         <h6>Lagos, Nigeria</h6>   
+        </div> 
+
+        <div class ="col-md-4 mt-5">
+         <h6 >Occupation </h6>
+          
+        </div>
+        <div class ="col-md-8 float-right mt-5">
+         <h6>Software Developer</h6>   
+        </div> 
+
+        <div class ="col-md-4 mt-5">
+         <h6 >Fax </h6>
+          
+        </div>
+        <div class ="col-md-8 float-right mt-5">
+         <h6>Nil</h6>   
+        </div> 
+
+        <div class ="col-md-4 mt-5">
+         <h6 >Address </h6>
+          
+        </div>
+        <div class ="col-md-8 float-right mt-5">
          <h6>Lagos, Nigeria</h6>   
         </div>        
+        </div>        
+          
+        </div>       
+
+        
+        <div class ="col-10 mt-3">
+          <div class="row">           
+          
+               
         </div>   
           
         </div>
@@ -138,6 +150,72 @@
         </div>
         <div class="modal-footer">
           <button class="btn btn-danger btn-block">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--- MAIN FOOTER -->
+    
+    <footer id="main-footer" class ="bg-danger navbar-static-bottom">
+      <div class= "container">
+        <div class="row">
+          <div class ="col text-center">
+            <div class="py-4 text-white">
+              <h1 class="h3">More-Recipes Project</h1>
+              <p>Copyright &copy; 2017</p>
+              
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+      
+    </footer>
+
+    <!---EDIT profile -->
+  <div class="modal fade text-dark" id="editProfile">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalTitle">Edit Your Profile</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="username">Email</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="text">Phone number</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="password">Address</label>              
+              <textarea class="form-control" type="text"></textarea>
+              
+            </div>
+            <div class="form-group">
+              <label for="text">Occupation</label>
+              <input type="text" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label for="text">Fax</label>
+              <input type="text" class="form-control">
+            </div>
+                     
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-danger btn-block">Add new Recipe</button>
         </div>
       </div>
     </div>

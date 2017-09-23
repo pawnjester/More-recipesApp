@@ -11,10 +11,16 @@ body{
 .picture {
   height: 150px;
 }
-
+.high{
+  height: 100%;
+}
 h1{
   text-align: center;
-  padding-top: 100px;
+  padding-top: 10px;
+}
+
+#clickableAwesomeFont{
+  cursor:pointer
 }
 
 .hr-color{
