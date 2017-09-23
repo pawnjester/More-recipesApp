@@ -35,9 +35,25 @@ input .dashboard{
   margin-bottom: 15px;
 }
 
-.navbar{
+/*.navbar{
   background-color:black;
   margin-bottom: 0;
   border-radius: 0;
-  padding: 1% 0;
+  
+}*/
+
+.search { 
+  position: relative;
+  margin-right: 5px; 
+  }
+.search input { 
+  text-indent: 30px; 
+  border-radius:20px;
+  }
+.search .fa-search { 
+  position: absolute;
+  top: 5px;
+  left: 160px;
+  
+  font-size: 15px;
 }
