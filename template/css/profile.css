@@ -3,15 +3,13 @@ body{
         color: black;
 }
 
-.navbar{
-  background-color:black;
-  margin-bottom: 0;
-  border-radius: 0;
-  padding: 1% 0;
-}
 
 .heading{
-  padding-top: 100px; 
+  padding-top: 50px; 
+}
+
+.picture {
+  height: 150px;
 }
 
 h1{
@@ -19,7 +17,15 @@ h1{
   padding-top: 100px;
 }
 
+.hr-color{
+  color: red;
+}
+
 .img--thumbnail img {
   height: 300px;
+}
+.name{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 20px;
 }
 
