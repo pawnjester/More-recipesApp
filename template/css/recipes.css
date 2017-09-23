@@ -51,5 +51,17 @@ html{
     
 }
 
+.search input { 
+  text-indent: 30px; 
+  border-radius:20px;
+  }
+.search .fa-search { 
+  position: absolute;
+  top: 5px;
+  left: 160px;
+  
+  font-size: 15px;
+}
+
 
 

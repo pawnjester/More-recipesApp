@@ -46,6 +46,10 @@ input .dashboard{
   position: relative;
   margin-right: 5px; 
   }
+
+#clickableAwesomeFont{
+  cursor:pointer
+}
 .search input { 
   text-indent: 30px; 
   border-radius:20px;
