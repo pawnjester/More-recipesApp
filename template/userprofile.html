@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Your Dashboard</title>
+  <title>Your Profile</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
@@ -26,156 +26,75 @@
         </form>
     </nav>
 
-  <div class="container ">
-    <div class="heading">
-      <h1 class="p-5 text-center">User Profile </h1>
-      <div class="container">
-        <div class ="row">
-        <div class ="col-2 col-sm-12 col-md-2 col-xs-2">
-        <img class="card-img-top img-fluid picture " src="img/me.jpg" alt="Card image cap" > 
-        <button type="" class="btn btn-outline bg-danger mt-3 mr-5">Change Photo</button>         
-        </div>
-        <div class =" container col-10">
-          <div class="row">           
-          
-        <div class ="col-md-4">
-         <h4 class="name"><b>Okonji Emmanuel</b></h4>
-          
-        </div>
-        <div class ="col-md-8 float-right">
-         <h5 ><span id='clickableAwesomeFont'><i class="fa fa-pencil float-right text-primary" data-toggle="modal" data-target="#editProfile" style ="width: 2px;" aria-hidden="true"></i></span></h5>   
-        </div>
-        <hr>
-
-        <div class ="col-md-4 mt-5">
-         <h6 >Email </h6>
-          
-        </div>
-        <div class ="col-md-8 float-right mt-5">
-         <h6 >example@gmail.com</h6>   
-        </div>
-
-        <div class ="col-md-4 mt-5">
-         <h6 >Phone number </h6>
-          
-        </div>
-        <div class ="col-md-8 float-right mt-5">
-         <h6 >0800004567</h6>   
-        </div>
-
-        <div class ="col-md-4 mt-5">
-         <h6 >Address </h6>
-          
-        </div>
-        <div class ="col-md-8 float-right mt-5">
-         <h6>Lagos, Nigeria</h6>   
-        </div> 
-
-        <div class ="col-md-4 mt-5">
-         <h6 >Occupation </h6>
-          
-        </div>
-        <div class ="col-md-8 float-right mt-5">
-         <h6>Software Developer</h6>   
-        </div> 
-
-        <div class ="col-md-4 mt-5">
-         <h6 >Fax </h6>
-          
-        </div>
-        <div class ="col-md-8 float-right mt-5">
-         <h6>Nil</h6>   
-        </div> 
-
-        <div class ="col-md-4 mt-5">
-         <h6 >Address </h6>
-          
-        </div>
-        <div class ="col-md-8 float-right mt-5">
-         <h6>Lagos, Nigeria</h6>   
-        </div>        
-        </div>        
-          
-        </div>       
-
-        
-        <div class ="col-10 mt-3">
-          <div class="row">           
-          
-               
-        </div>   
-          
-        </div>
-      </div>  
-      </div>
-      
-
-      
-  </div>
-  </div>
-
-
-  
-
-  <!---EDIT MODAL -->
-  <div class="modal fade text-dark" id="editModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="editModalTitle">Edit Your Profile</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="form-group">
-              <label for="username">Username</label>
-              <input type="text" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="password">Re-enter Password</label>
-              <input type="password" class="form-control">
-            </div>
-
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-danger btn-block">Submit</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!--- MAIN FOOTER -->
+    <div class="heading">      
     
-    <footer id="main-footer" class ="bg-danger navbar-static-bottom">
-      <div class= "container">
-        <div class="row">
-          <div class ="col text-center">
-            <div class="py-4 text-white">
-              <h1 class="h3">More-Recipes Project</h1>
-              <p>Copyright &copy; 2017</p>
-              
+    <div class ="container">
+      <div class ="row profile">
+        <div class= "col-md-3">
+          <div class ="profile-sidebar">
+            <div class="profile-user-pic">
+              <img src="img/me.jpg" alt="" class="img-fluid rounded-circle float-center">
+            </div>
+            <div class ="profile-user-title">
+              <div class="profile-user-name">
+                Okonji Emmanuel
+              </div>
+              <div class ="profile-user-job">
+                Software Developer
+              </div>                            
+            </div>
+            <div class ="profile-user-buttons">
+              <button class="btn btn-danger btn-md" data-toggle="modal" data-target="#editProfile"> <i class="fa fa-pencil" aria-hidden="true" ></i> Edit</button>                           
+            </div>
+            <div class= "profile-user-menu">
+              <ul class="list-group">
+                <li class=" list-group-item activ "><a href=""><i class="fa fa-home" aria-hidden="true"></i>    Overview</a></li>
+                <li class="list-group-item"><a href=""><i class="fa fa-user" aria-hidden="true"></i>  Account Status</a></li>
+                <li class="list-group-item"><a href=""><i class="fa fa-check" aria-hidden="true">  Recipes</i></a></li>
+                <li class="list-group-item"><a href=""><i class="fa fa-flag" aria-hidden="true"></i>  help</a></li></ul>
             </div>
             
           </div>
-          
         </div>
-        
+        <div class ="col-md-9">
+        <div class="card" >
+        <div class="card-body">
+        <table class="table table-borderless mt-3">
+          <tbody>
+            <tr>
+              
+              <td><b> Name</b></td>
+              <td>Okonji Emmanuel</td>
+              
+            </tr>
+            <tr>
+              <td><b>Phone Number</b></td>
+              <td>08033009001</td>
+              
+            </tr>
+            <tr>              
+              <td><b>Fax</b></td>
+              <td>Nil</td>              
+            </tr>
+            <tr>              
+              <td><b>Email</b></td>
+              <td>Nil@example.com</td>              
+            </tr>
+            <tr>              
+              <td><b>Address</b></td>
+              <td>Nil</td>              
+            </tr>
+          </tbody>
+        </table>
+
+        </div>
+      </div>
+        </div>
       </div>
       
-    </footer>
-
+    </div>
+    </div>
+    
     <!---EDIT profile -->
   <div class="modal fade text-dark" id="editProfile">
     <div class="modal-dialog">
