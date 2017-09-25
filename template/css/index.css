@@ -1,4 +1,4 @@
-body{
+    body{
         background:#333;
         color: #fff;
         }
@@ -54,3 +54,8 @@ body{
       #explore-head-section{
         border-bottom: #FF4500 1px solid;
       }
+
+      .btn-outline-light:hover {
+    background-color: #dc3545;
+    color:white
+}
