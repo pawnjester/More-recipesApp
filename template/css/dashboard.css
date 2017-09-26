@@ -62,9 +62,24 @@ input .dashboard{
   font-size: 15px;
 }
 
+.profile{
+  background: #343a40;
+  color: white;
+  /*opacity: 0.8*/
+}
+
 @media only screen and (max-width : 575px) {
   form {
     width: 100% ; 
     position: relative;
+}
+}
+
+@media only screen and (max-width : 575px) {
+  .profile {
+    right:50%;
+  left: 50%;
+  margin-left: 120px;
+  
 }
 }
