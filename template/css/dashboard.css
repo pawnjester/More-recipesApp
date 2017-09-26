@@ -61,3 +61,10 @@ input .dashboard{
   
   font-size: 15px;
 }
+
+@media only screen and (max-width : 480px) {
+  form {
+    width: 100% ; 
+    position: relative;
+}
+}
