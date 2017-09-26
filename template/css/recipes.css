@@ -10,6 +10,10 @@ body{
         
 }
 
+#fixed button {
+  position: fixed;
+}
+
 
 .popular-recipes{
   max-height: 30px;
@@ -92,6 +96,10 @@ html{
   form {
     width: 100% ; 
     position: relative;
-}
+};
+.addrecipebtn{
+        margin-right: -5px; 
+    };
+
 }
 
