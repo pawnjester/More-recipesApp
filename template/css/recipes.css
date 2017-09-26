@@ -35,7 +35,7 @@ body{
         padding-top: 100px; 
       }
 .heading{
-  padding-top: 20px; 
+  padding-top: 80px; 
 }
 .card{
   margin-bottom: 15px;
@@ -133,6 +133,9 @@ html{
 .addrecipebtn{
         margin-right: -5px; 
     };
+/*.heading {
+      padding-top:500px;
+}*/
 
 }
 
@@ -142,6 +145,11 @@ html{
   left: 50%;
   margin-left: 120px;
   
-}
+};
+
+/*.heading {
+      padding-top:600px;
+    }*/
+
 }
 
