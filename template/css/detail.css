@@ -40,6 +40,9 @@ btn:focus{
 .no-border-r{
   border-radius: 0px !important;
 }
+.navbar{
+  position: relative;
+}
 
 .detail-card{
   border: none !important;
@@ -52,3 +55,21 @@ btn:focus{
 .detail-holder h1{
   text-transform: capitalize;
 }
+/*
+form {
+  width: 100% !important;
+  float: right; 
+}*/
+
+/* Extra Small Devices, Phones */ 
+@media only screen and (max-width : 575px) {
+  form {
+    width: 100% ; 
+    position: relative;
+}
+}
+
+/*@media only screen and (width  480px) {
+  form {
+    width: 100% ;    
+}*/
