@@ -5,8 +5,7 @@
       
       .navbar{
         border-bottom: #FF4500 3px solid;
-        /*opacity: 0.8;*/
-        
+        /*opacity: 0.8;*/        
       }    
 
       #home-section{
@@ -55,6 +54,11 @@
     padding: -2px -2px;
       }
 
+      .dep {
+        border-color: #dc3545;
+        color: black;
+      }
+
       .dep:hover {
         background-color: #dc3545;
       }
@@ -66,13 +70,18 @@
         border-radius: 5px;
         font-size: 15px;
       }
-      #explore-head-section{
-        border-bottom: #FF4500 1px solid;
-      }
+#explore-head-section{
+    border-bottom: #FF4500 1px solid;
+}
 
-      .btn-outline-light:hover {
+.btn-outline-light:hover {
     background-color: #dc3545;
     color:white
+}
+
+.pad {
+  padding-left:0px;
+  padding-right:0px;
 }
 
 /* Extra Small Devices, Phones */ 

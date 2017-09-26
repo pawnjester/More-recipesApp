@@ -6,8 +6,12 @@ body {
 }
 
 .profile-sidebar{
-  padding: 20px 0 10px 0;
+  padding: 20px 0 0px 0;
   background: #fff;
+}
+
+.img-circle {
+    border-radius: 50%;
 }
 
 .profile-user-pic img{
