@@ -105,3 +105,11 @@ li.activ {
         position: relative;
     }
 }
+
+/* Extra Small Devices, Phones */ 
+@media only screen and (max-width : 575px) {
+  form {
+    width: 100% ; 
+    position: relative;
+}
+}
