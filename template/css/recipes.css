@@ -64,10 +64,22 @@ html{
 
 .addrecipebtn{
   position: absolute;
-  top: 5.3%;
+  top: 5.9%;
   right: 20px;
   border-radius: 25px;
 }
+
+.popular {
+  position: absolute;
+  top: 5.9%;
+  right: 100px;
+  border-radius: 25px;
+
+}
+.fa {
+  background:none !important
+}
+
 
 .search input { 
   text-indent: 30px; 
@@ -85,14 +97,30 @@ html{
   min-height: 650px
 }
 
-
-
-
-
 @media only screen and (max-width: 765px) {
     .addrecipebtn{
         position: relative !important;
     };
+
+    /*.popular{
+        position: relative !important; 
+        right: 20%;      
+      
+    }*/
+    
+}
+
+@media only screen and (max-width: 768px) and (min-width: 300px) {   
+
+    .popular{
+        position: relative !important; 
+        right: 5%;
+        left: 4%;
+        /*padding: 0px;*/
+        
+        margin-bottom: 1%;   
+      
+    }
     
 }
 
