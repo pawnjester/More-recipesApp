@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/pawnjester/More-recipesApp/issues"
   },
-  "homepage": "https://github.com/pawnjester/More-recipesApp#readme"
+  "homepage": "https://github.com/pawnjester/More-recipesApp#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.15.5",
+    "morgan": "^1.9.0"
+  }
 }
