@@ -1,0 +1,19 @@
+{
+  "name": "more-recipes",
+  "version": "1.0.0",
+  "description": "This is an application that enables users share exciting recipes, it also comes with other amazing features.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pawnjester/More-recipesApp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pawnjester/More-recipesApp/issues"
+  },
+  "homepage": "https://github.com/pawnjester/More-recipesApp#readme"
+}
