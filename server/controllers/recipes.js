@@ -82,7 +82,7 @@ getRecipe(req,res){
         db.recipes.sort(function (a, b) { return b.upVotes - a.upVotes });
        }
      }
-  return res.send({ message: "Welcome to More-Recipes Application, these are the recipes available", recipes: db.recipes})
+  return res.status(200).send({ message: "Welcome to More-Recipes Application, these are the recipes available", recipes: db.recipes})
 }
 }
 
