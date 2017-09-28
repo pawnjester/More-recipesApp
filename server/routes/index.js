@@ -15,7 +15,7 @@ router.post('/', recipeController.addRecipe);
 router.put('/:recipeid', recipeController.modifyRecipe);
 router.delete('/:recipeId', recipeController.deleteRecipe);
 router.get('/:recipeId', recipeController.getRecipesbyId);
-router.post('/:recipeId/reviews', recipeController.postRecipe);
+router.post('/:recipeId/reviews', reviewController.postRecipe);
 
 
 export default router;

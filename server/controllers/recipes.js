@@ -16,6 +16,7 @@ class Recipes {
     const name = req.body.name;
     const ingredients = req.body.ingredients;
     const method = req.body.method;
+    const upVotes = req.body.upVotes
 
     if (!numberid) {
       return res.status(400).send({ statusCode: 400, message: "Put in an id" });
@@ -28,6 +29,9 @@ class Recipes {
     }
     if (!method) {
       return res.status(400).send({ statusCode: 400, message: "Method missing" });
+    }
+    if (!upVotes) {
+      return res.status(400).send({ statusCode: 400, message: "Please vote" });
     }
     db.recipes.push(req.body);
     return res.status(201).send({ status: 201, message: "A New Recipe added", recipes: db.recipes });
@@ -47,7 +51,7 @@ class Recipes {
   }
 
   deleteRecipe(req,res) {
-    for (let i = 0; i < global.recipes.length; i++) {
+    for (let i = 0; i < db.recipes.length; i++) {
     if (parseInt(db.recipes[i].id, 10) === parseInt(req.params.recipeId, 10)) {
       db.recipes.splice(i, 1)
       return res.status(200).send({ message: "Recipe has been removed" })
@@ -65,6 +69,10 @@ getRecipesbyId(req,res) {
   }
   return res.status(404).send({ message: "Recipe not found" })
 
+}
+
+getRecipe(req,res){
+  return res.send({ message: "Welcome to More-Recipes Application, these are the recipes available", recipes: db.recipes })
 }
 }
 
@@ -133,15 +141,15 @@ getRecipesbyId(req,res) {
 //   return res.status(404).send({ message: "Recipe not found" })
 // });
 
-app.post('/api/recipes/:recipeId/reviews', function (req, res) {
-  for (let i = 0; i < global.recipes.length; i++) {
-    if (parseInt(global.recipes[i].id, 10) === parseInt(req.params.recipeId, 10)) {
-      global.recipes[i].review = req.body.review;
-      // global.recipes[i].push(req.body);
-      return res.status(200).send({ message: "Review has been added" });
-    }
-  }
-  return res.status(200).send({ message: "Recipe not found" })
-});
+// app.post('/api/recipes/:recipeId/reviews', function (req, res) {
+//   for (let i = 0; i < global.recipes.length; i++) {
+//     if (parseInt(global.recipes[i].id, 10) === parseInt(req.params.recipeId, 10)) {
+//       global.recipes[i].review = req.body.review;
+//       // global.recipes[i].push(req.body);
+//       return res.status(200).send({ message: "Review has been added" });
+//     }
+//   }
+//   return res.status(200).send({ message: "Recipe not found" })
+// });
 
-export default Recipe;
+export default Recipes;
