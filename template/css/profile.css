@@ -1,7 +1,7 @@
 body {
   /*background: #f1f3fa;*/
-          background: url('../img/food1.jpg') no-repeat;
-          opacity: 0.97;
+  background: url('../img/food1.jpg') no-repeat;
+  opacity: 1.0;
 
 }
 .profile{
