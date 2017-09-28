@@ -9,7 +9,7 @@ import db from '../models/db';
 //   }
 // ];
 
-class Recipe {
+class Recipes {
   addRecipe(req, res) {
     const id = req.body.id;
     const numberid = parseInt(id);
