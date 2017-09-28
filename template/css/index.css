@@ -44,8 +44,17 @@
       }
 
       nov {
-    padding: -2px -2px;
+    padding: -2px -2px 20px;
         
+      }
+
+      .picSize {
+        font-size: 100px;
+        /*color: red;*/
+      }
+
+      .iconSize {
+        color:red;
       }
 
       .nov:hover {
