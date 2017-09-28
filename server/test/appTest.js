@@ -11,7 +11,7 @@ describe("More Recipes", () => {
     chai.request(app)
       .get('/')
       .end((err, res) => {
-        res.should.have.status(200)
+        res.should.have.status(200);
         done()
       })
   });
