@@ -16,7 +16,6 @@ router.put('/:recipeid', recipeController.modifyRecipe);
 router.delete('/:recipeId', recipeController.deleteRecipe);
 router.get('/:recipeId', recipeController.getRecipesbyId);
 router.post('/:recipeId/reviews', reviewController.postRecipe);
-// router.get('/?sort=upvotes&order=des', upvoteController.upVote);
 
 
 

@@ -1,14 +1,5 @@
 import db from '../models/db';
 
-// global.recipes = [
-//   {
-//     id: 1,
-//     name: 'Egusi',
-//     ingredients: 'Leaf and tomatoes',
-//     method: 'Stir and wait till it turns brown'
-//   }
-// ];
-
 class Recipes {
   addRecipe(req, res) {
     const id = req.body.id;

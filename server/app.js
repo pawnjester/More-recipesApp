@@ -13,8 +13,8 @@ app.use(bodyParser.json());
 
 app.use('/api/recipes', recipes);
 
-app.get('/', (req,res) => {
-  res.status(200).send({message: 'Welcome to More-Recipes'});
+app.get('/', (req, res) => {
+  res.status(200).send({ message: 'Welcome to More-Recipes' });
 });
 
 app.use((req, res, next) => {
