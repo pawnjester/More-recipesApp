@@ -65,7 +65,7 @@ app.put('/api/recipes/:recipeid', function(req, res) {
       return res.status(200).send({message: "Recipe has been modified"})
     }
   }
-  return res.status(404).send({message: "User not found"});  
+  return res.status(404).send({message: "Recipe not found"});  
 })
 
 app.delete('/api/recipes/:recipeId', function(req, res) {
@@ -75,18 +75,29 @@ app.delete('/api/recipes/:recipeId', function(req, res) {
       return res.status(200).send({message: "Recipe has been removed"})
     }
   }
-  return res.status(404).send({message: "User not found"})
+  return res.status(404).send({message: "Recipe not found"})
 });
 
 app.get('/api/recipes/:recipeId', function(req, res) {
   for(let i= 0; i < global.recipes.length; i++) {
-    if(global.recipes[i].id === parseInt(req.params.recipeId, 10)) {
+    if(parseInt(global.recipes[i].id, 10) === parseInt(req.params.recipeId, 10)) {
       // global.recipes.splice(1,1)    
       return res.status(200).send({message: "Recipe has been found", recipes:global.recipes[i]})
     }
   }
-  return res.status(404).send({message: "User not found"})
+  return res.status(404).send({message: "Recipe not found"})
 });
+
+app.post('/api/recipes/:recipeId/reviews', function(req, res) {
+  for(let i= 0; i < global.recipes.length; i++) {
+    if(parseInt(global.recipes[i].id, 10) === parseInt(req.params.recipeId, 10)) {
+      global.recipes[i].review = req.body.review;
+      // global.recipes[i].push(req.body);
+      return res.status(200).send({message: "Review has been added"});      
+    }    
+  }  
+  return res.status(200).send({message: "Recipe not found"})
+})
 
 
 
