@@ -6,6 +6,11 @@ btn:focus{
   outline: none !important;
 }
 
+.navbar{
+  border-bottom: #FF4500 3px solid;
+               
+} 
+
 .round{
   border-radius: 100%;
 }
@@ -13,6 +18,7 @@ btn:focus{
 .profile{
   background: #343a40;
   color: white;
+  cursor: pointer;
   /*opacity: 0.8*/
 }
 

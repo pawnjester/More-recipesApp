@@ -34,6 +34,12 @@
       .left{
         float: left;
       }
+      .hov:hover {
+        color: black;
+        font-size:20px;
+        font-weight: 600;
+        background-color: #dc3545;
+      }
 
       .fa{
         color: #FF4500;
@@ -48,9 +54,26 @@
         
       }
 
+      .carousel-control-next-icon, .carousel-control-prev-icon {
+        height: 50px;
+        width: 50px;
+        /*background: black;*/
+        color:red !important;
+        
+      }     
+
       .picSize {
-        font-size: 100px;
-        /*color: red;*/
+        font-size: 50px;
+        color: black;
+        text-shadow: 5px 5px 10px #707070;
+      }
+
+      .pSize {
+        font-size: 60px;
+        color: black;
+        text-shadow: 5px 5px 10px #707070;
+        line-height: -2px;         
+
       }
 
       .iconSize {

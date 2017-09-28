@@ -31,6 +31,10 @@ body{
   color: greenyellow;
 }
 
+.navbar{
+  border-bottom: #FF4500 3px solid;               
+}
+
 .home-inner{
         padding-top: 100px; 
       }
@@ -101,6 +105,7 @@ html{
 .profile{
   background: #343a40;
   color: white;
+  cursor:pointer;
   /*opacity: 0.8*/
 }
 
