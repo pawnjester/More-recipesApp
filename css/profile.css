@@ -7,6 +7,12 @@ body {
 .profile{
   margin: 20px 0;
 }
+.dark-overlay{
+        background-color:rgba(0,0, 0, 0.7);
+        position: absolute;
+        top: 0;
+        left: 0;        
+      }
 
 .profile-sidebar{
   padding: 20px 0 0px 0;
