@@ -4,9 +4,12 @@
   "description": "This is an application that enables users share exciting recipes, it also comes with other amazing features.",
   "main": "index.js",
   "scripts": {
+     "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
     "start": "babel-node server/app.js",
     "start:dev": "nodemon --exec babel-node server/app.js",
-    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register server/test/"
+     "test": "nyc --reporter=html --reporter=text mocha ./server/test/ --compilers js:babel-register",
+    "test:dev": "./node_modules/.bin/mocha --compilers js:babel-core/register server/test/"
   },
   "repository": {
     "type": "git",
