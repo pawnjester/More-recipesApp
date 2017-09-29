@@ -12,6 +12,9 @@
     "type": "git",
     "url": "git+https://github.com/pawnjester/More-recipesApp.git"
   },
+  "engines" : {
+    "node": "6.11.0"
+  },
   "author": "",
   "license": "ISC",
   "bugs": {

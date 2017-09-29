@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.log(`Application has started on  ${port}`)
+  console.log(`Application has started on  ${port}`);
 });
 
 export default app;
