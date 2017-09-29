@@ -21,14 +21,14 @@
 <body>
   <nav class="navbar navbar-expand-sm navbar-dark navbar-inverse bg-dark justify-content-between fixed-top">
     
-      <a class="navbar-brand d-none d-sm-block text-white">More-Recipes</a>
+      <a class="navbar-brand d-none d-sm-block text-white" href="index.html" style ="cursor:pointer">More-Recipes</a>
         <form class="form-inline my-2 my-lg-0 ">
           <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">      
         </form>
     </nav>
 
     <div class="heading">
-      <div class = "dark-overlay">     
+      <!--<div class = "dark-overlay">     -->
     <div class ="container ">
       <div class ="row profile">
         <div class= "col-md-3">
@@ -45,7 +45,7 @@
               </div>                            
             </div>
             <div class ="profile-user-buttons">
-              <button class="btn btn-danger btn-md" data-toggle="modal" data-target="#editProfile"> <i class="fa fa-pencil" aria-hidden="true" ></i> Edit</button>                           
+              <button class="btn btn-danger btn-md" data-toggle="modal" data-target="#editProfile" style ="cursor:pointer"> <i class="fa fa-pencil" aria-hidden="true" ></i> Edit</button>                           
             </div>
             <div class= "profile-user-menu">
               <ul class="list-group">
@@ -96,8 +96,7 @@
       
     </div>
     </div>
-    </div>
-    
+    <!--</div>    -->
     
     <!---EDIT profile -->
   <div class="modal fade text-dark" id="editProfile">
@@ -122,14 +121,12 @@
             </div>
             <div class="form-group">
               <label for="password">Address</label>              
-              <textarea class="form-control" type="text"></textarea>
-              
+              <textarea class="form-control" type="text"></textarea>              
             </div>
             <div class="form-group">
               <label for="text">Occupation</label>
               <input type="text" class="form-control">
             </div>
-
             <div class="form-group">
               <label for="text">Fax</label>
               <input type="text" class="form-control">
