@@ -7,25 +7,25 @@ class Recipes {
     const name = req.body.name;
     const ingredients = req.body.ingredients;
     const method = req.body.method;
-    const upVotes = req.body.upVotes
+    const upVotes = req.body.upVotes;
 
     if (!numberid) {
-      return res.status(400).send({ statusCode: 400, message: "Put in an id" });
+      return res.status(400).send({ statusCode: 400, message: 'Put in an id' });
     }
     if (!name) {
-      return res.status(400).send({ statusCode: 400, message: "Put in the name of the recipe" });
+      return res.status(400).send({ statusCode: 400, message: 'Put in the name of the recipe' });
     }
     if (!ingredients) {
-      return res.status(400).send({ statusCode: 400, message: "Put in the ingredients" });
+      return res.status(400).send({ statusCode: 400, message: 'Put in the ingredients' });
     }
     if (!method) {
-      return res.status(400).send({ statusCode: 400, message: "Method missing" });
+      return res.status(400).send({ statusCode: 400, message: 'Method missing' });
     }
     if (!upVotes) {
-      return res.status(400).send({ statusCode: 400, message: "Please vote" });
+      return res.status(400).send({ statusCode: 400, message: 'Please vote' });
     }
     db.recipes.push(req.body);
-    return res.status(201).send({ status: 201, message: "A New Recipe added", recipes: db.recipes });
+    return res.status(201).send({ status: 201, message: 'A New Recipe added', recipes: db.recipes });
   }
 
 
@@ -35,46 +35,46 @@ class Recipes {
         db.recipes[i].name = req.body.name;
         db.recipes[i].ingredients = req.body.ingredients;
         db.recipes[i].method = req.body.method;
-        db.recipes[i].upVotes = req.body.upVotes;        
-        return res.status(200).send({ message: "Recipe has been modified" })
+        db.recipes[i].upVotes = req.body.upVotes;
+        return res.status(200).send({ message: 'Recipe has been modified' });
       }
     }
-    return res.status(404).send({ message: "Recipe not found" });
+    return res.status(404).send({ message: 'Recipe not found' });
   }
 
-  deleteRecipe(req,res) {
+  deleteRecipe(req, res) {
     for (let i = 0; i < db.recipes.length; i++) {
-    if (parseInt(db.recipes[i].id, 10) === parseInt(req.params.recipeId, 10)) {
-      db.recipes.splice(i, 1)
-      return res.status(200).send({ message: "Recipe has been removed" })
-    }
-  }
-  return res.status(404).send({ message: "Recipe not found" })
-}
-
-getRecipesbyId(req,res) {
-  for (let i = 0; i < db.recipes.length; i++) {
-    if (parseInt(db.recipes[i].id, 10) === parseInt(req.params.recipeId, 10)) {
-      // global.recipes.splice(1,1)    
-      return res.status(200).send({ message: "Recipe has been found", recipes: db.recipes[i] })
-    }
-  }
-  return res.status(404).send({ message: "Recipe not found" })
-
-}
-
-getRecipe(req,res){
-  let returnData;
-   if (req.query && req.query.sort) {
-      if (req.query.order && req.query.order === "asc") {
-           db.recipes.sort(function (a, b) { return a.upVotes - b.upVotes });
+      if (parseInt(db.recipes[i].id, 10) === parseInt(req.params.recipeId, 10)) {
+        db.recipes.splice(i, 1);
+        return res.status(200).send({ message: 'Recipe has been removed' });
       }
-      if (req.query.order && req.query.order === "desc") {
-        db.recipes.sort(function (a, b) { return b.upVotes - a.upVotes });
-       }
-     }
-  return res.status(200).send({ message: "Welcome to More-Recipes Application, these are the recipes available", recipes: db.recipes})
-}
+    }
+    return res.status(404).send({ message: 'Recipe not found' });
+  }
+
+  getRecipesbyId(req, res) {
+    for (let i = 0; i < db.recipes.length; i++) {
+      if (parseInt(db.recipes[i].id, 10) === parseInt(req.params.recipeId, 10)) {
+      // global.recipes.splice(1,1)
+        return res.status(200).send({ message: 'Recipe has been found', recipes: db.recipes[i] });
+      }
+    }
+    return res.status(404).send({ message: 'Recipe not found' });
+
+  }
+
+  getRecipe(req, res) {
+    let returnData;
+    if (req.query && req.query.sort) {
+      if (req.query.order && req.query.order === 'asc') {
+        db.recipes.sort((a, b) => { return a.upVotes - b.upVotes });
+      }
+      if (req.query.order && req.query.order === 'desc') {
+        db.recipes.sort((a, b) => { return b.upVotes - a.upVotes });
+      }
+    }
+    return res.status(200).send({ message: 'Welcome to More-Recipes Application, these are the recipes available', recipes: db.recipes });
+  }
 }
 
 export default Recipes;
