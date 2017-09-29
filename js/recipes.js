@@ -12,3 +12,7 @@ $('#likes').on('click', () => {
   const likes = +$('#likess').text() + 1;
   $('#likess').text(likes);
 });
+
+$('.carousel').carousel({
+        interval: 2000
+    });

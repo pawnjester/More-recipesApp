@@ -8,6 +8,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <script src="https://use.fontawesome.com/a42b7208df.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+    crossorigin="anonymous"></script>
+    <script>
+    $('.carousel').carousel({
+        interval: 20
+    });
+    </script>
     <link rel="stylesheet" href="css/index.css">    
   </head>
 
@@ -217,11 +228,9 @@
       <div class= "container">
         <div class="row">
           <div class ="col text-center">
-            <div class="py-4 text-white">
+            <div class="py-2 text-white">
               <h1 class="h3">More-Recipes Project</h1>
               <p>Copyright &copy; 2017</p>
-              <p>Andela Bootcamp XXVII</p>             
-              
             </div>
             
           </div>
@@ -269,14 +278,13 @@
     </div>
   </div>
 
-  <!---Sign up-->
+  <!---Sign in-->
   <div class="modal fade text-dark" id="Signin">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="editModalTitle">Sign In</h5>          
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          
         </button>
 
         </div>
@@ -288,13 +296,14 @@
             
             <div class="form-group">
               <input type="password" class="form-control form-control-lg" placeholder="Password"/>              
-            </div>
+            </div> 
             
-            </form>
+            </form>            
         </div>
         <div class="modal-footer">
-          <button class="btn btn-danger btn-block"  style ="cursor:pointer" onclick="location.href='recipes.html';">Sign In</button>
+          <button class="btn btn-danger btn-block">Sign In</button>
         </div>
+        <p class="card-text text-right text-dark pb-3 pr-3">Dont Have an account? <a href="signup.html"  class="text-danger" >SIGN UP</a> </p> 
       </div>
     </div>
   </div>
@@ -307,5 +316,7 @@
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+    <script src="js/recipes.js"></script>
   </body>
 </html>
