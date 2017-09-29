@@ -4,8 +4,7 @@
         }
       
       .navbar{
-        border-bottom: #FF4500 3px solid;
-        /*opacity: 0.8;*/        
+        border-bottom: #FF4500 3px solid;               
       }    
 
       #home-section{
@@ -14,6 +13,13 @@
         background-size: cover;
         background-attachment: fixed;
       } 
+      .modal-header {
+        display: block !important;
+        color: #dc3545;
+      }
+      .modal-content {
+        margin-top: 100px;
+      }
 
       .dark-overlay{
         background-color:rgba(0,0, 0, 0.7);
@@ -50,14 +56,12 @@
       }
 
       nov {
-    padding: -2px -2px 20px;
-        
+        padding: -2px -2px 20px;        
       }
 
       .carousel-control-next-icon, .carousel-control-prev-icon {
         height: 50px;
         width: 50px;
-        /*background: black;*/
         color:red !important;
         
       }     
@@ -81,7 +85,7 @@
       }
 
       .nov:hover {
-        background-color: #707070; /* Green */
+        background-color: #707070; 
     color: white;
     padding: -2px -2px;
       }
