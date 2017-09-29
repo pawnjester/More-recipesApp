@@ -5,7 +5,11 @@
       
       .navbar{
         border-bottom: #FF4500 3px solid;               
-      }    
+      }  
+
+      .passlink {
+        text-decoration: none;
+      }  
 
       #home-section{
         background: url('../img/food1.jpg') no-repeat;
@@ -16,6 +20,7 @@
       .modal-header {
         display: block !important;
         color: #dc3545 !important;
+        opacity: 0.8;
       }
       .modal-content {
         margin-top: 100px !important;
