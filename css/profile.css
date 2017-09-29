@@ -1,8 +1,5 @@
 body {
-  /*background: #f1f3fa;*/
   background: url('../img/food1.jpg') no-repeat;
-  /*color: rgba(0,0, 0, 0.7);*/
-  /*opacity: 1.0;*/
 
 }
 .profile{
@@ -135,8 +132,9 @@ li.activ {
   form {
     width: 100% ; 
     position: relative;
-}
-}
+};
+
+};
 
 @media only screen and (max-width : 575px) {
   .profile {
