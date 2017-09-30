@@ -13,6 +13,8 @@ app.use(bodyParser.json());
 
 app.use('/api/recipes', recipes);
 
+process.env.SECRET_KEY = 'jyurhitjkwowjwnbhjtotjhfhkjdshjdsgyhbjds';
+
 app.get('/', (req, res) => {
   res.status(200).send({ message: 'Welcome to More-Recipes' });
 });
