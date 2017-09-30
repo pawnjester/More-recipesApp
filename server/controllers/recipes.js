@@ -26,9 +26,9 @@ class Recipes {
       return res.status(400).send({ statusCode: 400, message: 'Please vote' });
     }
 
-    if(db.recipes.length === 0) {
-      db.recipes.id = 1
-    }
+    // if(db.recipes.length === 0) {
+    //   db.recipes.id = 1
+    // }
     // db.recipes.id=recipes[recipes.length-1].id+1
     // db.recipes[db.recipes.length - 1].id[]
 
