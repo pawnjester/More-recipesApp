@@ -1,4 +1,5 @@
 import db from '../models/db';
+/* eslint-disable */
 
 class Recipes {
   addRecipe(req, res) {
@@ -24,6 +25,14 @@ class Recipes {
     if (!upVotes) {
       return res.status(400).send({ statusCode: 400, message: 'Please vote' });
     }
+
+    if(db.recipes.length === 0) {
+      db.recipes.id = 1
+    }
+    // db.recipes.id=recipes[recipes.length-1].id+1
+    // db.recipes[db.recipes.length - 1].id[]
+
+    
     db.recipes.push(req.body);
     return res.status(201).send({ status: 201, message: 'A New Recipe added', recipes: db.recipes });
   }
