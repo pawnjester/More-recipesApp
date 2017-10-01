@@ -1,6 +1,8 @@
 /* eslint-disable */
 
-import { User } from '../models';
+import models from '../models';
+
+const user = models.User;
 
 
 /**
@@ -19,45 +21,49 @@ export default class User {
    * @returns {object} Class instance
    * @memberof User
    */
-  signup(req,res) {
-    const username = req.body.username;
-    const email = req.body.email;
+  signUp(req, res) {
+    const username = req.body.username.trim().toLowerCase();
+    const email = req.body.email.trim().toLowerCase();
     const password = req.body.password;
 
-    if(!username) {
-      return res.status(400).send({error: "You need to fill in your username"}) 
-    }else if(!email) {
-      return res.status(400).send({error:"You need to fill in your email"})
-    }else if(!password) {
-      return res.status(400).send({error: "You need to fill in your password"})
+    const validateSignUpError =
+      validate.validateSignUp(name,
+        username, email, password);
+
+    if (!username) {
+      return res.status(400).send({ error: "You need to fill in your username" })
+    } else if (!email) {
+      return res.status(400).send({ error: "You need to fill in your email" })
+    } else if (!password) {
+      return res.status(400).send({ error: "You need to fill in your password" })
     }
 
-    return User.findOne({
-      where: {
-        username
-      }
-    })
-    .then(user => {
-      if(user) {
-        return res.status(409).send({message: "Username is already taken"})
-      }
-      return User.create({
-        username,
-        email,
-        password
+    user
+      .findOne({
+        where: {
+          username
+        }
       })
-      .then(user => {
-        const token = user.generateAuthToken();
-        return res.header('x-auth', token).status(201)
-        .send({
-          message: `Welcome to More-Recipes ${user.username}`,
-          user
-        });
+      .then((user) => {
+        if (user) {
+          return res.status(409).send({ message: "Username is already taken" })
+        }
+
+        return user.create({
+          username,
+          email,
+          password
+        })
+          .then(user => {
+            const token = user.generateAuthToken();
+            return res.header('x-auth', token).status(201)
+              .send({
+                message: `Welcome to More-Recipes ${user.username}`,
+                user
+              });
+          });
       })
-      .catch(err => {return res.status(400).send(`${error.errors[0].message}`)})
-    })
+      .catch(err => { return res.status(400).send(`${error.errors[0].message}`) })
     return this;
   }
-    
-  
 }

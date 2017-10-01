@@ -1,4 +1,4 @@
-/** Recipe database model/association
+/** Define the Recipe database model/association
  * @exports Recipe
  * @param  {object} sequelize - sequelize
  * @param  {object} DataTypes - sequelize Datatypes
@@ -12,11 +12,9 @@ export default (sequelize, DataTypes) => {
     },
     Ingredients: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
     method: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
     userId: {
       type: DataTypes.INTEGER,
@@ -28,8 +26,9 @@ export default (sequelize, DataTypes) => {
     }
   });
   Recipe.associate = (models) => {
-    Recipe.belongsTo(models.User, { foreignKey: 'userId' });
+    Recipe.belongsTo(models.User, {
+      foreignKey: 'userId',
+    });
   };
-
   return Recipe;
 };
