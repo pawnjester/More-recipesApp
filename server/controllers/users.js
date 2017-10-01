@@ -1,5 +1,5 @@
 /* eslint-disable */
-import {User} from '../models';
+import { User } from '../models';
 
 // const user = models.User;
 /**
@@ -9,19 +9,19 @@ import {User} from '../models';
  * @class User
  */
 // export default class User {
-  /**
-   * Sign Up user (Create new user)
-   *
-   * @param {object} req - HTTP Request
-   * @param {object} res - HTTP Response
-   * @returns {object} Class instance
-   * @memberof User
-   */
-  module.exports = {
-    signUp(req, res) {
+/**
+ * Sign Up user (Create new user)
+ *
+ * @param {object} req - HTTP Request
+ * @param {object} res - HTTP Response
+ * @returns {object} Class instance
+ * @memberof User
+ */
+module.exports = {
+  signUp(req, res) {
     const username = req.body.username.trim().toLowerCase();
     const email = req.body.email.trim().toLowerCase();
-    const password = req.body.password; 
+    const password = req.body.password;
 
     if (!username) {
       return res.status(400).send({ error: "You need to fill in your username" })
@@ -30,24 +30,33 @@ import {User} from '../models';
     } else if (!password) {
       return res.status(400).send({ error: "You need to fill in your password" })
     }
-
-    User
+    return User
       .findOne({
         where: {
-          username,
+          $or: [
+            {
+              username: {
+                $iLike: username
+              }
+            },
+            {
+              email: {
+                $iLike: email
+              }
+            }
+          ]
         }
       })
       .then((user) => {
         if (user) {
-          return res.status(409).send({message: "Username is already taken" })
+          return res.status(400).send({error: 'Username already taken'})
         }
-
-      User.create({
+        return User.create({
           username,
           email,
           password
         })
-      .then(user => {
+          .then(user => {
             const token = user.generateAuthToken();
             return res.header('x-auth', token).status(201)
               .send({
@@ -59,5 +68,5 @@ import {User} from '../models';
       .catch(error => { return res.status(400).send(error) })
 
     // return this;
-  }  
+  }
 }
