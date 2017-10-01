@@ -20,6 +20,8 @@ const router = express.Router();
 // router.get('/:recipeId', recipeController.getRecipesbyId);
 // router.post('/:recipeId/reviews', reviewController.postRecipe);
 router.post('/signup', userController.signUp);
+router.post('/signin', userController.signIn);
+
 
 
 export default router;
