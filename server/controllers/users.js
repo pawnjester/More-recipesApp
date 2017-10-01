@@ -1,18 +1,14 @@
 /* eslint-disable */
+import {User} from '../models';
 
-import models from '../models';
-
-const user = models.User;
-
-
+// const user = models.User;
 /**
  * Class Definition for the User Object
  *
  * @export
  * @class User
  */
-
-export default class User {
+// export default class User {
   /**
    * Sign Up user (Create new user)
    *
@@ -21,14 +17,11 @@ export default class User {
    * @returns {object} Class instance
    * @memberof User
    */
-  signUp(req, res) {
+  module.exports = {
+    signUp(req, res) {
     const username = req.body.username.trim().toLowerCase();
     const email = req.body.email.trim().toLowerCase();
-    const password = req.body.password;
-
-    const validateSignUpError =
-      validate.validateSignUp(name,
-        username, email, password);
+    const password = req.body.password; 
 
     if (!username) {
       return res.status(400).send({ error: "You need to fill in your username" })
@@ -38,23 +31,23 @@ export default class User {
       return res.status(400).send({ error: "You need to fill in your password" })
     }
 
-    user
+    User
       .findOne({
         where: {
-          username
+          username,
         }
       })
       .then((user) => {
         if (user) {
-          return res.status(409).send({ message: "Username is already taken" })
+          return res.status(409).send({message: "Username is already taken" })
         }
 
-        return user.create({
+      User.create({
           username,
           email,
           password
         })
-          .then(user => {
+      .then(user => {
             const token = user.generateAuthToken();
             return res.header('x-auth', token).status(201)
               .send({
@@ -63,7 +56,8 @@ export default class User {
               });
           });
       })
-      .catch(err => { return res.status(400).send(`${error.errors[0].message}`) })
-    return this;
-  }
+      .catch(error => { return res.status(400).send(error) })
+
+    // return this;
+  }  
 }
