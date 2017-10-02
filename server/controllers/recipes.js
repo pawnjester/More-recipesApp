@@ -66,16 +66,17 @@ export class Recipes {
   //   return res.status(404).send({ message: 'Recipe not found' });
   // }
 
-  // getRecipesbyId(req, res) {
-  //   for (let i = 0; i < db.recipes.length; i++) {
-  //     if (parseInt(db.recipes[i].id, 10) === parseInt(req.params.recipeId, 10)) {
-  //     // global.recipes.splice(1,1)
-  //       return res.status(200).send({ message: 'Recipe has been found', recipes: db.recipes[i] });
-  //     }
-  //   }
-  //   return res.status(404).send({ message: 'Recipe not found' });
+  getRecipes(req, res) {
+    recipe.findAll()
+    .then(recipe => {
+      if(recipe.length === 0) {
+        return res.status(200).send({})
+      }
+      res.status(200).send(books)
+    })
+    .catch(e => res.status(400).send(e))
 
-  // }
+  }
 
   // getRecipe(req, res) {
   //   let returnData;

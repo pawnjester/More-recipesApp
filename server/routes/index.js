@@ -14,7 +14,7 @@ const userController = new User();
 
 const router = express.Router();
 
-// router.get('/', recipeController.getRecipe);
+router.get('/', recipeController.getRecipe);
 router.post('/', authenticate, recipeController.addRecipe);
 router.put('/:recipeId',authenticate, recipeController.modifyRecipe);
 // router.delete('/:recipeId', recipeController.deleteRecipe);
