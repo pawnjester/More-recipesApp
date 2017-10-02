@@ -1,21 +1,34 @@
 // import db from '../models/db';
+
 /* eslint-disable */
+import models from '../models';
+
+console.log(models);
+
+const review = models.Review;
 
 
 class Reviews {
-  postRecipe(req,res) {
-    // const review = ;
-    // if(!review) {
-    //   return res.status(400).send({message: "Please enter a review"})
-    // }
-    for (let i = 0; i < db.recipes.length; i++) {
-    if (parseInt(db.recipes[i].id, 10) === parseInt(req.params.recipeId, 10)) {
-      db.recipes[i].review = req.body.review;
-      // db.recipes[i].push(req.body);      
-      return res.status(200).send({ message: "Review has been added" });
+  postReview(req,res) {
+    const data = req.body.data;
+    const recipeId = req.params.recipeId;
+    const userId = req.body.userId
+
+    if(!recipeId) {
+      return res.status(400).send({message: "You need to put in the recipe ID"})
+    } else if(!data) {
+      return res.status(400).send({message: "You need to put a review!"})
     }
-  }
-  return res.status(200).send({ message: "Recipe not found" })
+    review.create({
+      data,
+      recipeId,
+      userId
+    })
+    .then(rev => {
+      res.status(201).send({message: "Your review has been added", rev});
+    })
+    .catch(e => res.status(400).send({message: "Error creating review"}));
+    return this;
   }
 }
 
