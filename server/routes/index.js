@@ -22,7 +22,7 @@ router.delete('/:recipeId', authenticate,recipeController.deleteRecipe);
 router.post('/:recipeId/reviews', reviewController.postReview);
 router.post('/signup', userController.signUp);
 router.post('/signin', userController.signIn);
-
+router.get('/me', authenticate,userController.me);
 
 
 export default router;

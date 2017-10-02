@@ -10,6 +10,7 @@ export class Recipes {
     const name = req.body.name.trim().toLowerCase();
     const Ingredients = req.body.Ingredients.trim().toLowerCase();
     const method = req.body.method;
+    const currentUser = req.currentUser.id;
 
     if (!name) {
       return res.status(400).send({ error: "You need to fill in a name of the recipe" })
@@ -23,7 +24,7 @@ export class Recipes {
       name,
       Ingredients,
       method,
-      userId: req.body.userId
+      userId: currentUser
     })
     .then(recipe => {
       res.status(201).send({message: "Recipe has been created", recipe})
@@ -71,10 +72,10 @@ export class Recipes {
           id: recipeId,
         }
       })
-      .then(() => res.status(204).send({message: "This recipe has been deleted"}))
+      .then(() => {return res.status(204).send({message: "This recipe has been deleted"})})
     })
     .catch(e  => res.status(400).send({message: "Error deleting recipe"}));
-    return this;
+    // return this;
   }
 
   getRecipes(req, res) {
@@ -83,25 +84,12 @@ export class Recipes {
       if(recipe.length === 0) {
         return res.status(404).send({})
       }
-      res.status(200).send(recipe)
+      res.status(200).send({message: "Welcome to More-Recipes", recipe})
     })
     .catch(e => res.status(400).send(e))
     return this;   
 
   }
-
-  // getRecipe(req, res) {
-  //   let returnData;
-  //   if (req.query && req.query.sort) {
-  //     if (req.query.order && req.query.order === 'asc') {
-  //       db.recipes.sort((a, b) => { return a.upVotes - b.upVotes });
-  //     }
-  //     if (req.query.order && req.query.order === 'desc') {
-  //       db.recipes.sort((a, b) => { return b.upVotes - a.upVotes });
-  //     }
-  //   }
-  //   return res.status(200).send({ message: 'Welcome to More-Recipes Application, these are the recipes available', recipes: db.recipes });
-  // }
 }
 
 export default Recipes;

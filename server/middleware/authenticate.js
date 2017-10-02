@@ -18,9 +18,15 @@ let authenticate =  (req, res, next) => {
     if (err) {
       return res.json({success: false, message: 'Failed to authenticate token'});
     } 
-    else {     
-      req.user = decoded;
-      next()
+    else {  
+      User.findById(decoded.id).then(user => {
+        if(!user) {
+          return res.status(401).send({error: 'User cannot be verified'})
+        }
+        req.currentUser = user;
+        next()
+      })   
+      
     }
   })
 };
