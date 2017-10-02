@@ -41,7 +41,7 @@ export class Recipes {
     .then(recipe => {
       if(!recipe) {
         return res.status(400).send({
-          message: "Recipe not Found"
+          message: `Recipe not Found with ${recipeId}` 
         })
       }
       recipe.update({
@@ -53,28 +53,40 @@ export class Recipes {
       .catch(error => res.status(400).send(error));
     })
     .catch(error => res.status(400).send(error));
-
+    return this;
   }
 
-  // deleteRecipe(req, res) {
-  //   for (let i = 0; i < db.recipes.length; i++) {
-  //     if (parseInt(db.recipes[i].id, 10) === parseInt(req.params.recipeId, 10)) {
-  //       db.recipes.splice(i, 1);
-  //       return res.status(200).send({ message: 'Recipe has been removed' });
-  //     }
-  //   }
-  //   return res.status(404).send({ message: 'Recipe not found' });
-  // }
+  deleteRecipe(req, res) {
+    const recipeId = req.params.recipeId;
+    recipe.findById(recipeId)
+    .then(deletedRecipe => {
+      if(!deletedRecipe) {
+        return res.status(400).send({
+          message: `Recipe not found with id : ${recipeId}`
+        })
+      }
+      recipe
+      .destroy({
+        where: {
+          id: recipeId,
+        }
+      })
+      .then(() => res.status(204).send({message: "This recipe has been deleted"}))
+    })
+    .catch(e  => res.status(400).send({message: "Error deleting recipe"}));
+    return this;
+  }
 
   getRecipes(req, res) {
     recipe.findAll()
     .then(recipe => {
       if(recipe.length === 0) {
-        return res.status(200).send({})
+        return res.status(404).send({})
       }
-      res.status(200).send(books)
+      res.status(200).send(recipe)
     })
     .catch(e => res.status(400).send(e))
+    return this;   
 
   }
 

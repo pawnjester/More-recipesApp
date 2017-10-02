@@ -14,10 +14,10 @@ const userController = new User();
 
 const router = express.Router();
 
-router.get('/', recipeController.getRecipe);
+router.get('/', recipeController.getRecipes);
 router.post('/', authenticate, recipeController.addRecipe);
 router.put('/:recipeId',authenticate, recipeController.modifyRecipe);
-// router.delete('/:recipeId', recipeController.deleteRecipe);
+router.delete('/:recipeId', authenticate,recipeController.deleteRecipe);
 // router.get('/:recipeId', recipeController.getRecipesbyId);
 // router.post('/:recipeId/reviews', reviewController.postRecipe);
 router.post('/signup', userController.signUp);
