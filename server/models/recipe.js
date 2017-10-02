@@ -24,6 +24,9 @@ module.exports = (sequelize, DataTypes) => {
     Recipe.belongsTo(models.User, {
       foreignKey: 'userId',
     });
+    Recipe.hasMany(models.Review, {
+      foreignKey: 'recipeId',
+    });
   };
   return Recipe;
 };
