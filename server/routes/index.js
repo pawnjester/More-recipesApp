@@ -19,7 +19,7 @@ router.post('/', authenticate, recipeController.addRecipe);
 router.put('/:recipeId',authenticate, recipeController.modifyRecipe);
 router.delete('/:recipeId', authenticate,recipeController.deleteRecipe);
 // router.get('/:recipeId', recipeController.getRecipesbyId);
-router.post('/:recipeId/reviews', reviewController.postReview);
+router.post('/:recipeId/reviews', authenticate,reviewController.postReview);
 router.post('/signup', userController.signUp);
 router.post('/signin', userController.signIn);
 router.get('/me', authenticate,userController.me);

@@ -8,8 +8,23 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      type: {
-        type: Sequelize.STRING
+      userId: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Users',
+          key: 'id',
+          as: 'userId',
+        }
+      },
+      recipeId: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Recipes',
+          key: 'id',
+          as: 'recipeId',
+        }
       },
       createdAt: {
         allowNull: false,
@@ -21,7 +36,6 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Favorites');
-  }
+  down: queryInterface =>
+    queryInterface.dropTable('Favorites'),
 };

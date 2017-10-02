@@ -12,7 +12,8 @@ class Reviews {
   postReview(req,res) {
     const data = req.body.data;
     const recipeId = req.params.recipeId;
-    const userId = req.body.userId
+    // const userId = req.body.userId;
+    const currentUser = req.currentUser.id;
 
     if(!recipeId) {
       return res.status(400).send({message: "You need to put in the recipe ID"})
@@ -22,7 +23,7 @@ class Reviews {
     review.create({
       data,
       recipeId,
-      userId
+      userId:currentUser
     })
     .then(rev => {
       res.status(201).send({message: "Your review has been added", rev});

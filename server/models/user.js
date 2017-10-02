@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
   User.prototype.generateAuthToken = function generateAuthToken() {
     const user = this;
     const access = 'auth';
-    const token = jwt.sign({id: user.id, username:user.username, access},
+    const token = jwt.sign({id: user.id,access},
      process.env.SECRET_KEY,
      { expiresIn: Math.floor(new Date().getTime()/1000) + 7*24*60*60 }).toString();    
     return token;

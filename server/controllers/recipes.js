@@ -72,7 +72,7 @@ export class Recipes {
           id: recipeId,
         }
       })
-      .then(() => {return res.status(204).send({message: "This recipe has been deleted"})})
+      .then(() => res.status(200).send({message: "This recipe has been deleted"}))
     })
     .catch(e  => res.status(400).send({message: "Error deleting recipe"}));
     // return this;
