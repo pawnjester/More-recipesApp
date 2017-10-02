@@ -1,14 +1,17 @@
 /* eslint-disable */
-import { User } from '../models';
+// import { User } from '../models';
+import models from '../models';
 
-// const user = models.User;
+console.log(models);
+
+const user = models.User;
 /**
  * Class Definition for the User Object
  *
  * @export
  * @class User
  */
-// export default class User {
+export default class User {
 /**
  * Sign Up user (Create new user)
  *
@@ -17,7 +20,7 @@ import { User } from '../models';
  * @returns {object} Class instance
  * @memberof User
  */
-module.exports = {
+
   signUp(req, res) {
     const username = req.body.username.trim().toLowerCase();
     const email = req.body.email.trim().toLowerCase();
@@ -30,7 +33,8 @@ module.exports = {
     } else if (!password) {
       return res.status(400).send({ error: "You need to fill in your password" })
     }
-    return User
+
+    user
       .findOne({
         where: {
           $or: [
@@ -47,11 +51,11 @@ module.exports = {
           ]
         }
       })
-      .then((user) => {
-        if (user) {
+      .then((userFound) => {
+        if (userFound) {
           return res.status(400).send({error: 'Username already taken'})
         }
-        return User.create({
+        return user.create({
           username,
           email,
           password
@@ -65,10 +69,9 @@ module.exports = {
               });
           });
       })
-      .catch(error => { return res.status(400).send(error) })
-
-    // return this;
-  },
+      .catch(error => { return res.status(400).send(error) });
+    return this;
+  }
 
   signIn(req,res) {
     const username = req.body.username;
@@ -87,31 +90,32 @@ module.exports = {
         error: "Password field cannot be empty"
         });
     }
-    User.findOne({
+    user.findOne({
       where: {
         username,
       }
     })
-    .then((user) =>{     
+    .then((userFound) =>{     
       
-      if(!user) {
+      if(!userFound) {
         return res.status(401).send({message: "User is not registered"})
       }
-      else if(!user.validPassword(req.body.password)){
+      else if(!userFound.validPassword(req.body.password)){
         return res.status(401)
         .send({
           message: "The password is incorrect"
         })
       }
             
-      const token = user.generateAuthToken();
+      const token = userFound.generateAuthToken();
       res.header('x-auth', token).status(200).send({
       statusCode: 200,
-      message: `Welcome back, ${user.username}`,
-      user
+      message: `Welcome back, ${userFound.username}`,
+      userFound
     });
       
     })
     .catch(error => {return res.status(400).send(error)})
+    return this;
   }
 }

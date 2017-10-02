@@ -3,38 +3,30 @@
 
 class Recipes {
   addRecipe(req, res) {
-    const id = req.body.id;
-    const numberid = parseInt(id);
-    const name = req.body.name;
-    const ingredients = req.body.ingredients;
+    const name = req.body.name.trim().toLowerCase();
+    const Ingredients = req.body.Ingredients.trim().toLowerCase();
     const method = req.body.method;
-    const upVotes = req.body.upVotes;
 
-    if (!numberid) {
-      return res.status(400).send({ statusCode: 400, message: 'Put in an id' });
-    }
     if (!name) {
-      return res.status(400).send({ statusCode: 400, message: 'Put in the name of the recipe' });
-    }
-    if (!ingredients) {
-      return res.status(400).send({ statusCode: 400, message: 'Put in the ingredients' });
-    }
-    if (!method) {
-      return res.status(400).send({ statusCode: 400, message: 'Method missing' });
-    }
-    if (!upVotes) {
-      return res.status(400).send({ statusCode: 400, message: 'Please vote' });
+      return res.status(400).send({ error: "You need to fill in a name of the recipe" })
+    } else if (!Ingredients) {
+      return res.status(400).send({ error: "You need to fill in the Ingredients" })
+    } else if (!method) {
+      return res.status(400).send({ error: "You need to fill in the method of preparation " })
     }
 
-    // if(db.recipes.length === 0) {
-    //   db.recipes.id = 1
-    // }
-    // db.recipes.id=recipes[recipes.length-1].id+1
-    // db.recipes[db.recipes.length - 1].id[]
-
-    
-    db.recipes.push(req.body);
-    return res.status(201).send({ status: 201, message: 'A New Recipe added', recipes: db.recipes });
+    return Recipe.create ({
+      name,
+      Ingredients,
+      method,
+      userId: req.userId
+    })
+    .then(recipe => {
+      res.status(201).send({message: "Recipe has been created", recipe})
+    })
+    .catch(error => res.status(500).json({
+        success: false,
+        message: 'Recipe cannot be created' }))
   }
 
 
