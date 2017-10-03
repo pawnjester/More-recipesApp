@@ -1,4 +1,7 @@
-node_modules/
-.nyc_output/
+node_modules/*
+server/
 coverage/
+.vscode/
+.nyc_output/
 .env
+
