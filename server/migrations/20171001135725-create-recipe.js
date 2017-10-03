@@ -16,6 +16,16 @@ module.exports = {
       method: {
         type: Sequelize.STRING,
       },
+      upVotes: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+      },
+      downVotes: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+      },
       userId: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',

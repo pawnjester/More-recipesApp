@@ -4,6 +4,8 @@ import models from '../models';
 console.log(models);
 
 const recipe = models.Recipe;
+const review = models.Review;
+
 
 export class Recipes {
   addRecipe(req, res) {
@@ -20,74 +22,106 @@ export class Recipes {
       return res.status(400).send({ error: 'You need to fill in the method of preparation ' })
     }
 
-    recipe.create ({
+    recipe.create({
       name,
       Ingredients,
       method,
-      userId: currentUser
+      userId: currentUser,
+      upVotes: req.body.upVotes,
+      downVotes: req.body.downVotes
     })
-    .then(recipe => {
-      res.status(201).send({message: 'Recipe has been created', recipe})
-    })
-    .catch(error => res.status(500).json({
+      .then(recipe => {
+        res.status(201).send({ message: 'Recipe has been created', recipe })
+      })
+      .catch(error => res.status(500).json({
         success: false,
-        message: 'Recipe cannot be created' }))
+        message: 'Recipe cannot be created'
+      }))
     return this;
   }
 
 
   modifyRecipe(req, res) {
     const recipeId = req.params.recipeId;
+    if(isNaN(recipeId)){
+      return res.status(400).send({message: 'Recipe id is not a number'})
+    }
     recipe.findById(recipeId)
-    .then(recipe => {
-      if(!recipe) {
-        return res.status(400).send({
-          message: `Recipe not Found with ${recipeId}` 
+      .then(recipe => {
+        if (!recipe) {
+          return res.status(400).send({
+            message: `Recipe not Found with ${recipeId}`
+          })
+        }
+        recipe.update({
+          name: req.body.name || recipe.name,
+          Ingredients: req.body.Ingredients || recipe.Ingredients,
+          method: req.body.method || recipe.method,
         })
-      }
-      recipe.update({
-        name:req.body.name || recipe.name,
-        Ingredients:req.body.Ingredients || recipe.Ingredients,
-        method:req.body.method || recipe.method,
+          .then(() => res.status(201).send(recipe))
+          .catch(error => res.status(400).send(error));
       })
-      .then(() => res.status(201).send(recipe))
       .catch(error => res.status(400).send(error));
-    })
-    .catch(error => res.status(400).send(error));
     return this;
   }
 
   deleteRecipe(req, res) {
     const recipeId = req.params.recipeId;
+    if(isNaN(recipeId)){
+      return res.status(400).send({message: 'Recipe id is not a number'})
+    }
     recipe.findById(recipeId)
-    .then(deletedRecipe => {
-      if(!deletedRecipe) {
-        return res.status(400).send({
-          message: `Recipe not found with id : ${recipeId}`
-        })
-      }
-      recipe
-      .destroy({
-        where: {
-          id: recipeId,
+      .then(deletedRecipe => {
+        if (!deletedRecipe) {
+          return res.status(400).send({
+            message: `Recipe not found with id : ${recipeId}`
+          })
         }
+        recipe
+          .destroy({
+            where: {
+              id: recipeId,
+            }
+          })
+          .then(() => res.status(200).send({ message: 'This recipe has been deleted' }))
       })
-      .then(() => res.status(200).send({message: 'This recipe has been deleted'}))
-    })
-    .catch(e  => res.status(400).send({message: 'Error deleting recipe'}));
+      .catch(e => res.status(400).send({ message: 'Error deleting recipe' }));
     return this;
   }
 
   getRecipes(req, res) {
-    recipe.findAll()
-    .then(recipe => {
-      if(recipe.length === 0) {
-        return res.status(404).send({})
+    if (req.query && req.query.sort) {
+      if (req.query.order && req.query.order === "desc") {
+        recipe.findAll({
+          order: [
+            ['upVotes', 'DESC']
+          ]
+        })
+          .then(orderedRecipe => {
+            if (!orderedRecipe) {
+              return res.status(400).send({ message: 'No recipe found' })
+            }
+            return res.status(201).send({
+              message: 'Recipe(s) found',
+              recipe: orderedRecipe
+            });
+          })
+          .catch(e => { return res.status(400).send({ message: 'Error sorting recipes' }) })
+
       }
-      res.status(200).send({message: 'Welcome to More-Recipes', recipe})
-    })
-    .catch(e => res.status(400).send(e))
-    return this;   
+    }
+    else {
+      recipe.findAll()
+        .then(recipe => {
+          if (recipe.length === 0) {
+            return res.status(404).send({})
+          }
+          res.status(200).send({ message: 'Welcome to More-Recipes', recipe })
+        })
+        .catch(e => res.status(400).send(e))
+    }
+
+    return this;
 
   }
 }

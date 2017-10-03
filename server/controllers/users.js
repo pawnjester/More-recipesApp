@@ -123,23 +123,6 @@ export default class User {
     return this;
   }
 
-  // me(req,res) {
-  //   let token = req.headers['x-access-token'];
-  //   if(!token) {
-  //     return res.status(401).send({message: "no token provided"})
-  //   }
-  //   jwt.verify(token, process.env.SECRET_KEY, function(err, decoded) {
-  //   if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-  //   user.findById(decoded.id)
-  //   .then(user => {
-  //     if(!user) {
-  //       return res.status(400).send("No user found.");
-  //     }
-  //     return res.status(200).send(user);
-
-  //   })
-  // });
-  // }
   me(req, res) {
     const currentUser = req.currentUser;
   return res.status(200).send({ currentUser });
