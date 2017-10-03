@@ -13,11 +13,11 @@ export class Recipes {
     const currentUser = req.currentUser.id;
 
     if (!name) {
-      return res.status(400).send({ error: "You need to fill in a name of the recipe" })
+      return res.status(400).send({ error: 'You need to fill in a name of the recipe' })
     } else if (!Ingredients) {
-      return res.status(400).send({ error: "You need to fill in the Ingredients" })
+      return res.status(400).send({ error: 'You need to fill in the Ingredients' })
     } else if (!method) {
-      return res.status(400).send({ error: "You need to fill in the method of preparation " })
+      return res.status(400).send({ error: 'You need to fill in the method of preparation ' })
     }
 
     recipe.create ({
@@ -27,7 +27,7 @@ export class Recipes {
       userId: currentUser
     })
     .then(recipe => {
-      res.status(201).send({message: "Recipe has been created", recipe})
+      res.status(201).send({message: 'Recipe has been created', recipe})
     })
     .catch(error => res.status(500).json({
         success: false,
@@ -72,9 +72,9 @@ export class Recipes {
           id: recipeId,
         }
       })
-      .then(() => res.status(200).send({message: "This recipe has been deleted"}))
+      .then(() => res.status(200).send({message: 'This recipe has been deleted'}))
     })
-    .catch(e  => res.status(400).send({message: "Error deleting recipe"}));
+    .catch(e  => res.status(400).send({message: 'Error deleting recipe'}));
     return this;
   }
 
@@ -84,7 +84,7 @@ export class Recipes {
       if(recipe.length === 0) {
         return res.status(404).send({})
       }
-      res.status(200).send({message: "Welcome to More-Recipes", recipe})
+      res.status(200).send({message: 'Welcome to More-Recipes', recipe})
     })
     .catch(e => res.status(400).send(e))
     return this;   

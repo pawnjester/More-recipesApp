@@ -2,6 +2,8 @@
 'use strict'
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+import dotenv from 'dotenv'
+dotenv.config()
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {

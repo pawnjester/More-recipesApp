@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
   Recipe.associate = (models) => {
     Recipe.belongsTo(models.User, {
       foreignKey: 'userId',
+      onDelete: 'CASCADE',
     });
     Recipe.hasMany(models.Review, {
       foreignKey: 'recipeId',

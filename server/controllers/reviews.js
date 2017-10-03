@@ -16,19 +16,19 @@ class Reviews {
     const currentUser = req.currentUser.id;
 
     if(!recipeId) {
-      return res.status(400).send({message: "You need to put in the recipe ID"})
+      return res.status(400).send({message: 'You need to put in the recipe ID'})
     } else if(!data) {
-      return res.status(400).send({message: "You need to put a review!"})
+      return res.status(400).send({message: 'You need to put a review!'})
     }
     review.create({
       data,
       recipeId,
       userId:currentUser
     })
-    .then(rev => {
-      res.status(201).send({message: "Your review has been added", rev});
+    .then(reviewed => {
+      res.status(201).send({message: 'Your review has been added', reviewed});
     })
-    .catch(e => res.status(400).send({message: "Error creating review"}));
+    .catch(e => res.status(400).send({message: 'Error creating review'}));
     return this;
   }
 }

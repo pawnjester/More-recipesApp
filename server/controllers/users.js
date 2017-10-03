@@ -2,6 +2,8 @@
 // import { User } from '../models';
 import models from '../models';
 const  jwt = require('jsonwebtoken');
+import dotenv from 'dotenv'
+dotenv.config()
 
 
 console.log(models);
@@ -29,11 +31,11 @@ export default class User {
     const password = req.body.password;
 
     if (!username) {
-      return res.status(400).send({ error: "You need to fill in your username" })
+      return res.status(400).send({ error: 'You need to fill in your username' })
     } else if (!email) {
-      return res.status(400).send({ error: "You need to fill in your email" })
+      return res.status(400).send({ error: 'You need to fill in your email' })
     } else if (!password) {
-      return res.status(400).send({ error: "You need to fill in your password" })
+      return res.status(400).send({ error: 'You need to fill in your password' })
     }
 
     user
@@ -82,14 +84,14 @@ export default class User {
       return res.status(401)
       .send({
         status: false, 
-        error: "Username cannot be empty"
+        error: 'Username cannot be empty'
         });
     } 
     else if (!req.body.password) {
       return res.status(401)
       .send({
         status: false,
-        error: "Password field cannot be empty"
+        error: 'Password field cannot be empty'
         });
     }
     user.findOne({
@@ -100,12 +102,12 @@ export default class User {
     .then((userFound) =>{     
       
       if(!userFound) {
-        return res.status(401).send({message: "User is not registered"})
+        return res.status(401).send({message: 'User is not registered'})
       }
       else if(!userFound.validPassword(req.body.password)){
         return res.status(401)
         .send({
-          message: "The password is incorrect"
+          message: 'The password is incorrect'
         })
       }
             
