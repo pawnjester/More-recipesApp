@@ -24,6 +24,8 @@ router.post('/signup', userController.signUp);
 router.post('/signin', userController.signIn);
 router.get('/me', authenticate, userController.me);
 router.post('/:recipeId/favorite', authenticate, favoriteController.addFavorite);
+router.get('/:recipeId/favorite', authenticate, favoriteController.getAllFavorite);
+
 
 
 export default router;
