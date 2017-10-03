@@ -4,21 +4,12 @@ import models from '../models';
 console.log(models);
 
 const favorite = models.Favorite;
+const recipe = models.Recipe;
 
 export default class Favorite {
   addFavorite (req,res) {
     const userId = req.currentUser.id;
     const recipeId = req.params.recipeId;
-
-    // favorite.findOrCreate({where:{userId, recipeId }})
-    // .spread((favorite, created) => {
-    //   if(created) {
-    //     return res.status(201).send({message: `recipe with ${recipeId} has been added`});
-    //   }
-    //   return res.status(201).send({message: `recipe is already a favorite`});
-    // })
-    // .catch(e => {return res.status(400).send({message: 'recipe could not be added to favorite'})});
-    // return this;
     favorite.findOne({
       where: {
         recipeId,
@@ -42,14 +33,24 @@ export default class Favorite {
   }
 
   getAllFavorite(req, res) {
-    const userId = req.currentUser.id;
-    
+    const currentUser = req.currentUser.id;
+    const userId = req.params.userId;
+
+    if(isNaN(userId)){
+      return res.status(400).send({message: 'User id is not a number'})
+    }
+    if(currentUser != userId ) {
+      return res.status(400).send({message: 'This is not your favorite'})
+    }
     favorite.findAll({
       where: {
         userId
       },
       include: [{
-        model: 'Recipe'
+        model: recipe,
+        where: {
+        userId
+      },
       }]
     })
     .then(userFavorite => {

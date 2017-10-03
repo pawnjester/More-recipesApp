@@ -15,6 +15,9 @@ class Reviews {
     // const userId = req.body.userId;
     const currentUser = req.currentUser.id;
 
+    if(isNaN(recipeId)){
+      return res.status(400).send({message: 'Recipe id is not a number'})
+    }
     if(!recipeId) {
       return res.status(400).send({message: 'You need to put in the recipe ID'})
     } else if(!data) {
