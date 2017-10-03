@@ -2,6 +2,7 @@
 import express from 'express';
 import Recipes from '../controllers/recipes';
 import Reviews from '../controllers/reviews';
+import Favorites from '../controllers/favorites';
 import User from '../controllers/users';
 import authenticate from '../middleware/authenticate';
 // const userController = require('../controllers/users');
@@ -10,6 +11,7 @@ import authenticate from '../middleware/authenticate';
 
 const recipeController = new Recipes();
 const reviewController = new Reviews();
+const favoriteController = new Reviews();
 const userController = new User();
 
 const router = express.Router();
@@ -23,6 +25,8 @@ router.post('/:recipeId/reviews', authenticate,reviewController.postReview);
 router.post('/signup', userController.signUp);
 router.post('/signin', userController.signIn);
 router.get('/me', authenticate,userController.me);
+router.post('/:recipeId', authenticate,favorite.addFavorite);
+
 
 
 export default router;

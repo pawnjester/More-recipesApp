@@ -75,7 +75,7 @@ export class Recipes {
       .then(() => res.status(200).send({message: "This recipe has been deleted"}))
     })
     .catch(e  => res.status(400).send({message: "Error deleting recipe"}));
-    // return this;
+    return this;
   }
 
   getRecipes(req, res) {
