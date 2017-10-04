@@ -1,8 +1,9 @@
 /* eslint-disable */
-const {User} = require('../models');
+import models from '../models';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv'
-dotenv.config()
+dotenv.config();
+const user = models.User;
 
 let authenticate =  (req, res, next) => {
 
@@ -21,7 +22,7 @@ let authenticate =  (req, res, next) => {
       return res.json({success: false, message: 'Failed to authenticate token'});
     } 
     else {  
-      User.findById(decoded.id).then(user => {
+      user.findById(decoded.id).then(user => {
         if(!user) {
           return res.status(401).send({error: 'User cannot be verified'})
         }

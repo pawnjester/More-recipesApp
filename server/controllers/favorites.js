@@ -40,7 +40,7 @@ export default class Favorite {
           .then((newfav) => {
             res.status(201).send({ message: `recipe with ${recipeId} has been added`, newfav });
           })
-          .catch((err) => res.status(400).send({message: 'recipe could not be added to favorite',err }));
+          .catch((err) => res.status(400).send({message: 'recipe could not be added to favorite',err:err.parent.detail }));
         return this;
       });
   }

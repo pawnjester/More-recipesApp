@@ -16,15 +16,16 @@ const user = models.User;
  * @class User
  */
 export default class User {
-/**
- * Sign Up user (Create new user)
- *
- * @param {object} req - HTTP Request
- * @param {object} res - HTTP Response
- * @returns {object} Class instance
- * @memberof User
- */
 
+
+  /**
+   * 
+   *
+   * @param {any} req 
+   * @param {any} res 
+   * @returns 
+   * @memberof User
+   */
   signUp(req, res) {
     const username = req.body.username.trim().toLowerCase();
     const email = req.body.email.trim().toLowerCase();
@@ -57,14 +58,14 @@ export default class User {
       })
       .then((userFound) => {
         if (userFound) {
-          return res.status(400).send({error: 'Username already taken'})
+          return res.status(400).send({ error: 'Username already taken' });
         }
         return user.create({
           username,
           email,
           password
         })
-          .then(user => {
+          .then((user) => {
             const token = user.generateAuthToken();
             return res.header('x-auth', token).status(201)
               .send({
@@ -73,7 +74,7 @@ export default class User {
               });
           });
       })
-      .catch(error => { return res.status(400).send(error) });
+      .catch((error) => { return res.status(400).send(error) });
     return this;
   }
 
