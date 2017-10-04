@@ -14,11 +14,11 @@ const recipe = models.Recipe;
  */
 export class Recipes {
   /**
-   * 
-   * 
-   * @param {any} req 
-   * @param {any} res 
-   * @returns 
+   *
+   *
+   * @param {any} req
+   * @param {any} res
+   * @returns
    * @memberof Recipes
    */
   addRecipe(req, res) {
@@ -152,7 +152,7 @@ export class Recipes {
           if (recipe.length === 0) {
             return res.status(404).send({});
           }
-          res.status(200).send({ message: 'Welcome to More-Recipes', recipe });
+          res.status(200).send({ message: 'Welcome to More-Recipes, these are the recipes available', recipe });
         })
         .catch(e => res.status(400).send(e));
     }

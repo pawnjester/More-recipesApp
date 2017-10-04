@@ -1,4 +1,4 @@
-// /* eslint-disable */
+/* eslint-disable */
 // import { User } from '../models';
 import models from '../models';
 const  jwt = require('jsonwebtoken');
