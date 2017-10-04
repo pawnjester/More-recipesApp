@@ -1,13 +1,26 @@
-/* eslint-disable */
+// /* eslint-disable */
 import models from '../models';
 
 console.log(models);
 
 const recipe = models.Recipe;
-const review = models.Review;
 
 
+/**
+ *
+ *
+ * @export
+ * @class Recipes
+ */
 export class Recipes {
+  /**
+   * 
+   * 
+   * @param {any} req 
+   * @param {any} res 
+   * @returns 
+   * @memberof Recipes
+   */
   addRecipe(req, res) {
     const name = req.body.name.trim().toLowerCase();
     const Ingredients = req.body.Ingredients.trim().toLowerCase();
@@ -30,21 +43,29 @@ export class Recipes {
       upVotes: req.body.upVotes,
       downVotes: req.body.downVotes
     })
-      .then(recipe => {
+      .then((recipe) => {
         res.status(201).send({ message: 'Recipe has been created', recipe })
       })
       .catch(error => res.status(500).json({
         success: false,
         message: 'Recipe cannot be created'
-      }))
+      }));
     return this;
   }
 
 
+  /**
+   *
+   * 
+   * @param {any} req 
+   * @param {any} res 
+   * @returns 
+   * @memberof Recipes
+   */
   modifyRecipe(req, res) {
     const recipeId = req.params.recipeId;
-    if(isNaN(recipeId)){
-      return res.status(400).send({message: 'Recipe id is not a number'})
+    if (isNaN(recipeId)) {
+      return res.status(400).send({ message: 'Recipe id is not a number' });
     }
     recipe.findById(recipeId)
       .then(recipe => {
@@ -65,17 +86,25 @@ export class Recipes {
     return this;
   }
 
+  /**
+   * 
+   * 
+   * @param {any} req 
+   * @param {any} res 
+   * @returns 
+   * @memberof Recipes
+   */
   deleteRecipe(req, res) {
     const recipeId = req.params.recipeId;
-    if(isNaN(recipeId)){
-      return res.status(400).send({message: 'Recipe id is not a number'})
+    if (isNaN(recipeId)) {
+      return res.status(400).send({ message: 'Recipe id is not a number'});
     }
     recipe.findById(recipeId)
-      .then(deletedRecipe => {
+      .then((deletedRecipe) => {
         if (!deletedRecipe) {
           return res.status(400).send({
             message: `Recipe not found with id : ${recipeId}`
-          })
+          });
         }
         recipe
           .destroy({
@@ -83,46 +112,52 @@ export class Recipes {
               id: recipeId,
             }
           })
-          .then(() => res.status(200).send({ message: 'This recipe has been deleted' }))
+          .then(() => res.status(200).send({ message: 'This recipe has been deleted' }));
       })
       .catch(e => res.status(400).send({ message: 'Error deleting recipe' }));
     return this;
   }
 
+  /**
+   * 
+   * 
+   * @param {any} req 
+   * @param {any} res 
+   * @returns 
+   * @memberof Recipes
+   */
   getRecipes(req, res) {
     if (req.query && req.query.sort) {
-      if (req.query.order && req.query.order === "desc") {
+      if (req.query.order && req.query.order === 'desc') {
         recipe.findAll({
           order: [
             ['upVotes', 'DESC']
           ]
         })
-          .then(orderedRecipe => {
+          .then((orderedRecipe) => {
             if (!orderedRecipe) {
-              return res.status(400).send({ message: 'No recipe found' })
+              return res.status(400).send({ message: 'No recipe found' });
             }
             return res.status(201).send({
               message: 'Recipe(s) found',
               recipe: orderedRecipe
             });
           })
-          .catch(e => { return res.status(400).send({ message: 'Error sorting recipes' }) })
+          .catch((e) => { return res.status(400).send({ message: 'Error sorting recipes' }); });
 
       }
-    }
-    else {
+    } else {
       recipe.findAll()
-        .then(recipe => {
+        .then((recipe) => {
           if (recipe.length === 0) {
-            return res.status(404).send({})
+            return res.status(404).send({});
           }
-          res.status(200).send({ message: 'Welcome to More-Recipes', recipe })
+          res.status(200).send({ message: 'Welcome to More-Recipes', recipe });
         })
-        .catch(e => res.status(400).send(e))
+        .catch(e => res.status(400).send(e));
     }
 
     return this;
-
   }
 }
 
