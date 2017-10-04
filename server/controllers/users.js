@@ -1,8 +1,8 @@
-/* eslint-disable */
+// /* eslint-disable */
 // import { User } from '../models';
 import models from '../models';
 const  jwt = require('jsonwebtoken');
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 dotenv.config()
 
 
@@ -77,6 +77,14 @@ export default class User {
     return this;
   }
 
+  /**
+   * 
+   * 
+   * @param {any} req 
+   * @param {any} res 
+   * @returns 
+   * @memberof User
+   */
   signIn(req,res) {
     const username = req.body.username;
 
