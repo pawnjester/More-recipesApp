@@ -3,6 +3,7 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import recipes from './routes/index';
 import dotenv from 'dotenv';
+import database from './models';
 dotenv.config();
 
 const app = express();
@@ -27,8 +28,14 @@ app.use((req, res, next) => {
   next(err);
 });
 
-app.listen(port, () => {
-  console.log(`Application has started on  ${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`Application has started on  ${port}`);
+// });
+
+database.sequelize.authenticate()
+  .then(() => app.listen(port, () => {
+    console.log(`Application has started on  ${port}`);
+  }))
+  .catch(error => console.log(error));
 
 export default app;
