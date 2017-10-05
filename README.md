@@ -9,3 +9,14 @@ This is an application that enables users share exciting recipes, it also comes 
 - View User Profile
 - Upvote and Downvote Recipes
 - Post reviews on recipe
+
+# TECH STACK
+- Back-end: Node/Express + Sequelize/Postgres
+
+# INSTALLATION
+- Clone the repo
+- Run `npm install` to install dependencies/dev-dependencies
+- Setup Postgres
+- Setup your db according to the settings in `server/config/config.js`
+- run `$ sequelize db:migrate`
+- run `npm run start` to start the server
