@@ -1,5 +1,4 @@
 node_modules/*
-server/
 coverage/
 .vscode/
 .nyc_output/
