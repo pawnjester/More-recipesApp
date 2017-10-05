@@ -51,6 +51,7 @@
     "expect": "^21.2.1",
     "mocha": "^3.5.3",
     "nodemon": "^1.12.1",
+    "sequelize-cli": "^3.0.0",
     "supertest": "^3.0.0"
   }
 }
