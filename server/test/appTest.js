@@ -5,8 +5,7 @@ import models from './../models';
 
 import app from '../app';
 
-const request = require('supertest');
-
+import request from 'supertest';
 
 const user = models.User;
 const recipe = models.Recipe;
@@ -127,6 +126,28 @@ describe('More Recipes', () => {
           expect(res.body.username).toNotExist;
           expect(res.body.email).toNotExist;
           expect(res.body.error).toEqual('You need to fill in your email');
+          done();
+        });
+    });
+
+    it('shoud return 400 for wrong email format', (done) => {
+      const user = {
+        username: 'fivoetry',
+        email: 'fioveyry',
+        password: '123t45874',
+      };
+      request(app)
+        .post('/api/recipes/signup')
+        .send(user)
+        .expect(400)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.id).toNotExist;
+          expect(res.body.username).toNotExist;
+          expect(res.body.email).toNotExist;
+          expect(res.body.message).toEqual('Invalid email address!');
           done();
         });
     });
@@ -315,6 +336,46 @@ describe('More Recipes', () => {
           if (err) {
             return done(err);
           }
+          done();
+        });
+    });
+
+    it('it should return a 400 when an invalid recipId is inputted', (done) => {
+      request(app)
+        .put('/api/recipes/f')
+        .send({
+          name: 'Boli',
+          Ingredients: 'Rice maize',
+          method: 'Boil the maize',
+          upVotes: 100
+        })
+        .set('x-access-token', token)
+        .expect(400)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('Recipe id is not a number')
+          done();
+        });
+    });
+
+    it('it should return a 400 when an invalid recipId is inputted', (done) => {
+      request(app)
+        .delete('/api/recipes/f')
+        .send({
+          name: 'Boli',
+          Ingredients: 'Rice maize',
+          method: 'Boil the maize',
+          upVotes: 100
+        })
+        .set('x-access-token', token)
+        .expect(400)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('Recipe id is not a number');
           done();
         });
     });

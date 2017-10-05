@@ -38,7 +38,7 @@ class Reviews {
       .then((reviewed) => {
         res.status(201).send({ message: 'Your review has been added', reviewed });
       })
-      .catch(e => res.status(400).send({ message: 'Error creating review' }));
+      .catch((e) => { res.status(400).send({ message: 'Error creating review' })});
     return this;
   }
 }
