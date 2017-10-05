@@ -1,7 +1,4 @@
-// /* eslint-disable */
 import models from '../models';
-
-console.log(models);
 
 const recipe = models.Recipe;
 
@@ -14,12 +11,12 @@ const recipe = models.Recipe;
  */
 export class Recipes {
   /**
+   * Add Recipe record
    *
-   *
-   * @param {any} req
-   * @param {any} res
-   * @returns
-   * @memberof Recipes
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   * @returns {object} Class instance
+   * @memberof Recipe
    */
   addRecipe(req, res) {
     const name = req.body.name.trim().toLowerCase();
@@ -55,12 +52,12 @@ export class Recipes {
 
 
   /**
+   * Modify Recipe record
    *
-   * 
-   * @param {any} req 
-   * @param {any} res 
-   * @returns 
-   * @memberof Recipes
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   * @returns {object} Class instance
+   * @memberof Recipe
    */
   modifyRecipe(req, res) {
     const recipeId = req.params.recipeId;
@@ -68,11 +65,11 @@ export class Recipes {
       return res.status(400).send({ message: 'Recipe id is not a number' });
     }
     recipe.findById(recipeId)
-      .then(recipe => {
+      .then((recipe) => {
         if (!recipe) {
           return res.status(400).send({
             message: `Recipe not Found with ${recipeId}`
-          })
+          });
         }
         recipe.update({
           name: req.body.name || recipe.name,
@@ -87,12 +84,12 @@ export class Recipes {
   }
 
   /**
-   * 
-   * 
-   * @param {any} req 
-   * @param {any} res 
-   * @returns 
-   * @memberof Recipes
+   * Delete Recipe record
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   * @returns {object} Class instance
+   * @memberof Recipe
    */
   deleteRecipe(req, res) {
     const recipeId = req.params.recipeId;
@@ -118,13 +115,14 @@ export class Recipes {
     return this;
   }
 
+
   /**
-   * 
-   * 
-   * @param {any} req 
-   * @param {any} res 
-   * @returns 
-   * @memberof Recipes
+   * Get Recipe record
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   * @returns {object} Class instance
+   * @memberof Recipe
    */
   getRecipes(req, res) {
     if (req.query && req.query.sort) {
@@ -144,7 +142,6 @@ export class Recipes {
             });
           })
           .catch((e) => { return res.status(400).send({ message: 'Error sorting recipes' }); });
-
       }
     } else {
       recipe.findAll()

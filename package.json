@@ -9,7 +9,7 @@
     "start": "babel-node server/app.js",
     "start:dev": "nodemon --exec babel-node server/app.js",
     "test": "nyc --reporter=html --reporter=text mocha ./server/test/ --compilers js:babel-register",
-    "test:dev": "./node_modules/.bin/mocha --compilers js:babel-core/register server/test/"
+    "test:dev": "./node_modules/.bin/mocha --timeout 15000 --compilers js:babel-core/register server/test/"
   },
   "repository": {
     "type": "git",

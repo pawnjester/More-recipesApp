@@ -1,36 +1,32 @@
-/* eslint-disable */
-import faker from 'faker';
-import expect from 'expect'
-const request = require('supertest');
+// /* eslint-disable */
+import expect from 'expect';
+
 import models from './../models';
-import {generateToken} from './seed/seed'
-const user = models.User;
 
 import app from '../app';
 
-// const should = chai.should();
-// chai.use(chaiHttp);
-let token;
-const fakeUser = {
-  username: faker.name.firstName()
-}
+const request = require('supertest');
 
+
+const user = models.User;
+const recipe = models.Recipe;
+let token;
 
 const beforeany = () => {
   before((done) => {
-  user.destroy({ 
-    cascade:true,
-    truncate:true,
+    user.destroy({
+      cascade: true,
+      truncate: true,
+      restartIdentity: true
+    });
+    recipe.destroy({
+      cascade: true,
+      truncate: true,
     restartIdentity:true
   });
   done();
   })  
 };
-
-// beforeEach((done) => {
-//     user.sequelize.sync({force: true});
-//     done();
-//   });
 
 describe('More Recipes', () => {
   beforeany()
@@ -62,6 +58,7 @@ describe('More Recipes', () => {
   });
 
   it('shoud return 201 for creating a user', (done) => {
+    setTimeout(done, 15000);
     const user = {
       username: 'fivoetry',
       email: 'fioveyry@gmail.com',
@@ -280,7 +277,7 @@ describe('More Recipes', () => {
       });
   });
 });
-describe('test of authenticated routes', () =>{
+describe('test of authenticated routes (recipes)', () =>{
   it('it should return a 401 when creating a recipe without authentication', (done) => {
     request(app)
       .post('/api/recipes')
@@ -339,7 +336,7 @@ describe('test of authenticated routes', () =>{
       })
   })
 
-  it('it should return a 201 when modifying a recipe', (done) => {
+  it('it should return a 200 when deleting a recipe', (done) => {
     request(app)
       .delete('/api/recipes/1')
       .send({
@@ -358,7 +355,7 @@ describe('test of authenticated routes', () =>{
       })
   })
 
-  it('it should return a 201 when modifying a recipe', (done) => {
+  it('it should return a 201 when getting all recipe', (done) => {
     request(app)
       .get('/api/recipes')
       .set('x-access-token', token)
@@ -370,5 +367,106 @@ describe('test of authenticated routes', () =>{
         done()
       })
   })
+
+})
+describe('tests for models',() =>{
+  it('it should create a new User instance',(done) =>{
+    user.create({
+        username: 'Okonji',
+        email: 'okonji@example.com',
+        password: 'okonjiemmanuel'
+      })
+      .then(person =>{
+        expect(person).toExist;
+        expect(person.username).toBe('Okonji');
+        expect(person.email).toBe('okonji@example.com');
+        done()
+      })
+      .catch(err => done(err))
+  })
+
+  it('it should be a class of the created instance',(done) =>{
+    user.create({
+        username: 'Okonji2',
+        email: 'okonji2@example.com',
+        password: 'okonjiemmanuel2'
+      })
+      .then(person =>{
+        expect(person).toExist;
+        expect(person instanceof user).toBe(true);
+        done()
+      })
+      .catch(err => done(err))
+  })
+
+  it('toJSON instance method should not pass along user password', (done) => {
+      user.create({
+        username: 'okonji6',
+        password: 'sokonji789',
+        email: 'okonji6@example.com'
+      })
+      .then((person) => {
+        expect(person).toExist;
+        expect(person.password).toExist;
+        expect(person.toJSON().password).toNotExist;
+        done();
+      }).catch((err) => done(err));
+    })
+
+  it('validate Password instance method should be able to detect valid passwords', (done) => {
+      user.create({
+        username: 'okonji4',
+        password: 'okonjifiller',
+        email: 'okonji14@example.com'
+      })
+      .then((person) => {
+        expect(person).toExist;
+        expect(person.password).toExist;
+        expect(person.validPassword('okonjifiller')).toBe(true);
+        done();
+      }).catch((err) => done(err));
+    });
+
+    it('validate Password instance method should be able to detect invalid passwords', (done) => {
+      user.create({
+        username: 'okonji19',
+        password: 'okonjifiller',
+        email: 'okonji19@example.com'
+      })
+      .then((person) => {
+        expect(person).toExist;
+        expect(person.password).toExist;
+        expect(person.validPassword('okonjifller')).toBe(false);
+        done();
+      }).catch((err) => done(err));
+    });
+
+    it('generateAuthToken instance method should generate a token', (done) => {
+      user.create({
+        username: 'testUser7',
+        password: 'somethingelse',
+        email: 'testuser7@example.com'
+      })
+      .then((person) => {
+        const token = person.generateAuthToken();
+        expect(token).toExist;
+        done();
+      }).catch((err) => done(err));
+    });
+    
+    it('it should create a Recipe instance', (done) => {
+      recipe.create({
+        name: 'Garri stew',
+        Ingredients: 'yellow garri and fish stew',
+        method: 'Stir till it turns black'
+      })
+      .then((food) => {
+        expect(food).toExist;
+        expect(food.name).toBe('Garri stew');
+        expect(food.Ingredients).toBe('yellow garri and fish stew');
+        expect(food.method).toBe('Stir till it turns black')
+        done();
+      }).catch((err) => done(err));
+    });  
 })
 });

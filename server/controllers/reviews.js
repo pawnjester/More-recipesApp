@@ -1,7 +1,4 @@
-// /* eslint-disable */
 import models from '../models';
-
-console.log(models);
 
 const review = models.Review;
 
@@ -13,17 +10,16 @@ const review = models.Review;
  */
 class Reviews {
   /**
-   * 
-   * 
-   * @param {any} req 
-   * @param {any} res 
-   * @returns 
+   * Add review to user recipe
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   * @returns {object} Class instance
    * @memberof Reviews
    */
   postReview(req, res) {
     const data = req.body.data;
     const recipeId = req.params.recipeId;
-    // const userId = req.body.userId;
     const currentUser = req.currentUser.id;
 
     if (isNaN(recipeId)) {

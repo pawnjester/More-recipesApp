@@ -1,7 +1,4 @@
-// /* eslint-disable */
 import models from '../models';
-
-console.log(models);
 
 const favorite = models.Favorite;
 const recipe = models.Recipe;
@@ -14,10 +11,11 @@ const recipe = models.Recipe;
  */
 export default class Favorite {
   /**
+   * Make a recipe a favorite
    *
-   *
-   * @param {any} req
-   * @param {any} res
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   * @returns {object} Class instance
    * @memberof Favorite
    */
   addFavorite(req, res) {
@@ -46,11 +44,11 @@ export default class Favorite {
   }
 
   /**
+   * Get user favorite recipes record
    *
-   *
-   * @param {any} req
-   * @param {any} res
-   * @returns
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   * @returns {object} Class instance
    * @memberof Favorite
    */
   getAllFavorite(req, res) {
@@ -77,8 +75,7 @@ export default class Favorite {
       .then((userFavorite) => {
         res.status(200).send({ message: 'the list of recipes', userFavorite });
       })
-      .catch((e) => res.status(400).send({message: 'Recipe cannot be retrieved'}));
+      .catch(e => res.status(400).send({ message: 'Recipe cannot be retrieved'}));
     return this;
-
   }
 }
