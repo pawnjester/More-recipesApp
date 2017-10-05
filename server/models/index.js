@@ -4,7 +4,6 @@ import * as dotenv from 'dotenv';
 import config from '../config/config';
 
 dotenv.config();
-
 const db = {};
 const sequelize = new Sequelize(config.url, config);
 

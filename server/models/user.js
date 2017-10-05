@@ -24,6 +24,9 @@ module.exports = (sequelize, DataTypes) => {
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        min: 6
+      }
     },
   });
   //salt and hash passwords before creating users 

@@ -1,12 +1,11 @@
 // /* eslint-disable */
 // import { User } from '../models';
 import models from '../models';
-const  jwt = require('jsonwebtoken');
+
 import dotenv from 'dotenv';
-dotenv.config()
+const jwt = require('jsonwebtoken');
 
-
-console.log(models);
+dotenv.config();
 
 const user = models.User;
 /**
@@ -16,14 +15,12 @@ const user = models.User;
  * @class User
  */
 export default class User {
-
-
   /**
-   * 
+   * Signup User record
    *
-   * @param {any} req 
-   * @param {any} res 
-   * @returns 
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   * @returns {object} Class instance
    * @memberof User
    */
   signUp(req, res) {
@@ -32,11 +29,11 @@ export default class User {
     const password = req.body.password;
 
     if (!username) {
-      return res.status(400).send({ error: 'You need to fill in your username' })
+      return res.status(400).send({ error: 'You need to fill in your username' });
     } else if (!email) {
-      return res.status(400).send({ error: 'You need to fill in your email' })
+      return res.status(400).send({ error: 'You need to fill in your email' });
     } else if (!password) {
-      return res.status(400).send({ error: 'You need to fill in your password' })
+      return res.status(400).send({ error: 'You need to fill in your password' });
     }
 
     user
@@ -72,35 +69,35 @@ export default class User {
                 message: `Welcome to More-Recipes ${user.username}`,
                 user
               });
-          });
+          })
+          .catch((e) =>{ return res.status(400).send(e) });
       })
       .catch((error) => { return res.status(400).send(error) });
     return this;
   }
 
   /**
-   * 
-   * 
-   * @param {any} req 
-   * @param {any} res 
-   * @returns 
+   * Signin User record
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   * @returns {object} Class instance
    * @memberof User
    */
-  signIn(req,res) {
+  signIn(req, res) {
     const username = req.body.username;
 
-    if(!username) {
+    if (!username) {
       return res.status(401)
-      .send({
-        status: false, 
-        error: 'Username cannot be empty'
+        .send({
+          status: false,
+          error: 'Username cannot be empty'
         });
-    } 
-    else if (!req.body.password) {
+    } else if (!req.body.password) {
       return res.status(401)
-      .send({
-        status: false,
-        error: 'Password field cannot be empty'
+        .send({
+          status: false,
+          error: 'Password field cannot be empty'
         });
     }
     user.findOne({
@@ -108,32 +105,37 @@ export default class User {
         username,
       }
     })
-    .then((userFound) =>{     
-      
-      if(!userFound) {
-        return res.status(401).send({message: 'User is not registered'})
-      }
-      else if(!userFound.validPassword(req.body.password)){
-        return res.status(401)
-        .send({
-          message: 'The password is incorrect'
-        })
-      }
-            
-      const token = userFound.generateAuthToken();
-      res.header('x-auth', token).status(200).send({
-      statusCode: 200,
-      message: `Welcome back, ${userFound.username}`,
-      userFound
-    });
-      
-    })
-    .catch(error => {return res.status(400).send(error)})
+      .then((userFound) => {
+        if (!userFound) {
+          return res.status(401).send({ message: 'User is not registered' });
+        } else if (!userFound.validPassword(req.body.password)) {
+          return res.status(401)
+            .send({
+              message: 'The password is incorrect'
+            });
+        }
+        const token = userFound.generateAuthToken();
+        res.header('x-auth', token).status(200).send({
+          statusCode: 200,
+          message: `Welcome back, ${userFound.username}`,
+          userFound
+        });
+      })
+      .catch((error) => { return res.status(400).send(error) });
     return this;
   }
 
+  /**
+   * Current User record
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   * @returns {object} Class instance
+   * @memberof User
+   */
   me(req, res) {
     const currentUser = req.currentUser;
-  return res.status(200).send({ currentUser });
+    res.status(200).send({ currentUser });
+    return this;
   }
 }
