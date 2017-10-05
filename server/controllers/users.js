@@ -1,8 +1,9 @@
 // /* eslint-disable */
-// import { User } from '../models';
+
 import models from '../models';
 
 import dotenv from 'dotenv';
+
 const jwt = require('jsonwebtoken');
 
 dotenv.config();
@@ -28,10 +29,14 @@ export default class User {
     const email = req.body.email.trim().toLowerCase();
     const password = req.body.password;
 
+    let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
     if (!username) {
       return res.status(400).send({ error: 'You need to fill in your username' });
     } else if (!email) {
       return res.status(400).send({ error: 'You need to fill in your email' });
+    } else if (!filter.test(email)) {
+      return res.status(400).json({ message: 'Invalid email address!' });
     } else if (!password) {
       return res.status(400).send({ error: 'You need to fill in your password' });
     }
@@ -70,9 +75,9 @@ export default class User {
                 user
               });
           })
-          .catch((e) =>{ return res.status(400).send(e) });
+          .catch((e) => { return res.status(400).send(e)});
       })
-      .catch((error) => { return res.status(400).send(error) });
+      .catch((error) => { return res.status(400).send(error)});
     return this;
   }
 
