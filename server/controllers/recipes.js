@@ -25,11 +25,11 @@ export class Recipes {
     const currentUser = req.currentUser.id;
 
     if (!name) {
-      return res.status(400).send({ error: 'You need to fill in a name of the recipe' })
+      return res.status(400).send({ error: 'You need to fill in a name of the recipe' });
     } else if (!Ingredients) {
-      return res.status(400).send({ error: 'You need to fill in the Ingredients' })
+      return res.status(400).send({ error: 'You need to fill in the Ingredients' });
     } else if (!method) {
-      return res.status(400).send({ error: 'You need to fill in the method of preparation ' })
+      return res.status(400).send({ error: 'You need to fill in the method of preparation ' });
     }
 
     recipe.create({
