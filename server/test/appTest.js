@@ -148,7 +148,7 @@ describe('More Recipes', () => {
           expect(res.body.id).toNotExist;
           expect(res.body.username).toNotExist;
           expect(res.body.email).toNotExist;
-          expect(res.body.error).toEqual('You need to fill in your password');
+          expect(res.body.error).toEqual('You need to fill in a password with a minimum length of 6');
           done();
         });
     });
