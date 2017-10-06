@@ -72,13 +72,13 @@
       }     
 
       .picSize {
-        font-size: 50px;
+        font-size: 80px;
         color: black;
         text-shadow: 5px 5px 10px #707070;
       }
 
       .pSize {
-        font-size: 20px;
+        font-size: 30px;
         color: black;
         text-shadow: 5px 5px 10px #707070;
         line-height: -2px;     

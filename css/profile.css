@@ -12,7 +12,7 @@ body {
         top: 0;
         left: 0;
         width: 100%;
-        min-height: 700px; 
+        min-height: 100%; 
       }
 
 .profile-sidebar{
@@ -133,14 +133,24 @@ li.activ {
     width: 100% ; 
     position: relative;
 };
+ .profile-sidebar {
+  width: 100% ;
+  position: relative;
+}
 
 };
 
 @media only screen and (max-width : 575px) {
   .profile {
     right:50%;
-  left: 50%;
+  left: 50%; 
   
-  
+}
+
+}
+@media only screen and (max-width : 575px) {
+  .profile-sidebar {
+  width: 100% ;
+  position: relative;
 }
 }

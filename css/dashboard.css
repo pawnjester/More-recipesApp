@@ -47,6 +47,10 @@ input .dashboard{
   margin-right: 5px; 
   }
 
+  .navbar{
+        border-bottom: #FF4500 3px solid;               
+      }
+
 #clickableAwesomeFont{
   cursor:pointer
 }
@@ -75,11 +79,22 @@ input .dashboard{
 }
 }
 
+
+
 @media only screen and (max-width : 575px) {
   .profile {
     right:50%;
   left: 50%;
-  margin-left: 120px;
+  margin-left: 170px;
+  
+}
+}
+
+@media only screen and (max-width : 320px) {
+  .profile {
+    right:50%;
+  left: 50%;
+  margin-left: 100px;
   
 }
 }
