@@ -1,8 +1,9 @@
 // /* eslint-disable */
-// import { User } from '../models';
+
 import models from '../models';
 
 import dotenv from 'dotenv';
+
 const jwt = require('jsonwebtoken');
 
 dotenv.config();
@@ -29,14 +30,17 @@ export default class User {
     const email = req.body.email.trim().toLowerCase();
     const password = req.body.password;
 
+
     if (username.length < 6) {
-      return res.status(400).send({ error: 'You need to fill in your username with a minimum length of 6' });
+      return res.status(400).send({ error: 'You need to fill in your username with a minimum length of 6' });    
     } else if (!email) {
       return res.status(400).send({ error: 'You need to fill in your email' });
     } else if (!filter.test(email)) {
       return res.status(400).json({ message: 'Invalid email address!' });
+
     } else if (password.length < 6) {
       return res.status(400).send({ error: 'You need to fill in a password with a minimum length of 6' });
+
     }
 
     user
@@ -73,9 +77,9 @@ export default class User {
                 user
               });
           })
-          .catch((e) =>{ return res.status(400).send(e) });
+          .catch((e) => { return res.status(400).send(e)});
       })
-      .catch((error) => { return res.status(400).send(error) });
+      .catch((error) => { return res.status(400).send(error)});
     return this;
   }
 
