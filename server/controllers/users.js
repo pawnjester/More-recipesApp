@@ -25,20 +25,22 @@ export default class User {
    * @memberof User
    */
   signUp(req, res) {
+    let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     const username = req.body.username.trim().toLowerCase();
     const email = req.body.email.trim().toLowerCase();
     const password = req.body.password;
 
-    let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
-    if (!username) {
-      return res.status(400).send({ error: 'You need to fill in your username' });
+    if (username.length < 6) {
+      return res.status(400).send({ error: 'You need to fill in your username with a minimum length of 6' });    
     } else if (!email) {
       return res.status(400).send({ error: 'You need to fill in your email' });
     } else if (!filter.test(email)) {
       return res.status(400).json({ message: 'Invalid email address!' });
-    } else if (!password) {
-      return res.status(400).send({ error: 'You need to fill in your password' });
+
+    } else if (password.length < 6) {
+      return res.status(400).send({ error: 'You need to fill in a password with a minimum length of 6' });
+
     }
 
     user
