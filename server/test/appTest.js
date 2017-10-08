@@ -104,7 +104,7 @@ describe('More Recipes', () => {
           expect(res.body.id).toNotExist;
           expect(res.body.username).toNotExist;
           expect(res.body.email).toNotExist;
-          expect(res.body.error).toEqual('You need to fill in your username');
+          expect(res.body.error).toEqual('You need to fill in your username with a minimum length of 6');
           done();
         });
     });
