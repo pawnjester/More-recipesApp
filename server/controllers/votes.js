@@ -91,6 +91,14 @@ export default class Vote {
     })
   }
 
+  /**
+   * down-vote a recipe
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   * @returns {object} Class instance
+   * @memberof Vote
+   */
   downvote (req, res) {
     const userId = req.currentUser.id;
     const recipeId = req.params.recipeId;
