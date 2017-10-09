@@ -41,7 +41,7 @@ export class Recipes {
       downVotes: req.body.downVotes
     })
       .then((recipe) => {
-        res.status(201).send({ message: 'Recipe has been created', recipe })
+        res.status(201).send({ message: 'Recipe has been created', recipe });
       })
       .catch(error => res.status(500).json({
         success: false,
@@ -94,7 +94,7 @@ export class Recipes {
   deleteRecipe(req, res) {
     const recipeId = req.params.recipeId;
     if (isNaN(recipeId)) {
-      return res.status(400).send({ message: 'Recipe id is not a number'});
+      return res.status(400).send({ message: 'Recipe id is not a number' });
     }
     recipe.findById(recipeId)
       .then((deletedRecipe) => {
@@ -141,7 +141,7 @@ export class Recipes {
               recipe: orderedRecipe
             });
           })
-          .catch((e) => { return res.status(400).send({ message: 'Error sorting recipes' }); });
+          .catch((e) => res.status(400).send({ message: 'Error sorting recipes' }));
       }
     } else {
       recipe.findAll()
@@ -155,6 +155,26 @@ export class Recipes {
     }
 
     return this;
+  }
+
+  /**
+   * get recipe by id
+   *
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   * @returns {object} Class instance
+   * @memberof Vote
+   */
+
+  getRecipeById(req, res) {
+    const recipeId = req.params.recipeId;
+    recipe.findById(recipeId)
+      .then((found) => {
+        if (!found) {
+          return res.status(404).json({ message: `Recipe with id: ${recipeId} does not exist` });
+        }
+        return res.status(200).json({ message: `Recipe with id: ${recipeId} was found`, found });
+      });
   }
 }
 
