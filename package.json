@@ -41,7 +41,9 @@
     "nyc": "^11.2.1",
     "pg": "^7.3.0",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^4.13.1",    
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "sequelize": "^4.13.1",
     "sequelize-cli": "^3.0.0"
   },
   "devDependencies": {
