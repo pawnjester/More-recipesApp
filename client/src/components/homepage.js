@@ -12,10 +12,4 @@ class Home extends React.Component {
   }
 }
 
-// const Home = () => (
-//   <div>
-//     <h1>Welcome to the Tornadoes Website!</h1>
-//   </div>
-// )
-
 export default Home

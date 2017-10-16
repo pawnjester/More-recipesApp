@@ -50,6 +50,7 @@
     "react-router-dom": "^4.2.2",
     "sequelize": "^4.13.1",
     "sequelize-cli": "^3.0.0",
+    "validator": "^9.0.0",
     "webpack": "^3.7.1"
   },
   "devDependencies": {
