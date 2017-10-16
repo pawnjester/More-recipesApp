@@ -1,11 +1,13 @@
 const path = require('path');
 const webpack = require('webpack');
+var autoprefixer = require('autoprefixer');
+var precss = require('precss');
 
 module.exports = {
   devtool: 'eval-source-map',
   entry: [
     'webpack-hot-middleware/client',
-    path.join(__dirname, './client/index.js')
+    path.join(__dirname, './client/src/index.js')
   ],
   output: {
     path: '/',
@@ -22,12 +24,15 @@ module.exports = {
       {
         test: /\.js$/,
         include: path.join(__dirname, 'client'),
-        loaders: [ 'react-hot-loader/webpack', 'babel-loader' ]
+        loaders: [ 'react-hot-loader/webpack', 'babel-loader' ],
       },
       {
-        test: /\.scss$/,
+        test: /\.s?css$/,
         loaders: ['style-loader', 'css-loader', 'sass-loader']
-      }
+      },
+      { test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+        loader: 'file-loader?name=/fonts/[name].[ext]'
+      },
     ]
   },
   resolve: {
