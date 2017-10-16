@@ -13,7 +13,7 @@ dotenv.config();
 
 const app = express();
 const compiler = webpack(webpackConfig);
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8080;
 
 app.use(webpackHotMiddleware(compiler, {
   hot: true,
@@ -29,7 +29,7 @@ app.use(webpackMiddleware(compiler));
 
 
 app.get('/*', (req, res) => {
-  res.status(200).sendFile(path.join(__dirname, '../client/index.html'));
+  res.status(200).sendFile(path.join(__dirname, '../client/public/index.html'));
 });
 
 app.use((req, res, next) => {
