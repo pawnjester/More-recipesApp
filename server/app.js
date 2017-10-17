@@ -3,6 +3,7 @@ import path from 'path';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import recipes from './routes/index';
+import user from './routes/user';
 import dotenv from 'dotenv';
 import database from './models';
 import webpack from 'webpack';
@@ -24,7 +25,8 @@ app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use('/api/recipes', recipes);
+app.use('/api/v1/recipes', recipes);
+app.use('/api/v1/users', user)
 app.use(webpackMiddleware(compiler));
 
 
