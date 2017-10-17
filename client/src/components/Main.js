@@ -7,7 +7,7 @@ import SignUp from './signup/signUpPage';
 class Main extends React.Component {
   render() {
     return (
-      <main>
+    <main>
     <Switch>
       <Route exact path ='/' component= {Home} />
       <Route exact path ='/signup' component= {SignUp} />      

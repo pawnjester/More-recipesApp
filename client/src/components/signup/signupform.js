@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../styles/signup.scss';
+import PropTypes from 'prop-types';
 
 
 class signupform extends React.Component {
@@ -9,7 +9,7 @@ class signupform extends React.Component {
       username: '',
       email: '',
       password: '',
-      password_confirmation: ''
+      passwordConfirmation: ''
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -21,23 +21,13 @@ class signupform extends React.Component {
   }
 
   onSubmit(e) {
-    e.preventdefault();
-    console.log(this.state);
+    e.preventDefault();
+    this.props.userSignupRequest(this.state);
   }
   render() {
     return (
                 <form onSubmit = {this.onSubmit}>
-                    <div className= "form-group">
-                      <input
-                      value = {this.state.email} 
-                      onChange = {this.onChange}  
-                      type="email"
-                       name = 'email'
-                        className="form-control form-control-lg"
-                         placeholder="Email"/>
-                      
-                    </div>
-                    
+                                      
                     <div className= "form-group">
                       <input
                       value = {this.state.username} 
@@ -45,9 +35,19 @@ class signupform extends React.Component {
                        type="text" 
                       name = 'username'
                        className="form-control form-control-lg" 
-                       placeholder="Username"/>
-                      
+                       placeholder="Username"/>                      
                     </div>
+
+                    <div className= "form-group">
+                      <input
+                      value = {this.state.email} 
+                      onChange = {this.onChange}  
+                      type="email"
+                       name = 'email'
+                        className="form-control form-control-lg"
+                         placeholder="Email"/>                      
+                    </div>
+
                     <div className= "form-group">
                       <input 
                       value = {this.state.password} 
@@ -60,20 +60,25 @@ class signupform extends React.Component {
                     </div>
                     <div className= "form-group">
                       <input 
-                      value = {this.state.pass} 
+                      value = {this.state.passwordConfirmation} 
                       onChange = {this.onChange} 
                       type="password" 
-                      name = 'password' 
+                      name = 'passwordConfirmation' 
                       className="form-control form-control-lg" 
                       placeholder="Confirm Password"/>
                       
                     </div>
-                    
-                    <input type="submit" value ="Submit" className="btn btn-outline-light btn-block" />
+                    <input 
+                    type="submit"
+                    value ="Submit"
+                    className="btn btn-outline-light btn-block" />
                   </form>
     )
   }
 }
 
+signupform.propTypes = {
+  userSignupRequest: PropTypes.func.isRequired,
+}
 export default signupform;
 
