@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import classnames from 'classnames';
+import validateInput from './validateInput';
+import TextFieldGroup from '../common/TextFieldGroup';
+import {Redirect} from  'react-router-dom'
 
 class signupform extends React.Component {
   constructor(props) {
@@ -9,7 +12,10 @@ class signupform extends React.Component {
       username: '',
       email: '',
       password: '',
-      passwordConfirmation: ''
+      passwordConfirmation: '',
+      errors: {},
+      isLoading: false,
+      redirect: false
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -20,55 +26,76 @@ class signupform extends React.Component {
     this.setState({ [e.target.name]: e.target.value})
   }
 
+  isValid() {
+    const { errors, isValid } = validateInput(this.state);
+
+    if (!isValid) {
+      this.setState({ errors });
+    }
+
+    return isValid;
+  }
+
   onSubmit(e) {
     e.preventDefault();
-    this.props.userSignupRequest(this.state);
+
+    if (this.isValid()) {
+    this.setState({errors: {}, isLoading: true});
+    
+    this.props.userSignupRequest(this.state).then(
+      () => {this.setState({redirect : true})},
+      ({ data }) => this.setState({errors:data, isLoading: false})
+    );
+    }
   }
   render() {
+    const {errors} = this.state;
+    const { redirect } = this.state;
+
+    if (redirect) {
+       return <Redirect to='/'/>;
+     }
     return (
                 <form onSubmit = {this.onSubmit}>
+
+                  <TextFieldGroup
+                    error = {errors.username || errors.errorname}
+                    onChange = {this.onChange}
+                    value = {this.state.username}
+                    field = "username"
+                    placeholder = "username" 
+                    autofocus required
+                  />
+
+                  <TextFieldGroup
+                    error = {errors.email || errors.errormail}
+                    onChange = {this.onChange}
+                    value = {this.state.email}
+                    field = "email"
+                    placeholder = "email"
+                    
+                  />
+
+                  <TextFieldGroup
+                    error = {errors.password}
+                    onChange = {this.onChange}
+                    value = {this.state.password}
+                    field = "password"
+                    placeholder = "password"
+                    
+                  />
+
+                  <TextFieldGroup
+                    error = {errors.passwordConfirmation}
+                    onChange = {this.onChange}
+                    value = {this.state.passwordConfirmation}
+                    field = "passwordConfirmation"
+                    placeholder = "Confirm Password"
+                  />
                                       
-                    <div className= "form-group">
-                      <input
-                      value = {this.state.username} 
-                      onChange = {this.onChange}                     
-                       type="text" 
-                      name = 'username'
-                       className="form-control form-control-lg" 
-                       placeholder="Username"/>                      
-                    </div>
-
-                    <div className= "form-group">
-                      <input
-                      value = {this.state.email} 
-                      onChange = {this.onChange}  
-                      type="email"
-                       name = 'email'
-                        className="form-control form-control-lg"
-                         placeholder="Email"/>                      
-                    </div>
-
-                    <div className= "form-group">
-                      <input 
-                      value = {this.state.password} 
-                      onChange = {this.onChange} 
-                      type="password" 
-                      name = 'password'
-                       className="form-control form-control-lg"
-                        placeholder="Password"/>
-                      
-                    </div>
-                    <div className= "form-group">
-                      <input 
-                      value = {this.state.passwordConfirmation} 
-                      onChange = {this.onChange} 
-                      type="password" 
-                      name = 'passwordConfirmation' 
-                      className="form-control form-control-lg" 
-                      placeholder="Confirm Password"/>
-                      
-                    </div>
+                    
                     <input 
+                    disabled = {this.state.isLoading}
                     type="submit"
                     value ="Submit"
                     className="btn btn-outline-light btn-block" />

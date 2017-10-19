@@ -18,7 +18,7 @@ class signUpPage extends React.Component {
         <div className ="container">
           <div className= "row justify-content-center">
             <div className='col-lg-6'>
-              <div className= "card bg-danger text-center card-form">
+              <div className= "card bg-white text-center card-form">
                 <div className="card-body">
                   <h3>Sign Up</h3>
                   <p>Please fill this form to register</p>
