@@ -4,12 +4,13 @@ import Signupform from './signupform';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { userSignupRequest } from '../../actions/signupActions';
+import {addFlashMessage} from '../../actions/flashMessages'
 
 
 
 class signUpPage extends React.Component {
   render() {
-    const {userSignupRequest} = this.props;
+    const {userSignupRequest, addFlashMessage} = this.props;
     
     return (
       <header id ="home-section">
@@ -22,9 +23,9 @@ class signUpPage extends React.Component {
                 <div className="card-body">
                   <h3>Sign Up</h3>
                   <p>Please fill this form to register</p>
-                  <Signupform userSignupRequest = {userSignupRequest}/>
+                  <Signupform userSignupRequest = {userSignupRequest} addFlashMessage ={addFlashMessage}/>
                   <div className="card-body ">                    
-                    <p className="card-text text-right text-dark">Have an account? <a href="signin.html"  className="text-white">SIGN IN</a> </p>                    
+                    <p className="card-text text-right text-dark">Have an account? <a href="signin.html"  className="text-danger">SIGN UP</a> </p>                    
                   </div>
                 </div>
               </div>
@@ -44,6 +45,8 @@ class signUpPage extends React.Component {
 
 signUpPage.propTypes = {
   userSignupRequest: PropTypes.func.isRequired,
+  addFlashMessage: PropTypes.func.isRequired
+
 }
 
-export default connect(null, { userSignupRequest})(signUpPage)
+export default connect(null, { userSignupRequest, addFlashMessage})(signUpPage)
