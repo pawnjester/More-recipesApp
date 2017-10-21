@@ -25,10 +25,10 @@ export default class User {
    * @memberof User
    */
   signUp(req, res) {
-    let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     const username = req.body.username.trim().toLowerCase();
     const email = req.body.email.trim().toLowerCase();
-    const password = req.body.password;
+    const { password } = req.body;
 
 
     if (username.length < 6) {
@@ -100,7 +100,7 @@ export default class User {
    * @memberof User
    */
   signIn(req, res) {
-    const username = req.body.username;
+    const { username } = req.body;
 
     if (!username) {
       return res.status(401)

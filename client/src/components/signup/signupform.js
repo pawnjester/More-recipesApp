@@ -54,9 +54,7 @@ class signupform extends React.Component {
     }
   }
   render() {
-    const {errors} = this.state;
-    const { redirect } = this.state;
-
+    const {errors, redirect} = this.state;
     if (redirect) {
        return <Redirect to='/'/>;
      }

@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/index.scss';
+import { Link } from 'react-router-dom';
 
 class NavigationBar extends React.Component {
   render() {
@@ -13,7 +14,7 @@ class NavigationBar extends React.Component {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-            <a href="signin.html" className="nav-link nov" data-toggle="modal" data-target="#Signin" styles = "border-radius: 4px;">Sign In</a>
+            <Link to ="/signin" className="nav-link nov" styles = "border-radius: 4px;">Sign In</Link>
             </li>      
           </ul>    
         </div>  

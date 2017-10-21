@@ -16,6 +16,7 @@ class LoginPage extends React.Component {
               <div className= "card bg-white text-center card-form">
                 <div className="card-body">
                   <h3>Sign In</h3>
+                  <p>Welcome to More-Recipes, Please log in</p>
                   <LoginForm />
                 </div>
               </div>
@@ -32,3 +33,5 @@ class LoginPage extends React.Component {
     )
   }
 }
+
+export default LoginPage;

@@ -14,6 +14,8 @@ export default function validateInput(data) {
 
   if (Validator.isEmpty(data.username)) {
     errors.username = 'This field is required';
+  } else if (data.username.length < 6) {
+    errors.username = 'Username is too short, Must be min. of 6';
   }
 
   if (Validator.isEmpty(data.password)) {
