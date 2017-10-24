@@ -25,10 +25,10 @@ export default class User {
    * @memberof User
    */
   signUp(req, res) {
-    let filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     const username = req.body.username.trim().toLowerCase();
     const email = req.body.email.trim().toLowerCase();
-    const password = req.body.password;
+    const { password } = req.body;
 
 
     if (username.length < 6) {
@@ -100,7 +100,7 @@ export default class User {
    * @memberof User
    */
   signIn(req, res) {
-    const username = req.body.username;
+    const { username } = req.body;
 
     if (!username) {
       return res.status(401)
@@ -126,14 +126,15 @@ export default class User {
         } else if (!userFound.validPassword(req.body.password)) {
           return res.status(401)
             .json({
-              message: 'The password is incorrect'
+              message: 'Invalid credentials'
             });
         }
         const token = userFound.generateAuthToken();
-        res.header('x-auth', token).status(200).json({
+        res.status(200).json({
           statusCode: 200,
           message: `Welcome back, ${userFound.username}`,
-          userFound
+          userFound,
+          token
         });
       })
       .catch((error) => { return res.status(400).json(error) });

@@ -115,7 +115,7 @@ describe('More Recipes', () => {
         password: '123t45874',
       };
       request(app)
-        .post('/api/recipes/signup')
+        .post('/api/users/signup')
         .send(user)
         .expect(400)
         .end((err, res) => {
