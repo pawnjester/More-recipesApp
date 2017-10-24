@@ -1,6 +1,9 @@
 import React from 'react';
 import '../../styles/signup.scss';
 import LoginForm from './loginForm';
+import { connect } from 'react-redux';
+import {login} from '../../actions/loginActions';
+import Proptypes from 'prop-types';
 
 
 
@@ -17,7 +20,7 @@ class LoginPage extends React.Component {
                 <div className="card-body">
                   <h3>Sign In</h3>
                   <p>Welcome to More-Recipes, Please log in</p>
-                  <LoginForm />
+                  <LoginForm login = {login}/>
                 </div>
               </div>
             </div>
@@ -34,4 +37,8 @@ class LoginPage extends React.Component {
   }
 }
 
-export default LoginPage;
+LoginPage.proptypes ={
+  login: Proptypes.func.isRequired
+}
+
+export default connect(null, { login})(LoginPage)

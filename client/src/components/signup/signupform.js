@@ -49,7 +49,8 @@ class signupform extends React.Component {
           text: 'You have signed up successfully. Welcome!'
         })
         this.setState({redirect : true})},
-      ({ data }) => this.setState({errors:data, isLoading: false})
+              (err) => this.setState({ errors: err.response.data, isLoading: false })
+
     );
     }
   }
@@ -101,7 +102,7 @@ class signupform extends React.Component {
                     disabled = {this.state.isLoading}
                     type="submit"
                     value ="Submit"
-                    className="btn btn-outline-light btn-block" />
+                    className="btn btn-outline-danger btn-block text-dark" />
                   </form>
     )
   }

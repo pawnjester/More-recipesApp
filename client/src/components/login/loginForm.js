@@ -41,7 +41,7 @@ class LoginForm extends React.Component {
       this.props.login(this.state).then(
       (res) => {
         this.setState({redirect : true})},
-        ({ data }) => this.setState({errors:data, isLoading: false}),
+        (err) => this.setState({ errors: err.response.data, isLoading: false }),
       );
 
     }
@@ -58,6 +58,7 @@ class LoginForm extends React.Component {
      }
     return (
     <form onSubmit = {this.onSubmit}>
+      {errors.message && <div className ="alert alert-danger">{errors.message}</div>}
       <TextFieldGroup
                     error = {errors.username || errors.errorname}
                     onChange = {this.onChange}
@@ -79,7 +80,7 @@ class LoginForm extends React.Component {
                     disabled = {this.state.isLoading}
                     type="submit"
                     value ="Submit"
-                    className="btn btn-outline-light btn-block" />
+                    className="btn btn-outline-danger btn-block text-dark" />
     </form>
 
     )

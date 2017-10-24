@@ -126,14 +126,15 @@ export default class User {
         } else if (!userFound.validPassword(req.body.password)) {
           return res.status(401)
             .json({
-              message: 'The password is incorrect'
+              message: 'Invalid credentials'
             });
         }
         const token = userFound.generateAuthToken();
-        res.header('x-auth', token).status(200).json({
+        res.status(200).json({
           statusCode: 200,
           message: `Welcome back, ${userFound.username}`,
-          userFound
+          userFound,
+          token
         });
       })
       .catch((error) => { return res.status(400).json(error) });
