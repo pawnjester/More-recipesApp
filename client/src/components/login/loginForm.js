@@ -54,7 +54,7 @@ class LoginForm extends React.Component {
   render() {
   const {errors, redirect} = this.state;
   if (redirect) {
-       return <Redirect to='/'/>;
+       return <Redirect to='/recipe'/>;
      }
     return (
     <form onSubmit = {this.onSubmit}>
