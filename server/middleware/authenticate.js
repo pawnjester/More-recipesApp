@@ -19,7 +19,7 @@ let authenticate =  (req, res, next) => {
   // verifies secret and checks exp
   return jwt.verify(token, process.env.SECRET_KEY, function(err, decoded) {
     if (err) {
-      return res.json({success: false, message: 'Failed to authenticate token'});
+      return res.status(401).json({success: false, message: 'Failed to authenticate token'});
     } 
     else {  
       user.findById(decoded.id).then(user => {
