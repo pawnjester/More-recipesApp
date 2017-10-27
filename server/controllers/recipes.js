@@ -21,7 +21,7 @@ export class Recipes {
   addRecipe(req, res) {
     const name = req.body.name.trim().toLowerCase();
     const Ingredients = req.body.Ingredients.trim().toLowerCase();
-    const method = req.body.method;
+    const { method } = req.body;
     const currentUser = req.currentUser.id;
 
     if (!name) {
