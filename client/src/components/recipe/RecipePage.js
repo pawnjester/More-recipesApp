@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import RecipeForm from './RecipeForm';
-import '../../styles/signup.scss';
 
 
 
 class RecipePage extends Component {
   render() {
     return (
-      <header id ="home-section">
-      <div className= "dark-overlay">
+      
       <div className= "home-inner">
         <div className ="container">
           <div className= "row justify-content-center">
@@ -26,9 +24,7 @@ class RecipePage extends Component {
         </div>
         
       </div>
-      </div>
       
-    </header>
     )
   }
 }

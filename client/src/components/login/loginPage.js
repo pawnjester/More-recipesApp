@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../styles/signup.scss';
 import LoginForm from './loginForm';
 import { connect } from 'react-redux';
 import {login} from '../../actions/loginActions';
@@ -10,8 +9,7 @@ import Proptypes from 'prop-types';
 class LoginPage extends React.Component {
   render() {
     return (
-      <header id ="home-section">
-      <div className= "dark-overlay">
+      
       <div className= "home-inner">
         <div className ="container">
           <div className= "row justify-content-center">
@@ -30,9 +28,7 @@ class LoginPage extends React.Component {
         </div>
         
       </div>
-      </div>
       
-    </header>
     )
   }
 }

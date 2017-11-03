@@ -3,13 +3,13 @@ import { render } from 'react-dom'
 import {BrowserRouter } from 'react-router-dom';
 import App from './components/App';
 import { Provider } from 'react-redux';
-import './styles/index.scss';
 import thunk from 'redux-thunk';
 import {createStore, applyMiddleware, compose} from 'redux';
 import rootReducer from './rootReducer';
 import setAuthorizationToken from './utils/setAuthorizationToken';
 import jwtDecode from 'jwt-decode';
-import {setCurrentUser} from './actions/loginActions'
+import {setCurrentUser} from './actions/loginActions';
+import './styles/home.scss';
 
 const store = createStore(
   rootReducer,

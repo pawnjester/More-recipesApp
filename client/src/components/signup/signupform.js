@@ -43,12 +43,12 @@ class signupform extends React.Component {
     this.setState({errors: {}, isLoading: true});
     
     this.props.userSignupRequest(this.state).then(
-      () => {
-        this.props.addFlashMessage({
-          type: 'success',
-          text: 'You have signed up successfully. Welcome!'
-        })
-        this.setState({redirect : true})},
+      // () => {
+      //   this.props.addFlashMessage({
+      //     type: 'success',
+      //     text: 'You have signed up successfully. Welcome!'
+      //   })
+        this.setState({redirect : true}),
               (err) => this.setState({ errors: err.response.data, isLoading: false })
 
     );
@@ -57,7 +57,7 @@ class signupform extends React.Component {
   render() {
     const {errors, redirect} = this.state;
     if (redirect) {
-       return <Redirect to='/'/>;
+       return <Redirect to='/signin'/>;
      }
     return (
                 <form onSubmit = {this.onSubmit}>
@@ -102,7 +102,8 @@ class signupform extends React.Component {
                     disabled = {this.state.isLoading}
                     type="submit"
                     value ="Submit"
-                    className="btn btn-outline-danger btn-block text-dark" />
+                    className="btn btn-outline-light btn-block text-dark"
+                    style ={{cursor: 'pointer'}} />
                   </form>
     )
   }
@@ -110,7 +111,7 @@ class signupform extends React.Component {
 
 signupform.propTypes = {
   userSignupRequest: PropTypes.func.isRequired,
-  addFlashMessage: PropTypes.func.isRequired
+  // addFlashMessage: PropTypes.func.isRequired
 }
 export default signupform;
 
