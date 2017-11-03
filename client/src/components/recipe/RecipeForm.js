@@ -92,6 +92,17 @@ class RecipeForm extends Component {
                     placeholder = "Method"
                     
                   />
+
+                  <input
+                    error = {errors.recipeImage}
+                    onChange = {this.onChange}
+                    value = {this.state.recipeImage}
+                    field = "recipeImage"
+                    placeholder = "recipeImage"
+                    type="file"
+                    accept="image/*" 
+                    style = {{paddingBottom : 20}}                   
+                  />
                   <input 
                     disabled = {this.state.isLoading}
                     type="submit"

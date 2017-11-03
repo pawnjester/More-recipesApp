@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../styles/index.scss';
+// import '../styles/index.scss';
 import { Link } from 'react-router-dom';
 import  { connect } from 'react-redux';
-import { logout } from '../actions/loginActions'
+import { logout } from '../actions/loginActions';
 
 class NavigationBar extends React.Component {
 
@@ -35,7 +35,7 @@ class NavigationBar extends React.Component {
     );
     return ( 
       <nav className="navbar navbar-expand-sm navbar-dark navbar-inverse bg-dark fixed-top ">
-        <a className="navbar-brand" href="#" styles ="cursor:pointer">More-Recipes</a>
+        <Link className="navbar-brand" to ="/" styles ="cursor:pointer">More-Recipes</Link>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>

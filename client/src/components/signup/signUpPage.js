@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../styles/signup.scss';
 import Signupform from './signupform';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';

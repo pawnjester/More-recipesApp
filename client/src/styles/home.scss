@@ -1,0 +1,139 @@
+ body{
+        
+        }
+      
+      .navbar{
+        border-bottom: #FF4500 3px solid;               
+      }  
+
+      .passlink {
+        text-decoration: none;
+      }  
+
+      #home-section{
+        background: url('../../public/img/food1.jpg') no-repeat;
+        min-height: 700px !important;
+        background-size: cover !important;
+        background-attachment: fixed !important;
+        color: #fff;
+      } 
+      .modal-header {
+        display: block !important;
+        color: #dc3545 !important;
+        opacity: 0.8;
+      }
+      .modal-content {
+        margin-top: 100px !important;
+      }
+
+      .dark-overlay{
+        background-color:rgba(0,0, 0, 0.7);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        min-height: 700px; 
+      } 
+
+      .home-inner{
+        padding-top: 100px; 
+      }
+
+      .card-form{
+        opacity: 0.8;
+      }
+      .left{
+        float: left;
+      }
+      .hov:hover {
+        color: black;
+        font-size:20px;
+        font-weight: 600;
+        background-color: #dc3545;
+      }
+
+      .fa{
+        color: #FF4500;
+        background: #fff;
+        padding: 4px;
+        border-radius: 5px;
+        font-size: 15px;
+      }
+
+      nov {
+        padding: -2px -2px 20px;        
+      }
+
+      .carousel-control-next-icon, .carousel-control-prev-icon {
+        height: 50px;
+        width: 50px;
+        color:red !important;
+        
+      }     
+
+      .picSize {
+        font-size: 80px;
+        color: black;
+        text-shadow: 5px 5px 10px #707070;
+      }
+
+      .pSize {
+        font-size: 30px;
+        color: black;
+        text-shadow: 5px 5px 10px #707070;
+        line-height: -2px;     
+
+      }
+
+      .iconSize {
+        color:red;
+      }
+
+      .nov:hover {
+        background-color: #707070; 
+    color: white;
+    padding: -2px -2px;
+      }
+
+      .dep {
+        border-color: #dc3545;
+        color: black;
+      }
+
+      .dep:hover {
+        background-color: #dc3545;
+      }
+
+      .fa cut{
+        color: #FF4500;
+        background: #FF4500;
+        padding: 4px;
+        border-radius: 5px;
+        font-size: 15px;
+      }
+#explore-head-section{
+    border-bottom: #FF4500 1px solid;
+}
+
+.btn-outline-light:hover {
+    background-color: #dc3545;
+    color:white
+}
+
+.pad {
+  padding-left:0px;
+  padding-right:0px;
+}
+
+/* Extra Small Devices, Phones */ 
+@media only screen and (max-width : 575px) {
+  .size {
+    width: 100% ; 
+    height: 150px;
+    margin: auto;
+}
+}
+
+
+
+
