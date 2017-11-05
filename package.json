@@ -50,6 +50,7 @@
     "pg": "^7.3.0",
     "pg-hstore": "^2.3.2",
     "react": "^16.0.0",
+    "react-bootstrap": "^0.31.5",
     "react-dom": "^16.0.0",
     "react-dropzone": "^4.2.1",
     "react-hot-loader": "^3.0.0",
