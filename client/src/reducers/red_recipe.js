@@ -1,4 +1,4 @@
-import  { RECIPE } from '../actions/types';
+import  { ADD_RECIPE, DELETE_RECIPE } from '../actions/types';
 
 
 const recipe = (action) => {

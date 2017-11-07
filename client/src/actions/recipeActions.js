@@ -9,10 +9,19 @@ export function createRecipe(recipe) {
 
   const action =  {
     //unique identifier
-    type: 'RECIPE',
+    type: 'ADD_RECIPE',
     //Payload
     recipe
         
   }
+  return action;
+}
+
+export function deleteRecipe(recipeId) {
+  const action ={
+    type: 'DELETE_RECIPE',
+    recipeId
+  }
+
   return action;
 }
