@@ -20,26 +20,40 @@ export default class Favorite {
    */
   addFavorite(req, res) {
     const userId = req.currentUser.id;
-    const recipeId = req.params.recipeId;
-    favorite.findOne({
+    const { recipeId } = req.params;
+    if (isNaN(recipeId)) {
+      return res.status(400).json({ statusCode: 400, message: 'User id is not a number' });
+    }
+    recipe.findOne({
       where: {
-        recipeId,
-        userId
+        id: recipeId
       }
     })
-      .then((fav) => {
-        if (fav) {
-          return res.status(201).send({ message: 'recipe is already a favorite' });
+      .then((found) => {
+        if (!found) {
+          return res.status(404).json({ statusCode: 404, message: `Recipe with id: ${recipeId} could not be found` });
         }
-        favorite.create({
-          recipeId,
-          userId,
+
+        favorite.findOne({
+          where: {
+            recipeId,
+            userId
+          }
         })
-          .then((newfav) => {
-            res.status(201).send({ message: `recipe with ${recipeId} has been added`, newfav });
-          })
-          .catch((err) => res.status(400).send({message: 'recipe could not be added to favorite',err:err.parent.detail }));
-        return this;
+          .then((fav) => {
+            if (fav) {
+              return res.status(400).json({ statusCode: 400, message: 'recipe is already a favorite' });
+            }
+            favorite.create({
+              recipeId,
+              userId,
+            })
+              .then((newfav) => {
+                res.status(201).json({ statusCode: 201, message: `recipe with ${recipeId} has been added`, newfav });
+              })
+              .catch(err => res.status(400).json({ statusCode: 400, message: 'recipe could not be added to favorite', err: err.parent.detail }));
+            return this;
+          });
       });
   }
 
@@ -53,13 +67,13 @@ export default class Favorite {
    */
   getAllFavorite(req, res) {
     const currentUser = req.currentUser.id;
-    const userId = req.params.userId;
+    const { userId } = req.params;
 
     if (isNaN(userId)) {
-      return res.status(400).send({ message: 'User id is not a number' });
+      return res.status(400).json({ statusCode: 400, message: 'User id is not a number' });
     }
-    if (currentUser != userId) {
-      return res.status(400).send({ message: 'This is not your favorite' });
+    if (currentUser !== userId) {
+      return res.status(400).json({ statuscode: 400, message: 'This is not your favorite' });
     }
     favorite.findAll({
       where: {
@@ -73,9 +87,9 @@ export default class Favorite {
       }]
     })
       .then((userFavorite) => {
-        res.status(200).send({ message: 'the list of recipes', userFavorite });
+        res.status(200).json({ statusCode: 200, message: 'the list of favorite recipes', userFavorite });
       })
-      .catch(e => res.status(400).send({ message: 'Recipe cannot be retrieved'}));
+      .catch(() => res.status(400).json({ statusCode: 400, message: 'Recipe cannot be retrieved' }));
     return this;
   }
 }

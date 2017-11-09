@@ -1,10 +1,6 @@
-// /* eslint-disable */
-
+import dotenv from 'dotenv';
 import models from '../models';
 
-import dotenv from 'dotenv';
-
-const jwt = require('jsonwebtoken');
 
 dotenv.config();
 
@@ -25,22 +21,38 @@ export default class User {
    * @memberof User
    */
   signUp(req, res) {
+    let email;
+    let username;
+    let password;
     const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    const username = req.body.username.trim().toLowerCase();
-    const email = req.body.email.trim().toLowerCase();
-    const { password } = req.body;
+
+    if (req.body.email) {
+      email = req.body.email.trim();
+    }
+
+    if (req.body.username) {
+      username = req.body.username.trim();
+    }
+
+    if (req.body.password) {
+      password = req.body.password.trim().toLowerCase();
+    }
+
+    if (!req.body.username && !req.body.password && !req.body.email) {
+      return res.status(400).json({ statusCode: 400, error: 'Please fill in the required details' });
+    }
 
 
     if (username.length < 6) {
-      return res.status(400).json({ error: 'You need to fill in your username with a minimum length of 6' });    
+      return res.status(400).json({ statusCode: 400, error: 'You need to fill in your username with a minimum length of 6' });
     } else if (!email) {
-      return res.status(400).json({ error: 'You need to fill in your email' });
+      return res.status(400).json({ statusCode: 400, error: 'You need to fill in your email' });
     } else if (!filter.test(email)) {
-      return res.status(400).json({ message: 'Invalid email address!' });
-
+      return res.status(400).json({ statusCode: 400, error: 'Invalid email address!' });
+    } else if (!req.body.password) {
+      return res.status(400).json({ error: 'you need to fill in the password' });
     } else if (password.length < 6) {
-      return res.status(400).json({ error: 'You need to fill in a password with a minimum length of 6' });
-
+      return res.status(400).json({ statusCode: 400, error: 'You need to fill in a password with a minimum length of 6' });
     }
 
     user
@@ -64,13 +76,10 @@ export default class User {
         let errorname;
         let errormail;
         if (userFound) {
-          if (userFound.email === email) {
-            errormail = 'Email is already in use';
+          if (userFound.username === username || userFound.username === email) {
+            errorname = 'Username or email is already in use';
           }
-          if (userFound.username === username) {
-            errorname = 'Username is already in use';
-          }
-          return res.status(400).json({ statusCode: 400, errorname, errormail });
+          return res.status(400).json({ statusCode: 400, error: errorname || errormail });
         }
         return user.create({
           username,
@@ -81,13 +90,14 @@ export default class User {
             const token = user.generateAuthToken();
             return res.header('x-auth', token).status(201)
               .json({
+                statusCode: 201,
                 message: `Welcome to More-Recipes ${user.username}`,
                 user
               });
           })
-          .catch((e) => { return res.status(400).json(e)});
+          .catch(e => res.status(400).json(e));
       })
-      .catch((error) => { return res.status(400).json(error)});
+      .catch(error => res.status(400).json(error));
     return this;
   }
 
@@ -100,32 +110,50 @@ export default class User {
    * @memberof User
    */
   signIn(req, res) {
-    const { username } = req.body;
+    let email;
+    let username;
 
-    if (!username) {
+    if (req.body.email) {
+      email = req.body.email.trim();
+    }
+
+    if (req.body.username) {
+      username = req.body.username.trim();
+    }
+
+    if (!req.body.email && !req.body.username) {
+      return res.status(400).json({ statusCode: 400, error: 'Email or username cannot be empty' });
+    }
+    if (!req.body.password) {
       return res.status(401)
         .json({
-          status: false,
-          error: 'Username cannot be empty'
-        });
-    } else if (!req.body.password) {
-      return res.status(401)
-        .json({
-          status: false,
+          statusCode: 401,
           error: 'Password field cannot be empty'
         });
     }
     user.findOne({
       where: {
-        username,
+        $or: [
+          {
+            username: {
+              $iLike: username
+            }
+          },
+          {
+            email: {
+              $iLike: email
+            }
+          }
+        ]
       }
     })
       .then((userFound) => {
         if (!userFound) {
-          return res.status(401).json({ message: 'User is not registered' });
+          return res.status(401).json({ statusCode: 401, message: 'User is not registered' });
         } else if (!userFound.validPassword(req.body.password)) {
           return res.status(401)
             .json({
+              statusCode: 401,
               message: 'Invalid credentials'
             });
         }
@@ -137,7 +165,7 @@ export default class User {
           token
         });
       })
-      .catch((error) => { return res.status(400).json(error) });
+      .catch(error => res.status(400).json(error));
     return this;
   }
 
@@ -150,7 +178,7 @@ export default class User {
    * @memberof User
    */
   me(req, res) {
-    const currentUser = req.currentUser;
+    const { currentUser } = req;
     res.status(200).json({ currentUser });
     return this;
   }

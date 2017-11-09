@@ -3,7 +3,6 @@ import User from '../controllers/users';
 import authenticate from '../middleware/authenticate';
 
 
-
 const userController = new User();
 
 const router = express.Router();

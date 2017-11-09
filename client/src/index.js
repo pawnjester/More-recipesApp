@@ -9,6 +9,7 @@ import rootReducer from './rootReducer';
 import setAuthorizationToken from './utils/setAuthorizationToken';
 import jwtDecode from 'jwt-decode';
 import {setCurrentUser} from './actions/loginActions';
+import 'bootstrap/dist/css/bootstrap.css';
 import './styles/home.scss';
 
 const store = createStore(

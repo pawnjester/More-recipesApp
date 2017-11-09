@@ -45,10 +45,10 @@ module.exports = {
       {
         test: /\.js$/,
         include: path.join(__dirname, 'client'),
-        loaders: [ 'react-hot-loader/webpack', 'babel-loader' ],
+        loaders: ['react-hot-loader/webpack', 'babel-loader'],
       },
-       { 
-        test: /\.scss$/,
+      {
+        test: /\.s?css$/,
         use: [{
           loader: 'style-loader' // creates style nodes from JS strings
         }, {
@@ -57,23 +57,24 @@ module.exports = {
           loader: 'sass-loader' // compiles Sass to CSS
         },
         {
-      loader: 'postcss-loader', // Run post css actions
-      options: {
-        plugins: function () { // post css plugins, can be exported to postcss.config.js
-          return [
-            require('precss'),
-            require('autoprefixer')
-          ];
-        }
-      }
-    },]
+          loader: 'postcss-loader', // Run post css actions
+          options: {
+            plugins() { // post css plugins, can be exported to postcss.config.js
+              return [
+                require('precss'),
+                require('autoprefixer')
+              ];
+            }
+          }
+        },]
       },
-      { test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+      {
+        test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
         loader: 'file-loader?name=/fonts/[name].[ext]'
       },
     ]
   },
   resolve: {
-    extensions: [ '.js' ]
+    extensions: ['.js']
   }
 };

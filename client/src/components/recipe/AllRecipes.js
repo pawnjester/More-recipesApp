@@ -43,7 +43,7 @@ class AllRecipes extends Component {
 
     uploadRequest.end((err, resp) => {
       if(err) {
-        alert(err)
+        // alert(err)
         return
       }
 
@@ -70,7 +70,7 @@ class AllRecipes extends Component {
     return (
       <div style ={{paddingTop : 100}}>
         Images Component <br/>
-        <input name="myFile" type="file" onClick={this.upLoadFile.bind(this)} />
+        <button name="myFile" type="file" onClick={this.upLoadFile.bind(this)} />
         <ol>
           { list }
         </ol>
@@ -79,6 +79,11 @@ class AllRecipes extends Component {
       
     )
   }
+
+
+
+
+
 }
 
 export default AllRecipes;
