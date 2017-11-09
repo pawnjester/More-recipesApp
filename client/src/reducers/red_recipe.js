@@ -12,7 +12,7 @@ const recipes = (state = [], action) => {
   let recipes = null;
 
   switch (action.type) {
-    case RECIPE:
+    case ADD_RECIPE:
       // return [
       //   ...state,
       //   Object.assign({}, action.recipe)

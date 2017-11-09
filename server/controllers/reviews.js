@@ -18,17 +18,17 @@ class Reviews {
    * @memberof Reviews
    */
   postReview(req, res) {
-    const data = req.body.data;
-    const recipeId = req.params.recipeId;
+    const { data } = req.body;
+    const { recipeId } = req.params;
     const currentUser = req.currentUser.id;
 
     if (isNaN(recipeId)) {
-      return res.status(400).send({ message: 'Recipe id is not a number' });
+      return res.status(400).json({ statusCode: 400, message: 'Recipe id is not a number' });
     }
     if (!recipeId) {
-      return res.status(400).send({ message: 'You need to put in the recipe ID' });
+      return res.status(400).json({ statusCode: 400, message: 'You need to put in the recipe ID' });
     } else if (!data) {
-      return res.status(400).send({ message: 'You need to put a review!' });
+      return res.status(400).json({ statusCode: 400, message: 'You need to put a review!' });
     }
     review.create({
       data,
@@ -36,9 +36,9 @@ class Reviews {
       userId: currentUser
     })
       .then((reviewed) => {
-        res.status(201).send({ message: 'Your review has been added', reviewed });
+        res.status(201).json({ statusCode: 201, message: 'Your review has been added', reviewed });
       })
-      .catch((e) => { res.status(400).send({ message: 'Error creating review' })});
+      .catch(() => { res.status(400).json({ statusCode: 400, message: 'Error creating review' })});
     return this;
   }
 }

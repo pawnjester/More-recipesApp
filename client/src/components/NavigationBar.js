@@ -1,11 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import '../styles/index.scss';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import  { connect } from 'react-redux';
 import { logout } from '../actions/loginActions';
+import { loginModal } from './Modal/loginModal';
 
 class NavigationBar extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.toggleNavbar = this.toggleNavbar.bind(this);
+    this.state = {
+      collapsed: true,
+    };
+  }
+
+  toggleNavbar() {
+    this.setState({
+      collapsed: !this.state.collapsed
+    });
+  }
+
+  
 
   logout(e) {
     e.preventDefault();
@@ -16,34 +34,33 @@ class NavigationBar extends React.Component {
     const { isAuthenticated } = this.props.auth;
 
     const userLinks = (
-      <ul className="navbar-nav ml-auto">
-            <li className="nav-item">
-            <a href = "#" onClick = {this.logout.bind(this)} className="nav-link nov" styles = "border-radius: 4px;">Log out</a>
-            </li>      
-          </ul>
+      <Nav nav>
+            <NavItem className="nav-item">
+            <Link href = "#" onClick = {this.logout.bind(this)} className="nav-link nov float-right" styles = "border-radius: 4px;">Log out</Link>
+            </NavItem>      
+          </Nav>
       
 
     );
 
     const guestLinks = (
-      <ul className="navbar-nav ml-auto">
-            <li className="nav-item">
-            <Link to ="/signin" className="nav-link nov" styles = "border-radius: 4px;">Sign In</Link>
-            </li>      
-          </ul>
+      <Nav nav>
+            <NavItem className="nav-item">
+            <Link to ="/signin" onClick = {this.toggleNavbar.bind(this)} className="nav-link nov float-right" styles = "cursor:pointer">Sign In</Link>
+            </NavItem>      
+          </Nav>
 
     );
     return ( 
-      <nav className="navbar navbar-expand-sm navbar-dark navbar-inverse bg-dark fixed-top ">
-        <Link className="navbar-brand" to ="/" styles ="cursor:pointer">More-Recipes</Link>
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
+      <Navbar className="navbar navbar-expand-sm navbar-dark navbar-inverse bg-dark fixed-top ">
+        <Link className="navbar-brand" to ="/" styles ="cursor:pointer; color: #fffc !important">More-Recipes</Link>
+        <NavbarToggler  onClick={this.toggleNavbar} className="mr-2 ml-auto" />
+        
 
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <Collapse isOpen={!this.state.collapsed} navbar>
           {isAuthenticated ? userLinks : guestLinks}              
-        </div>  
-      </nav>
+        </Collapse>  
+      </Navbar>
     )
   }
 }
@@ -51,6 +68,12 @@ class NavigationBar extends React.Component {
 NavigationBar.propTypes = {
   auth: PropTypes.object.isRequired,
   logout: PropTypes.func.isRequired
+}
+
+NavbarToggler.propTypes = {
+  type: PropTypes.string,
+  tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
+  // pass in custom element to use
 }
 
 function mapStateToProps(state) {

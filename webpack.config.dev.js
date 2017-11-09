@@ -48,7 +48,7 @@ module.exports = {
         loaders: [ 'react-hot-loader/webpack', 'babel-loader' ],
       },
        { 
-        test: /\.scss$/,
+        test: /\.s?css$/,
         use: [{
           loader: 'style-loader' // creates style nodes from JS strings
         }, {
