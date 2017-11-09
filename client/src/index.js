@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import {createStore, applyMiddleware, compose} from 'redux';
 import rootReducer from './rootReducer';
-import setAuthorizationToken from './utils/setAuthorizationToken';
+import setAuthorizationToken from './utils/setAuthorizationtoken';
 import jwtDecode from 'jwt-decode';
 import {setCurrentUser} from './actions/loginActions';
 import 'bootstrap/dist/css/bootstrap.css';
