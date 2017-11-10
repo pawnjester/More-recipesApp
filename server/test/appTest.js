@@ -49,7 +49,7 @@ describe('More Recipes', () => {
         password: '123t45874',
       };
       request(app)
-        .post('/api/recipes/signup')
+        .post('/api/v1/users/signup')
         .send(user)
         .expect(201)
         .end((err, res) => {
@@ -59,7 +59,7 @@ describe('More Recipes', () => {
           expect(res.body.user.id).toExist;
           expect(res.body.user.username).toBe('fivoetry');
           expect(res.body.user.email).toBe('fioveyry@gmail.com');
-          expect(res.header['x-auth']).toExist;
+          expect(res.token).toExist;
 
           done();
         });
@@ -72,7 +72,7 @@ describe('More Recipes', () => {
         password: '123t45874',
       };
       request(app)
-        .post('/api/recipes/signup')
+        .post('/api/v1/users/signup')
         .send(user)
         .expect(400)
         .end((err, res) => {
@@ -93,7 +93,7 @@ describe('More Recipes', () => {
         password: '123t45874',
       };
       request(app)
-        .post('/api/recipes/signup')
+        .post('/api/v1/users/signup')
         .send(user)
         .expect(400)
         .end((err, res) => {
@@ -115,7 +115,7 @@ describe('More Recipes', () => {
         password: '123t45874',
       };
       request(app)
-        .post('/api/users/signup')
+        .post('/api/v1/users/signup')
         .send(user)
         .expect(400)
         .end((err, res) => {
@@ -137,7 +137,7 @@ describe('More Recipes', () => {
         password: '123t45874',
       };
       request(app)
-        .post('/api/recipes/signup')
+        .post('/api/v1/users/signup')
         .send(user)
         .expect(400)
         .end((err, res) => {
@@ -147,7 +147,7 @@ describe('More Recipes', () => {
           expect(res.body.id).toNotExist;
           expect(res.body.username).toNotExist;
           expect(res.body.email).toNotExist;
-          expect(res.body.message).toEqual('Invalid email address!');
+          expect(res.body.error).toEqual('Invalid email address!');
           done();
         });
     });
@@ -159,7 +159,7 @@ describe('More Recipes', () => {
         password: '',
       };
       request(app)
-        .post('/api/recipes/signup')
+        .post('/api/v1/users/signup')
         .send(user)
         .expect(400)
         .end((err, res) => {
@@ -169,7 +169,7 @@ describe('More Recipes', () => {
           expect(res.body.id).toNotExist;
           expect(res.body.username).toNotExist;
           expect(res.body.email).toNotExist;
-          expect(res.body.error).toEqual('You need to fill in a password with a minimum length of 6');
+          expect(res.body.error).toEqual('You need to fill in the password');
           done();
         });
     });
@@ -181,20 +181,20 @@ describe('More Recipes', () => {
         password: '123t45874',
       };
       request(app)
-        .post('/api/recipes/signin')
+        .post('/api/v1/users/signin')
         .send(user)
         .expect(200)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
-          token = res.header['x-auth'];
+          token = res.token;
           console.log(token);
           expect(res.body.userFound.id).toExist;
           expect(res.body.userFound.username).toExist;
           expect(res.body.userFound.email).toExist;
           // expect(res.body.user.message).toEqual('You need to fill in your password');
-          expect(res.header['x-auth']).toExist;
+          expect(token).toExist;
           done();
         });
     });
@@ -205,17 +205,17 @@ describe('More Recipes', () => {
         password: '123t45874',
       };
       request(app)
-        .post('/api/recipes/signin')
+        .post('/api/v1/users/signin')
         .send(user)
-        .expect(401)
+        .expect(400)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
           expect(res.body.id).toNotExist;
           expect(res.body.username).toNotExist;
-          expect(res.body.error).toEqual('Username cannot be empty');
-          expect(res.header['x-auth']).toNotExist;
+          expect(res.body.error).toEqual('Email or username cannot be empty');
+          expect(res.token).toNotExist;
           done();
         });
     });
@@ -226,7 +226,7 @@ describe('More Recipes', () => {
         password: '',
       };
       request(app)
-        .post('/api/recipes/signin')
+        .post('/api/v1/users/signin')
         .send(user)
         .expect(401)
         .end((err, res) => {
@@ -236,7 +236,7 @@ describe('More Recipes', () => {
           expect(res.body.id).toNotExist;
           expect(res.body.username).toNotExist;
           expect(res.body.error).toEqual('Password field cannot be empty');
-          expect(res.header['x-auth']).toNotExist;
+          expect(res.token).toNotExist;
           done();
         });
     });
@@ -247,7 +247,7 @@ describe('More Recipes', () => {
         password: '123t45874',
       };
       request(app)
-        .post('/api/recipes/signin')
+        .post('/api/v1/users/signin')
         .send(user)
         .expect(401)
         .end((err, res) => {
@@ -257,7 +257,7 @@ describe('More Recipes', () => {
           expect(res.body.id).toNotExist;
           expect(res.body.username).toNotExist;
           expect(res.body.message).toEqual('User is not registered');
-          expect(res.header['x-auth']).toNotExist;
+          expect(res.token).toNotExist;
           done();
         });
     });
@@ -268,7 +268,7 @@ describe('More Recipes', () => {
         password: '123t45874',
       };
       request(app)
-        .post('/api/recipes/signin')
+        .post('/api/v1/users/signin')
         .send(user)
         .expect(200)
         .end((err, res) => {
@@ -278,7 +278,7 @@ describe('More Recipes', () => {
           expect(res.body.userFound.id).toExist;
           expect(res.body.userFound.username).toBe('fivoetry');
           expect(res.body.userFound.password).toNotExist;
-          expect(res.header['x-auth']).toExist;
+          expect(res.token).toExist;
           done();
         });
     });
@@ -286,7 +286,7 @@ describe('More Recipes', () => {
   describe('test of authenticated routes (recipes)', () => {
     it('it should return a 401 when creating a recipe without authentication', (done) => {
       request(app)
-        .post('/api/recipes')
+        .post('/api/v1/recipes')
         .send({
           name: 'Rice',
           Ingredients: 'Rice flour',
@@ -304,7 +304,7 @@ describe('More Recipes', () => {
 
     it('it should return a 201 when creating a recipe', (done) => {
       request(app)
-        .post('/api/recipes')
+        .post('/api/v1/recipes')
         .send({
           name: 'Rice',
           Ingredients: 'Rice flour',
@@ -323,7 +323,7 @@ describe('More Recipes', () => {
 
     it('it should return a 201 when modifying a recipe', (done) => {
       request(app)
-        .put('/api/recipes/1')
+        .put('/api/v1/recipes/1')
         .send({
           name: 'Boli',
           Ingredients: 'Rice maize',

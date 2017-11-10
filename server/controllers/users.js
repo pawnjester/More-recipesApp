@@ -50,7 +50,7 @@ export default class User {
     } else if (!filter.test(email)) {
       return res.status(400).json({ statusCode: 400, error: 'Invalid email address!' });
     } else if (!req.body.password) {
-      return res.status(400).json({ error: 'you need to fill in the password' });
+      return res.status(400).json({ error: 'You need to fill in the password' });
     } else if (password.length < 6) {
       return res.status(400).json({ statusCode: 400, error: 'You need to fill in a password with a minimum length of 6' });
     }
