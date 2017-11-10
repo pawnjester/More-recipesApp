@@ -22,23 +22,23 @@ export class Recipes {
     let name;
     let Ingredients;
 
-    if (name) {
+    if (req.body.name) {
       name = req.body.name.trim().toLowerCase();
     }
-    if (Ingredients) {
+    if (req.body.Ingredients) {
       Ingredients = req.body.Ingredients.trim().toLowerCase();
     }
     const { method } = req.body;
     const currentUser = req.currentUser.id;
 
-    if (!Ingredients && !name && !method) {
-      return res.status(400).json({ statusCode: 400, error: 'Please enter the required details (name, Ingredients and method)' });
-    } else if (!name) {
+    if (!name) {
       return res.status(400).json({ statusCode: 400, error: 'You need to fill in a name of the recipe' });
     } else if (!Ingredients) {
       return res.status(400).json({ statusCode: 400, error: 'You need to fill in the Ingredients' });
     } else if (!method) {
       return res.status(400).json({ statusCode: 400, error: 'You need to fill in the method of preparation ' });
+    } else if (!Ingredients && !name && !method) {
+      return res.status(400).json({ statusCode: 400, error: 'Please enter the required details (name, Ingredients and method)' });
     }
 
     recipe.create({
