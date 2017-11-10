@@ -72,7 +72,7 @@ export default class Favorite {
     if (isNaN(userId)) {
       return res.status(400).json({ statusCode: 400, message: 'User id is not a number' });
     }
-    if (currentUser !== userId) {
+    if (currentUser != userId) {
       return res.status(400).json({ statuscode: 400, message: 'This is not your favorite' });
     }
     favorite.findAll({

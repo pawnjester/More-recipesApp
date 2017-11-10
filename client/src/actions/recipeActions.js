@@ -17,10 +17,10 @@ export function createRecipe(recipe) {
   return action;
 }
 
-export function deleteRecipe(recipeId) {
+export function deleteRecipe(id) {
   const action ={
     type: 'DELETE_RECIPE',
-    recipeId
+    id
   }
 
   return action;
