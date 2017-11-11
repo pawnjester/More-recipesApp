@@ -23,7 +23,7 @@ router.get('/:recipeId', recipeController.getRecipeById);
 router.post('/:recipeId/reviews', authenticate, reviewController.postReview);
 router.post('/:recipeId/favorite', authenticate, favoriteController.addFavorite);
 router.get('/:userId/favorite', authenticate, favoriteController.getAllFavorite);
-router.post('/:recipeId/upvote', authenticate, voteController.upvote);
-router.post('/:recipeId/downvote', authenticate, voteController.downvote);
+router.post('/:recipeId/vote', authenticate, voteController.votes);
+// router.post('/:recipeId/downvote', authenticate, voteController.downvote);
 
 export default router;

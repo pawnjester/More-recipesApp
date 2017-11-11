@@ -41,6 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     const access = 'auth';
     const token = jwt.sign({id: user.id,access},
      process.env.SECRET_KEY,
+     //secret key to expire in a week
      { expiresIn: Math.floor(new Date().getTime()/1000) + 7*24*60*60 }).toString();    
     return token;
 

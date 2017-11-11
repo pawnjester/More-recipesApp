@@ -19,155 +19,145 @@ export default class Vote {
    * @returns {object} Class instance
    * @memberof Vote
    */
-  upvote(req, res) {
+  votes(req, res) {
     const userId = req.currentUser.id;
     const { recipeId } = req.params;
-    downvotes.findOne({
-      where: {
-        $and: [
-          { userId },
-          { recipeId }
-        ]
-      }
-    })
-      .then((downFound) => {
-        if (downFound) {
-          downvotes.destroy({
-            where: {
-              $and: [
-                { userId },
-                { recipeId }
-              ]
-            }
+    if (req.query.vote === 'upvote') {
+      downvotes.findOne({
+        where: {
+          $and: [
+            { userId },
+            { recipeId }
+          ]
+        }
+      })
+        .then((downFound) => {
+          if (downFound) {
+            downvotes.destroy({
+              where: {
+                $and: [
+                  { userId },
+                  { recipeId }
+                ]
+              }
+            })
+              .then(() => {
+                recipe.findOne({
+                  where: {
+                    id: recipeId
+                  }
+                })
+                  .then((dec) => {
+                    dec.decrement('downVotes');
+                  });
+              });
+          }
+        });
+  
+      upvotes.findOne({
+        where: {
+          $and: [
+            { userId },
+            { recipeId }
+          ]
+        }
+      })
+        .then((voteFound) => {
+          if (voteFound) {
+            return res.status(400).json({
+              statusCode: 400,
+              message: `This recipe with id: ${recipeId} has already been upvoted`
+            });
+          }
+  
+          upvotes.create({
+            userId,
+            recipeId
           })
-            .then(() => {
+            .then((upvote) => {
               recipe.findOne({
                 where: {
                   id: recipeId
                 }
               })
-                .then((dec) => {
-                  dec.decrement('downVotes');
+                .then((recipeVote) => {
+                  recipeVote.increment('upVotes');
+                  res.status(201).json({
+                    statusCode: 201,
+                    message: `This recipe with id: ${recipeId} just Upvoted`
+                  });
                 });
             });
+        });
+    } else if (req.query.vote === 'downvote') {
+      upvotes.findOne({
+        where: {
+          $and: [
+            { userId },
+            { recipeId }
+          ]
         }
-      });
-
-    upvotes.findOne({
-      where: {
-        $and: [
-          { userId },
-          { recipeId }
-        ]
-      }
-    })
-      .then((voteFound) => {
-        if (voteFound) {
-          return res.status(400).json({
-            statusCode: 400,
-            message: `This recipe with id: ${recipeId} has already been upvoted`
-          });
-        }
-
-        upvotes.create({
-          userId,
-          recipeId
-        })
-          .then((upvote) => {
-            recipe.findOne({
+      })
+        .then((upFound) => {
+          if (upFound) {
+            upvotes.destroy({
               where: {
-                id: recipeId
+                $and: [
+                  { userId },
+                  { recipeId }
+                ]
               }
             })
-              .then((recipeVote) => {
-                recipeVote.increment('upVotes');
-                res.status(201).json({
-                  statusCode: 201,
-                  message: `This recipe with id: ${recipeId} just Upvoted`
-                });
+              .then(() => {
+                recipe.findOne({
+                  where: {
+                    id: recipeId
+                  }
+                })
+                  .then((dec) => {
+                    dec.decrement('upVotes');
+                  });
               });
-          });
-      });
-    return this;
-  }
-
-  /**
-   * down-vote a recipe
-   *
-   * @param {object} req - HTTP Request
-   * @param {object} res - HTTP Response
-   * @returns {object} Class instance
-   * @memberof Vote
-   */
-  downvote(req, res) {
-    const userId = req.currentUser.id;
-    const { recipeId } = req.params;
-    upvotes.findOne({
-      where: {
-        $and: [
-          { userId },
-          { recipeId }
-        ]
-      }
-    })
-      .then((upFound) => {
-        if (upFound) {
-          upvotes.destroy({
-            where: {
-              $and: [
-                { userId },
-                { recipeId }
-              ]
-            }
+          }
+        });
+  
+      downvotes.findOne({
+        where: {
+          $and: [
+            { userId },
+            { recipeId }
+          ]
+        }
+      })
+        .then((voteFound) => {
+          if (voteFound) {
+            return res.status(400).json({
+              statusCode: 400,
+              message: `This recipe with id: ${recipeId} has already been downvoted`
+            });
+          }
+  
+          downvotes.create({
+            userId,
+            recipeId
           })
-            .then(() => {
+            .then((downvote) => {
               recipe.findOne({
                 where: {
                   id: recipeId
                 }
               })
-                .then((dec) => {
-                  dec.decrement('upVotes');
+                .then((recipeVote) => {
+                  recipeVote.increment('downVotes');
+                  res.status(201).json({
+                    statusCode: 201,
+                    message: `This recipe with id: ${recipeId} just downvoted`
+                  });
                 });
             });
-        }
-      });
-
-    downvotes.findOne({
-      where: {
-        $and: [
-          { userId },
-          { recipeId }
-        ]
-      }
-    })
-      .then((voteFound) => {
-        if (voteFound) {
-          return res.status(400).json({
-            statusCode: 400,
-            message: `This recipe with id: ${recipeId} has already been downvoted`
-          });
-        }
-
-        downvotes.create({
-          userId,
-          recipeId
-        })
-          .then((downvote) => {
-            recipe.findOne({
-              where: {
-                id: recipeId
-              }
-            })
-              .then((recipeVote) => {
-                recipeVote.increment('downVotes');
-                res.status(201).json({
-                  statusCode: 201,
-                  message: `This recipe with id: ${recipeId} just downvoted`
-                });
-              });
-          });
-      });
+        });
+    }
     return this;
   }
 }
+

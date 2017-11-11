@@ -10,7 +10,7 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
       },
-      Ingredients: {
+      ingredients: {
         type: Sequelize.STRING,
       },
       method: {

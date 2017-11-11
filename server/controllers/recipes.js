@@ -20,30 +20,30 @@ export class Recipes {
    */
   addRecipe(req, res) {
     let name;
-    let Ingredients;
+    let ingredients;
 
     if (req.body.name) {
       name = req.body.name.trim().toLowerCase();
     }
-    if (req.body.Ingredients) {
-      Ingredients = req.body.Ingredients.trim().toLowerCase();
+    if (req.body.ingredients) {
+      ingredients = req.body.ingredients.trim().toLowerCase();
     }
     const { method } = req.body;
     const currentUser = req.currentUser.id;
 
     if (!name) {
       return res.status(400).json({ statusCode: 400, error: 'You need to fill in a name of the recipe' });
-    } else if (!Ingredients) {
+    } else if (!ingredients) {
       return res.status(400).json({ statusCode: 400, error: 'You need to fill in the Ingredients' });
     } else if (!method) {
       return res.status(400).json({ statusCode: 400, error: 'You need to fill in the method of preparation ' });
-    } else if (!Ingredients && !name && !method) {
+    } else if (!ingredients && !name && !method) {
       return res.status(400).json({ statusCode: 400, error: 'Please enter the required details (name, Ingredients and method)' });
     }
 
     recipe.create({
       name,
-      Ingredients,
+      ingredients,
       method,
       userId: currentUser,
       upVotes: req.body.upVotes,
@@ -52,8 +52,8 @@ export class Recipes {
       .then((recipe) => {
         res.status(201).json({ statusCode: 201, message: 'Recipe has been created', recipe });
       })
-      .catch(() => res.status(400).json({
-        statusCode: 400,
+      .catch(() => res.status(500).json({
+        statusCode: 500,
         success: false,
         message: 'Recipe cannot be created'
       }));
@@ -84,13 +84,13 @@ export class Recipes {
         }
         recipe.update({
           name: req.body.name || recipe.name,
-          Ingredients: req.body.Ingredients || recipe.Ingredients,
+          ingredients: req.body.ingredients || recipe.ingredients,
           method: req.body.method || recipe.method,
         })
           .then(() => res.status(201).json({ statusCode: 201, recipe }))
-          .catch(error => res.status(400).json(error));
+          .catch(error => res.status(500).json(error));
       })
-      .catch(error => res.status(400).json(error));
+      .catch(error => res.status(500).json(error));
     return this;
   }
 
@@ -123,7 +123,7 @@ export class Recipes {
           })
           .then(() => res.status(200).json({ statusCode: 200, message: 'This recipe has been deleted' }));
       })
-      .catch(() => res.status(400).json({ statusCode: 400, message: 'Error deleting recipe' }));
+      .catch(() => res.status(500).json({ statusCode: 500, message: 'Error deleting recipe' }));
     return this;
   }
 
@@ -154,15 +154,16 @@ export class Recipes {
               recipe: orderedRecipe
             });
           })
-          .catch(() => res.status(400).json({ statusCode: 400, message: 'Error sorting recipes' }));
+          .catch(() => res.status(500).json({ statusCode: 500, message: 'Error sorting recipes' }));
       }
-    } else if (req.query.search) {
+    } else if (req.query.search && req.query.limit) {
+      const limitValue = req.query.limit || 5;
       const search = req.query.search.split(' ');
 
-      let ingredientsResp= search.map((value) => {
-        return { Ingredients: { $iLike: `%${value}%` } };
+      const ingredientsResp = search.map((value) => {
+        return { ingredients: { $iLike: `%${value}%` } };
       });
-      let respName= search.map((value) => {
+      const respName = search.map((value) => {
         return { name: { $iLike: `%${value}%` } };
       });
 
@@ -172,8 +173,9 @@ export class Recipes {
           ingredientsResp.concat(respName)
         },
         order: [
-          ['id', 'DESC']
-        ]
+          ['id', 'ASC']
+        ],
+        limit: limitValue,
       })
         .then((searchResults) => {
           if (searchResults.length <= 0) {
@@ -182,14 +184,22 @@ export class Recipes {
           return res.status(200).json({ statusCode: 200, message: 'The results found', searchResults });
         });
     } else {
-      recipe.findAll()
-        .then((recipe) => {
-          if (recipe.length === 0) {
+      const limitValue = req.query.limit || 5;
+      const pageValue = req.query.next - 1 || 0;
+
+      recipe.findAndCountAll({
+        limit: limitValue,
+        offset: pageValue * limitValue
+      })
+        .then((recipes) => {
+          if (recipes.length === 0) {
             return res.status(404).json({});
           }
-          res.status(200).json({ statusCode: 200, message: 'Welcome to More-Recipes, these are the recipes available', recipe });
+          res.status(200).json({
+            statusCode: 200, message: 'Welcome to More-Recipes, these are the recipes available', page: pageValue + 1, totalCount: recipes.count, pageCount: Math.ceil(recipes.count / limitValue), pageSize: parseInt(recipes.rows.length, 10), recipes: recipes.rows,
+          });
         })
-        .catch(e => res.status(400).json(e));
+        .catch(e => res.status(500).json(console.log(e)));
     }
 
     return this;
