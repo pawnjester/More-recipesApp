@@ -10,9 +10,39 @@ import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfig from '../webpack.config.dev';
+import swaggerJSDoc from 'swagger-jsdoc';
+
 dotenv.config();
 
 const app = express();
+// swagger definition
+let swaggerDefinition = {
+  info: {
+    title: 'More Recipe API',
+    version: '1.0.0',
+    description: 'More Recipes API documention with swagger',
+  },
+  host: 'localhost:3000',
+  basePath: '/',
+};
+
+// options for the swagger docs
+let options = {
+  // import swaggerDefinitions
+  swaggerDefinition: swaggerDefinition,
+  // path to the API docs
+  apis: ['./server/doc.js'],
+};
+
+// initialize swagger-jsdoc
+let swaggerSpec = swaggerJSDoc(options);
+
+app.get('/swagger.json', function(req, res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+
+app.use(express.static('./server/swagger'));
 const compiler = webpack(webpackConfig);
 const port = process.env.PORT || 3000;
 
@@ -26,7 +56,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/api/v1/recipes', recipes);
-app.use('/api/v1/users', user)
+app.use('/api/v1/users', user);
 app.use(webpackMiddleware(compiler));
 
 
