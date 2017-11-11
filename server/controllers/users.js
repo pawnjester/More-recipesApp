@@ -25,6 +25,7 @@ export default class User {
     let username;
     let password;
     const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    const whiteSpace = /\s/;
 
     if (req.body.email) {
       email = req.body.email.trim();
@@ -35,7 +36,7 @@ export default class User {
     }
 
     if (req.body.password) {
-      password = req.body.password.trim().toLowerCase();
+      password = req.body.password;
     }
 
     if (!req.body.username && !req.body.password && !req.body.email) {
@@ -51,6 +52,8 @@ export default class User {
       return res.status(400).json({ statusCode: 400, error: 'Invalid email address!' });
     } else if (!req.body.password) {
       return res.status(400).json({ error: 'You need to fill in the password' });
+    } else if (whiteSpace.test(password)) {
+      return res.status(400).json({ statusCode: 400, error: 'Password cannot contain spaces' });
     } else if (password.length < 6) {
       return res.status(400).json({ statusCode: 400, error: 'You need to fill in a password with a minimum length of 6' });
     }
@@ -61,12 +64,12 @@ export default class User {
           $or: [
             {
               username: {
-                $iLike: username
+                $like: username
               }
             },
             {
               email: {
-                $iLike: email
+                $like: email
               }
             }
           ]
@@ -74,12 +77,9 @@ export default class User {
       })
       .then((userFound) => {
         let errorname;
-        let errormail;
         if (userFound) {
-          if (userFound.username === username || userFound.username === email) {
-            errorname = 'Username or email is already in use';
-          }
-          return res.status(400).json({ statusCode: 400, error: errorname || errormail });
+          errorname = 'Username or email is already in use';
+          return res.status(400).json({ statusCode: 400, error: errorname });
         }
         return user.create({
           username,
@@ -87,8 +87,7 @@ export default class User {
           password
         })
           .then((user) => {
-            const token = user.generateAuthToken();
-            return res.header('x-auth', token).status(201)
+            return res.status(201)
               .json({
                 statusCode: 201,
                 message: `Welcome to More-Recipes ${user.username}`,

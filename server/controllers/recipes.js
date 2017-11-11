@@ -25,8 +25,8 @@ export class Recipes {
     if (req.body.name) {
       name = req.body.name.trim().toLowerCase();
     }
-    if (req.body.Ingredients) {
-      Ingredients = req.body.Ingredients.trim().toLowerCase();
+    if (req.body.ingredients) {
+      Ingredients = req.body.ingredients.trim().toLowerCase();
     }
     const { method } = req.body;
     const currentUser = req.currentUser.id;
@@ -52,8 +52,8 @@ export class Recipes {
       .then((recipe) => {
         res.status(201).json({ statusCode: 201, message: 'Recipe has been created', recipe });
       })
-      .catch(() => res.status(400).json({
-        statusCode: 400,
+      .catch(() => res.status(500).json({
+        statusCode: 500,
         success: false,
         message: 'Recipe cannot be created'
       }));
@@ -84,13 +84,13 @@ export class Recipes {
         }
         recipe.update({
           name: req.body.name || recipe.name,
-          Ingredients: req.body.Ingredients || recipe.Ingredients,
+          Ingredients: req.body.ingredients || recipe.Ingredients,
           method: req.body.method || recipe.method,
         })
           .then(() => res.status(201).json({ statusCode: 201, recipe }))
-          .catch(error => res.status(400).json(error));
+          .catch(error => res.status(500).json(error));
       })
-      .catch(error => res.status(400).json(error));
+      .catch(error => res.status(500).json(error));
     return this;
   }
 
@@ -123,7 +123,7 @@ export class Recipes {
           })
           .then(() => res.status(200).json({ statusCode: 200, message: 'This recipe has been deleted' }));
       })
-      .catch(() => res.status(400).json({ statusCode: 400, message: 'Error deleting recipe' }));
+      .catch(() => res.status(500).json({ statusCode: 500, message: 'Error deleting recipe' }));
     return this;
   }
 
@@ -154,15 +154,15 @@ export class Recipes {
               recipe: orderedRecipe
             });
           })
-          .catch(() => res.status(400).json({ statusCode: 400, message: 'Error sorting recipes' }));
+          .catch(() => res.status(500).json({ statusCode: 500, message: 'Error sorting recipes' }));
       }
     } else if (req.query.search) {
       const search = req.query.search.split(' ');
 
-      let ingredientsResp= search.map((value) => {
-        return { Ingredients: { $iLike: `%${value}%` } };
+      const ingredientsResp = search.map((value) => {
+        return { ingredients: { $iLike: `%${value}%` } };
       });
-      let respName= search.map((value) => {
+      const respName = search.map((value) => {
         return { name: { $iLike: `%${value}%` } };
       });
 
@@ -189,7 +189,7 @@ export class Recipes {
           }
           res.status(200).json({ statusCode: 200, message: 'Welcome to More-Recipes, these are the recipes available', recipe });
         })
-        .catch(e => res.status(400).json(e));
+        .catch(e => res.status(500).json(e));
     }
 
     return this;

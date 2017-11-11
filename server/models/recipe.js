@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    Ingredients: {
+    ingredients: {
       type: DataTypes.STRING,
     },
     method: {

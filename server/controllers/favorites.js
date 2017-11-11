@@ -51,7 +51,7 @@ export default class Favorite {
               .then((newfav) => {
                 res.status(201).json({ statusCode: 201, message: `recipe with ${recipeId} has been added`, newfav });
               })
-              .catch(err => res.status(400).json({ statusCode: 400, message: 'recipe could not be added to favorite', err: err.parent.detail }));
+              .catch(err => res.status(400).json({ statusCode: 500, message: 'recipe could not be added to favorite', err: err.parent.detail }));
             return this;
           });
       });
@@ -89,7 +89,7 @@ export default class Favorite {
       .then((userFavorite) => {
         res.status(200).json({ statusCode: 200, message: 'the list of favorite recipes', userFavorite });
       })
-      .catch(() => res.status(400).json({ statusCode: 400, message: 'Recipe cannot be retrieved' }));
+      .catch(() => res.status(500).json({ statusCode: 500, message: 'Recipe cannot be retrieved' }));
     return this;
   }
 }
