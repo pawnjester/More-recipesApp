@@ -58,6 +58,7 @@ class AllRecipes extends Component {
       })
     })
   }
+  
   render() {
     const list = this.state.images.map((image, i) => {
       return (

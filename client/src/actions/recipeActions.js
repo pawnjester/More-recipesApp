@@ -6,9 +6,7 @@ import axios from 'axios';
 
 
   const addRecipe = (recipe) =>  {
-    //unique identifier
     type: 'ADD_RECIPE',
-    //Payload
     recipe
   }
  

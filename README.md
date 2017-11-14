@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/pawnjester/More-recipesApp.svg?branch=develop)](https://travis-ci.org/pawnjester/More-recipesApp)
 [![Coverage Status](https://coveralls.io/repos/github/pawnjester/More-recipesApp/badge.svg?branch=develop)](https://coveralls.io/github/pawnjester/More-recipesApp?branch=develop)
+[![Maintainability](https://api.codeclimate.com/v1/badges/bf0624ea738733e9d0a0/maintainability)](https://codeclimate.com/github/pawnjester/More-recipesApp/maintainability)
 
 # More-recipesApp
 This is a full stack application that enables users share exciting recipes, it also comes with other amazing features.
