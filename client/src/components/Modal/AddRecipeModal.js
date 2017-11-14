@@ -2,39 +2,59 @@ import React, { Component } from 'react';
 import { Button,Container, Modal, 
     ModalHeader, ModalBody, ModalFooter, Form, Label, Input, FormGroup, Col, FormText } from 'reactstrap';
 
-    const AddRecipeModal = (props) => {
+class AddRecipeModal extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            name: '',
+
+        }
+        
+        this.onNameChange = this.onNameChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
+
+    onNameChange(event) {
+        this.setState({ [event.target.name]: event.target.value})
+    }
+
+    onSubmit() {
+        alert(`Saving ${this.state.name}`)
+    }
+      render() {
         return (
-        <Modal isOpen={props.isOpen} toggle={props.toggle}>
-              <ModalHeader toggle={props.toggle}>Add A recipe</ModalHeader>
+            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
+              <ModalHeader toggle={this.props.toggle}>Add A recipe</ModalHeader>
               <ModalBody>
                 <Form>
                 <FormGroup row>
                 <Label for="exampleEmail" sm={4}>Name</Label>
                 <Col sm={8}>
-                  <Input type="text" name="text" id="exampleEmail" placeholder="Enter the name" />
+                  <Input 
+                  type="text" 
+                  name= "name" 
+                  id="exampleEmail" 
+                  value = {this.state.name}
+                  onChange = {this.onNameChange}
+                  placeholder="Enter the name" />
                 </Col>
               </FormGroup>
-              <FormGroup row>
-                <Label for="examplePassword" sm={4}>Ingredients</Label>
-                <Col sm={8}>
-                  <Input type="text" name="text" id="examplePassword" placeholder="Enter the ingredients"/>
-                </Col>
-              </FormGroup>
-              <FormGroup row>
-              <Label for="exampleFile" sm={2}>File</Label>
-              <Col sm={10}>
-                <Input type="file" name="file" id="exampleFile" />
-              </Col>
-            </FormGroup>
+              
               <FormGroup check row>
                 <Col sm={{ size: 10, offset: 2 }}>
-                  <Button  styles = "cursor:pointer">Add a recipe</Button>
+                  <Button  styles = "cursor:pointer" onClick= {this.onSubmit}>Add a recipe</Button>
                 </Col>
               </FormGroup>
                 </Form>
               </ModalBody>
             </Modal>
-            )
+        )
       }
+    }
+    
 
-      export default AddRecipeModal;
+    
+
+export default AddRecipeModal;
