@@ -1,25 +1,72 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Button, Container, Modal, 
+  ModalHeader, ModalBody, ModalFooter, Form, Label, Input, FormGroup, Col, FormText} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import  { connect } from 'react-redux';
 import { logout } from '../actions/loginActions';
-import { loginModal } from './Modal/loginModal';
+// import { LoginModal } from './Modal/loginModal'; 
+
+const LoginModal = (props) => {
+  return (
+  <Modal isOpen={props.isOpen} toggle={props.toggle}>
+        <ModalHeader toggle={props.toggle}>Please Sign in</ModalHeader>
+        <ModalBody>
+          <Form>
+          <FormGroup row>
+          <Label for="exampleEmail" sm={2}>Email</Label>
+          <Col sm={10}>
+            <Input type="email" name="email" id="exampleEmail" placeholder="Enter an email" />
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Label for="examplePassword" sm={2}>Password</Label>
+          <Col sm={10}>
+            <Input type="password" name="password" id="examplePassword" placeholder="Enter a password"/>
+          </Col>
+        </FormGroup>
+        <FormGroup check row>
+          <Col sm={{ size: 10, offset: 2 }}>
+            <Button  styles = "cursor:pointer">Submit</Button>
+          </Col>
+        </FormGroup>
+          </Form>
+        </ModalBody>
+      </Modal>
+      )
+}
 
 class NavigationBar extends React.Component {
 
   constructor(props) {
     super(props);
 
-    this.toggleNavbar = this.toggleNavbar.bind(this);
     this.state = {
       collapsed: true,
+      modal:false,
+      nestedModal:false
     };
+
+    this.toggle = this.toggle.bind(this);
+    this.toggleNested = this.toggleNested.bind(this);
+    this.toggleNavbar = this.toggleNavbar.bind(this);
   }
 
   toggleNavbar() {
     this.setState({
       collapsed: !this.state.collapsed
+    });
+  }
+
+  toggleNested() {
+    this.setState({
+      nestedModal: !this.state.nestedModal
+    });
+  }
+
+  toggle() {
+    this.setState({
+      modal: !this.state.modal
     });
   }
 
@@ -36,17 +83,15 @@ class NavigationBar extends React.Component {
     const userLinks = (
       <Nav nav>
             <NavItem className="nav-item">
-            <Link href = "#" onClick = {this.logout.bind(this)} className="nav-link nov float-right" styles = "border-radius: 4px;">Log out</Link>
+            <Button  onClick = {this.logout.bind(this)} className="nav-link nov float-right" styles = "border-radius: 4px;">Log out</Button>
             </NavItem>      
           </Nav>
-      
-
-    );
+      );
 
     const guestLinks = (
       <Nav nav>
             <NavItem className="nav-item">
-            <Link to ="/signin" onClick = {this.toggleNavbar.bind(this)} className="nav-link nov float-right" styles = "cursor:pointer">Sign In</Link>
+            <Button onClick = {this.toggle} className="nav-link nov float-right" styles = "cursor:pointer">Sign In</Button>
             </NavItem>      
           </Nav>
 
@@ -55,11 +100,10 @@ class NavigationBar extends React.Component {
       <Navbar className="navbar navbar-expand-sm navbar-dark navbar-inverse bg-dark fixed-top ">
         <Link className="navbar-brand" to ="/" styles ="cursor:pointer; color: #fffc !important">More-Recipes</Link>
         <NavbarToggler  onClick={this.toggleNavbar} className="mr-2 ml-auto" />
-        
-
         <Collapse isOpen={!this.state.collapsed} navbar>
           {isAuthenticated ? userLinks : guestLinks}              
-        </Collapse>  
+        </Collapse> 
+        <LoginModal isOpen={this.state.modal} toggle={this.toggle}/> 
       </Navbar>
     )
   }
@@ -75,6 +119,8 @@ NavbarToggler.propTypes = {
   tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
   // pass in custom element to use
 }
+
+
 
 function mapStateToProps(state) {
   return {

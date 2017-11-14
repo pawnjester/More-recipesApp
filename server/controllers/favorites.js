@@ -22,7 +22,7 @@ export default class Favorite {
     const userId = req.currentUser.id;
     const { recipeId } = req.params;
     if (isNaN(recipeId)) {
-      return res.status(400).json({ statusCode: 400, message: 'User id is not a number' });
+      return res.status(400).json({ statusCode: 400, message: 'Recipe id is not a number' });
     }
     recipe.findOne({
       where: {

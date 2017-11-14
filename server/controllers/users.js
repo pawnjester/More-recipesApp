@@ -44,7 +44,11 @@ export default class User {
     }
 
 
-    if (username.length < 6) {
+
+    // if(!username) {
+    //   return res.status(400).json({statusCode: 400, error: ''})
+    // }
+    if (!username || username.length < 6) {
       return res.status(400).json({ statusCode: 400, error: 'You need to fill in your username with a minimum length of 6' });
     } else if (!email) {
       return res.status(400).json({ statusCode: 400, error: 'You need to fill in your email' });

@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { userSignupRequest } from '../actions/signupActions';
 import { Button } from 'react-bootstrap';
+import NavigationBar from './NavigationBar';
+import '../styles/home.scss';
+
 
 
 
@@ -13,6 +16,8 @@ class Home extends React.Component {
     const {userSignupRequest} = this.props;
 
     return (
+      <div>
+      <NavigationBar />
     <header id ="home-section">
       <div className= "dark-overlay">
       <div className= "home-inner">
@@ -70,6 +75,7 @@ class Home extends React.Component {
       </div>
       
     </header >
+    </div>
     )
   }
 }
