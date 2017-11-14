@@ -1,27 +1,28 @@
 /* eslint-disable */
 
-import { RECIPE } from './types'
+import { ADD_RECIPE, ADD_RECIPE_REJECTED } from './types';
+import axios from 'axios';
 
-export function createRecipe(recipe) {
-  // return dispatch => {
-  //   return axios.post('/api/v1/recipes', recipe)
-  // }
 
-  const action =  {
+
+  const addRecipe = (recipe) =>  {
     //unique identifier
     type: 'ADD_RECIPE',
     //Payload
     recipe
-        
   }
-  return action;
-}
+ 
 
-export function deleteRecipe(id) {
-  const action ={
-    type: 'DELETE_RECIPE',
-    id
+export const createRecipe = (name, ingredients, method) => dispatch => {
+    return axios.post('/api/v1/recipes', {
+      name,
+      ingredients,
+      method
+    })
+    .then((response) => {
+      dispatch(addRecipe(response.data));
+    })
+    .catch((error) => {
+
+    })
   }
-
-  return action;
-}

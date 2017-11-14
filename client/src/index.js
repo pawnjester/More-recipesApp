@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom'
-import {BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import App from './components/App';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -10,7 +10,6 @@ import setAuthorizationToken from './utils/setAuthorizationtoken';
 import jwtDecode from 'jwt-decode';
 import {setCurrentUser} from './actions/loginActions';
 import 'bootstrap/dist/css/bootstrap.css';
-import './styles/home.scss';
 
 const store = createStore(
   rootReducer,

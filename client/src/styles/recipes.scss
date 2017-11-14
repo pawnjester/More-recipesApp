@@ -1,0 +1,152 @@
+body{
+    background:#fff;
+    color: black;
+    height: 100%;
+    margin:0;
+padding:0;
+height:100%;
+    
+}
+
+#fixed button {
+position: fixed;
+}
+
+
+.popular-recipes{
+max-height: 30px;
+background-color: green; 
+
+}
+.fa{
+background: #fff;
+padding: 4px;
+border-radius: 5px;
+font-size: 20px;
+}
+
+.active {
+color: greenyellow;
+}
+
+.navbar{
+border-bottom: #FF4500 3px solid;               
+}
+
+.home-inner{
+    padding-top: 100px; 
+  }
+.heading{
+padding-top: 80px; 
+}
+.card{
+margin-bottom: 15px;
+}
+#clickableAwesomeFont{
+cursor:pointer
+}
+
+.container{
+position: relative;
+}
+
+.navbar{
+background-color:black;
+margin-bottom: 0;
+border-radius: 0;  
+}
+
+html{
+min-height: 100%;
+
+}
+.py-4{
+padding-bottom: 0px !important;
+}
+
+.addrecipebtn{
+position: absolute;
+top: 5.9%;
+right: 20px;
+border-radius: 25px;
+}
+
+.popular {
+position: absolute;
+top: 5.9%;
+right: 100px;
+border-radius: 25px;
+
+}
+.fa {
+background:none !important
+}
+
+
+.search input { 
+text-indent: 30px; 
+border-radius:20px;
+}
+.search .fa-search { 
+position: absolute;
+top: 5px;
+left: 160px;
+
+font-size: 15px;
+}
+
+.high {
+min-height: 650px
+}
+
+
+.profile{
+background: #343a40;
+color: white;
+cursor:pointer;
+/*opacity: 0.8*/
+}
+
+@media only screen and (max-width: 765px) {
+.addrecipebtn{
+    position: relative !important;
+};
+
+}
+
+@media only screen and (max-width: 768px) and (min-width: 300px) {   
+
+.popular{
+    position: relative !important; 
+    right: 5%;
+    left: 4%;
+    /*padding: 0px;*/
+    
+    margin-bottom: 1%;   
+  
+}
+
+}
+
+@media only screen and (max-width : 575px) {
+form {
+width: 100% ; 
+position: relative;
+};
+.addrecipebtn{
+    margin-right: -5px; 
+};
+/*.heading {
+  padding-top:500px;
+}*/
+
+}
+
+@media only screen and (max-width : 575px) {
+.profile {
+right:50%;
+left: 50%;
+margin-left: 120px;
+
+}
+};

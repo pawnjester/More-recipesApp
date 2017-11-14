@@ -23,9 +23,6 @@ describe('More Recipes', () => {
           if (err) {
             return done(err);
           }
-          expect(res.body.message).toBe('Welcome to More-Recipes');
-          // res.should.have.status(200);
-          // res.body.should.have.property('message').eql('Welcome to More-Recipes');
           done();
         });
     });
@@ -82,11 +79,12 @@ describe('More Recipes', () => {
           expect(res.body.id).toNotExist;
           expect(res.body.username).toNotExist;
           expect(res.body.email).toNotExist;
+          expect(res.body.error).toBe('Username or email is already in use');
           done();
         });
     });
 
-    it('shoud return 400 for incomplete details(password)', (done) => {
+    it('shoud return 400 for incomplete details(username)', (done) => {
       const user = {
         username: '',
         email: 'fioveyry@gmail.com',
@@ -104,6 +102,28 @@ describe('More Recipes', () => {
           expect(res.body.username).toNotExist;
           expect(res.body.email).toNotExist;
           expect(res.body.error).toEqual('You need to fill in your username with a minimum length of 6');
+          done();
+        });
+    });
+
+    it('shoud return 400 for no details', (done) => {
+      const user = {
+        username: '',
+        email: '',
+        password: '',
+      };
+      request(app)
+        .post('/api/v1/users/signup')
+        .send(user)
+        .expect(400)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.id).toNotExist;
+          expect(res.body.username).toNotExist;
+          expect(res.body.email).toNotExist;
+          expect(res.body.error).toEqual('Please fill in the required details');
           done();
         });
     });
@@ -188,7 +208,7 @@ describe('More Recipes', () => {
           if (err) {
             return done(err);
           }
-          token = res.token;
+          token = res.body.token;
           console.log(token);
           expect(res.body.userFound.id).toExist;
           expect(res.body.userFound.username).toExist;
@@ -307,7 +327,7 @@ describe('More Recipes', () => {
         .post('/api/v1/recipes')
         .send({
           name: 'Rice',
-          Ingredients: 'Rice flour',
+          ingredients: 'Rice flour',
           method: 'Boil the rice',
           upvotes: 100
         })
@@ -342,7 +362,7 @@ describe('More Recipes', () => {
 
     it('it should return a 400 when an invalid recipId is inputted', (done) => {
       request(app)
-        .put('/api/recipes/f')
+        .put('/api/v1/recipes/f')
         .send({
           name: 'Boli',
           Ingredients: 'Rice maize',
@@ -362,7 +382,7 @@ describe('More Recipes', () => {
 
     it('it should return a 400 when an invalid recipId is inputted', (done) => {
       request(app)
-        .delete('/api/recipes/f')
+        .delete('/api/v1/recipes/f')
         .send({
           name: 'Boli',
           Ingredients: 'Rice maize',
@@ -380,9 +400,199 @@ describe('More Recipes', () => {
         });
     });
 
+    it('it should return 201 for upvoting a recipe', (done) => {
+      request(app)
+        .post('/api/v1/recipes/1/vote?vote=upvote')
+        .send({
+          name: 'Boli',
+          Ingredients: 'Rice maize',
+          method: 'Boil the maize',
+          upVotes: 100
+        })
+        .set('x-access-token', token)
+        .expect(201)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('This recipe with id: 1 just Upvoted')
+          done();
+        });
+    });
+
+    it('it should return 400 for upvoting a recipe twice', (done) => {
+      request(app)
+        .post('/api/v1/recipes/1/vote?vote=upvote')
+        .send({
+          name: 'Boli',
+          Ingredients: 'Rice maize',
+          method: 'Boil the maize',
+          upVotes: 100
+        })
+        .set('x-access-token', token)
+        .expect(400)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('This recipe with id: 1 has already been upvoted')
+          done();
+        });
+    });
+
+    it('it should return 201 for downvoting a recipe', (done) => {
+      request(app)
+        .post('/api/v1/recipes/1/vote?vote=downvote')
+        .send({
+          name: 'Boli',
+          Ingredients: 'Rice maize',
+          method: 'Boil the maize',
+          upVotes: 100
+        })
+        .set('x-access-token', token)
+        .expect(201)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('This recipe with id: 1 just downvoted')
+          done();
+        });
+    });
+
+    it('it should return 400 for downvoting a recipe twice', (done) => {
+      request(app)
+        .post('/api/v1/recipes/1/vote?vote=downvote')
+        .send({
+          name: 'Boli',
+          Ingredients: 'Rice maize',
+          method: 'Boil the maize',
+          upVotes: 100
+        })
+        .set('x-access-token', token)
+        .expect(400)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('This recipe with id: 1 has already been downvoted')
+          done();
+        });
+    });
+
+    it('it should return 400 for favoriting a recipe with invlaid recipe id', (done) => {
+      request(app)
+        .post('/api/v1/recipes/7f/favorite')
+        .set('x-access-token', token)
+        .expect(400)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('Recipe id is not a number')
+          done();
+        });
+    });
+
+    it('it should return 404 for favoriting a recipe that is not available', (done) => {
+      request(app)
+        .post('/api/v1/recipes/7/favorite')
+        .set('x-access-token', token)
+        .expect(404)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('Recipe with id: 7 could not be found')
+          done();
+        });
+    });
+
+    it('it should return 201 for favoriting a recipe', (done) => {
+      request(app)
+        .post('/api/v1/recipes/1/favorite')
+        .send({
+          name: 'Boli',
+          Ingredients: 'Rice maize',
+          method: 'Boil the maize',
+          upVotes: 100
+        })
+        .set('x-access-token', token)
+        .expect(201)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('recipe with 1 has been added')
+          done();
+        });
+    });
+
+    it('it should return 400 for favoriting a recipe twice', (done) => {
+      request(app)
+        .post('/api/v1/recipes/1/favorite')
+        .set('x-access-token', token)
+        .expect(400)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('recipe is already a favorite')
+          done();
+        });
+    });
+
+    it('it should return 201 for adding a review to a recipe', (done) => {
+      request(app)
+        .post('/api/v1/recipes/1/reviews')
+        .send({
+          data: 'This is a beautiful soup'
+        })
+        .set('x-access-token', token)
+        .expect(201)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('Your review has been added')
+          done();
+        });
+    });
+
+    it('it should return 400 for adding an empty review to a recipe', (done) => {
+      request(app)
+        .post('/api/v1/recipes/1/reviews')
+        .send({
+          data: ''
+        })
+        .set('x-access-token', token)
+        .expect(400)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('You need to put a review!')
+          done();
+        });
+    });
+
+    it('it should return 400 for adding a review to a recipeId that is not a number', (done) => {
+      request(app)
+        .post('/api/v1/recipes/f/reviews')
+        .set('x-access-token', token)
+        .expect(400)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('Recipe id is not a number')
+          done();
+        });
+    });
+
     it('it should return a 200 when deleting a recipe', (done) => {
       request(app)
-        .delete('/api/recipes/1')
+        .delete('/api/v1/recipes/1')
         .send({
           name: 'Boli',
           Ingredients: 'Rice maize',
@@ -401,9 +611,9 @@ describe('More Recipes', () => {
 
     it('it should return a 201 when getting all recipe', (done) => {
       request(app)
-        .get('/api/recipes')
+        .get('/api/v1/recipes')
         .set('x-access-token', token)
-        .expect(404)
+        .expect(200)
         .end((err, res) => {
           if (err) {
             return done(err);
@@ -500,13 +710,13 @@ describe('More Recipes', () => {
     it('it should create a Recipe instance', (done) => {
       recipe.create({
         name: 'Garri stew',
-        Ingredients: 'yellow garri and fish stew',
+        ingredients: 'yellow garri and fish stew',
         method: 'Stir till it turns black'
       })
         .then((food) => {
           expect(food).toExist;
           expect(food.name).toBe('Garri stew');
-          expect(food.Ingredients).toBe('yellow garri and fish stew');
+          expect(food.ingredients).toBe('yellow garri and fish stew');
           expect(food.method).toBe('Stir till it turns black');
           done();
         }).catch(err => done(err));
