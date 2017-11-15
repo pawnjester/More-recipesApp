@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createRecipe } from '../../../actions/recipeActions';
+import createRecipe from '../../../actions/recipeActions';
 import { Button,Container, Modal, 
     ModalHeader, ModalBody, ModalFooter, Form, Label, Input, FormGroup, Col, FormText } from 'reactstrap';
 import PropTypes from 'prop-types';
@@ -27,6 +27,7 @@ class RecipePage extends Component {
           modal: !this.state.modal
         });
       }
+      
   render() {
     return (
         <div>
@@ -34,10 +35,10 @@ class RecipePage extends Component {
             <div className="heading">
             <h1 className="p-5 ">My Recipes</h1>
             <Button color="primary" className="addrecipebtn btn btn-outline-success " onClick = {this.toggle}> <i className="fa fa-plus"></i>Recipe</Button>
-            <AddRecipeModal isOpen={this.state.modal} toggle={this.toggle}/> 
+            <AddRecipeModal isOpen={this.state.modal} toggle={this.toggle} /> 
             </div>
-            <div className="col-md-4 col-xs-4">
-                <Recipe/>
+            <div className="col-md-4 col-xs-4" >
+              <Recipe/>
             </div>
             </div>
             </div>
@@ -51,7 +52,8 @@ class RecipePage extends Component {
   
   const mapStateToProps = (state) => {
       return {
-          recipes: state.recipes
+          recipes: state.recipeReducer
+          
       }
   }
 

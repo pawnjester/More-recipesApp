@@ -10,7 +10,8 @@
     "start:dev": "nodemon --exec babel-node server/app.js",
     "sequelize": "sequelize",
     "test": "nyc --reporter=html --reporter=text mocha ./server/test/  --timeout 15000 --compilers js:babel-register",
-    "test:dev": "./node_modules/.bin/mocha --timeout 15000 --compilers js:babel-core/register server/test/"
+    "test:dev": "./node_modules/.bin/mocha --timeout 15000 --compilers js:babel-core/register server/test/",
+    "watch": "webpack --config webpack.config.dev.js --watch"
   },
   "repository": {
     "type": "git",
