@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import createRecipe from '../../actions/recipeActions'
 import { Button,Container, Modal, 
     ModalHeader, ModalBody, ModalFooter, Form, Label, Input, FormGroup, Col, FormText } from 'reactstrap';
 
@@ -7,8 +9,9 @@ class AddRecipeModal extends Component {
         super(props);
 
         this.state = {
-            name: '',
-
+          name: '',
+          ingredients: '',
+          method: ''
         }
         
         this.onNameChange = this.onNameChange.bind(this);
@@ -20,8 +23,13 @@ class AddRecipeModal extends Component {
         this.setState({ [event.target.name]: event.target.value})
     }
 
-    onSubmit() {
-        alert(`Saving ${this.state.name}`)
+    onSubmit = (event) => {
+        // alert(`Saving ${this.state.name}`)
+        event.preventDefault();
+        console.log({formdata: this.state});
+        this.props.createRecipe(this.state, () => {
+          console.log('this fired')
+        })
     }
       render() {
         return (
@@ -41,10 +49,36 @@ class AddRecipeModal extends Component {
                   placeholder="Enter the name" />
                 </Col>
               </FormGroup>
+
+              <FormGroup row>
+                <Label for="exampleEmail" sm={4}>Ingredients</Label>
+                <Col sm={8}>
+                  <Input 
+                  type="text" 
+                  name= "ingredients" 
+                  id="exampleEmail" 
+                  value = {this.state.ingredients}
+                  onChange = {this.onNameChange}
+                  placeholder="Enter the name" />
+                </Col>
+              </FormGroup>
+
+              <FormGroup row>
+                <Label for="exampleEmail" sm={4}>method</Label>
+                <Col sm={8}>
+                  <Input 
+                  type="text" 
+                  name= "method" 
+                  id="exampleEmail" 
+                  value = {this.state.method}
+                  onChange = {this.onNameChange}
+                  placeholder="Enter the name" />
+                </Col>
+              </FormGroup>
               
               <FormGroup check row>
                 <Col sm={{ size: 10, offset: 2 }}>
-                  <Button  styles = "cursor:pointer" onClick= {this.onSubmit}>Add a recipe</Button>
+                  <Button  onClick= {this.onSubmit}>Add a recipe</Button>
                 </Col>
               </FormGroup>
                 </Form>
@@ -57,4 +91,4 @@ class AddRecipeModal extends Component {
 
     
 
-export default AddRecipeModal;
+export default connect(null, { createRecipe })(AddRecipeModal);

@@ -26,6 +26,8 @@ let swaggerDefinition = {
   basePath: '/',
 };
 
+const publicPath = express.static(path.join(__dirname, '../build/'))
+
 // options for the swagger docs
 let options = {
   // import swaggerDefinitions

@@ -5,22 +5,22 @@ import axios from 'axios';
 
 
 
-  const addRecipe = (recipe) =>  {
-    type: 'ADD_RECIPE',
-    recipe
-  }
+  // const addRecipe = (recipe) =>  {
+  //   type: 'ADD_RECIPE',
+  //   payload
+  // }
  
 
-export const createRecipe = (name, ingredients, method) => dispatch => {
-    return axios.post('/api/v1/recipes', {
-      name,
-      ingredients,
-      method
-    })
+const createRecipe = (values, callback) => dispatch => {
+    return axios.post('/api/v1/recipes', values)
     .then((response) => {
-      dispatch(addRecipe(response.data));
+      console.log(response.data)
+      dispatch({type: ADD_RECIPE, payload: response.data});
+      callback();
     })
     .catch((error) => {
-
+      console.log(error.response)
     })
   }
+
+export default createRecipe;
