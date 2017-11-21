@@ -15,14 +15,16 @@ export default class Favorite {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
+   * 
    * @returns {object} Class instance
+   * 
    * @memberof Favorite
    */
   addFavorite(req, res) {
     const userId = req.currentUser.id;
     const { recipeId } = req.params;
     if (isNaN(recipeId)) {
-      return res.status(400).json({ statusCode: 400, message: 'Recipe id is not a number' });
+      return res.status(406).json({ statusCode: 406, error: 'Recipe id is not a number' });
     }
     recipe.findOne({
       where: {
@@ -31,7 +33,7 @@ export default class Favorite {
     })
       .then((found) => {
         if (!found) {
-          return res.status(404).json({ statusCode: 404, message: `Recipe with id: ${recipeId} could not be found` });
+          return res.status(404).json({ statusCode: 404, error: `Recipe with id: ${recipeId} could not be found` });
         }
 
         favorite.findOne({
@@ -42,7 +44,7 @@ export default class Favorite {
         })
           .then((fav) => {
             if (fav) {
-              return res.status(400).json({ statusCode: 400, message: 'recipe is already a favorite' });
+              return res.status(409).json({ statusCode: 409, error: 'recipe is already a favorite' });
             }
             favorite.create({
               recipeId,
@@ -51,7 +53,7 @@ export default class Favorite {
               .then((newfav) => {
                 res.status(201).json({ statusCode: 201, message: `recipe with ${recipeId} has been added`, newfav });
               })
-              .catch(err => res.status(400).json({ statusCode: 500, message: 'recipe could not be added to favorite', err: err.parent.detail }));
+              .catch(err => res.status(500).json({ statusCode: 500, error: 'recipe could not be added to favorite', err: err.parent.detail }));
             return this;
           });
       });
@@ -62,7 +64,9 @@ export default class Favorite {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
+   * 
    * @returns {object} Class instance
+   * 
    * @memberof Favorite
    */
   getAllFavorite(req, res) {

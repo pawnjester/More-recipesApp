@@ -1,6 +1,7 @@
 import models from '../models';
 
 const recipe = models.Recipe;
+const review = models.Review;
 
 
 /**
@@ -32,31 +33,53 @@ export class Recipes {
     const currentUser = req.currentUser.id;
 
     if (!name) {
-      return res.status(400).json({ statusCode: 400, error: 'You need to fill in a name of the recipe' });
+      return res.status(406).json({ statusCode: 406, error: 'You need to fill in a name of the recipe' });
     } else if (!ingredients) {
-      return res.status(400).json({ statusCode: 400, error: 'You need to fill in the Ingredients' });
+      return res.status(406).json({ statusCode: 406, error: 'You need to fill in the Ingredients' });
     } else if (!method) {
-      return res.status(400).json({ statusCode: 400, error: 'You need to fill in the method of preparation ' });
+      return res.status(406).json({ statusCode: 406, error: 'You need to fill in the method of preparation ' });
     } else if (!ingredients && !name && !method) {
-      return res.status(400).json({ statusCode: 400, error: 'Please enter the required details (name, Ingredients and method)' });
+      return res.status(406).json({ statusCode: 406, error: 'Please enter the required details (name, Ingredients and method)' });
     }
 
-    recipe.create({
-      name,
-      ingredients,
-      method,
-      userId: currentUser,
-      upVotes: req.body.upVotes,
-      downVotes: req.body.downVotes
+    recipe.findOne({
+      where: {
+        $and: [
+          {
+            name
+          },
+          {
+            userId: currentUser,
+          }
+        ]
+
+      }
     })
-      .then((recipe) => {
-        res.status(201).json({ statusCode: 201, message: 'Recipe has been created', recipe });
+    .then((RecipeFound) => {
+      if(RecipeFound) {
+        return res.status(409).json({
+          statusCode: 409,
+          error: 'You cannot create the same recipe twice'
+        })
+      }
+      return recipe.create({
+        name,
+        ingredients,
+        method,
+        userId: currentUser,
+        upVotes: req.body.upVotes,
+        downVotes: req.body.downVotes,
+        imageUrl: req.body.imageUrl
       })
-      .catch(() => res.status(500).json({
-        statusCode: 500,
-        success: false,
-        message: 'Recipe cannot be created'
-      }));
+        .then((recipe) => {
+          res.status(201).json({ statusCode: 201, message: 'Recipe has been created', recipe });
+        })
+    })
+    .catch(() => res.status(500).json({
+      statusCode: 500,
+      success: false,
+      error: 'shit, something went wrong'
+    }));
     return this;
   }
 
@@ -66,20 +89,35 @@ export class Recipes {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
+   * 
    * @returns {object} Class instance
+   * 
    * @memberof Recipe
    */
   modifyRecipe(req, res) {
     const { recipeId } = req.params;
+    const currentUser = req.currentUser.id;    
     if (isNaN(recipeId)) {
-      return res.status(400).json({ message: 'Recipe id is not a number' });
+      return res.status(406).json({ statusCode: 406, error: 'Recipe id is not a number' });
     }
-    recipe.findById(recipeId)
+    recipe.findOne({
+      where: {
+        $and: [
+          {
+            id: recipeId
+          },
+          {
+            userId: currentUser,
+          }
+        ]
+      }
+      
+    })
       .then((recipe) => {
         if (!recipe) {
           return res.status(400).json({
             statusCode: 400,
-            message: `Recipe not Found with ${recipeId}`
+            error: `Recipe not Found with ${recipeId}`
           });
         }
         recipe.update({
@@ -99,20 +137,35 @@ export class Recipes {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
+   * 
    * @returns {object} Class instance
+   * 
    * @memberof Recipe
    */
   deleteRecipe(req, res) {
     const { recipeId } = req.params;
+    const currentUser = req.currentUser.id;        
     if (isNaN(recipeId)) {
-      return res.status(400).json({ statusCode: 400, message: 'Recipe id is not a number' });
+      return res.status(400).json({ statusCode: 400, error: 'Recipe id is not a number' });
     }
-    recipe.findById(recipeId)
+    recipe.findOne({
+      where: {
+        $and: [
+          {
+            id: recipeId
+          },
+          {
+            userId: currentUser,
+          }
+        ]
+      }
+      
+    })
       .then((deletedRecipe) => {
         if (!deletedRecipe) {
           return res.status(400).json({
             statusCode: 400,
-            message: `Recipe not found with id : ${recipeId}`
+            error: `Recipe not found with id : ${recipeId}`
           });
         }
         recipe
@@ -123,7 +176,7 @@ export class Recipes {
           })
           .then(() => res.status(200).json({ statusCode: 200, message: 'This recipe has been deleted' }));
       })
-      .catch(() => res.status(500).json({ statusCode: 500, message: 'Error deleting recipe' }));
+      .catch(() => res.status(500).json({ statusCode: 500, error: 'Error deleting recipe' }));
     return this;
   }
 
@@ -133,7 +186,9 @@ export class Recipes {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
+   * 
    * @returns {object} Class instance
+   * 
    * @memberof Recipe
    */
   getRecipes(req, res) {
@@ -157,7 +212,7 @@ export class Recipes {
           .catch(() => res.status(500).json({ statusCode: 500, message: 'Error sorting recipes' }));
       }
     } else if (req.query.search && req.query.limit) {
-      const limitValue = req.query.limit || 5;
+      const limitValue = req.query.limit || 30;
       const search = req.query.search.split(' ');
 
       const ingredientsResp = search.map((value) => {
@@ -184,7 +239,7 @@ export class Recipes {
           return res.status(200).json({ statusCode: 200, message: 'The results found', searchResults });
         });
     } else {
-      const limitValue = req.query.limit || 5;
+      const limitValue = req.query.limit || 30;
       const pageValue = req.query.next - 1 || 0;
 
       recipe.findAndCountAll({
@@ -210,6 +265,7 @@ export class Recipes {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
+   * 
    * @returns {object} Class instance
    * @memberof Vote
    */

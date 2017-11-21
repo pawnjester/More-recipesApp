@@ -1,22 +1,20 @@
-/* eslint-disable */
-
-import { ADD_RECIPE, ADD_RECIPE_REJECTED } from './types';
 import axios from 'axios';
+import { ADD_RECIPE, CREATE_RECIPE_SUCCESS } from './types';
+import getRecipes from './getRecipe';
 
+const TOKEN = localStorage.getItem('jwtToken');
 
-
-  // const addRecipe = (recipe) =>  {
-  //   type: 'ADD_RECIPE',
-  //   payload
-  // }
+console.log('********', TOKEN);
  
 
-const createRecipe = (values, callback) => dispatch => {
+const createRecipe = (values) => dispatch => {
     return axios.post('/api/v1/recipes', values)
+    
     .then((response) => {
+      dispatch({type: CREATE_RECIPE_SUCCESS, payload: response.data});
+      
       console.log(response.data)
-      dispatch({type: ADD_RECIPE, payload: response.data});
-      callback();
+
     })
     .catch((error) => {
       console.log(error.response)

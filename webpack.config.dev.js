@@ -1,11 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   devtool: 'eval-source-map',
   entry: [
     'webpack-hot-middleware/client',
-    path.join(__dirname, './client/src/index.js')
+    path.join(__dirname, './client/src/Index.jsx')
   ],
   output: {
     path: path.join(__dirname, 'build/js'),
@@ -15,7 +16,11 @@ module.exports = {
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new Dotenv({
+      path: './.env',
+      safe: true 
+    })
   ],
   module: {
     loaders: [
@@ -43,7 +48,7 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         include: path.join(__dirname, 'client'),
         loaders: ['react-hot-loader/webpack', 'babel-loader'],
       },
@@ -72,9 +77,9 @@ module.exports = {
         test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
         loader: 'file-loader?name=/fonts/[name].[ext]'
       },
-    ]
+    ],
   },
   resolve: {
     extensions: ['.js']
-  }
+  },
 };

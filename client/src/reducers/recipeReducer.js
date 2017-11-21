@@ -1,21 +1,26 @@
-/*eslint-disable */
-import { ADD_RECIPE } from '../actions/types';
+import { CREATE_RECIPE_SUCCESS, GET_RECIPES, DELETE_RECIPE_SUCCESS, EDIT_RECIPE_SUCCESS } from '../actions/types';
 
-const initialState = {};
+const initialState = {  recipes : [] };
 
 const recipes = (state = initialState, action) => {
-
   switch (action.type) {
-    case ADD_RECIPE:
-      console.log(action.payload)
-      return { ...state, [action.payload.name]: action.payload }
-      // return {
-      //   ...state,
-      //   recipes: action.recipe
-      // };
-      // return [...state,
-      // Object.assign({}, action.recipe)]
-      // console.log('****', state, action)
+    case GET_RECIPES:
+      return {...state, recipes: action.payload.recipes}
+    case CREATE_RECIPE_SUCCESS:
+      return {...state, recipes: [...state.recipes, action.payload.recipe]}
+
+    case DELETE_RECIPE_SUCCESS:
+      const recipes = state.recipes.filter(recipe => recipe.id !== action.deletedRecipe)
+      return {
+        ...state,
+        recipes
+      }
+    case EDIT_RECIPE_SUCCESS:
+      const editRecipe = state.recipes.map((recipe) => (recipe.id === action.editedRecipe.id) ? action.editedRecipe : recipe)
+      return {
+        ...state,
+        editRecipe
+      }
     default:
       return state;
   }

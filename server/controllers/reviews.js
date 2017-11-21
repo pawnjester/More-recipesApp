@@ -1,6 +1,7 @@
 import models from '../models';
 
 const review = models.Review;
+const recipe = models.Recipe
 
 
 /**
@@ -14,7 +15,9 @@ class Reviews {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
+   * 
    * @returns {object} Class instance
+   * 
    * @memberof Reviews
    */
   postReview(req, res) {
@@ -23,17 +26,17 @@ class Reviews {
     const currentUser = req.currentUser.id;
 
     if (isNaN(recipeId)) {
-      return res.status(400).json({ statusCode: 400, message: 'Recipe id is not a number' });
+      return res.status(406).json({ statusCode: 406, error: 'Recipe id is not a number' });
     }
     if (!recipeId) {
-      return res.status(400).json({ statusCode: 400, message: 'You need to put in the recipe ID' });
+      return res.status(406).json({ statusCode: 406, error: 'You need to put in the recipe ID' });
     } else if (!data) {
-      return res.status(400).json({ statusCode: 400, message: 'You need to put a review!' });
+      return res.status(406).json({ statusCode: 406, error: 'You need to put a review!' });
     }
     review.create({
       data,
       recipeId,
-      userId: currentUser
+      userId: currentUser,
     })
       .then((reviewed) => {
         res.status(201).json({ statusCode: 201, message: 'Your review has been added', reviewed });

@@ -47,6 +47,11 @@ class AllRecipes extends Component {
         return
       }
 
+
+    if (resp.body.secure_url !== '') {
+      console.log(resp.body.secure_url); // cloudinary image url
+    }
+
       console.log('UPLOAD COMPLETE: '+JSON.stringify(resp.body))
       const uploaded = resp.body
 
@@ -71,7 +76,7 @@ class AllRecipes extends Component {
     return (
       <div style ={{paddingTop : 100}}>
         Images Component <br/>
-        <button name="myFile" type="file" onClick={this.upLoadFile.bind(this)} />
+        <Dropzone onDrop={this.upLoadFile.bind(this)} />
         <ol>
           { list }
         </ol>

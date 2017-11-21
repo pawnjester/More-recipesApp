@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
     method: {
       type: DataTypes.STRING,
     },
+    imageUrl: {
+      type: DataTypes.TEXT,
+    },
     upVotes: {
       type: DataTypes.INTEGER,
       allowNull:false,

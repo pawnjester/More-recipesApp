@@ -17,7 +17,9 @@ export default class User {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
+   * 
    * @returns {object} Class instance
+   * 
    * @memberof User
    */
   signUp(req, res) {
@@ -40,26 +42,21 @@ export default class User {
     }
 
     if (!req.body.username && !req.body.password && !req.body.email) {
-      return res.status(400).json({ statusCode: 400, error: 'Please fill in the required details' });
+      return res.status(406).json({ statusCode: 406, error: 'Please fill in the required details' });
     }
 
-
-
-    // if(!username) {
-    //   return res.status(400).json({statusCode: 400, error: ''})
-    // }
     if (!username || username.length < 6) {
-      return res.status(400).json({ statusCode: 400, error: 'You need to fill in your username with a minimum length of 6' });
+      return res.status(406).json({ statusCode: 406, error: 'You need to fill in your username with a minimum length of 6' });
     } else if (!email) {
-      return res.status(400).json({ statusCode: 400, error: 'You need to fill in your email' });
+      return res.status(406).json({ statusCode: 406, error: 'You need to fill in your email' });
     } else if (!filter.test(email)) {
-      return res.status(400).json({ statusCode: 400, error: 'Invalid email address!' });
+      return res.status(406).json({ statusCode: 406, error: 'Invalid email address!' });
     } else if (!req.body.password) {
-      return res.status(400).json({ error: 'You need to fill in the password' });
+      return res.status(406).json({ statusCode: 406, error: 'You need to fill in the password' });
     } else if (whiteSpace.test(password)) {
-      return res.status(400).json({ statusCode: 400, error: 'Password cannot contain spaces' });
+      return res.status(406).json({ statusCode: 406, error: 'Password cannot contain spaces' });
     } else if (password.length < 6) {
-      return res.status(400).json({ statusCode: 400, error: 'You need to fill in a password with a minimum length of 6' });
+      return res.status(406).json({ statusCode: 406, error: 'You need to fill in a password with a minimum length of 6' });
     }
 
     user
@@ -83,7 +80,7 @@ export default class User {
         let errorname;
         if (userFound) {
           errorname = 'Username or email is already in use';
-          return res.status(400).json({ statusCode: 400, error: errorname });
+          return res.status(409).json({ statusCode: 409, error: errorname });
         }
         return user.create({
           username,
@@ -109,7 +106,9 @@ export default class User {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
+   * 
    * @returns {object} Class instance
+   * 
    * @memberof User
    */
   signIn(req, res) {
@@ -125,12 +124,12 @@ export default class User {
     }
 
     if (!req.body.email && !req.body.username) {
-      return res.status(400).json({ statusCode: 400, error: 'Email or username cannot be empty' });
+      return res.status(406).json({ statusCode: 406, error: 'Email or username cannot be empty' });
     }
     if (!req.body.password) {
-      return res.status(401)
+      return res.status(406)
         .json({
-          statusCode: 401,
+          statusCode: 406,
           error: 'Password field cannot be empty'
         });
     }
@@ -177,7 +176,9 @@ export default class User {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
+   * 
    * @returns {object} Class instance
+   * 
    * @memberof User
    */
   me(req, res) {

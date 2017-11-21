@@ -7,6 +7,7 @@ const downvotes = models.Downvote;
 
 /**
  * Class Definition for the Vote Object
+ * 
  * @export
  * @class Vote
  */
@@ -16,12 +17,18 @@ export default class Vote {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
+   * 
    * @returns {object} Class instance
    * @memberof Vote
    */
   votes(req, res) {
     const userId = req.currentUser.id;
     const { recipeId } = req.params;
+    recipe.findById(recipeId)
+    .then((recipeFound) => {
+      if(!recipeFound) {
+        return res.status(404).json({error: `recipe with ${recipeId} not found`})
+      }
     if (req.query.vote === 'upvote') {
       downvotes.findOne({
         where: {
@@ -64,9 +71,9 @@ export default class Vote {
       })
         .then((voteFound) => {
           if (voteFound) {
-            return res.status(400).json({
-              statusCode: 400,
-              message: `This recipe with id: ${recipeId} has already been upvoted`
+            return res.status(409).json({
+              statusCode: 409,
+              error: `This recipe with id: ${recipeId} has already been upvoted`
             });
           }
   
@@ -131,9 +138,9 @@ export default class Vote {
       })
         .then((voteFound) => {
           if (voteFound) {
-            return res.status(400).json({
-              statusCode: 400,
-              message: `This recipe with id: ${recipeId} has already been downvoted`
+            return res.status(409).json({
+              statusCode: 409,
+              error: `This recipe with id: ${recipeId} has already been downvoted`
             });
           }
   
@@ -157,6 +164,7 @@ export default class Vote {
             });
         });
     }
+  })  
     return this;
   }
 }

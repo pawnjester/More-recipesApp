@@ -16,6 +16,9 @@ module.exports = {
       method: {
         type: Sequelize.STRING,
       },
+      imageUrl: {
+        type: Sequelize.TEXT,
+      },
       upVotes: {
         type: Sequelize.INTEGER,
         allowNull: false,
