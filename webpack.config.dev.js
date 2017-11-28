@@ -5,8 +5,9 @@ const Dotenv = require('dotenv-webpack');
 module.exports = {
   devtool: 'eval-source-map',
   entry: [
+    'babel-polyfill',
     'webpack-hot-middleware/client',
-    path.join(__dirname, './client/src/Index.jsx')
+    path.join(__dirname, './client/src/Index.jsx'),
   ],
   output: {
     path: path.join(__dirname, 'build/js'),
@@ -20,7 +21,7 @@ module.exports = {
     new Dotenv({
       path: './.env',
       safe: true 
-    })
+    }),
   ],
   module: {
     loaders: [
@@ -45,7 +46,7 @@ module.exports = {
               },
             },
           }],
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         test: /\.jsx?$/,
@@ -75,11 +76,11 @@ module.exports = {
       },
       {
         test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-        loader: 'file-loader?name=/fonts/[name].[ext]'
+        loader: 'file-loader?name=/fonts/[name].[ext]',
       },
     ],
   },
   resolve: {
-    extensions: ['.js']
+    extensions: ['.js', '.jsx'],
   },
 };

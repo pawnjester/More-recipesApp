@@ -1,8 +1,6 @@
 import models from '../models';
 
 const recipe = models.Recipe;
-const review = models.Review;
-
 
 /**
  *
@@ -46,40 +44,40 @@ export class Recipes {
       where: {
         $and: [
           {
-            name
+            name,
           },
           {
             userId: currentUser,
-          }
-        ]
+          },
+        ],
 
-      }
+      },
     })
-    .then((RecipeFound) => {
-      if(RecipeFound) {
-        return res.status(409).json({
-          statusCode: 409,
-          error: 'You cannot create the same recipe twice'
+      .then((RecipeFound) => {
+        if (RecipeFound) {
+          return res.status(409).json({
+            statusCode: 409,
+            error: 'You cannot create the same recipe twice',
+          });
+        }
+        return recipe.create({
+          name,
+          ingredients,
+          method,
+          userId: currentUser,
+          upVotes: req.body.upVotes,
+          downVotes: req.body.downVotes,
+          imageUrl: req.body.imageUrl,
         })
-      }
-      return recipe.create({
-        name,
-        ingredients,
-        method,
-        userId: currentUser,
-        upVotes: req.body.upVotes,
-        downVotes: req.body.downVotes,
-        imageUrl: req.body.imageUrl
+          .then((recipe) => {
+            res.status(201).json({ statusCode: 201, message: 'Recipe has been created', recipe });
+          });
       })
-        .then((recipe) => {
-          res.status(201).json({ statusCode: 201, message: 'Recipe has been created', recipe });
-        })
-    })
-    .catch(() => res.status(500).json({
-      statusCode: 500,
-      success: false,
-      error: 'shit, something went wrong'
-    }));
+      .catch(() => res.status(500).json({
+        statusCode: 500,
+        success: false,
+        error: 'shit, something went wrong',
+      }));
     return this;
   }
 
@@ -89,14 +87,14 @@ export class Recipes {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
-   * 
+   *
    * @returns {object} Class instance
-   * 
+   *
    * @memberof Recipe
    */
   modifyRecipe(req, res) {
     const { recipeId } = req.params;
-    const currentUser = req.currentUser.id;    
+    const currentUser = req.currentUser.id;
     if (isNaN(recipeId)) {
       return res.status(406).json({ statusCode: 406, error: 'Recipe id is not a number' });
     }
@@ -104,26 +102,29 @@ export class Recipes {
       where: {
         $and: [
           {
-            id: recipeId
+            id: recipeId,
           },
           {
             userId: currentUser,
-          }
-        ]
-      }
-      
+          },
+        ],
+      },
+
     })
       .then((recipe) => {
+        console.log('****old',recipe.dataValues.imageUrl);
+        console.log('****new',req.body.imageUrl);
         if (!recipe) {
           return res.status(400).json({
             statusCode: 400,
-            error: `Recipe not Found with ${recipeId}`
+            error: `Recipe not Found with ${recipeId}`,
           });
         }
         recipe.update({
           name: req.body.name || recipe.name,
           ingredients: req.body.ingredients || recipe.ingredients,
           method: req.body.method || recipe.method,
+          imageUrl: req.body.imageUrl || recipe.imageUrl,
         })
           .then(() => res.status(201).json({ statusCode: 201, recipe }))
           .catch(error => res.status(500).json(error));
@@ -137,14 +138,14 @@ export class Recipes {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
-   * 
+   *
    * @returns {object} Class instance
-   * 
+   *
    * @memberof Recipe
    */
   deleteRecipe(req, res) {
     const { recipeId } = req.params;
-    const currentUser = req.currentUser.id;        
+    const currentUser = req.currentUser.id;
     if (isNaN(recipeId)) {
       return res.status(400).json({ statusCode: 400, error: 'Recipe id is not a number' });
     }
@@ -152,27 +153,27 @@ export class Recipes {
       where: {
         $and: [
           {
-            id: recipeId
+            id: recipeId,
           },
           {
             userId: currentUser,
-          }
-        ]
-      }
-      
+          },
+        ],
+      },
+
     })
       .then((deletedRecipe) => {
         if (!deletedRecipe) {
           return res.status(400).json({
             statusCode: 400,
-            error: `Recipe not found with id : ${recipeId}`
+            error: `Recipe not found with id : ${recipeId}`,
           });
         }
         recipe
           .destroy({
             where: {
               id: recipeId,
-            }
+            },
           })
           .then(() => res.status(200).json({ statusCode: 200, message: 'This recipe has been deleted' }));
       })
@@ -186,9 +187,9 @@ export class Recipes {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
-   * 
+   *
    * @returns {object} Class instance
-   * 
+   *
    * @memberof Recipe
    */
   getRecipes(req, res) {
@@ -196,8 +197,8 @@ export class Recipes {
       if (req.query.order && req.query.order === 'desc') {
         recipe.findAll({
           order: [
-            ['upVotes', 'DESC']
-          ]
+            ['upVotes', 'DESC'],
+          ],
         })
           .then((orderedRecipe) => {
             if (!orderedRecipe) {
@@ -206,7 +207,7 @@ export class Recipes {
             return res.status(201).json({
               statusCode: 201,
               message: 'Recipe(s) found',
-              recipe: orderedRecipe
+              recipe: orderedRecipe,
             });
           })
           .catch(() => res.status(500).json({ statusCode: 500, message: 'Error sorting recipes' }));
@@ -215,20 +216,16 @@ export class Recipes {
       const limitValue = req.query.limit || 30;
       const search = req.query.search.split(' ');
 
-      const ingredientsResp = search.map((value) => {
-        return { ingredients: { $iLike: `%${value}%` } };
-      });
-      const respName = search.map((value) => {
-        return { name: { $iLike: `%${value}%` } };
-      });
+      const ingredientsResp = search.map((value) => ({ ingredients: { $iLike: `%${value}%` } }));
+      const respName = search.map((value) => ({ name: { $iLike: `%${value}%` } }));
 
       recipe.findAll({
         where: {
           $or:
-          ingredientsResp.concat(respName)
+          ingredientsResp.concat(respName),
         },
         order: [
-          ['id', 'ASC']
+          ['id', 'ASC'],
         ],
         limit: limitValue,
       })
@@ -244,7 +241,7 @@ export class Recipes {
 
       recipe.findAndCountAll({
         limit: limitValue,
-        offset: pageValue * limitValue
+        offset: pageValue * limitValue,
       })
         .then((recipes) => {
           if (recipes.length === 0) {
@@ -265,19 +262,20 @@ export class Recipes {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
-   * 
+   *
    * @returns {object} Class instance
    * @memberof Vote
    */
   getRecipeById(req, res) {
     const { recipeId } = req.params;
     recipe.findById(recipeId)
-      .then((found) => {
-        if (!found) {
-          return res.status(404).json({ statusCode: 404, message: `Recipe with id: ${recipeId} does not exist` });
+      .then((singleRecipe) => {
+        if (!singleRecipe) {
+          return res.status(404).json({ statusCode: 404, error: `Recipe with id: ${recipeId} does not exist` });
         }
-        return res.status(200).json({ statusCode: 200, message: `Recipe with id: ${recipeId} was found`, found });
-      });
+        return res.status(200).json({ statusCode: 200, message: `Recipe with id: ${recipeId} was found`, singleRecipe });
+      })
+      .catch(error => res.status(500).json(error));
     return this;
   }
 }
