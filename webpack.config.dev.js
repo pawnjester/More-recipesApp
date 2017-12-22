@@ -12,15 +12,16 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'build/js'),
     filename: 'bundle.js',
-    publicPath: '/'
+    publicPath: '/',
   },
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new Dotenv({
-      path: './.env',
-      safe: true 
+      path: path.resolve('./.env'),
+      safe: false,
+      systemvars: true,
     }),
   ],
   module: {

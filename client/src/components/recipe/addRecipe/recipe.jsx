@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import EditRecipeModal from '../../Modal/EditRecipeModal';
 
 
-export default class Recipe extends Component {
+class Recipe extends Component {
   constructor(props) {
     super(props);
     this.onDelete = this.onDelete.bind(this);
-    this.onView = this.onView.bind(this);
 
     this.state = {
       modal: false,
@@ -17,13 +17,6 @@ export default class Recipe extends Component {
     this.props.deleteRecipe(this.props.recipe.id);
   }
 
-  onView() {
-    this.props.getRecipe(this.props.recipe.id);
-  }
-
-  // onEdit() {
-  //   this.props.editRecipe(this.props.recipe.id);
-  // }
   toggle() {
     this.setState({
       modal: !this.state.modal,
@@ -34,14 +27,15 @@ export default class Recipe extends Component {
     const style = {
       height: 200,
     };
+    const { recipe } = this.props;
     return (
       <div className="col-md-4 col-xs-12 " >
         <div className="card">
-          <img className="card-img-top" src={this.props.recipe.imageUrl} style={style} />
+          <img className="card-img-top" src={recipe.imageUrl} style={style} alt="recipeImage" />
           <div className="card-body">
-            <h4 className="card-title">{this.props.recipe.name}</h4>
-            <p className="card-text">{this.props.recipe.ingredients}</p>
-            <p className="card-text">{this.props.recipe.method}</p>
+            <h4 className="card-title">{recipe.name}</h4>
+            <p className="card-text">{recipe.ingredients}</p>
+            <p className="card-text">{recipe.method}</p>
 
           </div>
           <div className="card-body clearfix">
@@ -61,9 +55,12 @@ export default class Recipe extends Component {
             <div className="text-right text-danger float-right">
               <i className="fa fa-trash" aria-hidden="true" /><span id="clickableAwesomeFont" onClick={() => this.onDelete()} className="delete">&nbsp;Delete</span>
             </div>
-            <div className="text-center text-primary float-center">
-              <i className="fa fa-eye" aria-hidden="true" /><span id="clickableAwesomeFont" className="view" onClick={() => this.onView()}>&nbsp;View</span>
-            </div>
+            <Link to={`/detail/${recipe.id}`}>
+              <div className="text-center text-primary float-center">
+                <i className="fa fa-eye" aria-hidden="true" /><span id="clickableAwesomeFont" className="view" >&nbsp;View</span>
+              </div>
+            </Link>
+
           </div>
         </div>
       </div>
@@ -71,3 +68,4 @@ export default class Recipe extends Component {
   }
 }
 
+export default Recipe;

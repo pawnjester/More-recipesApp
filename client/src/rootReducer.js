@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
-import flashMessages from './reducers/flashMessages';
 import auth from './reducers/auth';
 import recipeReducer from './reducers/recipeReducer';
+import review from './reducers/reviewReducers';
+import recipeDetailReducer from './reducers/recipeDetailReducer';
 
 
 export default combineReducers({
-  flashMessages,
   auth,
-  recipeReducer
+  recipeReducer,
+  review,
+  recipeDetailReducer,
 });

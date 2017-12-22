@@ -1,7 +1,10 @@
  body{
-        
+  background:#fff;
+  color: #fff;
         }
-      
+      .back{
+        background-color: white;
+      }
       .navbar{
         border-bottom: #FF4500 3px solid;               
       }  
@@ -12,7 +15,7 @@
 
       #home-section{
         background: url('../../public/img/food1.jpg') no-repeat;
-        min-height: 700px !important;
+        min-height: 640px !important;
         background-size: cover !important;
         background-attachment: fixed !important;
         color: #fff;
@@ -54,7 +57,7 @@
 
       .fa{
         color: #FF4500;
-        background: #fff;
+        background-color: #fff !important;
         padding: 4px;
         border-radius: 5px;
         font-size: 15px;

@@ -3,10 +3,10 @@ import superagent from 'superagent';
 import Dropzone from 'react-dropzone';
 import sha1 from 'sha1';
 import toastr from 'toastr';
-import { connect } from 'react-redux';
+import { Button, Modal,
+  ModalHeader, ModalBody, Form, Label, Input, FormGroup, Col, FormText } from 'reactstrap';
 import createRecipe from '../../actions/recipeActions';
-import { Button, Container, Modal,
-  ModalHeader, ModalBody, ModalFooter, Form, Label, Input, FormGroup, Col, FormText } from 'reactstrap';
+
 
 class AddRecipeModal extends Component {
   constructor(props) {
@@ -42,12 +42,12 @@ class AddRecipeModal extends Component {
     this.setState({ status: 'Uploading...' });
     const image = files[0];
 
-    const cloudName = 'digr7ls7o';
+    const cloudName = process.env.CLOUDNAME;
 
     const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
 
     const timestamp = Date.now() / 1000;
-    const uploadPreset = 'bd7kolap';
+    const uploadPreset = process.env.UPLOADPRESET;
 
     const paramStr = `timestamp=${timestamp}&upload_preset=${uploadPreset}mr9XYhDjoiITDCHXlNm8jEvV03w`;
 
@@ -68,17 +68,6 @@ class AddRecipeModal extends Component {
         // alert(err)
         return;
       }
-
-      //   if (resp.body.secure_url !== '') {
-      //     console.log('12222', resp.body.secure_url);
-      //   }
-
-      //   console.log(`UPLOAD COMPLETE: ${JSON.stringify(resp.body)}`);
-      //   const uploaded = resp.body;
-
-      //   const updatedImages = Object.assign([], this.state.imageUrl);
-      //   updatedImages.push(uploaded);
-      //   console.log('56789', updatedImages[0].secure_url);
 
       this.setState({
         imageUrl: resp.body.secure_url,

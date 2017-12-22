@@ -1,7 +1,7 @@
 import models from '../models';
 
 const review = models.Review;
-const recipe = models.Recipe
+const recipe = models.Recipe;
 
 
 /**
@@ -15,9 +15,9 @@ class Reviews {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
-   * 
+   *
    * @returns {object} Class instance
-   * 
+   *
    * @memberof Reviews
    */
   postReview(req, res) {
@@ -42,6 +42,32 @@ class Reviews {
         res.status(201).json({ statusCode: 201, message: 'Your review has been added', reviewed });
       })
       .catch(() => { res.status(500).json({ statusCode: 500, message: 'Error creating review' }); });
+    return this;
+  }
+
+  getReviewById(req, res) {
+    const { recipeId } = req.params;
+    const currentUser = req.currentUser.id;
+
+
+    recipe.findOne({
+      where: {
+        id: recipeId,
+      },
+    })
+      .then((response) => {
+        if (!response) {
+          return res.status(406).json({ statusCode: 406, error: `Recipe not found with ${recipeId}` });
+        }
+        review.findAll({
+          where: {
+            recipeId,
+            userId: currentUser,
+          },
+        })
+          .then(reviews => res.status(200).json({ statusCode: 200, message: 'Reviews found: ', reviews }));
+      })
+      .catch(() => res.status(500).json({ statusCode: 500, message: 'Recipe cannot be retrieved' }));
     return this;
   }
 }

@@ -8,7 +8,7 @@ import request from 'supertest';
 
 import { token } from './user.test';
 
-import { seedRecipes } from './seed/seed'
+import { seedRecipes } from './seed/seed';
 
 
 describe('test of authenticated routes (recipes)', () => {
