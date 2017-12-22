@@ -24,7 +24,7 @@ class RecipePage extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.onDeleteRecipe = this.onDeleteRecipe.bind(this);
-    this.onViewRecipe = this.onViewRecipe.bind(this);
+    // this.onViewRecipe = this.onViewRecipe.bind(this);
   }
 
   componentWillMount() {
@@ -32,21 +32,21 @@ class RecipePage extends Component {
     this.props.getRecipes();
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      recipes: nextProps.recipes
-    });
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   this.setState({
+  //     recipes: nextProps.recipes
+  //   });
+  // }
 
 
   onDeleteRecipe(recipeId) {
     this.props.deleteRecipe(recipeId);
   }
 
-  onViewRecipe(recipeId) {
-    this.props.getRecipeDetail(recipeId);
-    this.props.history.push('/detail');
-  }
+  // onViewRecipe(recipeId) {
+  //   this.props.getRecipeDetail(recipeId);
+  //   this.props.history.push(`/detail/${recipeId}`);
+  // }
 
   toggle() {
     this.setState({
@@ -55,10 +55,6 @@ class RecipePage extends Component {
   }
 
   render() {
-    console.log('I rerendered');
-    if (this.props.recipes === undefined) {
-      return <h4>Please wait....</h4>;
-    }
     return (
       <div>
         <NavigationBar />
@@ -73,10 +69,9 @@ class RecipePage extends Component {
             />
           </div>
           <hr />
-
           <div className="row high">
             {this.props.recipes.map(recipe =>
-              <Recipe recipe={recipe} key={recipe.id} deleteRecipe={this.onDeleteRecipe} getRecipe={this.onViewRecipe} getAllRecipes={this.props.getRecipes} />)}
+              <Recipe recipe={recipe} key={recipe.id} deleteRecipe={this.onDeleteRecipe} getAllRecipes={this.props.getRecipes} />)}
           </div>
         </div>
       </div>
@@ -88,8 +83,7 @@ class RecipePage extends Component {
 RecipePage.propTypes = {
   createRecipe: PropTypes.func.isRequired,
   deleteRecipe: PropTypes.func.isRequired,
-  getRecipeDetail: PropTypes.func.isRequired,
-  editRecipe: PropTypes.func.isRequired,
+  getRecipes: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

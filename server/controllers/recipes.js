@@ -1,6 +1,8 @@
 import models from '../models';
+import Recipe from '../../client/src/components/recipe/addRecipe/recipe';
 
 const recipe = models.Recipe;
+const review = models.Review;
 
 /**
  *
@@ -112,8 +114,8 @@ export class Recipes {
 
     })
       .then((recipe) => {
-        console.log('****old',recipe.dataValues.imageUrl);
-        console.log('****new',req.body.imageUrl);
+        console.log('****old', recipe.dataValues.imageUrl);
+        console.log('****new', req.body.imageUrl);
         if (!recipe) {
           return res.status(400).json({
             statusCode: 400,
@@ -216,8 +218,8 @@ export class Recipes {
       const limitValue = req.query.limit || 30;
       const search = req.query.search.split(' ');
 
-      const ingredientsResp = search.map((value) => ({ ingredients: { $iLike: `%${value}%` } }));
-      const respName = search.map((value) => ({ name: { $iLike: `%${value}%` } }));
+      const ingredientsResp = search.map(value => ({ ingredients: { $iLike: `%${value}%` } }));
+      const respName = search.map(value => ({ name: { $iLike: `%${value}%` } }));
 
       recipe.findAll({
         where: {
@@ -240,6 +242,9 @@ export class Recipes {
       const pageValue = req.query.next - 1 || 0;
 
       recipe.findAndCountAll({
+        include: [
+          { model: review, attributes: ['data'] },
+        ],
         limit: limitValue,
         offset: pageValue * limitValue,
       })
@@ -247,7 +252,7 @@ export class Recipes {
           if (recipes.length === 0) {
             return res.status(404).json({});
           }
-          res.status(200).json({
+          return res.status(200).json({
             statusCode: 200, message: 'Welcome to More-Recipes, these are the recipes available', page: pageValue + 1, totalCount: recipes.count, pageCount: Math.ceil(recipes.count / limitValue), pageSize: parseInt(recipes.rows.length, 10), recipes: recipes.rows,
           });
         })
@@ -268,7 +273,13 @@ export class Recipes {
    */
   getRecipeById(req, res) {
     const { recipeId } = req.params;
-    recipe.findById(recipeId)
+    recipe.findOne({
+      where: { id: recipeId },
+      
+      include: [
+        { model: review, attributes: ['data'] },
+      ],
+    })
       .then((singleRecipe) => {
         if (!singleRecipe) {
           return res.status(404).json({ statusCode: 404, error: `Recipe with id: ${recipeId} does not exist` });

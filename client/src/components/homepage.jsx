@@ -6,6 +6,7 @@ import { userSignupRequest } from '../actions/signupActions';
 import { Button } from 'react-bootstrap';
 import NavigationBar from './NavigationBar';
 import '../styles/home.scss';
+/*eslint-disable */
 
 
 class Home extends React.Component {
@@ -24,10 +25,10 @@ class Home extends React.Component {
                 <h1 className="display-4" style={{ color: 'fff' }}>Let the  world know about your <strong>Recipe</strong> in three easy steps:</h1>
                 <div className="d-flex flex-row">
                   <div className="p-4 align-self-start" >
-                  <i className="fa fa-check" />
+                  <i className="fa fa-check back" />
 
                 </div>
-                  <div className="p-4 align-self-end" style={{ color: 'fff' }}>
+                  <div className="p-4 align-self-end ">
                   Create an account
                 </div>
 
@@ -35,10 +36,10 @@ class Home extends React.Component {
 
                 <div className="d-flex flex-row">
                   <div className="p-4 align-self-start" >
-                  <i className="fa fa-check" />
+                  <i className="fa fa-check back" />
 
                 </div>
-                  <div className="p-4 align-self-end" style={{ color: 'fff' }}>
+                  <div className="p-4 align-self-end ">
                   Add A Recipe
                 </div>
 
@@ -46,10 +47,10 @@ class Home extends React.Component {
 
                 <div className="d-flex flex-row">
                   <div className="p-4 align-self-start" >
-                  <i className="fa fa-check" />
+                  <i className="fa fa-check back" />
 
                 </div>
-                  <div className="p-4 align-self-end" style={{ color: 'fff' }}>
+                  <div className="p-4 align-self-end">
                   Relax, and let the world view your wonderful recipe
                 </div>
 

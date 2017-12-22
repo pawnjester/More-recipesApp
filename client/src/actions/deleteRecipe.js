@@ -1,10 +1,6 @@
 import axios from 'axios';
 import { DELETE_RECIPE_SUCCESS } from './types';
 
-// const TOKEN = localStorage.getItem('jwtToken');
-
-// console.log('********', TOKEN);
-
 const deleteRecipe = recipeId => dispatch => axios
   .delete(`/api/v1/recipes/${recipeId}`)
   .then((response) => {

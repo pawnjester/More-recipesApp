@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import superagent from 'superagent';
+import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
 import { Button, Modal,
   ModalHeader, ModalBody, Form, Label, Input, FormGroup, Col, FormText } from 'reactstrap';
@@ -24,6 +25,7 @@ class EditRecipeModal extends Component {
 
     this.onNameChange = this.onNameChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.imageUpload = this.imageUpload.bind(this);
   }
 
   componentWillMount() {
@@ -34,15 +36,6 @@ class EditRecipeModal extends Component {
       imageUrl: this.props.recipe.imageUrl,
     });
   }
-
-  componentDidMount() {
-    console.log('Mounted', this.props.isOpen);
-  }
-
-  componentWillUnmount() {
-    console.log('UnMountinggg', this.props.isOpen);
-  }
-
 
   onNameChange(event) {
     this.setState({ [event.target.name]: event.target.value });
@@ -59,15 +52,14 @@ class EditRecipeModal extends Component {
 
   imageUpload(files) {
     this.setState({ status: 'Uploading...' });
-    console.log('uploadFile: ');
     const image = files[0];
 
-    const cloudName = 'digr7ls7o';
+    const cloudName = process.env.CLOUDNAME;
 
     const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
 
     const timestamp = Date.now() / 1000;
-    const uploadPreset = 'bd7kolap';
+    const uploadPreset = process.env.UPLOADPRESET;
 
     const paramStr = `timestamp=${timestamp}&upload_preset=${uploadPreset}mr9XYhDjoiITDCHXlNm8jEvV03w`;
 
@@ -86,20 +78,9 @@ class EditRecipeModal extends Component {
     });
     uploadRequest.end((err, resp) => {
       if (err) {
-        // alert(err)
+        toastr.success('Recipe cannot be editted');
         return;
       }
-
-      // if (resp.body.secure_url !== '') {
-      //   console.log('12222', resp.body.secure_url);
-      // }
-
-      // console.log(`UPLOAD COMPLETE: ${JSON.stringify(resp.body)}`);
-      // const uploaded = resp.body;
-
-      // const updatedImages = Object.assign([], this.state.imageUrl);
-      // updatedImages.push(uploaded);
-      // console.log('56789', updatedImages[0].secure_url);
 
       this.setState({
         imageUrl: resp.body.secure_url,
@@ -158,7 +139,7 @@ class EditRecipeModal extends Component {
             <FormGroup row>
               <Label for="exampleFile" sm={4}>File</Label>
               <Col sm={8}>
-                <Dropzone onDrop={this.imageUpload.bind(this)} />
+                <Dropzone onDrop={this.imageUpload} />
                 <h6>{ this.state.status}</h6>
                 <FormText color="muted" />
               </Col>
@@ -175,6 +156,11 @@ class EditRecipeModal extends Component {
     );
   }
 }
+
+EditRecipeModal.propTypes = {
+  getAllRecipes: PropTypes.func.isRequired,
+
+};
 
 
 export default connect(null, { editRecipe })(EditRecipeModal);

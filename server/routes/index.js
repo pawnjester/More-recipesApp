@@ -21,6 +21,7 @@ router.put('/:recipeId', authenticate, recipeController.modifyRecipe);
 router.delete('/:recipeId', authenticate, recipeController.deleteRecipe);
 router.get('/:recipeId', recipeController.getRecipeById);
 router.post('/:recipeId/reviews', authenticate, reviewController.postReview);
+router.get('/:recipeId/reviews', authenticate, reviewController.getReviewById);
 router.post('/:recipeId/favorite', authenticate, favoriteController.addFavorite);
 router.get('/:userId/favorite', authenticate, favoriteController.getAllFavorite);
 router.post('/:recipeId/vote', authenticate, voteController.votes);
