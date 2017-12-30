@@ -80,30 +80,52 @@ class NavigationBar extends React.Component {
     const { isAuthenticated } = this.props.auth;
 
     const userLinks = (
-      <Nav nav>
-        <NavItem className="nav-item">
-          <Button onClick={this.logout} className="nav-link nov float-right" styles="border-radius: 4px;">Log out</Button>
-        </NavItem>
-      </Nav>
+      // <Nav navbar>
+      //   <NavItem>
+      //     <Button onClick={this.logout} className="nav-link " styles="border-radius: 4px;">Log out</Button>
+      //   </NavItem>
+      // </Nav>
+      <div>
+        <li className="nav-item">
+          <button onClick={this.logout} className="nav-link nov bg-dark" styles="border-radius: 4px;">Log out</button>
+        </li>
+      </div>
     );
 
     const guestLinks = (
-      <Nav nav>
-        <NavItem className="nav-item">
-          <Button onClick={this.toggle} className="nav-link nov float-right" styles="cursor:pointer">Sign In</Button>
-        </NavItem>
-      </Nav>
+      // <Nav navbar>
+      //   <NavItem className="nav-item">
+      //     <Button onClick={this.toggle} className="nav-link nov float-right" styles="cursor:pointer">Sign In</Button>
+      //   </NavItem>
+      // </Nav>
+      <li className="nav-item">
+        <Link to="/signin" className="nav-link nov bg-dark" styles="border-radius: 4px;">Sign In</Link>
+      </li>
 
     );
     return (
-      <Navbar className="navbar navbar-expand-sm navbar-dark navbar-inverse bg-dark fixed-top ">
-        <Link className="navbar-brand" to="/" styles="cursor:pointer; color: #fffc !important">More-Recipes</Link>
-        <NavbarToggler onClick={this.toggleNavbar} className="mr-2 ml-auto" />
-        <Collapse isOpen={!this.state.collapsed} navbar>
-          {isAuthenticated ? userLinks : guestLinks}
-        </Collapse>
-        <LoginModal isOpen={this.state.modal} toggle={this.toggle} />
-      </Navbar>
+      // <Navbar className="navbar navbar-expand-sm navbar-dark navbar-inverse bg-dark fixed-top ">
+      //   <NavbarBrand href="/" className="mr-auto" styles="cursor:pointer; color: #fffc !important">More-Recipes</NavbarBrand>
+      //   <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
+      //   <Collapse isOpen={!this.state.collapsed} navbar>
+      //     {isAuthenticated ? userLinks : guestLinks}
+      //   </Collapse>
+      //   <LoginModal isOpen={this.state.modal} toggle={this.toggle} />
+      // </Navbar>
+
+      <nav className="navbar navbar-expand-sm navbar-dark navbar-inverse bg-dark fixed-top ">
+        <Link className="navbar-brand" to="/" styles="cursor:pointer">More-Recipes</Link>
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon" />
+        </button>
+
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav ml-auto">
+            {isAuthenticated ? userLinks : guestLinks}
+
+          </ul>
+        </div>
+      </nav>
     );
   }
 }

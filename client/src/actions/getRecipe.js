@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { GET_RECIPES } from './types';
 
-const getRecipe = values => dispatch => axios.get('/api/v1/recipes', values)
+const getRecipe = values => dispatch => axios.get('/api/v1/recipes/userRecipe', values)
   .then((response) => {
     dispatch({ type: GET_RECIPES, payload: response.data });
   })
