@@ -2,7 +2,6 @@ import { CREATE_RECIPE_SUCCESS,
   GET_RECIPES,
   DELETE_RECIPE_SUCCESS,
   EDIT_RECIPE_SUCCESS,
-  // GET_RECIPE_DETAIL_SUCCESS,
 } from '../actions/types';
 
 /* eslint-disable */

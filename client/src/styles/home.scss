@@ -57,14 +57,15 @@
 
       .fa{
         color: #FF4500;
-        background-color: #fff !important;
+        background: #fff;
         padding: 4px;
         border-radius: 5px;
         font-size: 15px;
       }
 
       nov {
-        padding: -2px -2px 20px;        
+        padding: -2px -2px 20px;
+        cursor: pointer;        
       }
 
       .carousel-control-next-icon, .carousel-control-prev-icon {

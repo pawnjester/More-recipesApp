@@ -5,13 +5,14 @@ const recipe = models.Recipe;
 const upvotes = models.Upvote;
 const downvotes = models.Downvote;
 
+
 /**
  * Class Definition for the Vote Object
  *
  * @export
  * @class Vote
  */
-export default class Vote {
+export default class Votes {
   /**
    * up-vote a recipe
    *
@@ -21,151 +22,273 @@ export default class Vote {
    * @returns {object} Class instance
    * @memberof Vote
    */
-  votes(req, res) {
-    const userId = req.currentUser.id;
+  upvote(req, res) {
+    const currentUser = req.currentUser.id;
     const { recipeId } = req.params;
     recipe.findById(recipeId)
       .then((recipeFound) => {
         if (!recipeFound) {
-          return res.status(404).json({ error: `recipe with ${recipeId} not found` });
+          return res.status(404).json({ error: 'You cannot upvote this recipe' });
         }
-        if (req.query.vote === 'upvote') {
-          downvotes.findOne({
-            where: {
-              $and: [
-                { userId },
-                { recipeId },
-              ],
+        // check if it has been upvoted
+        upvotes.findOne({
+          where: {
+            userId: currentUser,
+            $and: {
+              recipeId,
             },
-          })
-            .then((downFound) => {
-              if (downFound) {
-                downvotes.destroy({
-                  where: {
-                    $and: [
-                      { userId },
-                      { recipeId },
-                    ],
-                  },
-                })
-                  .then(() => {
-                    recipe.findOne({
+          },
+          attributes: ['id', 'recipeId', 'userId'],
+        })
+          .then((foundUpvote) => {
+            if (!foundUpvote) {
+              downvotes.findOne({
+                where: {
+                  userId: currentUser,
+                  $and: { recipeId },
+                },
+                attributes: ['id', 'recipeId', 'userId'],
+              })
+                .then((foundDownvote) => {
+                  if (!foundDownvote) {
+                    upvotes.create({
+                      recipeId,
+                      userId: currentUser,
+                    })
+                      .then(() => {
+                        recipe.findOne({
+                          where: { id: recipeId },
+                          include: [
+                            { model: models.User, attributes: ['email'] },
+                            { model: models.Review, attributes: ['id', 'data'] },
+                          ],
+                        })
+                          .then((Recipe) => {
+                            if (!Recipe) {
+                              return res.status(500).json({
+                                error: 'Recipe can\'t be upvoted',
+                              });
+                            }
+                            if (Recipe) {
+                              Recipe.increment('upVotes').then(() => {
+                                Recipe.reload();
+                              })
+                                .then(() => res.status(200).json({
+                                  status: 'success',
+                                  message: 'recipe has been upvoted',
+                                  Recipe,
+                                }));
+                            }
+                          });
+                      });
+                  }
+                  if (foundDownvote) {
+                    downvotes.destroy({
                       where: {
-                        id: recipeId,
+                        recipeId,
+                        $and: { userId: currentUser },
                       },
                     })
-                      .then((dec) => {
-                        dec.decrement('downVotes');
+                      .then(() => {
+                        upvotes.create({
+                          recipeId,
+                          userId: currentUser,
+                        })
+                          .then(() => {
+                            recipe.findOne({
+                              where: { id: recipeId },
+                              include: [
+                                { model: models.User, attributes: ['email'] },
+                                { model: models.Review, attributes: ['id', 'data'] },
+                              ],
+                            })
+                              .then((Recipe) => {
+                                if (Recipe) {
+                                  Recipe.increment('upVotes').then(() => {
+                                    Recipe.decrement('downVotes').then(() => {
+                                      Recipe.reload();
+                                    }).then(() => res.status(200).send({
+                                      status: 'success',
+                                      message: 'Recipe has been upvoted',
+                                      Recipe,
+                                    }));
+                                  });
+                                }
+                                if (!Recipe) {
+                                  return res.status(500).json({ error: 'Recipe could not be upvoted' });
+                                }
+                              });
+                          });
                       });
-                  });
-              }
-            });
-
-          upvotes.findOne({
-            where: {
-              $and: [
-                { userId },
-                { recipeId },
-              ],
-            },
-          })
-            .then((voteFound) => {
-              if (voteFound) {
-                return res.status(409).json({
-                  statusCode: 409,
-                  error: `This recipe with id: ${recipeId} has already been upvoted`,
+                  }
                 });
-              }
-
-              upvotes.create({
-                userId,
-                recipeId,
+            }
+            if (foundUpvote) {
+              upvotes.destroy({
+                where: { userId: currentUser },
+                $and: { recipeId },
               })
-                .then((upvote) => {
+                .then(() => {
                   recipe.findOne({
-                    where: {
-                      id: recipeId,
-                    },
+                    where: { id: recipeId },
+                    include: [
+                      { model: models.User, attributes: ['email'] },
+                      { model: models.Review, attributes: ['id', 'data'] },
+                    ],
                   })
-                    .then((recipeVote) => {
-                      recipeVote.increment('upVotes');
-                      res.status(201).json({
-                        statusCode: 201,
-                        message: `This recipe with id: ${recipeId} just Upvoted`,
-                      });
+                    .then((Recipe) => {
+                      Recipe.decrement('upVotes')
+                        .then(() => Recipe.reload())
+                        .then(() => res.status(200).json({
+                          status: 'success',
+                          message: 'upvote removed',
+                          Recipe,
+                        }));
                     });
                 });
-            });
-        } else if (req.query.vote === 'downvote') {
-          upvotes.findOne({
-            where: {
-              $and: [
-                { userId },
-                { recipeId },
-              ],
+            }
+          });
+      })
+      .catch(() => res.status(500).json({ message: 'Server error, unable to complete vote' }));
+    return this;
+  }
+  /**
+   *
+   *
+   * @static
+   * @param {any} req
+   * @param {any} res
+   * @returns {obj} any
+   * @memberof Vote
+   */
+  downvote(req, res) {
+    const currentUser = req.currentUser.id;
+    const { recipeId } = req.params;
+    recipe.findById(recipeId)
+      .then((recipeFound) => {
+        if (!recipeFound) {
+          return res.status(404).json({ error: 'You cannot downvote this recipe' });
+        }
+        // check if it has been downvoted
+        downvotes.findOne({
+          where: {
+            userId: currentUser,
+            $and: {
+              recipeId,
             },
-          })
-            .then((upFound) => {
-              if (upFound) {
-                upvotes.destroy({
-                  where: {
-                    $and: [
-                      { userId },
-                      { recipeId },
-                    ],
-                  },
-                })
-                  .then(() => {
-                    recipe.findOne({
+          },
+          attributes: ['id', 'recipeId', 'userId'],
+        })
+          .then((foundDownvote) => {
+            if (!foundDownvote) {
+              upvotes.findOne({
+                where: {
+                  userId: currentUser,
+                  $and: { recipeId },
+                },
+                attributes: ['id', 'recipeId', 'userId'],
+              })
+                .then((foundUpvote) => {
+                  if (!foundUpvote) {
+                    downvotes.create({
+                      recipeId,
+                      userId: currentUser,
+                    })
+                      .then(() => {
+                        recipe.findOne({
+                          where: { id: recipeId },
+                          include: [
+                            { model: models.User, attributes: ['email'] },
+                            { model: models.Review, attributes: ['id', 'data'] },
+                          ],
+                        })
+                          .then((Recipe) => {
+                            if (!Recipe) {
+                              return res.status(500).json({
+                                error: 'Recipe can\'t be downvoted',
+                              });
+                            }
+                            if (Recipe) {
+                              Recipe.increment('downVotes').then(() => {
+                                Recipe.reload();
+                              })
+                                .then(() => res.status(200).json({
+                                  status: 'success',
+                                  message: 'recipe has been downvoted',
+                                  Recipe,
+                                }));
+                            }
+                          });
+                      });
+                  }
+                  if (foundUpvote) {
+                    upvotes.destroy({
                       where: {
-                        id: recipeId,
+                        recipeId,
+                        $and: { userId: currentUser },
                       },
                     })
-                      .then((dec) => {
-                        dec.decrement('upVotes');
+                      .then(() => {
+                        downvotes.create({
+                          recipeId,
+                          userId: currentUser,
+                        })
+                          .then(() => {
+                            recipe.findOne({
+                              where: { id: recipeId },
+                              include: [
+                                { model: models.User, attributes: ['email'] },
+                                { model: models.Review, attributes: ['id', 'data'] },
+                              ],
+                            })
+                              .then((Recipe) => {
+                                if (Recipe) {
+                                  Recipe.increment('downVotes').then(() => {
+                                    Recipe.decrement('upVotes').then(() => {
+                                      Recipe.reload();
+                                    }).then(() => res.status(200).send({
+                                      status: 'success',
+                                      message: 'Recipe has been downvoted',
+                                      Recipe,
+                                    }));
+                                  });
+                                }
+                                if (!Recipe) {
+                                  return res.status(500).json({ error: 'Recipe could not be downvoted' });
+                                }
+                              });
+                          });
                       });
-                  });
-              }
-            });
-
-          downvotes.findOne({
-            where: {
-              $and: [
-                { userId },
-                { recipeId },
-              ],
-            },
-          })
-            .then((voteFound) => {
-              if (voteFound) {
-                return res.status(409).json({
-                  statusCode: 409,
-                  error: `This recipe with id: ${recipeId} has already been downvoted`,
+                  }
                 });
-              }
-
-              downvotes.create({
-                userId,
-                recipeId,
+            }
+            if (foundDownvote) {
+              downvotes.destroy({
+                where: { userId: currentUser },
+                $and: { recipeId },
               })
-                .then((downvote) => {
+                .then(() => {
                   recipe.findOne({
-                    where: {
-                      id: recipeId,
-                    },
+                    where: { id: recipeId },
+                    include: [
+                      { model: models.User, attributes: ['email'] },
+                      { model: models.Review, attributes: ['id', 'data'] },
+                    ],
                   })
-                    .then((recipeVote) => {
-                      recipeVote.increment('downVotes');
-                      res.status(201).json({
-                        statusCode: 201,
-                        message: `This recipe with id: ${recipeId} just downvoted`,
-                      });
+                    .then((Recipe) => {
+                      Recipe.decrement('downVotes')
+                        .then(() => Recipe.reload())
+                        .then(() => res.status(200).json({
+                          status: 'success',
+                          message: 'downvote removed',
+                          Recipe,
+                        }));
                     });
                 });
-            });
-        }
-      });
+            }
+          });
+      })
+      .catch(() => res.status(500).json({ message: 'Server error, unable to complete vote' }));
     return this;
   }
 }
-

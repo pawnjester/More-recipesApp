@@ -7,10 +7,6 @@ export default function (ComposedComponent) {
   class Authenticate extends Component {
     componentWillMount() {
       if (!this.props.isAuthenticated) {
-        this.props.addFlashMessage({
-          type: 'error',
-          text: 'you need to log in to access this page',
-        });
         this.context.router.history.push('/signin');
       }
     }
@@ -22,7 +18,7 @@ export default function (ComposedComponent) {
     }
     render() {
       return (
-      <ComposedComponent {...this.props} />
+        <ComposedComponent {...this.props} />
       );
     }
   }
