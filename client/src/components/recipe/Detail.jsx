@@ -7,6 +7,7 @@ import getRecipeDetail from '../../actions/getRecipeDetail';
 import getReview from '../../actions/getAllReviews';
 import upvoteRecipe from '../../actions/upvoteRecipe';
 import downvoteRecipe from '../../actions/downvoteRecipe';
+import favoriteRecipe from '../../actions/favoriteRecipe';
 import Reviews from './Review';
 import DisplayReviews from './DisplayReviews';
 
@@ -42,6 +43,11 @@ class Detail extends Component {
     this.props.upvoteRecipe(this.props.match.params.recipeId);
   }
 
+  favorite() {
+    console.log('favorite >>>>>');
+    this.props.favoriteRecipe(this.props.match.params.recipeId);
+  }
+
   downvoted() {
     console.log('downvoted');
     this.props.downvoteRecipe(this.props.match.params.recipeId);
@@ -72,11 +78,14 @@ class Detail extends Component {
                 <div className="card detail-card">
                   <div className="card-body clearfix">
                     <div className="row">
-                      <button className="btn btn-success col-sm-6 no-border-r pt-3 pb-3" onClick={() => this.upvoted()}>
+                      <button className="btn btn-success col-sm-4 no-border-r pt-3 pb-3" onClick={() => this.upvoted()}>
                         <i className="fa fa-thumbs-up" aria-hidden="true" /><span>&nbsp;{singleRecipe.upVotes}</span>
                       </button>
-                      <button className="btn btn-danger col-sm-6 no-border-r pt-3 pb-3" onClick={() => this.downvoted()}>
+                      <button className="btn btn-danger col-sm-4 no-border-r pt-3 pb-3" onClick={() => this.downvoted()}>
                         <i className="fa fa-thumbs-down" aria-hidden="true" /><span>&nbsp;{singleRecipe.downVotes}</span>
+                      </button>
+                      <button className="btn btn-dark col-sm-4 no-border-r pt-3 pb-3" onClick={() => this.favorite()}>
+                        <i className="fa fa-heart-o" aria-hidden="true" /><span>&nbsp;</span>
                       </button>
                     </div>
                   </div>
@@ -111,14 +120,15 @@ Detail.propTypes = {
   getReview: PropTypes.func.isRequired,
   upvoteRecipe: PropTypes.func.isRequired,
   downvoteRecipe: PropTypes.func.isRequired,
+  favoriteRecipe: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
   singleRecipe: state.recipeDetailReducer.currentRecipe,
   reviews: state.review.reviewed,
-  votes: state.voteReducer.votes,
+  favoriteRecipe: state.recipeDetailReducer.favoriteRecipe,
 });
 
 export default connect(mapStateToProps, {
-  getRecipeDetail, getReview, upvoteRecipe, downvoteRecipe,
+  getRecipeDetail, getReview, upvoteRecipe, downvoteRecipe, favoriteRecipe,
 })(Detail);
 

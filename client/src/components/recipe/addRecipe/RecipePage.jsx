@@ -55,6 +55,8 @@ class RecipePage extends Component {
   }
 
   render() {
+    const fav = (this.props.recipes) ? this.props.recipes : [];
+    console.log('>>>', fav);
     return (
       <div>
         <NavigationBar />

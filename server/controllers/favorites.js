@@ -15,9 +15,9 @@ export default class Favorite {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
-   * 
+   *
    * @returns {object} Class instance
-   * 
+   *
    * @memberof Favorite
    */
   addFavorite(req, res) {
@@ -28,8 +28,8 @@ export default class Favorite {
     }
     recipe.findOne({
       where: {
-        id: recipeId
-      }
+        id: recipeId,
+      },
     })
       .then((found) => {
         if (!found) {
@@ -38,25 +38,40 @@ export default class Favorite {
 
         favorite.findOne({
           where: {
-            recipeId,
-            userId
-          }
+            $and: [
+              {
+                recipeId,
+              },
+              { userId },
+            ],
+          },
         })
           .then((fav) => {
             if (fav) {
-              return res.status(409).json({ statusCode: 409, error: 'recipe is already a favorite' });
+              favorite.destroy({
+                where: {
+                  $and: [
+                    {
+                      recipeId,
+                    },
+                    { userId },
+                  ],
+                },
+              });
+              return res.status(200).json({ statusCode: 200, error: 'Recipe removed from favorite list' });
             }
             favorite.create({
               recipeId,
               userId,
             })
-              .then((newfav) => {
-                res.status(201).json({ statusCode: 201, message: `recipe with ${recipeId} has been added`, newfav });
+              .then((favoriteRecipe) => {
+                res.status(201).json({ statusCode: 201, message: `recipe with ${recipeId} has been added`, favoriteRecipe });
               })
               .catch(err => res.status(500).json({ statusCode: 500, error: 'recipe could not be added to favorite', err: err.parent.detail }));
             return this;
           });
       });
+    return this;
   }
 
   /**
@@ -64,9 +79,9 @@ export default class Favorite {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
-   * 
+   *
    * @returns {object} Class instance
-   * 
+   *
    * @memberof Favorite
    */
   getAllFavorite(req, res) {
@@ -81,14 +96,14 @@ export default class Favorite {
     }
     favorite.findAll({
       where: {
-        userId
+        userId,
       },
       include: [{
         model: recipe,
         where: {
-          userId
+          userId,
         },
-      }]
+      }],
     })
       .then((userFavorite) => {
         res.status(200).json({ statusCode: 200, message: 'the list of favorite recipes', userFavorite });
