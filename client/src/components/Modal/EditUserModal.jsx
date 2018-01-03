@@ -7,20 +7,18 @@ import { Button, Modal,
 import sha1 from 'sha1';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
-import editRecipe from '../../actions/editRecipe';
+import userDetail from '../../actions/editUserDetail';
 
 
-class EditRecipeModal extends Component {
+class EditUserModal extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      name: '',
-      ingredients: '',
-      method: '',
-      imageUrl: '',
-      status: '',      
-      id: this.props.id,
+      username: '',
+      email: '',
+      profileImg: '',
+      status: '',
     };
 
     this.onNameChange = this.onNameChange.bind(this);
@@ -28,25 +26,26 @@ class EditRecipeModal extends Component {
     this.imageUpload = this.imageUpload.bind(this);
   }
 
-  componentWillMount() {
-    this.setState({
-      name: this.props.recipe.name,
-      ingredients: this.props.recipe.ingredients,
-      method: this.props.recipe.method,
-      imageUrl: this.props.recipe.imageUrl,
-    });
+  componentWillReceiveProps(nextProps) {
+    console.log('>>>>nextProps', nextProps);
+    if (nextProps.editUser) {
+      this.setState({
+        username: nextProps.editUser.username,
+        email: nextProps.editUser.email,
+        profileImg: nextProps.editUser.profileImg,
+      });
+    }
   }
 
   onNameChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-
   onSubmit(event) {
     event.preventDefault();
-    this.props.editRecipe(this.state);
-    toastr.success('Recipe successfully changed');
-    this.props.getAllRecipes();
+    this.props.userDetail(this.state);
+    toastr.success('User successfully changed');
+    this.props.getuserDetail();
     this.props.toggle();
   }
 
@@ -78,30 +77,33 @@ class EditRecipeModal extends Component {
     });
     uploadRequest.end((err, resp) => {
       if (err) {
-        toastr.success('Recipe cannot be edited');
+        toastr.success('User cannot be edited');
         return;
       }
 
       this.setState({
-        imageUrl: resp.body.secure_url,
+        profileImg: resp.body.secure_url,
         status: 'Uploaded',
       });
     });
   }
   render() {
+    const editedUser = (this.props.editUser) ? this.props.editUser : {};
+    console.log('123', editedUser);
+    console.log('12323434', this.props.userDetail);
     return (
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
-        <ModalHeader toggle={this.props.toggle}>Edit A recipe</ModalHeader>
+        <ModalHeader toggle={this.props.toggle}>Edit A User</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup row>
-              <Label for="exampleEmail" sm={4}>Name</Label>
+              <Label for="exampleEmail" sm={4}>username</Label>
               <Col sm={8}>
                 <Input
                   type="text"
-                  name="name"
+                  name="username"
                   id="exampleEmail"
-                  value={this.state.name}
+                  value={this.state.username}
                   onChange={this.onNameChange}
                   placeholder="Enter the name"
                 />
@@ -109,20 +111,20 @@ class EditRecipeModal extends Component {
             </FormGroup>
 
             <FormGroup row>
-              <Label for="exampleEmail" sm={4}>Ingredients</Label>
+              <Label for="exampleEmail" sm={4}>email</Label>
               <Col sm={8}>
                 <Input
                   type="text"
-                  name="ingredients"
+                  name="email"
                   id="exampleEmail"
-                  value={this.state.ingredients}
+                  value={this.state.email}
                   onChange={this.onNameChange}
-                  placeholder="Enter the ingredients"
+                  placeholder="Enter the email"
                 />
               </Col>
             </FormGroup>
 
-            <FormGroup row>
+            {/* <FormGroup row>
               <Label for="exampleEmail" sm={4}>method</Label>
               <Col sm={8}>
                 <Input
@@ -131,10 +133,10 @@ class EditRecipeModal extends Component {
                   id="exampleEmail"
                   value={this.state.method}
                   onChange={this.onNameChange}
-                  placeholder="Enter the method"
+                  placeholder="Enter the name"
                 />
               </Col>
-            </FormGroup>
+            </FormGroup> */}
 
             <FormGroup row>
               <Label for="exampleFile" sm={4}>File</Label>
@@ -147,7 +149,7 @@ class EditRecipeModal extends Component {
 
             <FormGroup check row>
               <Col sm={{ size: 10, offset: 2 }}>
-                <Button onClick={this.onSubmit}>Edit a recipe</Button>
+                <Button onClick={this.onSubmit}>Edit profile</Button>
               </Col>
             </FormGroup>
           </Form>
@@ -157,10 +159,10 @@ class EditRecipeModal extends Component {
   }
 }
 
-EditRecipeModal.propTypes = {
-  getAllRecipes: PropTypes.func.isRequired,
+EditUserModal.propTypes = {
+  userDetail: PropTypes.func.isRequired,
 
 };
 
 
-export default connect(null, { editRecipe })(EditRecipeModal);
+export default connect(null, { userDetail })(EditUserModal);

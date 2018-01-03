@@ -1,19 +1,11 @@
-body {
-  background: url() no-repeat;
-
-}
 .profile{
   margin: 20px 0;
 }
+
 .dark-overlay{
-        background-color:rgba(0,0, 0, 0.8);
-        padding-top: 100px;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        min-height: 100%; 
-      }
+  background-color:rgba(0,0, 0, 0.8);
+  padding-top: 100px; 
+}
 
 .profile-sidebar{
   padding: 20px 0 0px 0;
@@ -27,8 +19,8 @@ body {
 .profile-user-pic img{
   float: none;
   margin: 0 auto;
-  width: 40%;
-  height: 40%;
+  max-width: 40%;
+  max-height: 40%;
   margin-left: 70px;
 }
 .table-borderless td{
@@ -58,20 +50,8 @@ body {
 .profile-user-buttons {
   text-align: center;
   margin-top: 10px;
-}
-
-.navbar{
-  border-bottom: #FF4500 3px solid;
-               
 } 
 
-.btn {
-  text-transform: uppercase;
-  font-size: 11px;
-  font-weight: 600;
-  padding:6px 15px;
-  margin-right: 5px;
-}
 
 .btn:last-child{
   margin-right: 0;
@@ -80,7 +60,7 @@ body {
   margin-top: 30px;
 }
 
-ul li {
+ul li .change{
   border-bottom: 2px solid #f0f4f7 !important;
 }
 
@@ -114,7 +94,7 @@ li.activ {
   background: #fff;
   min-height: 460px;
 }
- li{
+  li .change{
    border-bottom: 1px solid #f0f4f7;
  }
 .heading {

@@ -5,7 +5,6 @@ const editRecipe = recipe => dispatch => axios
   .put(`/api/v1/recipes/${recipe.id}`, recipe)
   .then((response) => {
     dispatch({ type: EDIT_RECIPE_SUCCESS, editedRecipe: response.data });
-    console.log('*********', response.data);
   })
   .catch((error) => {
     console.log(error.response);

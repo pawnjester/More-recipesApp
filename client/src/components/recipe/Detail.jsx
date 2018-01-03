@@ -61,11 +61,14 @@ class Detail extends Component {
     // console.log('UPPPP',voted);
     console.log('#$$%%', voted);
 
+    const style = {
+      backgroundImage: `url(${singleRecipe.imageUrl})`,
+    };
 
     return (
       <div>
         <NavigationBar />
-        <div className="header-banner" style={{}} />
+        <div className="header-banner" style={style} />
 
         <div className="container detail-container bg-white">
           <div className="row">

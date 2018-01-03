@@ -43,7 +43,7 @@ app.get('/swagger.json', function(req, res) {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerSpec);
 });
-
+app.use(express.static(path.join(__dirname, '../client/public/assets')));
 app.use(express.static('./server/swagger'));
 const compiler = webpack(webpackConfig);
 const port = process.env.PORT || 3000;
