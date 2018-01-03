@@ -25,7 +25,6 @@ export default function (ComposedComponent) {
 
   Authenticate.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
-    addFlashMessage: PropTypes.func.isRequired,
   };
 
   Authenticate.contextTypes = {

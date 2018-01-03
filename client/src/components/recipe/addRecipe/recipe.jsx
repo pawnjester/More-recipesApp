@@ -43,7 +43,7 @@ class Recipe extends Component {
               <i className="fa fa-pencil" aria-hidden="true" />
               <span id="clickableAwesomeFont" onClick={this.toggle} >&nbsp;Edit</span>
               <EditRecipeModal
-                recipe={this.props.recipe}
+                recipe={recipe}
                 isOpen={this.state.modal}
                 toggle={this.toggle}
                 // editRecipe={this.props.editRecipe}

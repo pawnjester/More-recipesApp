@@ -6,6 +6,8 @@ import LoginPage from './login/loginPage';
 import RecipePage from './recipe/addRecipe/RecipePage';
 import Detail from './recipe/Detail';
 import NotFound from './NotFound';
+import Profile from './user/profile';
+import Favorite from './recipe/FavoriteRecipe';
 /* eslint-disable */
 
 import requireAuth from '../utils/requireAuth';
@@ -20,6 +22,8 @@ class Main extends Component {
         <Route path="/signin" component={LoginPage} />
         <Route path="/recipes" component={requireAuth(RecipePage)} />
         <Route path="/detail/:recipeId" component={requireAuth(Detail)} />
+        <Route path="/favorites" component={requireAuth(Favorite)} />        
+        <Route path="/profile" component={requireAuth(Profile)} />        
         <Route path="*" component={NotFound} />
       </Switch>
     );

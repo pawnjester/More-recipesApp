@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { RingLoader } from 'react-spinners';
+import Loader from '../../loader';
 import createRecipe from '../../../actions/recipeActions';
 import getRecipes from '../../../actions/getRecipe';
 import deleteRecipe from '../../../actions/deleteRecipe';
@@ -19,7 +21,8 @@ class RecipePage extends Component {
 
     this.state = {
       modal: false,
-      // recipes: this.props.recipes
+      recipes: [],
+      loading: true,
     };
 
     this.toggle = this.toggle.bind(this);
@@ -29,24 +32,19 @@ class RecipePage extends Component {
 
   componentWillMount() {
     // TODO: get recipes list
-    this.props.getRecipes();
+    this.props.getRecipes().then(() => this.setState({ loading: false }));
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   this.setState({
-  //     recipes: nextProps.recipes
-  //   });
-  // }
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      recipes: nextProps.recipes,
+    });
+  }
 
 
   onDeleteRecipe(recipeId) {
     this.props.deleteRecipe(recipeId);
   }
-
-  // onViewRecipe(recipeId) {
-  //   this.props.getRecipeDetail(recipeId);
-  //   this.props.history.push(`/detail/${recipeId}`);
-  // }
 
   toggle() {
     this.setState({
@@ -54,7 +52,10 @@ class RecipePage extends Component {
     });
   }
 
+
   render() {
+    const fav = (this.props.recipes) ? this.props.recipes : [];
+    console.log('>>>', fav);
     return (
       <div>
         <NavigationBar />
@@ -70,8 +71,11 @@ class RecipePage extends Component {
           </div>
           <hr />
           <div className="row high">
-            {this.props.recipes.map(recipe =>
-              <Recipe recipe={recipe} key={recipe.id} deleteRecipe={this.onDeleteRecipe} getAllRecipes={this.props.getRecipes} />)}
+            {this.state.loading ?
+              <Loader loading={this.state.loading} /> :
+            this.state.recipes &&
+              this.state.recipes.map(recipe =>
+                <Recipe recipe={recipe} key={recipe.id} deleteRecipe={this.onDeleteRecipe} getAllRecipes={this.props.getRecipes} />)}
           </div>
         </div>
       </div>

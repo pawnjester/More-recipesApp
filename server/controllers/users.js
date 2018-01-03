@@ -17,9 +17,9 @@ export default class User {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
-   * 
+   *
    * @returns {object} Class instance
-   * 
+   *
    * @memberof User
    */
   signUp(req, res) {
@@ -65,16 +65,16 @@ export default class User {
           $or: [
             {
               username: {
-                $like: username
-              }
+                $like: username,
+              },
             },
             {
               email: {
-                $like: email
-              }
-            }
-          ]
-        }
+                $like: email,
+              },
+            },
+          ],
+        },
       })
       .then((userFound) => {
         let errorname;
@@ -85,16 +85,14 @@ export default class User {
         return user.create({
           username,
           email,
-          password
+          password,
         })
-          .then((user) => {
-            return res.status(201)
-              .json({
-                statusCode: 201,
-                message: `Welcome to More-Recipes ${user.username}`,
-                user
-              });
-          })
+          .then(user => res.status(201)
+            .json({
+              statusCode: 201,
+              message: `Welcome to More-Recipes ${user.username}`,
+              user,
+            }))
           .catch(e => res.status(400).json(e));
       })
       .catch(error => res.status(400).json(error));
@@ -106,9 +104,9 @@ export default class User {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
-   * 
+   *
    * @returns {object} Class instance
-   * 
+   *
    * @memberof User
    */
   signIn(req, res) {
@@ -130,7 +128,7 @@ export default class User {
       return res.status(406)
         .json({
           statusCode: 406,
-          error: 'Password field cannot be empty'
+          error: 'Password field cannot be empty',
         });
     }
     user.findOne({
@@ -138,16 +136,16 @@ export default class User {
         $or: [
           {
             username: {
-              $iLike: username
-            }
+              $iLike: username,
+            },
           },
           {
             email: {
-              $iLike: email
-            }
-          }
-        ]
-      }
+              $iLike: email,
+            },
+          },
+        ],
+      },
     })
       .then((userFound) => {
         if (!userFound) {
@@ -156,7 +154,7 @@ export default class User {
           return res.status(401)
             .json({
               statusCode: 401,
-              message: 'Invalid credentials'
+              message: 'Invalid credentials',
             });
         }
         const token = userFound.generateAuthToken();
@@ -164,7 +162,7 @@ export default class User {
           statusCode: 200,
           message: `Welcome back, ${userFound.username}`,
           userFound,
-          token
+          token,
         });
       })
       .catch(error => res.status(400).json(error));
@@ -176,14 +174,70 @@ export default class User {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
-   * 
+   *
    * @returns {object} Class instance
-   * 
+   *
    * @memberof User
    */
   me(req, res) {
     const { currentUser } = req;
-    res.status(200).json({ currentUser });
+    // res.status(200).json({ currentUser });
+    user
+      .findOne({
+        where: {
+          id: currentUser.id,
+        },
+      })
+      .then((userFound) => {
+        if (!user) {
+          return res.status(404).json({
+            error: 'No currentUser',
+          });
+        }
+        return res.status(200).json(userFound);
+      })
+      .catch(error => res.status(404).json({ error: error.message }));
+    return this;
+  }
+  /**
+ * Edit User record
+ *
+ * @param {any} req - HTTP Request
+ * @param {any} res - HTTP Response
+ * @returns {object} Class instance
+ * @memberof User
+ */
+
+  editUser(req, res) {
+    const { currentUser } = req;
+    console.log('body', req.body);
+    user.findOne({
+      where: {
+        $or: [
+          {
+            username: currentUser.username,
+          },
+          {
+            email: currentUser.email,
+          },
+        ],
+      },
+    })
+      .then((userFound) => {
+        if (!userFound) {
+          return res.status(404).send({
+            error: 'User not found',
+          });
+        }
+        return userFound.update({
+          username: req.body.username || userFound.name,
+          email: req.body.email || userFound.email,
+          profileImg: req.body.profileImg || userFound.profileImg,
+        })
+          .then(() => res.status(201).json({ statusCode: 201, userFound }))
+          .catch(error => res.status(500).json(error));
+      })
+      .catch(error => res.status(500).json(error));
     return this;
   }
 }

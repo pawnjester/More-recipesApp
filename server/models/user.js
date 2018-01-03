@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
         min: 6
       }
     },
+    profileImg: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    }
   });
   //salt and hash passwords before creating users 
   User.beforeCreate((user, options) => {

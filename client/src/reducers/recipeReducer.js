@@ -6,7 +6,7 @@ import { CREATE_RECIPE_SUCCESS,
 
 /* eslint-disable */
 
-const initialState = { recipes: []};
+const initialState = { recipes: [] };
 
 const recipes = (state = initialState, action) => {
   switch (action.type) {
@@ -24,7 +24,7 @@ const recipes = (state = initialState, action) => {
       const editRecipe = state.recipes.map(recipe => ((recipe.id === action.editedRecipe.recipe.id) ? action.editedRecipe.recipe : recipe));
       return {
         ...state,
-        recipes: editRecipe
+        recipes: editRecipe,
       };
     default:
       return state;

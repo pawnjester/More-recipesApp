@@ -114,8 +114,6 @@ export class Recipes {
 
     })
       .then((recipe) => {
-        console.log('****old', recipe.dataValues.imageUrl);
-        console.log('****new', req.body.imageUrl);
         if (!recipe) {
           return res.status(400).json({
             statusCode: 400,
