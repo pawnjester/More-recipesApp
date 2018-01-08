@@ -1,6 +1,8 @@
 import models from '../models';
 
 const recipe = models.Recipe;
+const user = models.User;
+const review = models.Review;
 
 const upvotes = models.Upvote;
 const downvotes = models.Downvote;
@@ -59,8 +61,15 @@ export default class Votes {
                         recipe.findOne({
                           where: { id: recipeId },
                           include: [
-                            { model: models.User, attributes: ['email'] },
-                            { model: models.Review, attributes: ['id', 'data'] },
+                            { model: user, attributes: ['username', 'email'] },
+                            {
+                              model: review,
+                              attributes: ['id', 'data', 'createdAt'],
+                              include: [
+                                { model: user, atrributes: ['username', 'profileImg'] },
+                              ],
+                            },
+                    
                           ],
                         })
                           .then((Recipe) => {
@@ -98,8 +107,15 @@ export default class Votes {
                             recipe.findOne({
                               where: { id: recipeId },
                               include: [
-                                { model: models.User, attributes: ['email'] },
-                                { model: models.Review, attributes: ['id', 'data'] },
+                                { model: user, attributes: ['username', 'email'] },
+                                {
+                                  model: review,
+                                  attributes: ['id', 'data', 'createdAt'],
+                                  include: [
+                                    { model: user, atrributes: ['username', 'profileImg'] },
+                                  ],
+                                },
+                        
                               ],
                             })
                               .then((Recipe) => {
@@ -132,8 +148,15 @@ export default class Votes {
                   recipe.findOne({
                     where: { id: recipeId },
                     include: [
-                      { model: models.User, attributes: ['email'] },
-                      { model: models.Review, attributes: ['id', 'data'] },
+                      { model: user, attributes: ['username', 'email'] },
+                      {
+                        model: review,
+                        attributes: ['id', 'data', 'createdAt'],
+                        include: [
+                          { model: user, atrributes: ['username', 'profileImg'] },
+                        ],
+                      },
+              
                     ],
                   })
                     .then((Recipe) => {
@@ -198,8 +221,15 @@ export default class Votes {
                         recipe.findOne({
                           where: { id: recipeId },
                           include: [
-                            { model: models.User, attributes: ['email'] },
-                            { model: models.Review, attributes: ['id', 'data'] },
+                            { model: user, attributes: ['username', 'email'] },
+                            {
+                              model: review,
+                              attributes: ['id', 'data', 'createdAt'],
+                              include: [
+                                { model: user, atrributes: ['username', 'profileImg'] },
+                              ],
+                            },
+                    
                           ],
                         })
                           .then((Recipe) => {
@@ -237,8 +267,15 @@ export default class Votes {
                             recipe.findOne({
                               where: { id: recipeId },
                               include: [
-                                { model: models.User, attributes: ['email'] },
-                                { model: models.Review, attributes: ['id', 'data'] },
+                                { model: user, attributes: ['username', 'email'] },
+                                {
+                                  model: review,
+                                  attributes: ['id', 'data', 'createdAt'],
+                                  include: [
+                                    { model: user, atrributes: ['username', 'profileImg'] },
+                                  ],
+                                },
+                        
                               ],
                             })
                               .then((Recipe) => {
@@ -271,8 +308,15 @@ export default class Votes {
                   recipe.findOne({
                     where: { id: recipeId },
                     include: [
-                      { model: models.User, attributes: ['email'] },
-                      { model: models.Review, attributes: ['id', 'data'] },
+                      { model: user, attributes: ['username', 'email'] },
+                      {
+                        model: review,
+                        attributes: ['id', 'data', 'createdAt'],
+                        include: [
+                          { model: user, atrributes: ['username', 'profileImg'] },
+                        ],
+                      },
+              
                     ],
                   })
                     .then((Recipe) => {

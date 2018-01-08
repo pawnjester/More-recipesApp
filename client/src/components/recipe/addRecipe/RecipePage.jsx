@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { RingLoader } from 'react-spinners';
-import Loader from '../../loader';
-import createRecipe from '../../../actions/recipeActions';
-import getRecipes from '../../../actions/getRecipe';
-import deleteRecipe from '../../../actions/deleteRecipe';
-import getRecipeDetail from '../../../actions/getRecipeDetail';
-import editRecipe from '../../../actions/editRecipe';
+import Loader from '../../common/Loader';
+import CreateRecipe from '../../../actions/recipeActions';
+import GetRecipes from '../../../actions/getRecipe';
+import DeleteRecipe from '../../../actions/deleteRecipe';
+import GetRecipeDetail from '../../../actions/getRecipeDetail';
+import EditRecipe from '../../../actions/editRecipe';
 import NavigationBar from '../../NavigationBar';
 import '../../../styles/recipes.scss';
-import Recipe from './recipe';
+import Recipe from './Recipe';
 import AddRecipeModal from '../../Modal/AddRecipeModal';
+import Footer from '../../common/Footer';
 
 
 class RecipePage extends Component {
@@ -27,12 +27,10 @@ class RecipePage extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.onDeleteRecipe = this.onDeleteRecipe.bind(this);
-    // this.onViewRecipe = this.onViewRecipe.bind(this);
   }
 
   componentWillMount() {
-    // TODO: get recipes list
-    this.props.getRecipes().then(() => this.setState({ loading: false }));
+    this.props.GetRecipes().then(() => this.setState({ loading: false }));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,7 +41,7 @@ class RecipePage extends Component {
 
 
   onDeleteRecipe(recipeId) {
-    this.props.deleteRecipe(recipeId);
+    this.props.DeleteRecipe(recipeId);
   }
 
   toggle() {
@@ -54,11 +52,10 @@ class RecipePage extends Component {
 
 
   render() {
-    const fav = (this.props.recipes) ? this.props.recipes : [];
-    console.log('>>>', fav);
+    const { recipes } = this.state;
     return (
       <div>
-        <NavigationBar />
+        <NavigationBar search="true" />
         <div className="container text-center  ">
           <div className="heading">
             <h1 className="p-5 ">My Recipes</h1>
@@ -66,18 +63,20 @@ class RecipePage extends Component {
             <AddRecipeModal
               isOpen={this.state.modal}
               toggle={this.toggle}
-              createRecipe={this.props.createRecipe}
+              createRecipe={this.props.CreateRecipe}
             />
           </div>
           <hr />
           <div className="row high">
+            {recipes.length < 1 && (<h4 className="mt-5 text-center no-recipes"> No recipes yet </h4>)}
             {this.state.loading ?
-              <Loader loading={this.state.loading} /> :
-            this.state.recipes &&
-              this.state.recipes.map(recipe =>
-                <Recipe recipe={recipe} key={recipe.id} deleteRecipe={this.onDeleteRecipe} getAllRecipes={this.props.getRecipes} />)}
+              <Loader Loading={this.state.loading} /> :
+              recipes &&
+              recipes.map(recipe =>
+                <Recipe recipe={recipe} key={recipe.id} deleteRecipe={this.onDeleteRecipe} getAllRecipes={this.props.GetRecipes} />)}
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
@@ -85,9 +84,9 @@ class RecipePage extends Component {
 
 
 RecipePage.propTypes = {
-  createRecipe: PropTypes.func.isRequired,
-  deleteRecipe: PropTypes.func.isRequired,
-  getRecipes: PropTypes.func.isRequired,
+  CreateRecipe: PropTypes.func.isRequired,
+  DeleteRecipe: PropTypes.func.isRequired,
+  GetRecipes: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -97,6 +96,6 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
-    createRecipe, getRecipes, deleteRecipe, getRecipeDetail, editRecipe,
+    CreateRecipe, GetRecipes, DeleteRecipe, GetRecipeDetail, EditRecipe,
   },
 )(RecipePage);

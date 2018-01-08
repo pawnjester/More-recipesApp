@@ -57,6 +57,11 @@ ul{
   .no-border-r{
     border-radius: 0px !important;
   }
+
+  .no-border-x{
+    border-radius: 0px !important;
+    border-color:  red !important;
+  }
   .navbar{
     position: relative;
   }
@@ -71,6 +76,11 @@ ul{
   
   .detail-holder h1{
     text-transform: capitalize;
+  }
+
+  .bold {
+    font-weight: bold;
+    font-size: 12px;
   }
   /*
   form {

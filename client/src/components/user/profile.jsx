@@ -5,16 +5,14 @@ import '../../styles/profile.scss';
 import getUserDetail from '../../actions/getUserDetail';
 import EditUserModal from '../Modal/EditUserModal';
 
-/* eslint-disable */
 class Profile extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      modal: false,      
+      modal: false,
     };
     this.toggle = this.toggle.bind(this);
-    
   }
 
   componentWillMount() {
@@ -29,19 +27,19 @@ class Profile extends Component {
   }
 
   render() {
-    const detail = (this.props.userDetail) ? this.props.userDetail : {};    
+    const detail = (this.props.userDetail) ? this.props.userDetail : {};
     console.log('>>>>12345', detail);
     return (
       <div>
-        <NavigationBar search ={'true'} />
+        <NavigationBar />
         <div className="heading mt-5">
-         <div className = "dark-overlay">
+          <div className="dark-overlay">
             <div className="container ">
               <div className="row profile">
                 <div className="col-md-3 col-sm-12 col-xs-12">
                   <div className="profile-sidebar">
                     <div className="profile-user-pic">
-                      <img src= {detail.profileImg || '/food1.jpg' }  alt="" className="img-fluid img-circle mx-auto d-block" />
+                      <img src={detail.profileImg || '/food1.jpg'} alt="" className="img-fluid img-circle mx-auto d-block" />
                     </div>
                     <div className="profile-user-title">
                       <div className="profile-user-name">
@@ -52,13 +50,13 @@ class Profile extends Component {
                       </div>
                     </div>
                     <div className="profile-user-buttons">
-                      <button className="btn btn-danger btn-md" onClick={this.toggle} styles="cursor:pointer"> <i className="fa fa-pencil" aria-hidden="true"  /> Edit</button>
+                      <button className="btn btn-danger btn-md" onClick={this.toggle} styles="cursor:pointer"> <i className="fa fa-pencil" aria-hidden="true" /> Edit</button>
                       <EditUserModal
-                        editUser={detail} //state
+                        editUser={detail} // state
                         isOpen={this.state.modal}
                         toggle={this.toggle}
-                        getuserDetail={this.props.getUserDetail} //action
-                      />                        
+                        getuserDetail={this.props.getUserDetail}
+                      />
                     </div>
                     <div className="profile-user-menu">
                       <ul className="list-group">
@@ -74,31 +72,31 @@ class Profile extends Component {
                       <table className="table table-borderless mt-3">
                         <tbody>
                           <tr>
-                            <td className= "text-dark"><b> Name</b></td>
-                            <td className= "text-dark">{detail.username}</td>
+                            <td className="text-dark"><b> Name</b></td>
+                            <td className="text-dark">{detail.username}</td>
                           </tr>
                           <tr>
-                            <td className= "text-dark"><b>Phone Number</b></td>
+                            <td className="text-dark"><b>Phone Number</b></td>
                             <td>{}</td>
                           </tr>
                           <tr>
-                            <td className= "text-dark"><b>Fax</b></td>
+                            <td className="text-dark"><b>Fax</b></td>
                             <td>{}</td>
                           </tr>
                           <tr>
-                            <td className= "text-dark"><b>Email</b></td>
-                            <td className= "text-dark">{detail.email}</td>
+                            <td className="text-dark"><b>Email</b></td>
+                            <td className="text-dark">{detail.email}</td>
                           </tr>
                           <tr>
-                            <td className= "text-dark"><b>Address</b></td>
+                            <td className="text-dark"><b>Address</b></td>
                             <td>{}</td>
                           </tr>
                           <tr>
-                            <td className= "text-dark"><b>Country</b></td>
+                            <td className="text-dark"><b>Country</b></td>
                             <td>{}</td>
                           </tr>
                           <tr>
-                            <td className= "text-dark"><b>Marital Status</b></td>
+                            <td className="text-dark"><b>Marital Status</b></td>
                             <td>{}</td>
                           </tr>
                         </tbody>
@@ -110,14 +108,14 @@ class Profile extends Component {
 
             </div>
           </div>
-          </div>
-          </div>
+        </div>
+      </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  userDetail: state.userDetailReducer.userDetail
+  userDetail: state.userDetailReducer.userDetail,
 });
 
 

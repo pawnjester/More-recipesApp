@@ -1,12 +1,12 @@
 import { CREATE_RECIPE_SUCCESS,
   GET_RECIPES,
   DELETE_RECIPE_SUCCESS,
-  EDIT_RECIPE_SUCCESS,
+  EDIT_RECIPE_SUCCESS, SEARCH_RECIPE_SUCCESS, SEARCH_RECIPE_FAILURE,
 } from '../actions/types';
 
 /* eslint-disable */
 
-const initialState = { recipes: [] };
+const initialState = { recipes: [], error: false };
 
 const recipes = (state = initialState, action) => {
   switch (action.type) {
@@ -25,6 +25,18 @@ const recipes = (state = initialState, action) => {
       return {
         ...state,
         recipes: editRecipe,
+      };
+    case SEARCH_RECIPE_SUCCESS:
+      return {
+        ...state,
+        recipes: action.search,
+        error: false,
+      };
+    case SEARCH_RECIPE_FAILURE:
+      return {
+        ...state,
+        recipes: action.error,
+        error: true,
       };
     default:
       return state;

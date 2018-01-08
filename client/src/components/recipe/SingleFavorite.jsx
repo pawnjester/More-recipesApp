@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
+/* eslint-disable */
 
 class SingleFavorite extends Component {
   render() {
@@ -24,9 +24,9 @@ class SingleFavorite extends Component {
               <i className="fa fa-thumbs-up" aria-hidden="true" /><span>&nbsp;{recipe.downVotes}</span>
             </div>
             <Link to={`/detail/${recipe.id}`}>
-            <div className="text-center  float-center">
-              <i className="fa fa-eye" aria-hidden="true" /><a href="detail.html"><span id="clickableAwesomeFont" className="text-dark">&nbsp;View</span></a>
-            </div>
+              <div className="text-center  float-center">
+                <i className="fa fa-eye" aria-hidden="true" /><a href="detail.html"><span id="clickableAwesomeFont" className="text-dark">&nbsp;View</span></a>
+              </div>
             </Link>
           </div>
         </div>

@@ -18,11 +18,18 @@ max-height: 30px;
 background-color: green; 
 
 }
+.set-align {
+    display: flex !important;
+}
 .fa{
 background: #fff;
 padding: 4px;
 border-radius: 5px;
 font-size: 20px;
+}
+
+.no-recipes {
+    margin: auto;
 }
 
 .loader-center {

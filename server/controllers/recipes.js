@@ -274,7 +274,15 @@ export class Recipes {
     recipe.findOne({
       where: { id: recipeId },
       include: [
-        { model: review, attributes: ['data'] },
+        { model: user, attributes: ['username', 'email'] },
+        {
+          model: review,
+          attributes: ['id', 'data', 'createdAt'],
+          include: [
+            { model: user, atrributes: ['username', 'profileImg'] },
+          ],
+        },
+
       ],
     })
       .then((singleRecipe) => {
@@ -290,18 +298,6 @@ export class Recipes {
   getUserRecipe(req, res) {
     const currentUser = req.currentUser.id;
     console.log('!@#$>>>>', currentUser);
-
-    // user.findOne({
-    //   where: {
-    //     id: currentUser,
-    //   },
-    // })
-    // .then((found) => {
-    //   if (!found) {
-    //     return res.status(404).json({
-    //       statusCode: 404, error: `User with id ${currentUser} cannot be found`,
-    //     });
-    //   }
     recipe.findAll({
       where: { userId: currentUser },
       include: [

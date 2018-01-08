@@ -5,7 +5,6 @@ import sha1 from 'sha1';
 import toastr from 'toastr';
 import { Button, Modal,
   ModalHeader, ModalBody, Form, Label, Input, FormGroup, Col, FormText } from 'reactstrap';
-import createRecipe from '../../actions/recipeActions';
 
 
 class AddRecipeModal extends Component {
@@ -31,15 +30,13 @@ class AddRecipeModal extends Component {
 
   onSubmit(event) {
     event.preventDefault();
-    this.props.createRecipe(this.state, () => {
-      console.log('this fired', this.state);
-    });
+    this.props.createRecipe(this.state);
     toastr.success('Recipe added');
     this.props.toggle();
   }
 
   imageUpload(files) {
-    this.setState({ status: 'Uploading...' });
+    this.setState({ status: 'Uploading...'});
     const image = files[0];
 
     const cloudName = process.env.CLOUDNAME;
@@ -132,7 +129,7 @@ class AddRecipeModal extends Component {
               </Col>
             </FormGroup>
 
-            <FormGroup check row>
+            <FormGroup check row >
               <Col sm={{ size: 10, offset: 2 }}>
                 <Button onClick={this.onSubmit}>Add a recipe</Button>
               </Col>

@@ -6,7 +6,7 @@ const Loader = props => (
   <div className="sweet-loading loader-center">
     <RingLoader
       color="#e50000"
-      loading={props.loading}
+      loading={props.Loading}
     />
   </div>
 );
