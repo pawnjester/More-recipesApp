@@ -28,27 +28,25 @@ class Recipe extends Component {
       height: 200,
     };
     const { recipe } = this.props;
+    const ellipsis = `${recipe.name.substring(0, 10)}...`;
     return (
       <div className="col-md-4 col-xs-12 " >
         <div className="card">
           <img className="card-img-top" src={recipe.imageUrl} style={style} alt="recipeImage" />
           <div className="card-body">
-            <h4 className="card-title">{recipe.name}</h4>
-            <p className="card-text">{recipe.ingredients}</p>
-            <p className="card-text">{recipe.method}</p>
-
+            <h4 className="card-title">{ellipsis}</h4>
           </div>
           <div className="card-body clearfix">
             <div className="text-left text-success float-left">
               <i className="fa fa-pencil" aria-hidden="true" />
               <span id="clickableAwesomeFont" onClick={this.toggle} >&nbsp;Edit</span>
               <EditRecipeModal
-                recipe={recipe}
+                Recipe={recipe}
                 isOpen={this.state.modal}
                 toggle={this.toggle}
                 // editRecipe={this.props.editRecipe}
                 id={this.props.recipe.id}
-                getAllRecipes={this.props.getAllRecipes}
+                getAllRecipes={this.props.GetAllRecipes}
               />
             </div>
 

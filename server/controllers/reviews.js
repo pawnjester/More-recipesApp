@@ -2,6 +2,7 @@ import models from '../models';
 
 const review = models.Review;
 const recipe = models.Recipe;
+const user = models.User;
 
 
 /**
@@ -25,7 +26,7 @@ class Reviews {
     const { recipeId } = req.params;
     const currentUser = req.currentUser.id;
 
-    if (isNaN(recipeId)) {
+    if (Number.isNaN(recipeId)) {
       return res.status(406).json({ statusCode: 406, error: 'Recipe id is not a number' });
     }
     if (!recipeId) {
@@ -38,8 +39,25 @@ class Reviews {
       recipeId,
       userId: currentUser,
     })
-      .then((reviewed) => {
-        res.status(201).json({ statusCode: 201, message: 'Your review has been added', reviewed });
+      .then(() => {
+        recipe.findOne({
+          where: { id: recipeId },
+          include: [
+            { model: user, attributes: ['username', 'email'] },
+            {
+              model: review,
+              attributes: ['id', 'data', 'createdAt'],
+              include: [
+                { model: user, atrributes: ['username', 'profileImg'] },
+              ],
+            },
+
+          ],
+        })
+          .then((reviewed) => {
+            res.status(201).json({ statusCode: 201, message: 'Your review has been added', reviewed });
+          });
+        // res.status(201).json({ statusCode: 201, message: 'Your review has been added', reviewed });
       })
       .catch(() => { res.status(500).json({ statusCode: 500, message: 'Error creating review' }); });
     return this;
@@ -47,8 +65,6 @@ class Reviews {
 
   getReviewById(req, res) {
     const { recipeId } = req.params;
-    const currentUser = req.currentUser.id;
-
 
     recipe.findOne({
       where: {
@@ -62,8 +78,10 @@ class Reviews {
         review.findAll({
           where: {
             recipeId,
-            userId: currentUser,
           },
+          include: [
+            { model: user, attributes: ['username', 'profileImg'] },
+          ],
         })
           .then(reviews => res.status(200).json({ statusCode: 200, message: 'Reviews found: ', reviews }));
       })

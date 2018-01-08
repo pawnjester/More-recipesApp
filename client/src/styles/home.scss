@@ -19,14 +19,6 @@
         background-size: cover !important;
         background-attachment: fixed !important;
         color: #fff;
-      } 
-      .modal-header {
-        display: block !important;
-        color: #dc3545 !important;
-        opacity: 0.8;
-      }
-      .modal-content {
-        margin-top: 100px !important;
       }
 
       .dark-overlay{
@@ -74,6 +66,19 @@
         color:red !important;
         
       }     
+      .recipes-position {
+        color: white;
+        border: 1px solid white;
+        padding: 20px;
+        margin: 0 10px ;
+        min-width: 170px;
+        display: inline-block;
+      }
+
+      .recipes-position:hover {
+        color: white;
+        text-decoration: none;
+      }
 
       .picSize {
         font-size: 80px;

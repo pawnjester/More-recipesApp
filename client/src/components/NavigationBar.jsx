@@ -8,7 +8,7 @@ import { Collapse, Navbar, NavbarToggler,
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../actions/loginActions';
-import SearchBar from './searchBar';
+import SearchBar from './SearchBar';
 
 const LoginModal = props => (
   <Modal isOpen={props.isOpen} toggle={props.toggle}>

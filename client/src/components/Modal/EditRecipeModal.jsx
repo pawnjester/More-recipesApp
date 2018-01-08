@@ -8,6 +8,7 @@ import sha1 from 'sha1';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
 import editRecipe from '../../actions/editRecipe';
+import GetAllRecipes from '../../actions/getRecipe';
 
 
 class EditRecipeModal extends Component {
@@ -30,10 +31,10 @@ class EditRecipeModal extends Component {
 
   componentWillMount() {
     this.setState({
-      name: this.props.recipe.name,
-      ingredients: this.props.recipe.ingredients,
-      method: this.props.recipe.method,
-      imageUrl: this.props.recipe.imageUrl,
+      name: this.props.Recipe.name,
+      ingredients: this.props.Recipe.ingredients,
+      method: this.props.Recipe.method,
+      imageUrl: this.props.Recipe.imageUrl,
     });
   }
 
@@ -46,7 +47,7 @@ class EditRecipeModal extends Component {
     event.preventDefault();
     this.props.editRecipe(this.state);
     toastr.success('Recipe successfully changed');
-    this.props.getAllRecipes();
+    this.props.GetAllRecipes();
     this.props.toggle();
   }
 
@@ -91,7 +92,7 @@ class EditRecipeModal extends Component {
   render() {
     return (
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
-        <ModalHeader toggle={this.props.toggle}>Edit A recipe</ModalHeader>
+        <ModalHeader toggle={this.props.toggle} className= 'set-align' >Edit A recipe</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup row>
@@ -158,9 +159,9 @@ class EditRecipeModal extends Component {
 }
 
 EditRecipeModal.propTypes = {
-  getAllRecipes: PropTypes.func.isRequired,
+  GetAllRecipes: PropTypes.func.isRequired,
 
 };
 
 
-export default connect(null, { editRecipe })(EditRecipeModal);
+export default connect(null, { editRecipe,  GetAllRecipes})(EditRecipeModal);

@@ -82,6 +82,7 @@ class signupform extends React.Component {
           value={this.state.password}
           field="password"
           placeholder="password"
+          type="password"
         />
 
         <TextFieldGroup
@@ -90,6 +91,7 @@ class signupform extends React.Component {
           value={this.state.passwordConfirmation}
           field="passwordConfirmation"
           placeholder="Confirm Password"
+          type="password"
         />
 
 

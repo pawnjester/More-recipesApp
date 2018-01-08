@@ -1,10 +1,10 @@
 import React from 'react';
-import TextFieldGroup from '../common/TextFieldGroup';
-import validateInput from './validations';
-import { connect } from 'react-redux';
-import { login } from '../../actions/loginActions';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import TextFieldGroup from '../common/TextFieldGroup';
+import validateInput from './Validations';
+import { login } from '../../actions/loginActions';
 
 
 class LoginForm extends React.Component {
@@ -20,16 +20,6 @@ class LoginForm extends React.Component {
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
-  }
-
-  isValid() {
-    const { errors, isValid } = validateInput(this.state);
-
-    if (!isValid) {
-      this.setState({ errors });
-    }
-
-    return isValid;
   }
 
   onSubmit(e) {
@@ -50,6 +40,16 @@ class LoginForm extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  isValid() {
+    const { errors, isValid } = validateInput(this.state);
+
+    if (!isValid) {
+      this.setState({ errors });
+    }
+
+    return isValid;
+  }
+
   render() {
     const { errors, redirect } = this.state;
     if (redirect) {
@@ -59,35 +59,36 @@ class LoginForm extends React.Component {
       <form onSubmit={this.onSubmit}>
         {errors.message && <div className="alert alert-danger">{errors.message}</div>}
         <TextFieldGroup
-        error={errors.username || errors.errorname}
-        onChange={this.onChange}
-        value={this.state.username}
-        field="username"
-        placeholder="username"
-        autofocus
-        required
-      />
+          error={errors.username || errors.errorname}
+          onChange={this.onChange}
+          value={this.state.username}
+          field="username"
+          placeholder="username"
+          autofocus
+          required
+        />
 
         <TextFieldGroup
-        error={errors.password}
-        onChange={this.onChange}
-        value={this.state.password}
-        field="password"
-        placeholder="password"
-      />
+          error={errors.password}
+          onChange={this.onChange}
+          value={this.state.password}
+          field="password"
+          placeholder="password"
+          type="password"
+        />
         <input
-        disabled={this.state.isLoading}
-        type="submit"
-        value="Submit"
-        className="btn btn-outline-danger btn-block text-dark"
-      />
+          disabled={this.state.isLoading}
+          type="submit"
+          value="Submit"
+          className="btn btn-outline-danger btn-block text-dark"
+        />
       </form>
 
     );
   }
 }
 
-LoginForm.PropTypes = {
+LoginForm.propTypes = {
   login: PropTypes.func.isRequired,
 };
 export default connect(null, { login })(LoginForm);

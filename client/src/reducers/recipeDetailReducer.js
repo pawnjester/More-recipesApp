@@ -1,8 +1,9 @@
-import { GET_RECIPE_DETAIL_SUCCESS, UPVOTE_RECIPE_SUCCESS, DOWNVOTE_RECIPE_SUCCESS, UPVOTE_RECIPE_FAILURE, DOWNVOTE_RECIPE_FAILURE, FAVORITE_RECIPE_FAILURE, FAVORITE_RECIPE_SUCCESS, GET_FAVORITE_RECIPES_SUCCESS, GET_FAVORITE_RECIPES_FAILURE } from '../actions/types';
+import { GET_RECIPE_DETAIL_SUCCESS, UPVOTE_RECIPE_SUCCESS, DOWNVOTE_RECIPE_SUCCESS, UPVOTE_RECIPE_FAILURE, DOWNVOTE_RECIPE_FAILURE, FAVORITE_RECIPE_FAILURE, FAVORITE_RECIPE_SUCCESS, GET_FAVORITE_RECIPES_SUCCESS, GET_FAVORITE_RECIPES_FAILURE, ADD_REVIEW, ADD_REVIEW_FAILURE } from '../actions/types';
 
 const initialState = {
   currentRecipe: {},
   favoriteRecipes: [],
+  message: '',
   success: false,
   errors: null,
 };
@@ -38,7 +39,7 @@ const detail = (state = initialState, action) => {
 
     case FAVORITE_RECIPE_SUCCESS:
       return {
-        ...state, favoriteRecipes: action.favorite, success: true, errors: null,
+        ...state, favoriteRecipes: action.favorite, success: true, errors: null, message: action.favorite,
       };
     
     case FAVORITE_RECIPE_FAILURE:
@@ -54,6 +55,16 @@ const detail = (state = initialState, action) => {
     case GET_FAVORITE_RECIPES_FAILURE:
       return {
         ...state, favoriteRecipes: [], success: false, errors: action.error,
+      };
+    
+    case ADD_REVIEW:
+      return {
+        ...state, currentRecipe: action.review, sucess: true, errors: null,
+      };
+    
+    case ADD_REVIEW_FAILURE:
+      return {
+        ...state, currentRecipe: {}, success: false, errors: action.error,
       };
     default:
       return state;

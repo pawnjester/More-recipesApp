@@ -1,66 +1,55 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import toastr from 'toastr';
 import NavigationBar from '../NavigationBar';
 import '../../styles/detail.scss';
-import getRecipeDetail from '../../actions/getRecipeDetail';
-import getReview from '../../actions/getAllReviews';
-import upvoteRecipe from '../../actions/upvoteRecipe';
-import downvoteRecipe from '../../actions/downvoteRecipe';
-import favoriteRecipe from '../../actions/favoriteRecipe';
-import Reviews from './Review';
+import GetRecipeDetail from '../../actions/getRecipeDetail';
+import GetReview from '../../actions/getAllReviews';
+import UpvoteRecipe from '../../actions/upvoteRecipe';
+import DownvoteRecipe from '../../actions/downvoteRecipe';
+import FavoriteRecipe from '../../actions/favoriteRecipe';
+import GetUserDetail from '../../actions/getUserDetail';
+import Review from './Review';
 import DisplayReviews from './DisplayReviews';
+import Footer from '../common/Footer';
 
 
 class Detail extends Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   voted: {},
-    // }
     this.upvoted = this.upvoted.bind(this);
   }
 
   componentWillMount() {
-    this.props.getRecipeDetail(this.props.match.params.recipeId);
-    this.props.getReview(this.props.match.params.recipeId);
+    this.props.GetRecipeDetail(this.props.match.params.recipeId);
   }
-  // componentDidMount() {
-  //   // this.props.getReview(this.props.match.params.recipeId);
-  // }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.votes.success) {
-  //     this.setState({
-  //       voted: nextProps.votes.votes,
-  //     })
-  //   }
-
-  // }
+  componentWillReceiveProps(nextProps) {
+    console.log('>>>', nextProps);
+  }
 
   upvoted() {
-    console.log('upvoted');
-    this.props.upvoteRecipe(this.props.match.params.recipeId);
+    this.props.UpvoteRecipe(this.props.match.params.recipeId);
   }
 
   favorite() {
-    console.log('favorite >>>>>');
-    this.props.favoriteRecipe(this.props.match.params.recipeId);
+    this.props.FavoriteRecipe(this.props.match.params.recipeId)
+      .then(() => {
+        toastr.success(`${this.props.message}`);
+      });
   }
 
   downvoted() {
-    console.log('downvoted');
-    this.props.downvoteRecipe(this.props.match.params.recipeId);
+    this.props.DownvoteRecipe(this.props.match.params.recipeId);
   }
 
   render() {
-    const { singleRecipe } = this.props;
-    console.log('>>>>>>>>>>>>', singleRecipe);
-    const review = (this.props.reviews) ? this.props.reviews : [];
-    const voted = (this.props.votes) ? this.props.votes : [];
-    // console.log('UPPPP',voted);
-    console.log('#$$%%', voted);
-
+    const {
+      singleRecipe, message,
+    } = this.props;
+    const single = this.props.singleRecipe.Reviews ? this.props.singleRecipe.Reviews : [];
+    console.log('singleRecipe>>23', single);
     const style = {
       backgroundImage: `url(${singleRecipe.imageUrl})`,
     };
@@ -87,8 +76,8 @@ class Detail extends Component {
                       <button className="btn btn-danger col-sm-4 no-border-r pt-3 pb-3" onClick={() => this.downvoted()}>
                         <i className="fa fa-thumbs-down" aria-hidden="true" /><span>&nbsp;{singleRecipe.downVotes}</span>
                       </button>
-                      <button className="btn btn-dark col-sm-4 no-border-r pt-3 pb-3" onClick={() => this.favorite()}>
-                        <i className="fa fa-heart-o" aria-hidden="true" /><span>&nbsp;</span>
+                      <button className="btn btn-white col-sm-4 no-border-x pt-3 pb-3" onClick={() => this.favorite()}>
+                        <i className="fa fa-heart" aria-hidden="true" /><span>&nbsp;</span>
                       </button>
                     </div>
                   </div>
@@ -104,13 +93,16 @@ class Detail extends Component {
               </div>
             </div>
           </div>
+          <Review recipeId={singleRecipe.id} />
+          <div className="container mb-5 mt-5">
+            <h1>Reviews</h1>
+            <hr />
+            {single.length < 1 && (<h4 className="mt-5 text-center" > No reviews </h4>)}
+            {single.map(reviewed =>
+              <DisplayReviews key={reviewed.id} Review={reviewed} />)}
+          </div>
         </div>
-        <Reviews recipeId={singleRecipe.id} />
-        <div className="container mb-5 ">
-          <h1>Reviews</h1>
-          {review.map(reviewed =>
-            <DisplayReviews key={reviewed.id} review={reviewed} />)}
-        </div>
+        <Footer />
       </div>
 
 
@@ -119,19 +111,19 @@ class Detail extends Component {
 }
 
 Detail.propTypes = {
-  getRecipeDetail: PropTypes.func.isRequired,
-  getReview: PropTypes.func.isRequired,
-  upvoteRecipe: PropTypes.func.isRequired,
-  downvoteRecipe: PropTypes.func.isRequired,
-  favoriteRecipe: PropTypes.func.isRequired,
+  GetRecipeDetail: PropTypes.func.isRequired,
+  UpvoteRecipe: PropTypes.func.isRequired,
+  DownvoteRecipe: PropTypes.func.isRequired,
+  FavoriteRecipe: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
   singleRecipe: state.recipeDetailReducer.currentRecipe,
-  reviews: state.review.reviewed,
-  favoriteRecipe: state.recipeDetailReducer.favoriteRecipe,
+  favoriteRecipes: state.recipeDetailReducer.favoriteRecipe,
+  message: state.recipeDetailReducer.message.message,
+  userDetail: state.userDetailReducer.userDetail,
 });
 
 export default connect(mapStateToProps, {
-  getRecipeDetail, getReview, upvoteRecipe, downvoteRecipe, favoriteRecipe,
+  GetRecipeDetail, GetReview, UpvoteRecipe, DownvoteRecipe, FavoriteRecipe, GetUserDetail,
 })(Detail);
 

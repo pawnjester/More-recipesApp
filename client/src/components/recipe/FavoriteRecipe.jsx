@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import jwtDecode from 'jwt-decode';
+import JwtDecode from 'jwt-decode';
 import NavigationBar from '../NavigationBar';
 import '../../styles/favorite.scss';
-import getFavoriteRecipe from '../../actions/getFavoriteRecipes';
+import GetFavoriteRecipe from '../../actions/getFavoriteRecipes';
 import SingleFavorite from './SingleFavorite';
 
 class FavoriteRecipe extends Component {
   componentWillMount() {
     // TODO: get favorite recipes list
-    const userId = jwtDecode(localStorage.jwtToken);
+    const userId = JwtDecode(localStorage.jwtToken);
     console.log(userId.id);
-    this.props.getFavoriteRecipe(userId.id);
+    this.props.GetFavoriteRecipe(userId.id);
   }
   render() {
     const favoriteRecipe = this.props.favoriteRecipe ? this.props.favoriteRecipe : {};
@@ -35,7 +35,7 @@ class FavoriteRecipe extends Component {
 }
 
 FavoriteRecipe.propTypes = {
-  getFavoriteRecipe: PropTypes.func.isRequired,
+  GetFavoriteRecipe: PropTypes.func.isRequired,
   favoriteRecipe: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
@@ -46,6 +46,6 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
-    getFavoriteRecipe,
+    GetFavoriteRecipe,
   },
 )(FavoriteRecipe);

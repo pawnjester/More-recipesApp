@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import toastr from 'toastr';
-import addReview from '../../actions/reviewRecipe';
+import AddReview from '../../actions/reviewRecipe';
+import GetRecipeDetail from '../../actions/getRecipeDetail';
 import '../../styles/detail.scss';
 
 class Reviews extends Component {
@@ -22,8 +24,10 @@ class Reviews extends Component {
   onSubmit(event) {
     event.preventDefault();
     const id = this.props.recipeId;
-    this.props.addReview(id, this.state);
+    this.props.AddReview(id, this.state);
     toastr.success('Review added!!');
+    event.target.reset();
+    this.setState({ data: '' });
   }
 
   render() {
@@ -32,25 +36,7 @@ class Reviews extends Component {
         <div className="col-sm-12 pt-5 pb-5">
           <div className="add-review">
             <h2 className="mb-3">Add A Review</h2>
-            <form onSubmit={this.onSubmit}>
-              <div className="form-row">
-                <div className="form-group col-md-6">
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="inputEmail4"
-                    placeholder="First Name..."
-                  />
-                </div>
-                <div className="form-group col-md-6">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="inputPassword4"
-                    placeholder="Surname..."
-                  />
-                </div>
-              </div>
+            <form onSubmit={this.onSubmit} >
               <div className="form-group">
                 <textarea
                   className="form-control"
@@ -60,6 +46,7 @@ class Reviews extends Component {
                   value={this.state.data}
                   onChange={this.onNameChange}
                   placeholder="Write A Review..."
+                  
                 />
               </div>
               <button type="submit" className="btn btn-outline-light  pull-right bg-danger btn-lg">POST</button>
@@ -71,4 +58,8 @@ class Reviews extends Component {
   }
 }
 
-export default connect(null, { addReview })(Reviews);
+Reviews.propTypes = {
+  AddReview: PropTypes.func.isRequired,
+};
+
+export default connect(null, { AddReview, GetRecipeDetail })(Reviews);

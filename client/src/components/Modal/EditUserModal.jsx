@@ -93,7 +93,7 @@ class EditUserModal extends Component {
     console.log('12323434', this.props.userDetail);
     return (
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
-        <ModalHeader toggle={this.props.toggle}>Edit A User</ModalHeader>
+        <ModalHeader toggle={this.props.toggle} className="set-align">Edit A User</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup row>

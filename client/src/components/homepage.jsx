@@ -1,10 +1,11 @@
 import React from 'react';
-import Signupform from './signup/signupform';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import Signupform from './signup/signupform';
 import { userSignupRequest } from '../actions/signupActions';
-import { Button } from 'react-bootstrap';
 import NavigationBar from './NavigationBar';
+import Footer from './common/Footer';
 import '../styles/home.scss';
 /*eslint-disable */
 
@@ -23,6 +24,14 @@ class Home extends React.Component {
               <div className="col-lg-12 d-none d-lg-block">
             <h1 className="display-4 text-center" style={{ color: 'fff' }}> Welcome To More Recipes </h1>
           </div>
+          <div className="col-md-12 text-center mt-5">
+          <Link to="/recipes" >
+          <span className="recipes-position">My recipes</span>
+          </Link>
+          <Link to="/favorites">
+          <span className="recipes-position">Favorite Recipes</span>
+          </Link>
+            </div>
             </div>
 
           </div>
@@ -91,12 +100,31 @@ class Home extends React.Component {
       </div>
 
     </header >
+        
     )
 
     return (
       <div>
         <NavigationBar />
         {isAuthenticated ? userPage : guestPage}
+        <section id ="explore-head-section" className="bg-light text-muted ">
+        <div className= "container">
+          <div className ="row">
+            <div className="col text-center">
+              <div className= "p-5">
+                <h1 className="display-5 text-dark">Search </h1>
+                <p className="lead text-dark">Search for amazing recipes available</p>
+                <a href="#" className="btn btn-outline-secondary dep">Find More Recipes</a>
+              </div>
+              
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </section>
+      <Footer />
       </div>
     );
   }
