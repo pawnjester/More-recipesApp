@@ -100,7 +100,7 @@ class Home extends React.Component {
       </div>
 
     </header >
-        
+
     )
 
     return (
@@ -116,13 +116,13 @@ class Home extends React.Component {
                 <p className="lead text-dark">Search for amazing recipes available</p>
                 <a href="#" className="btn btn-outline-secondary dep">Find More Recipes</a>
               </div>
-              
+
             </div>
-            
+
           </div>
-          
+
         </div>
-        
+
       </section>
       <Footer />
       </div>

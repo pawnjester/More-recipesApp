@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import NavigationBar from './NavigationBar';
+import Footer from '../components/common/Footer';
 import '../styles/search.scss';
 import '../styles/recipes.scss';
 import Search from '../actions/searchRecipe';
@@ -32,8 +33,8 @@ class SearchPage extends Component {
     console.log('>>>', this.state.search);
   }
 
-  
-  
+
+
   render() {
     const style = {
       height: 200,
@@ -45,10 +46,7 @@ class SearchPage extends Component {
         <div className="card">
           <img className="card-img-top" src={recipe.imageUrl} style={style} alt="recipeImage" />
           <div className="card-body">
-            <h4 className="card-title">{recipe.name}</h4>
-            <p className="card-text">{recipe.ingredients}</p>
-            <p className="card-text">{recipe.method}</p>
-    
+            <h4 className="card-title text-center">{recipe.name}</h4>
           </div>
           <div className="card-body clearfix">
             <div className="text-left text-success float-left">
@@ -60,7 +58,7 @@ class SearchPage extends Component {
                 <i className="fa fa-eye" aria-hidden="true" /><span id="clickableAwesomeFont" className="view" >&nbsp;View</span>
               </div>
             </Link>
-    
+
           </div>
         </div>
       </div>));
@@ -89,6 +87,7 @@ class SearchPage extends Component {
             {recipesList}
         </div>
         </div>
+        <Footer />
       </div>
     )
   }
