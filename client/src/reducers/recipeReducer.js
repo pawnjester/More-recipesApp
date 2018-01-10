@@ -1,17 +1,17 @@
 import { CREATE_RECIPE_SUCCESS,
   GET_RECIPES,
   DELETE_RECIPE_SUCCESS,
-  EDIT_RECIPE_SUCCESS, SEARCH_RECIPE_SUCCESS, SEARCH_RECIPE_FAILURE,
+  EDIT_RECIPE_SUCCESS, SEARCH_RECIPE_SUCCESS, SEARCH_RECIPE_FAILURE, GET_PAGE_DETAIL,
 } from '../actions/types';
 
 /* eslint-disable */
 
-const initialState = { recipes: [], error: false };
+const initialState = { recipes: [], pages: 1, error: false };
 
 const recipes = (state = initialState, action) => {
   switch (action.type) {
-    case GET_RECIPES:
-      return { ...state, recipes: action.payload.recipes };
+      case GET_RECIPES:
+        return { ...state, recipes: action.payload.recipes };
     case CREATE_RECIPE_SUCCESS:
       return { ...state, recipes: [...state.recipes, action.payload.recipe] };
     case DELETE_RECIPE_SUCCESS:
@@ -38,6 +38,11 @@ const recipes = (state = initialState, action) => {
         recipes: action.error,
         error: true,
       };
+    case GET_PAGE_DETAIL:
+      return {
+        ...state,
+        pages: action.detail.Pages,
+      }
     default:
       return state;
   }

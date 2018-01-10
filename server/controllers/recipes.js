@@ -199,6 +199,7 @@ export class Recipes {
           order: [
             ['upVotes', 'DESC'],
           ],
+          limit: 3,
         })
           .then((orderedRecipe) => {
             if (!orderedRecipe) {
@@ -236,25 +237,38 @@ export class Recipes {
           return res.status(200).json({ statusCode: 200, message: 'The results found', searchResults });
         });
     } else {
-      const limitValue = req.query.limit || 30;
-      const pageValue = req.query.next - 1 || 0;
-
-      recipe.findAndCountAll({
-        include: [
-          { model: review, attributes: ['data'] },
-        ],
-        limit: limitValue,
-        offset: pageValue * limitValue,
-      })
-        .then((recipes) => {
-          if (recipes.length === 0) {
-            return res.status(404).json({});
-          }
-          return res.status(200).json({
-            statusCode: 200, message: 'Welcome to More-Recipes, these are the recipes available', page: pageValue + 1, totalCount: recipes.count, pageCount: Math.ceil(recipes.count / limitValue), pageSize: parseInt(recipes.rows.length, 10), recipes: recipes.rows,
-          });
+      recipe.findAndCountAll().then((all) => {
+        const limit = 6;
+        let offset = 0;
+        const page = parseInt((req.query.page || 1), 10);
+        const numberOfItems = all.count;
+        const pages = Math.ceil(numberOfItems / limit);
+        offset = limit * (page - 1);
+        recipe.findAll({
+          limit,
+          offset,
+          order: [
+            ['id', 'DESC'],
+          ],
+          include: [
+            { model: user, attributes: ['username', 'email'] },
+          ],
         })
-        .catch(e => res.status(500).json(console.log(e)));
+          .then((recipes) => {
+            if (recipes) {
+              if (recipes.length < 1) {
+                return res.status(404).json({ statusCode: 404, error: 'There are currently no recipes in collection' });
+              }
+              return res.status(200).json({
+                NumberOfItems: numberOfItems,
+                Limit: limit,
+                Pages: pages,
+                CurrentPage: page,
+                recipes,
+              });
+            }
+          });
+      }).catch(error => res.status(500).json(error));
     }
 
     return this;
@@ -282,7 +296,6 @@ export class Recipes {
             { model: user, atrributes: ['username', 'profileImg'] },
           ],
         },
-
       ],
     })
       .then((singleRecipe) => {
@@ -296,22 +309,45 @@ export class Recipes {
   }
 
   getUserRecipe(req, res) {
-    const currentUser = req.currentUser.id;
-    console.log('!@#$>>>>', currentUser);
-    recipe.findAll({
-      where: { userId: currentUser },
-      include: [
-        { model: review, attributes: ['data'] },
-      ],
-    })
-      .then((recipes) => {
-        if (!recipes) {
-          return res.status(404).json({ statusCode: 404, error: `Recipe with id: ${currentUser} does not exist` });
-        }
-        return res.status(200).json({ statusCode: 200, message: 'Your recipes:', recipes });
+    recipe.findAndCountAll({
+      where: {
+        userId: req.currentUser.id,
+      },
+    }).then((all) => {
+      const limit = 6;
+      let offset = 0;
+      const page = parseInt((req.query.page || 1), 10);
+      const numberOfItems = all.count;
+      const pages = Math.ceil(numberOfItems / limit);
+      offset = limit * (page - 1);
+      recipe.findAll({
+        where: {
+          userId: req.currentUser.id,
+        },
+        limit,
+        offset,
+        order: [
+          ['id', 'DESC'],
+        ],
+        include: [
+          { model: user, attributes: ['username', 'email'] },
+        ],
       })
-      // })
-      .catch(error => res.status(500).json(error));
+        .then((recipes) => {
+          if (recipes) {
+            if (recipes.length < 1) {
+              return res.status(404).json({ statusCode: 404, error: 'There are currently no recipes in collection' });
+            }
+            return res.status(200).json({
+              NumberOfItems: numberOfItems,
+              Limit: limit,
+              Pages: pages,
+              CurrentPage: page,
+              recipes,
+            });
+          }
+        });
+    }).catch(error => res.status(500).json(error));
     return this;
   }
 }

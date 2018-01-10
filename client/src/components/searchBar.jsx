@@ -16,9 +16,6 @@ class searchBar extends Component {
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-    // if (e.target.value) {
-    //   this.props.searchRecipe(e.target.value);
-    // }
   }
 
   onFocus() {
@@ -27,9 +24,9 @@ class searchBar extends Component {
   render() {
     return (
       <div>
-        <form className="form-inline my-2 my-lg-0">
+        <form className=" my-2 my-lg-0">
           <input
-            className="form-control mr-sm-2"
+            className=" mr-sm-2"
             type="text"
             name="search"
             placeholder="Search"

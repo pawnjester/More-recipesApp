@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'reactstrap';
+import ReactPaginate from 'react-paginate';
 import PropTypes from 'prop-types';
 import Loader from '../../common/Loader';
 import CreateRecipe from '../../../actions/recipeActions';
-import GetRecipes from '../../../actions/getRecipe';
+import getRecipes from '../../../actions/getRecipe';
 import DeleteRecipe from '../../../actions/deleteRecipe';
 import GetRecipeDetail from '../../../actions/getRecipeDetail';
 import EditRecipe from '../../../actions/editRecipe';
 import NavigationBar from '../../NavigationBar';
 import '../../../styles/recipes.scss';
-import Recipe from './Recipe';
+import Recipe from './recipe';
 import AddRecipeModal from '../../Modal/AddRecipeModal';
 import Footer from '../../common/Footer';
 
@@ -23,25 +24,33 @@ class RecipePage extends Component {
       modal: false,
       recipes: [],
       loading: true,
+      pages: 1,
     };
 
     this.toggle = this.toggle.bind(this);
     this.onDeleteRecipe = this.onDeleteRecipe.bind(this);
+    this.onPageChange = this.onPageChange.bind(this);
   }
 
   componentWillMount() {
-    this.props.GetRecipes().then(() => this.setState({ loading: false }));
+    this.props.getRecipes().then(() => { this.setState({ loading: false }); });
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       recipes: nextProps.recipes,
+      pages: nextProps.pages,
     });
   }
 
 
   onDeleteRecipe(recipeId) {
     this.props.DeleteRecipe(recipeId);
+  }
+
+  onPageChange(data) {
+    data.selected += 1;
+    this.props.getRecipes(data.selected);
   }
 
   toggle() {
@@ -68,14 +77,33 @@ class RecipePage extends Component {
           </div>
           <hr />
           <div className="row high">
-            {recipes.length < 1 && (<h4 className="mt-5 text-center no-recipes"> No recipes yet </h4>)}
+            {!recipes && (<h4 className="mt-5 text-center no-recipes"> No recipes yet </h4>)}
             {this.state.loading ?
               <Loader Loading={this.state.loading} /> :
               recipes &&
               recipes.map(recipe =>
-                <Recipe recipe={recipe} key={recipe.id} deleteRecipe={this.onDeleteRecipe} getAllRecipes={this.props.GetRecipes} />)}
+                <Recipe recipe={recipe} key={recipe.id} deleteRecipe={this.onDeleteRecipe} getAllRecipes={this.props.getRecipes} />)}
           </div>
         </div>
+
+        <ReactPaginate
+          pageCount={this.state.pages}
+          pageRangeDisplayed={5}
+          marginPagesDisplayed={3}
+          previousLabel="Previous"
+          nextLabel="Next"
+          breakClassName="text-center"
+          initialPage={0}
+          containerClassName="container pagination justify-content-center"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          activeClassName="page-item active"
+          previousClassName="page-item"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          previousLinkClassName="page-link"
+          onPageChange={this.onPageChange}
+        />
         <Footer />
       </div>
     );
@@ -86,16 +114,17 @@ class RecipePage extends Component {
 RecipePage.propTypes = {
   CreateRecipe: PropTypes.func.isRequired,
   DeleteRecipe: PropTypes.func.isRequired,
-  GetRecipes: PropTypes.func.isRequired,
+  getRecipes: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   recipes: state.recipeReducer.recipes,
+  pages: state.recipeReducer.pages,
 });
 
 export default connect(
   mapStateToProps,
   {
-    CreateRecipe, GetRecipes, DeleteRecipe, GetRecipeDetail, EditRecipe,
+    CreateRecipe, getRecipes, DeleteRecipe, GetRecipeDetail, EditRecipe,
   },
 )(RecipePage);
