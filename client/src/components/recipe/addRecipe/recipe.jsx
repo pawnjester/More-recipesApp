@@ -21,7 +21,7 @@ class Recipe extends Component {
   onDelete() {
     confirmAlert({
       title: 'Delete this recipe',
-      message: 'Are you sure to do this?',
+      message: 'Are you sure you want to do this?',
       confirmLabel: 'Confirm',
       cancelLabel: 'Cancel',
       onConfirm: () => this.props.deleteRecipe(this.props.recipe.id),
