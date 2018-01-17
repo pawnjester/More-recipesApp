@@ -1,5 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
@@ -34,4 +35,3 @@ render(
   </Provider>,
   document.getElementById('app'),
 );
-
