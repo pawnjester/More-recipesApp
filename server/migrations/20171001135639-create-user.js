@@ -18,7 +18,10 @@ module.exports = {
         type: Sequelize.STRING,
       },
       profileImg: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
+      },
+      token: {
+        type: Sequelize.TEXT,
       },
       createdAt: {
         allowNull: false,
@@ -26,8 +29,8 @@ module.exports = {
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     }),
 
   down: queryInterface =>

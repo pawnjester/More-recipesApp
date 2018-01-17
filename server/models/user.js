@@ -24,11 +24,16 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     profileImg: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true,
-    }
+      defaultValue: 'https://res.cloudinary.com/digr7ls7o/image/upload/v1515766369/no-photo-male_ugp3qv.jpg'
+    },
+    token: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
   });
-  //salt and hash passwords before creating users 
+  //salt and hash passwords before creating users
   User.beforeCreate((user, options) => {
   const salt = bcrypt.genSaltSync();
   user.password = bcrypt.hashSync(user.password, salt);
@@ -45,8 +50,8 @@ module.exports = (sequelize, DataTypes) => {
     const access = 'auth';
     const token = jwt.sign({id: user.id,access},
      process.env.SECRET_KEY,
-     //secret key to expire in a week
-     { expiresIn: Math.floor(new Date().getTime()/1000) + 7*24*60*60 }).toString();    
+     //secret key to expire in three days
+     { expiresIn: 259200 }).toString();
     return token;
 
   }

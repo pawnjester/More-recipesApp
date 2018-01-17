@@ -6,7 +6,6 @@ const getPageDetail = detail => ({
   detail,
 });
 const getRecipe = page => dispatch =>
-  // page = page || 1;
   axios.get(`/api/v1/recipes/userRecipe?page=${page || 1}`)
     .then((response) => {
       const {

@@ -111,4 +111,3 @@ signupform.propTypes = {
   userSignupRequest: PropTypes.func.isRequired,
 };
 export default signupform;
-

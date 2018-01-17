@@ -9,6 +9,9 @@ import NotFound from './NotFound';
 import Profile from './user/Profile';
 import Favorite from './recipe/FavoriteRecipe';
 import SearchPage from './SearchPage';
+import PasswordReset from './PasswordReset';
+import PasswordChangeForm from './PasswordChangeForm';
+import RedirectToLogin from './redirectToLogin';
 
 import requireAuth from '../utils/requireAuth';
 
@@ -22,7 +25,10 @@ const Main = () => (
     <Route path="/detail/:recipeId" component={requireAuth(Detail)} />
     <Route path="/favorites" component={requireAuth(Favorite)} />
     <Route path="/profile" component={requireAuth(Profile)} />
-    <Route path="/search" component={requireAuth(SearchPage)} />    
+    <Route path="/search" component={requireAuth(SearchPage)} />
+    <Route path="/reset_password/" component={PasswordReset} />
+    <Route path="/auth/reset_password/:token" component={PasswordChangeForm} />
+    <Route path="/newLogin" component={RedirectToLogin} />
     <Route path="*" component={NotFound} />
   </Switch>
 );

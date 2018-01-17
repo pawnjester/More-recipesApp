@@ -15,7 +15,12 @@ import Recipe from './recipe';
 import AddRecipeModal from '../../Modal/AddRecipeModal';
 import Footer from '../../common/Footer';
 
-
+/**
+ *
+ *
+ * @class RecipePage
+ * @extends {Component}
+ */
 class RecipePage extends Component {
   constructor(props) {
     super(props);
