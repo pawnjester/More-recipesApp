@@ -14,6 +14,7 @@ import '../../../styles/recipes.scss';
 import Recipe from './recipe';
 import AddRecipeModal from '../../Modal/AddRecipeModal';
 import Footer from '../../common/Footer';
+/* eslint-disable */
 
 /**
  *

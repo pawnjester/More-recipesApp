@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import toastr from 'toastr';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import EditRecipeModal from '../../Modal/EditRecipeModal';
-
+/* eslint-disable */
 
 class Recipe extends Component {
   constructor(props) {
@@ -10,11 +13,20 @@ class Recipe extends Component {
 
     this.state = {
       modal: false,
+      showDialog: false,
     };
     this.toggle = this.toggle.bind(this);
   }
+
   onDelete() {
-    this.props.deleteRecipe(this.props.recipe.id);
+    confirmAlert({
+      title: 'Delete this recipe',
+      message: 'Are you sure to do this?',
+      confirmLabel: 'Confirm',
+      cancelLabel: 'Cancel',
+      onConfirm: () => this.props.deleteRecipe(this.props.recipe.id),
+      onCancel: () => toastr.success('Good choice!')
+    })
   }
 
   toggle() {
