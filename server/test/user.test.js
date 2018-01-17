@@ -1,12 +1,8 @@
 import expect from 'expect';
-
-import models from './../models';
-
-import app from '../app';
-
 import request from 'supertest';
-
-import { seedUsers } from './seed/seed'
+import models from './../models';
+import app from '../app';
+import { seedUsers } from './seed/seed';
 
 export let token;
 
@@ -246,6 +242,6 @@ describe('More Recipes', () => {
         });
     });
   });
-  
- 
+
+
 });

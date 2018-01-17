@@ -1,6 +1,8 @@
 import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import models from '../models';
-
+import mailer from '../helper/mailer';
 
 dotenv.config();
 
@@ -207,7 +209,6 @@ export default class User {
  * @returns {object} Class instance
  * @memberof User
  */
-
   editUser(req, res) {
     const { currentUser } = req;
     console.log('body', req.body);
@@ -238,6 +239,75 @@ export default class User {
           .catch(error => res.status(500).json(error));
       })
       .catch(error => res.status(500).json(error));
+    return this;
+  }
+  /**
+ * Check email record
+ *
+ * @param {any} req - HTTP Request
+ * @param {any} res - HTTP Response
+ * @returns {object} Class instance
+ * @memberof User
+ */
+  checkEmail(req, res) {
+    const { email } = req.body;
+    console.log(req.body);
+    user.findOne({
+      where: {
+        email,
+      },
+    })
+      .then((isUser) => {
+        if (!isUser) {
+          return res.status(404).json({ error: 'User not found' });
+        }
+        const token = jwt.sign(
+          { id: isUser.dataValues.id }, process.env.SECRET_KEY,
+          { expiresIn: 259200 },
+        );
+        isUser.update({ token })
+          .then(() => {
+            const url = `http://localhost:3000/auth/reset_password/${token}`;
+            const { username } = isUser.dataValues;
+            mailer(url, username, email, res);
+          });
+      })
+      .catch(() => res.status(500).json({ error: 'Server error' }));
+    return this;
+  }
+  /**
+ * reset password
+ *
+ * @param {any} req - HTTP Request
+ * @param {any} res - HTTP Response
+ * @returns {object} Class instance
+ * @memberof User
+ */
+  resetPassword(req, res) {
+    const { password } = req.body;
+    const { currentUser } = req;
+    user.findOne({
+      where: {
+        id: currentUser.id,
+      },
+    })
+      .then((isUser) => {
+        if (!isUser) {
+          return res.status(404).json({ error: 'User not found' });
+        }
+        if (isUser.dataValues.token === req.headers['x-access-token']) {
+          const salt = bcrypt.genSaltSync(10);
+          const hash = bcrypt.hashSync(password, salt);
+          isUser.update({
+            token: null,
+            password: hash,
+          })
+            .then(() => res.status(200).json({ message: 'Password reset successful ' }));
+        } else {
+          return res.status(403).json({ Message: 'You`re unauthorized to perform this action' });
+        }
+      })
+      .catch(() => res.status(500).json({ error: 'Server error' }));
     return this;
   }
 }

@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/pawnjester/More-recipesApp#readme",
   "dependencies": {
+    "async-waterfall": "^0.1.5",
     "auto-prefixer": "^0.4.2",
     "autoprefixer": "^7.1.5",
     "axios": "^0.16.2",
@@ -59,6 +60,7 @@
     "moment": "^2.20.1",
     "morgan": "^1.9.0",
     "node-sass": "^4.5.3",
+    "nodemailer": "^4.4.1",
     "nyc": "^11.2.1",
     "pg": "^7.4.0",
     "pg-hstore": "^2.3.2",

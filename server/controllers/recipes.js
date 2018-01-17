@@ -238,7 +238,7 @@ export class Recipes {
         });
     } else {
       recipe.findAndCountAll().then((all) => {
-        const limit = 6;
+        const limit = parseInt((req.query.limit || 6), 10);
         let offset = 0;
         const page = parseInt((req.query.page || 1), 10);
         const numberOfItems = all.count;

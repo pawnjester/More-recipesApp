@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
-import validateInput from './Validations';
+import validateInput from './validations';
 import { login } from '../../actions/loginActions';
 
-
+/* eslint-disable */
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
@@ -82,6 +82,7 @@ class LoginForm extends React.Component {
           value="Submit"
           className="btn btn-outline-danger btn-block text-dark"
         />
+        <Link to='/reset_password' className="text-red mt-5">Forgot Password?</Link>
       </form>
 
     );
