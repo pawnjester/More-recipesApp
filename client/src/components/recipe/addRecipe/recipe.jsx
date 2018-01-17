@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import toastr from 'toastr';
 import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
+// import 'react-confirm-alert/src/react-confirm-alert.css';
 import EditRecipeModal from '../../Modal/EditRecipeModal';
 /* eslint-disable */
 

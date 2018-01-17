@@ -10,19 +10,22 @@ import UpvoteRecipe from '../../actions/upvoteRecipe';
 import DownvoteRecipe from '../../actions/downvoteRecipe';
 import FavoriteRecipe from '../../actions/favoriteRecipe';
 import GetUserDetail from '../../actions/getUserDetail';
+import DeleteReview from '../../actions/deleteReview';
 import Review from './Review';
 import DisplayReviews from './DisplayReviews';
 import Footer from '../common/Footer';
 
-
+/* eslint-disable */
 class Detail extends Component {
   constructor(props) {
     super(props);
     this.upvoted = this.upvoted.bind(this);
+    this.onDeleteReview = this.onDeleteReview.bind(this);
   }
 
   componentWillMount() {
     this.props.GetRecipeDetail(this.props.match.params.recipeId);
+    this.props.GetUserDetail();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,6 +34,10 @@ class Detail extends Component {
 
   upvoted() {
     this.props.UpvoteRecipe(this.props.match.params.recipeId);
+  }
+
+  onDeleteReview(reviewId) {
+    this.props.DeleteReview(reviewId)
   }
 
   favorite() {
@@ -46,8 +53,10 @@ class Detail extends Component {
 
   render() {
     const {
-      singleRecipe, message,
+      singleRecipe, message, userDetail
     } = this.props;
+    const user = this.props.userDetail ? this.props.userDetail : {};
+    
     const single = this.props.singleRecipe.Reviews ? this.props.singleRecipe.Reviews : [];
     console.log('singleRecipe>>23', single);
     const style = {
@@ -99,7 +108,7 @@ class Detail extends Component {
             <hr />
             {single.length < 1 && (<h4 className="mt-5 text-center" > No reviews </h4>)}
             {single.map(reviewed =>
-              <DisplayReviews key={reviewed.id} Review={reviewed} />)}
+              <DisplayReviews key={reviewed.id} Review={reviewed} deleteReview={this.onDeleteReview} userDetail={user}/>)}
           </div>
         </div>
         <Footer />
@@ -124,6 +133,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  GetRecipeDetail, GetReview, UpvoteRecipe, DownvoteRecipe, FavoriteRecipe, GetUserDetail,
+  GetRecipeDetail, GetReview, UpvoteRecipe, DownvoteRecipe, FavoriteRecipe, GetUserDetail, DeleteReview
 })(Detail);
-

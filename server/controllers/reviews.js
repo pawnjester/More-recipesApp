@@ -62,7 +62,59 @@ class Reviews {
       .catch(() => { res.status(500).json({ statusCode: 500, message: 'Error creating review' }); });
     return this;
   }
+  /**
+ *
+ *
+ * @param {any} req
+ * @param {any} res
+ * @returns
+ * @memberof Reviews
+ */
+  deleteReview(req, res) {
+    const { reviewId } = req.params;
+    const currentUser = req.currentUser.id;
 
+
+    if (Number.isNaN(reviewId)) {
+      return res.status(406).json({ statusCode: 406, error: 'Review id is not a number' });
+    }
+    if (!reviewId) {
+      return res.status(406).json({ statusCode: 406, error: 'You need to put in a review ID' });
+    }
+
+    review.findOne({
+      where: {
+        id: reviewId,
+        userId: currentUser
+      }
+    })
+      .then((deletedReview) => {
+        if (!deletedReview) {
+          return res.status(400).json({ statusCode: 400, error: `Review not found with id : ${reviewId}` });
+        }
+        review.destroy({
+          where: {
+            id: reviewId,
+          }
+        })
+          .then(() => {
+            review.findAll()
+              .then((reviews) => {
+                res.status(200).json({ message: 'This review has been deleted', reviews });
+              });
+          })
+          .catch(() => res.status(500).json({ statusCode: 500, error: 'Error deleting review ' }));
+      });
+    return this;
+  }
+  /**
+ *
+ *
+ * @param {any} req
+ * @param {any} res
+ * @returns
+ * @memberof Reviews
+ */
   getReviewById(req, res) {
     const { recipeId } = req.params;
 

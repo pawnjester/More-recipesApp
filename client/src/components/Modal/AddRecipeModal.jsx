@@ -96,12 +96,12 @@ class AddRecipeModal extends Component {
               <Label for="exampleEmail" sm={4}>Ingredients</Label>
               <Col sm={8}>
                 <Input
-                  type="text"
+                  type="textarea"
                   name="ingredients"
                   id="exampleEmail"
                   value={this.state.ingredients}
                   onChange={this.onNameChange}
-                  placeholder="Enter the name"
+                  placeholder="Enter the Ingredients"
                 />
               </Col>
             </FormGroup>
@@ -110,12 +110,12 @@ class AddRecipeModal extends Component {
               <Label for="exampleEmail" sm={4}>method</Label>
               <Col sm={8}>
                 <Input
-                  type="text"
+                  type="textarea"
                   name="method"
                   id="exampleEmail"
                   value={this.state.method}
                   onChange={this.onNameChange}
-                  placeholder="Enter the name"
+                  placeholder="Enter the description"
                 />
               </Col>
             </FormGroup>
