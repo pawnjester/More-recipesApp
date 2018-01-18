@@ -28,10 +28,6 @@ class Detail extends Component {
     this.props.GetUserDetail();
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log('>>>', nextProps);
-  }
-
   upvoted() {
     this.props.UpvoteRecipe(this.props.match.params.recipeId);
   }
@@ -56,9 +52,8 @@ class Detail extends Component {
       singleRecipe, message, userDetail
     } = this.props;
     const user = this.props.userDetail ? this.props.userDetail : {};
-    
+
     const single = this.props.singleRecipe.Reviews ? this.props.singleRecipe.Reviews : [];
-    console.log('singleRecipe>>23', single);
     const style = {
       backgroundImage: `url(${singleRecipe.imageUrl})`,
     };

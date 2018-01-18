@@ -14,9 +14,7 @@ const deleteReviewFailure = error => ({
 
 const deleteReview = reviewId => dispatch => axios
   .delete(`/api/v1/recipes/${reviewId}/reviews`)
-  .then((response) => {
-    console.log('downvoteeeed', response.data);
-    // dispatch(deleteReviewSuccess(response.data));
+  .then(() => {
     dispatch({ type: DELETE_REVIEW_SUCCESS, deletedReview: reviewId });
   })
   .catch(() => {

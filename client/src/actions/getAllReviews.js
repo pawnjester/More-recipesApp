@@ -14,7 +14,6 @@ const getReviewFailure = error => ({
 const getReview = recipeId => dispatch => axios
   .get(`/api/v1/recipes/${recipeId}/reviews`)
   .then((response) => {
-    console.log('getReview', response.data.reviews);
     dispatch(getReviewSuccess(response.data.reviews));
   })
   .catch(() => {

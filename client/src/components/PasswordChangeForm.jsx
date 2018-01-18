@@ -45,7 +45,6 @@ class PasswordChangeForm extends Component {
       toastr.success('Password successfully changed, Log in now')
 
     },
-    // err => this.setState({errors: err.response.data})
     )
     .catch((err) => {
       this.setState({errors: err.response.data})

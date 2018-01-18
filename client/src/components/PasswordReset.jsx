@@ -38,7 +38,6 @@ class PasswordReset extends Component {
     if (this.isValid()) {
       this.setState({ errors: {} })
       this.props.checkEmail(this.state).then((response) => {
-        console.log('EMAIL>>>>>', response.data);
         toastr.success(`check ${email} for link`)
       })
       .catch((err) => {

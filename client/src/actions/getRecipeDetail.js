@@ -11,16 +11,13 @@ const getRecipeDetailFailure = error => ({
   error,
 });
 
-const getRecipeDetail = recipeId => (dispatch) => {
-  console.log('am getting here');
-  return axios.get(`/api/v1/recipes/${recipeId}`)
-    .then((response) => {
-      console.log('response is', response);
-      dispatch(getRecipeDetailSuccess(response.data.singleRecipe));
-    })
-    .catch(() => {
-      dispatch(getRecipeDetailFailure('Unable to view recipe'));
-    });
-};
+const getRecipeDetail = recipeId => dispatch => axios
+  .get(`/api/v1/recipes/${recipeId}`)
+  .then((response) => {
+    dispatch(getRecipeDetailSuccess(response.data.singleRecipe));
+  })
+  .catch(() => {
+    dispatch(getRecipeDetailFailure('Unable to view recipe'));
+  });
 
 export default getRecipeDetail;

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import JwtDecode from 'jwt-decode';
-import Signupform from './signup/signupform';
+import Signupform from './signup/SignUpForm';
 import { userSignupRequest } from '../actions/signupActions';
 import GetFavoriteRecipe from '../actions/getFavoriteRecipes';
 import NavigationBar from './NavigationBar';
@@ -16,7 +16,6 @@ import '../styles/home.scss';
 class Home extends React.Component {
   componentWillMount() {
     const userId = JwtDecode(localStorage.jwtToken);
-    console.log(userId.id);
     this.props.GetFavoriteRecipe(userId.id);
   }
   render() {

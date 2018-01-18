@@ -1,41 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Collapse, Navbar, NavbarToggler,
-  NavbarBrand, Nav, NavItem,
-  NavLink, Button, Container,
-  Modal,
-  ModalHeader, ModalBody, ModalFooter, Form, Label, Input, FormGroup, Col, FormText } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../actions/loginActions';
 import SearchBar from './SearchBar';
-
-const LoginModal = props => (
-  <Modal isOpen={props.isOpen} toggle={props.toggle}>
-    <ModalHeader toggle={props.toggle}>Please Sign in</ModalHeader>
-    <ModalBody>
-      <Form>
-        <FormGroup row>
-          <Label for="exampleEmail" sm={2}>Email</Label>
-          <Col sm={10}>
-            <Input type="email" name="email" id="exampleEmail" placeholder="Enter an email" />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Label for="examplePassword" sm={2}>Password</Label>
-          <Col sm={10}>
-            <Input type="password" name="password" id="examplePassword" placeholder="Enter a password" />
-          </Col>
-        </FormGroup>
-        <FormGroup check row>
-          <Col sm={{ size: 10, offset: 2 }}>
-            <Button styles="cursor:pointer">Submit</Button>
-          </Col>
-        </FormGroup>
-      </Form>
-    </ModalBody>
-  </Modal>
-);
 
 class NavigationBar extends React.Component {
   constructor(props) {
@@ -117,11 +85,6 @@ NavigationBar.propTypes = {
   logout: PropTypes.func.isRequired,
 };
 
-NavbarToggler.propTypes = {
-  type: PropTypes.string,
-  tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
-  // pass in custom element to use
-};
 
 
 function mapStateToProps(state) {
@@ -131,4 +94,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, { logout })(NavigationBar);
-

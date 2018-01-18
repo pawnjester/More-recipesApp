@@ -27,9 +27,6 @@ class DisplayReview extends Component {
   }
 
   render() {
-    // console.log('jhshjshj', this.props.userDetail);
-
-    // console.log('>>>4555>', this.props)
     return (
       <div>
           <div className="container mb-1 ">

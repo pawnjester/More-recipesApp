@@ -14,7 +14,6 @@ const favoriteRecipeFailure = error => ({
 const favoriteRecipe = recipeId => dispatch => axios
   .post(`/api/v1/recipes/${recipeId}/favorite`)
   .then((response) => {
-    console.log('favorite>>>>>', response.data);
     dispatch(favoriteRecipeSuccess(response.data));
   })
   .catch((err) => {

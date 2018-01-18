@@ -28,7 +28,6 @@ class Profile extends Component {
 
   render() {
     const detail = (this.props.userDetail) ? this.props.userDetail : {};
-    console.log('>>>>12345', detail);
     return (
       <div>
         <NavigationBar />
