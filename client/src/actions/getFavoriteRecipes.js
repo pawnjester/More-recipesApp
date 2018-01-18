@@ -20,7 +20,6 @@ const getFavoriteRecipe = userId => dispatch => axios
     dispatch(getFavoriteRecipeSuccess(response.data.userFavorite));
   })
   .catch((err) => {
-    console.log('faverrooooor>>>', err);
     dispatch(getFavoriteRecipeFailure(err.data));
   });
 

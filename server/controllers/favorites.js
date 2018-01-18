@@ -74,6 +74,12 @@ export default class Favorite {
                       { userId },
                     ],
                   },
+                  include: [{
+                    model: recipe,
+                    where: {
+                      userId,
+                    }
+                  }]
                 }).then((favoriteRecipe) => {
                   res.status(201).json({ statusCode: 201, message: 'recipe favorited', favoriteRecipe });
                 });
