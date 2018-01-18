@@ -1,5 +1,4 @@
 import axios from 'axios';
-import toastr from 'toastr';
 import { FAVORITE_RECIPE_FAILURE, FAVORITE_RECIPE_SUCCESS } from './types';
 
 const favoriteRecipeSuccess = favorite => ({

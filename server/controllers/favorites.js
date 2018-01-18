@@ -64,8 +64,19 @@ export default class Favorite {
               recipeId,
               userId,
             })
-              .then((favoriteRecipe) => {
-                res.status(201).json({ statusCode: 201, message: 'recipe favorited', favoriteRecipe });
+              .then(() => {
+                favorite.findOne({
+                  where: {
+                    $and: [
+                      {
+                        recipeId,
+                      },
+                      { userId },
+                    ],
+                  },
+                }).then((favoriteRecipe) => {
+                  res.status(201).json({ statusCode: 201, message: 'recipe favorited', favoriteRecipe });
+                });
               })
               .catch(err => res.status(500).json({ statusCode: 500, error: 'recipe could not be added to favorite', err: err.parent.detail }));
             return this;

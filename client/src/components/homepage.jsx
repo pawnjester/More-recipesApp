@@ -6,6 +6,7 @@ import Signupform from './signup/signupform';
 import { userSignupRequest } from '../actions/signupActions';
 import NavigationBar from './NavigationBar';
 import Footer from './common/Footer';
+// import CarouselSlide from './carousel';
 import '../styles/home.scss';
 /*eslint-disable */
 
@@ -114,7 +115,7 @@ class Home extends React.Component {
               <div className= "p-5">
                 <h1 className="display-5 text-dark">Search </h1>
                 <p className="lead text-dark">Search for amazing recipes available</p>
-                <a href="#" className="btn btn-outline-secondary dep">Find More Recipes</a>
+                <Link to="/search" className="btn btn-outline-secondary dep">Find More Recipes</Link>
               </div>
 
             </div>
@@ -124,6 +125,7 @@ class Home extends React.Component {
         </div>
 
       </section>
+      {/* <CarouselSlide /> */}
       <Footer />
       </div>
     );

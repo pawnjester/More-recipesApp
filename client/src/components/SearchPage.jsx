@@ -49,10 +49,6 @@ class SearchPage extends Component {
             <h4 className="card-title text-center">{recipe.name}</h4>
           </div>
           <div className="card-body clearfix">
-            <div className="text-left text-success float-left">
-              <i className="fa fa-pencil" aria-hidden="true" />
-              <span id="clickableAwesomeFont" onClick={this.toggle} >&nbsp;Edit</span>
-            </div>
             <Link to={`/detail/${recipe.id}`}>
               <div className="text-center text-primary float-center">
                 <i className="fa fa-eye" aria-hidden="true" /><span id="clickableAwesomeFont" className="view" >&nbsp;View</span>
