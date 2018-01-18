@@ -65,8 +65,6 @@ class EditUserModal extends Component {
 
   render() {
     const editedUser = (this.props.editUser) ? this.props.editUser : {};
-    console.log('123', editedUser);
-    console.log('12323434', this.props.userDetail);
     return (
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
         <ModalHeader toggle={this.props.toggle} className="set-align">Edit A User</ModalHeader>

@@ -16,7 +16,6 @@ const getFavoriteRecipeFailure = error => ({
 const getFavoriteRecipe = userId => dispatch => axios
   .get(`/api/v1/recipes/${userId}/favorite`)
   .then((response) => {
-    console.log('getfavorite>>>>>', response.data);
     dispatch(getFavoriteRecipeSuccess(response.data.userFavorite));
   })
   .catch((err) => {

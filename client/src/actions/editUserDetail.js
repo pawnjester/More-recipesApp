@@ -11,16 +11,14 @@ const editUserDetailFailure = error => ({
   error,
 });
 
-const editUserDetail = values => (dispatch) => {
-  console.log('values', values);
-  return axios.put('/api/v1/users/update-profile', values)
-    .then((response) => {
-      console.log('response is', response.data);
-      dispatch(editUserDetailSuccess(response.data));
-    })
-    .catch(() => {
-      dispatch(editUserDetailFailure('Unable to edit User'));
-    });
-};
+const editUserDetail = values => dispatch => axios
+  .put('/api/v1/users/update-profile', values)
+  .then((response) => {
+    console.log('response is', response.data);
+    dispatch(editUserDetailSuccess(response.data));
+  })
+  .catch(() => {
+    dispatch(editUserDetailFailure('Unable to edit User'));
+  });
 
 export default editUserDetail;

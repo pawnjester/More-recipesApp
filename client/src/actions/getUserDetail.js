@@ -14,7 +14,6 @@ const getUserDetailFailure = error => ({
 const getUserDetail = () => (dispatch) => {
   return axios.get('/api/v1/users/me')
     .then((response) => {
-      console.log('userDetails', response.data);
       dispatch(getUserDetailSuccess(response.data));
     })
     .catch(() => {

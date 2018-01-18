@@ -14,7 +14,7 @@ const Footer = () => (
           <div className="col-md-6 col-sm-12 text-center">
             <div className="py-2 text-white">
               <h1 className="h6">Andela Bootcamp cycle XXVII</h1>
-              <p>Copyright &copy; 2017</p>
+              <p>Copyright &copy; 2018</p>
             </div>
           </div>
 
@@ -27,4 +27,3 @@ const Footer = () => (
 );
 
 export default Footer;
-

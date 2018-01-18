@@ -1,12 +1,12 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Home from './homepage';
-import SignUp from './signup/signUpPage';
+import SignUp from './signup/SignUpPage';
 import LoginPage from './login/LoginPage';
 import RecipePage from './recipe/addRecipe/RecipePage';
 import Detail from './recipe/Detail';
 import NotFound from './NotFound';
-import Profile from './user/Profile';
+import Profile from './user/profile';
 import Favorite from './recipe/FavoriteRecipe';
 import SearchPage from './SearchPage';
 import PasswordReset from './PasswordReset';

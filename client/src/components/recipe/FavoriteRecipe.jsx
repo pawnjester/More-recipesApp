@@ -20,7 +20,6 @@ class FavoriteRecipe extends Component {
  */
   componentWillMount() {
     const userId = JwtDecode(localStorage.jwtToken);
-    console.log(userId.id);
     this.props.GetFavoriteRecipe(userId.id);
   }
   /**
@@ -32,7 +31,6 @@ class FavoriteRecipe extends Component {
   render() {
     const favoriteRecipe = this.props.favoriteRecipe ? this.props.favoriteRecipe : [];
 
-    console.log('favesss', favoriteRecipe);
     return (
       <div>
         <NavigationBar />

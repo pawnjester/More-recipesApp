@@ -23,14 +23,12 @@ class SearchPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { recipes, searchErrors } = nextProps;
-    console.log('filler',nextProps)
     this.setState({ recipes, searchErrors });
   }
 
   onNameChange(event) {
     this.setState({ [event.target.name]: event.target.value });
     this.props.Search(event.target.value);
-    console.log('>>>', this.state.search);
   }
 
 
@@ -40,7 +38,6 @@ class SearchPage extends Component {
       height: 200,
     };
     let recipes = (this.state.recipes) ? (this.state.recipes) : []
-    console.log('ertt', recipes);
       const recipesList = recipes.map(recipe => (
         <div className="col-md-4 col-xs-12 " >
         <div className="card">
@@ -59,7 +56,6 @@ class SearchPage extends Component {
         </div>
       </div>));
 
-      console.log('>>>123recipe', recipesList);
     return (
       <div>
         <NavigationBar />

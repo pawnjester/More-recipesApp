@@ -14,7 +14,6 @@ const downvoteRecipeFailure = error => ({
 const downvoteRecipe = recipeId => dispatch => axios
   .post(`/api/v1/recipes/${recipeId}/downvote`)
   .then((response) => {
-    console.log('downvoteeeed', response.data.Recipe);
     dispatch(downvoteRecipeSuccess(response.data.Recipe));
   })
   .catch(() => {
