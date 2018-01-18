@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import superagent from 'superagent';
-import Dropzone from 'react-dropzone';
-import sha1 from 'sha1';
 import toastr from 'toastr';
 import { Button, Modal,
   ModalHeader, ModalBody, Form, Label, Input, FormGroup, Col, FormText } from 'reactstrap';
+import imageUpload from '../../helpers/imageUpload';
 
-
+/* eslint-disable */
 class AddRecipeModal extends Component {
   constructor(props) {
     super(props);
@@ -21,6 +19,7 @@ class AddRecipeModal extends Component {
 
     this.onNameChange = this.onNameChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.Upload = this.Upload.bind(this);
   }
 
 
@@ -35,43 +34,21 @@ class AddRecipeModal extends Component {
     this.props.toggle();
   }
 
-  imageUpload(files) {
-    this.setState({ status: 'Uploading...'});
-    const image = files[0];
+  Upload(images) {
+    this.setState({ status: 'Uploading...'})
+    imageUpload(images).then((response) => {
+      const { body } = response
+      const fileUrl = body.secure_url;
 
-    const cloudName = process.env.CLOUDNAME;
-
-    const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
-
-    const timestamp = Date.now() / 1000;
-    const uploadPreset = process.env.UPLOADPRESET;
-
-    const paramStr = `timestamp=${timestamp}&upload_preset=${uploadPreset}mr9XYhDjoiITDCHXlNm8jEvV03w`;
-
-    const signature = sha1(paramStr);
-    const params = {
-      api_key: '569938115268323',
-      timestamp,
-      upload_preset: uploadPreset,
-      signature,
-    };
-    const uploadRequest = superagent.post(url);
-    uploadRequest.attach('file', image);
-    Object.keys(params).forEach((key) => {
-      uploadRequest.field(key, params[key]);
-    });
-    uploadRequest.end((err, resp) => {
-      if (err) {
-        // alert(err)
-        return;
+      if(fileUrl) {
+        this.setState({
+          imageUrl: fileUrl,
+          status: 'Uploaded'
+        })
       }
-
-      this.setState({
-        imageUrl: resp.body.secure_url,
-        status: 'Uploaded',
-      });
-    });
+    })
   }
+
   render() {
     return (
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
@@ -123,7 +100,13 @@ class AddRecipeModal extends Component {
             <FormGroup row>
               <Label for="exampleFile" sm={4}>File</Label>
               <Col sm={8}>
-                <Dropzone onDrop={this.imageUpload.bind(this)} />
+                <Input
+                type="file"
+                name="file"
+                id="exampleFile"
+                onChange={this.Upload}
+                accept="image/*"
+                />
                 <h6>{ this.state.status}</h6>
                 <FormText color="muted" />
               </Col>

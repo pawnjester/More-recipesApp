@@ -1,20 +1,27 @@
-import axios from 'axios';
+import Promise from 'promise';
+import superagent from 'superagent';
+import superagentPromise from 'superagent-promise';
 
-const uploadImage = (image) => {
+const agent = superagentPromise(superagent, Promise);
+
+/**
+ * @param {string} images
+ * @returns {null} description
+ */
+const uploadImage = (images) => {
   const formData = new FormData();
-  formData.append('file', image);
-  formData.append('upload_preset', 'bd7kolap');
-  return axios({
-    method: 'POST',
-    url: 'https://api.cloudinary.com/v1_1/digr7ls7o/image/upload',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    data: formData,
-  }).then((response) => {
-    console.log('response is ', response);
-  }).catch((error) => {
-    console.error(error);
-  });
+  const cloudName = process.env.CLOUDNAME;
+  const uploadPreset = process.env.UPLOADPRESET;
+  formData.append('file', images.target.files[0]);
+  formData.append('tags', 'food', 'recipe');
+  formData.append('upload_preset', `${uploadPreset}`);
+  formData.append('api_key', '569938115268323');
+  formData.append('timestamp', (Date.now() / 1000));
+
+  return agent
+    .post(
+      `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+      formData
+    );
 };
 export default uploadImage;

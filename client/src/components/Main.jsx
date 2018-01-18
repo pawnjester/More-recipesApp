@@ -25,7 +25,7 @@ const Main = () => (
     <Route path="/detail/:recipeId" component={requireAuth(Detail)} />
     <Route path="/favorites" component={requireAuth(Favorite)} />
     <Route path="/profile" component={requireAuth(Profile)} />
-    <Route path="/search" component={requireAuth(SearchPage)} />
+    <Route path="/search" component={SearchPage} />
     <Route path="/reset_password/" component={PasswordReset} />
     <Route path="/auth/reset_password/:token" component={PasswordChangeForm} />
     <Route path="/newLogin" component={RedirectToLogin} />

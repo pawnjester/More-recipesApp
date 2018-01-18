@@ -6,16 +6,33 @@ import NavigationBar from '../NavigationBar';
 import '../../styles/favorite.scss';
 import GetFavoriteRecipe from '../../actions/getFavoriteRecipes';
 import SingleFavorite from './SingleFavorite';
-
+/**
+ *
+ *
+ * @class FavoriteRecipe
+ * @extends {Component}
+ */
 class FavoriteRecipe extends Component {
+/**
+ *
+ *
+ * @memberof FavoriteRecipe
+ */
   componentWillMount() {
-    // TODO: get favorite recipes list
     const userId = JwtDecode(localStorage.jwtToken);
     console.log(userId.id);
     this.props.GetFavoriteRecipe(userId.id);
   }
+  /**
+ *
+ *
+ * @returns
+ * @memberof FavoriteRecipe
+ */
   render() {
-    const favoriteRecipe = this.props.favoriteRecipe ? this.props.favoriteRecipe : {};
+    const favoriteRecipe = this.props.favoriteRecipe ? this.props.favoriteRecipe : [];
+
+    console.log('favesss', favoriteRecipe);
     return (
       <div>
         <NavigationBar />

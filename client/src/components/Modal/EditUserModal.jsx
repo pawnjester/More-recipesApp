@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import superagent from 'superagent';
 import PropTypes from 'prop-types';
-import Dropzone from 'react-dropzone';
 import { Button, Modal,
   ModalHeader, ModalBody, Form, Label, Input, FormGroup, Col, FormText } from 'reactstrap';
-import sha1 from 'sha1';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
 import userDetail from '../../actions/editUserDetail';
+import imageUpload from '../../helpers/imageUpload';
 
+
+/* eslint-disable */
 
 class EditUserModal extends Component {
   constructor(props) {
@@ -23,11 +23,10 @@ class EditUserModal extends Component {
 
     this.onNameChange = this.onNameChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.imageUpload = this.imageUpload.bind(this);
+    this.Upload = this.Upload.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('>>>>nextProps', nextProps);
     if (nextProps.editUser) {
       this.setState({
         username: nextProps.editUser.username,
@@ -49,44 +48,21 @@ class EditUserModal extends Component {
     this.props.toggle();
   }
 
-  imageUpload(files) {
-    this.setState({ status: 'Uploading...' });
-    const image = files[0];
+  Upload(images) {
+    this.setState({ status: 'Uploading...'})
+    imageUpload(images).then((response) => {
+      const { body } = response
+      const fileUrl = body.secure_url;
 
-    const cloudName = process.env.CLOUDNAME;
-
-    const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
-
-    const timestamp = Date.now() / 1000;
-    const uploadPreset = process.env.UPLOADPRESET;
-
-    const paramStr = `timestamp=${timestamp}&upload_preset=${uploadPreset}mr9XYhDjoiITDCHXlNm8jEvV03w`;
-
-    const signature = sha1(paramStr);
-
-    const params = {
-      api_key: '569938115268323',
-      timestamp,
-      upload_preset: uploadPreset,
-      signature,
-    };
-    const uploadRequest = superagent.post(url);
-    uploadRequest.attach('file', image);
-    Object.keys(params).forEach((key) => {
-      uploadRequest.field(key, params[key]);
-    });
-    uploadRequest.end((err, resp) => {
-      if (err) {
-        toastr.success('User cannot be edited');
-        return;
+      if(fileUrl) {
+        this.setState({
+          profileImg: fileUrl,
+          status: 'Uploaded'
+        })
       }
-
-      this.setState({
-        profileImg: resp.body.secure_url,
-        status: 'Uploaded',
-      });
-    });
+    })
   }
+
   render() {
     const editedUser = (this.props.editUser) ? this.props.editUser : {};
     console.log('123', editedUser);
@@ -141,7 +117,13 @@ class EditUserModal extends Component {
             <FormGroup row>
               <Label for="exampleFile" sm={4}>File</Label>
               <Col sm={8}>
-                <Dropzone onDrop={this.imageUpload} />
+              <Input
+                type="file"
+                name="file"
+                id="exampleFile"
+                onChange={this.Upload}
+                accept="image/*"
+                />
                 <h6>{ this.state.status}</h6>
                 <FormText color="muted" />
               </Col>

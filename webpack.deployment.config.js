@@ -4,10 +4,7 @@ const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   devtool: 'eval-source-map',
-  entry: [
-    'babel-polyfill',
-    'webpack-hot-middleware/client', path.join(__dirname, './client/src/Index.jsx')
-  ],
+  entry: path.join(__dirname, './client/src/Index.jsx'),
   output: {
     path: path.join(__dirname, './build/js'),
     filename: 'bundle.js',
@@ -63,10 +60,13 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
+      compress: {
+        warnings: false
+      }
+    }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
     new Dotenv({
       path: path.resolve('./.env'),
       safe: false,
