@@ -2,16 +2,23 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import JwtDecode from 'jwt-decode';
 import Signupform from './signup/signupform';
 import { userSignupRequest } from '../actions/signupActions';
+import GetFavoriteRecipe from '../actions/getFavoriteRecipes';
 import NavigationBar from './NavigationBar';
 import Footer from './common/Footer';
-// import CarouselSlide from './carousel';
+// import CarouselSlide from './Carousel';
 import '../styles/home.scss';
 /*eslint-disable */
 
 
 class Home extends React.Component {
+  componentWillMount() {
+    const userId = JwtDecode(localStorage.jwtToken);
+    console.log(userId.id);
+    this.props.GetFavoriteRecipe(userId.id);
+  }
   render() {
     const { userSignupRequest } = this.props;
     const { isAuthenticated } = this.props.auth;
@@ -29,7 +36,7 @@ class Home extends React.Component {
           <Link to="/recipes" >
           <span className="recipes-position">My recipes</span>
           </Link>
-          <Link to="/favorites">
+          <Link to="/favorites" >
           <span className="recipes-position">Favorite Recipes</span>
           </Link>
             </div>
@@ -125,7 +132,9 @@ class Home extends React.Component {
         </div>
 
       </section>
-      {/* <CarouselSlide /> */}
+      {/* <section id="">
+      <CarouselSlide />
+      </section> */}
       <Footer />
       </div>
     );
@@ -135,6 +144,7 @@ class Home extends React.Component {
 function mapStateToProps(state) {
   return {
     auth: state.auth,
+    favoriteRecipe: state.recipeDetailReducer.favoriteRecipes,
   };
 }
 
@@ -142,4 +152,4 @@ Home.propTypes = {
   userSignupRequest: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, { userSignupRequest })(Home);
+export default connect(mapStateToProps, { userSignupRequest, GetFavoriteRecipe })(Home);
