@@ -1,8 +1,8 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Home from './homepage';
-import SignUp from './signup/SignUpPage';
-import LoginPage from './login/LoginPage';
+import SignUp from './signup/signUpPage';
+import LoginPage from './login/loginPage';
 import RecipePage from './recipe/addRecipe/RecipePage';
 import Detail from './recipe/Detail';
 import NotFound from './NotFound';
