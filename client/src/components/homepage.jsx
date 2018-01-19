@@ -15,8 +15,11 @@ import '../styles/home.scss';
 
 class Home extends React.Component {
   componentWillMount() {
-    const userId = JwtDecode(localStorage.jwtToken);
-    this.props.GetFavoriteRecipe(userId.id);
+    const { isAuthenticated } = this.props.auth;
+    if (isAuthenticated) {
+      const userId = JwtDecode(localStorage.jwtToken);
+      this.props.GetFavoriteRecipe(userId.id)
+    }
   }
   render() {
     const { userSignupRequest } = this.props;
