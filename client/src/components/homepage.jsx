@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import JwtDecode from 'jwt-decode';
-import Signupform from './signup/SignUpForm';
+import Signupform from './signup/signupform';
 import { userSignupRequest } from '../actions/signupActions';
 import GetFavoriteRecipe from '../actions/getFavoriteRecipes';
 import NavigationBar from './NavigationBar';

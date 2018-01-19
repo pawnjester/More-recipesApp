@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../actions/loginActions';
-import SearchBar from './SearchBar';
+import SearchBar from './searchBar';
 
 class NavigationBar extends React.Component {
   constructor(props) {
