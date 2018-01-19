@@ -56,9 +56,9 @@ export default class User {
     } else if (!req.body.password) {
       return res.status(406).json({ statusCode: 406, error: 'You need to fill in the password' });
     } else if (whiteSpace.test(password)) {
-      return res.status(406).json({ statusCode: 406, error: 'Password cannot contain spaces' });
+      return res.status(422).json({ statusCode: 406, error: 'Password cannot contain spaces' });
     } else if (password.length < 6) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to fill in a password with a minimum length of 6' });
+      return res.status(422).json({ statusCode: 406, error: 'You need to fill in a password with a minimum length of 6' });
     }
 
     user
@@ -183,7 +183,6 @@ export default class User {
    */
   me(req, res) {
     const { currentUser } = req;
-    // res.status(200).json({ currentUser });
     user
       .findOne({
         where: {

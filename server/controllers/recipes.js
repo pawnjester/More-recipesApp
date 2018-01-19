@@ -307,7 +307,14 @@ export class Recipes {
       .catch(error => res.status(500).json(error));
     return this;
   }
-
+  /**
+ *
+ *
+ * @param {any} req
+ * @param {any} res
+ * @returns
+ * @memberof Recipes
+ */
   getUserRecipe(req, res) {
     recipe.findAndCountAll({
       where: {
@@ -336,7 +343,7 @@ export class Recipes {
         .then((recipes) => {
           if (recipes) {
             if (recipes.length < 1) {
-              return res.status(404).json({ statusCode: 404, error: 'There are currently no recipes in collection' });
+              return res.status(200).json({ statusCode: 200, message: 'There are currently no recipes in collection' });
             }
             return res.status(200).json({
               NumberOfItems: numberOfItems,

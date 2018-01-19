@@ -27,6 +27,9 @@ export default class Votes {
   upvote(req, res) {
     const currentUser = req.currentUser.id;
     const { recipeId } = req.params;
+    if (isNaN(recipeId)) {
+      return res.status(422).json({ statusCode: 422, error: 'Recipe id is not a number' });
+    }
     recipe.findById(recipeId)
       .then((recipeFound) => {
         if (!recipeFound) {
@@ -69,7 +72,7 @@ export default class Votes {
                                 { model: user, atrributes: ['username', 'profileImg'] },
                               ],
                             },
-                    
+
                           ],
                         })
                           .then((Recipe) => {
@@ -115,7 +118,7 @@ export default class Votes {
                                     { model: user, atrributes: ['username', 'profileImg'] },
                                   ],
                                 },
-                        
+
                               ],
                             })
                               .then((Recipe) => {
@@ -156,7 +159,7 @@ export default class Votes {
                           { model: user, atrributes: ['username', 'profileImg'] },
                         ],
                       },
-              
+
                     ],
                   })
                     .then((Recipe) => {
@@ -187,6 +190,9 @@ export default class Votes {
   downvote(req, res) {
     const currentUser = req.currentUser.id;
     const { recipeId } = req.params;
+    if (isNaN(recipeId)) {
+      return res.status(422).json({ statusCode: 422, error: 'Recipe id is not a number' });
+    }
     recipe.findById(recipeId)
       .then((recipeFound) => {
         if (!recipeFound) {
@@ -229,7 +235,7 @@ export default class Votes {
                                 { model: user, atrributes: ['username', 'profileImg'] },
                               ],
                             },
-                    
+
                           ],
                         })
                           .then((Recipe) => {
@@ -275,7 +281,7 @@ export default class Votes {
                                     { model: user, atrributes: ['username', 'profileImg'] },
                                   ],
                                 },
-                        
+
                               ],
                             })
                               .then((Recipe) => {
@@ -316,7 +322,7 @@ export default class Votes {
                           { model: user, atrributes: ['username', 'profileImg'] },
                         ],
                       },
-              
+
                     ],
                   })
                     .then((Recipe) => {

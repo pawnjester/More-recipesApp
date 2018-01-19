@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 
 export const seedUsers = {
-  
+
     userOne: {
       username: 'user111',
       password: 'user111password',
@@ -46,7 +46,22 @@ export const seedUsers = {
     userNine: {
       username: 'user111',
       password: '',
-    },      
+    },
+    userTen: {
+      username: 'ttttttt',
+      password: 'jfjj  ff',
+      email: 'ttt@example.com',
+    },
+    userEleven: {
+      username: 'tttrfttttt',
+      password: 'jff',
+      email: 'ttjft@example.com',
+    },
+    usertwelve: {
+      username: 'user111',
+      password: 'user115password',
+      email: 'user111@example.com'
+    },
 }
 
 export const seedRecipes = {

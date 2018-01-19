@@ -1,4 +1,3 @@
-
 module.exports = (sequelize, DataTypes) => {
   const Downvote = sequelize.define('Downvote', {
     recipeId: {
@@ -30,4 +29,3 @@ module.exports = (sequelize, DataTypes) => {
   };
   return Downvote;
 };
-
