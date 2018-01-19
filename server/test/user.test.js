@@ -5,6 +5,7 @@ import app from '../app';
 import { seedUsers } from './seed/seed';
 
 export let token;
+export let token2 = 'jkefkjdfjkdfsjkjkdsfjkjk';
 
 describe('More Recipes', () => {
   before(() => models.sequelize.sync({ force: true }));
@@ -154,6 +155,34 @@ describe('More Recipes', () => {
         });
     });
 
+    it('should return 422 when user signs up with a password with whiteSpaces', (done) => {
+      request(app)
+        .post('/api/v1/users/signup')
+        .send(seedUsers.userTen)
+        .expect(422)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.error).toBe('Password cannot contain spaces');
+          done();
+        });
+    });
+
+    it('should return 422 if a user sign up with a password less than six', (done) => {
+      request(app)
+        .post('/api/v1/users/signup')
+        .send(seedUsers.userEleven)
+        .expect(422)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.error).toBe('You need to fill in a password with a minimum length of 6');
+          done();
+        });
+    });
+
     it('shoud sign in a user', (done) => {
       request(app)
         .post('/api/v1/users/signin')
@@ -168,8 +197,21 @@ describe('More Recipes', () => {
           expect(res.body.userFound.id).toExist;
           expect(res.body.userFound.username).toExist;
           expect(res.body.userFound.email).toExist;
-          // expect(res.body.user.message).toEqual('You need to fill in your password');
           expect(token).toExist;
+          done();
+        });
+    });
+
+    it('shoud not sign in a user with wrong password', (done) => {
+      request(app)
+        .post('/api/v1/users/signin')
+        .send(seedUsers.usertwelve)
+        .expect(401)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('Invalid credentials');
           done();
         });
     });
@@ -243,5 +285,98 @@ describe('More Recipes', () => {
     });
   });
 
+  describe('Can reset password', () => {
+    it('it should return 404 if no email registered', (done) => {
+      request(app)
+        .post('/api/v1/users/verify-user')
+        .send(seedUsers.userSeven)
+        .expect(404)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.error).toBe('User not found');
+          done();
+        });
+    });
 
+    // it('it should send mail if check users', (done) => {
+    //   request(app)
+    //     .post('/api/v1/users/reset-password')
+    //     .send(seedUsers.userOne.email)
+    //     .end((err, res) => {
+    //       if (err) {
+    //         return done(err);
+    //       }
+    //       expect
+    //     });
+    // });
+  });
+  describe('Profile', () => {
+    it('should edit profile details', (done) => {
+      request(app)
+        .put('/api/v1/users/update-profile')
+        .send({
+          username: 'charlesss',
+          email: 'destiny@gmail.com',
+        })
+        .set('x-access-token', token)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(201);
+          expect(res.body.userFound.username).toBe('charlesss');
+          expect(res.body.userFound.email).toBe('destiny@gmail.com');
+          done();
+        });
+    });
+
+    it('should not edit profile details', (done) => {
+      request(app)
+        .put('/api/v1/users/update-profile')
+        .send({
+          username: 'charlesssyyyu',
+          email: 'destikjjny@gmail.com',
+        })
+        // .set('x-access-token', token2)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(404);
+          console.log('>>>>>>455',res.body)
+          // expect(res.body.error).toBe('User not found');
+          done();
+        });
+    });
+
+    it('should view the user details', (done) => {
+      request(app)
+        .get('/api/v1/users/me')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(200);
+          expect(res.body.username).toBe('charlesss')
+          done();
+        });
+    });
+
+    it('should return 404 if no user profile', (done) => {
+      request(app)
+        .get('/api/v1/users/me')
+        .set('x-access-token', token2)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(404);
+          // expect(res.body.error).toBe('No currentUser');
+          done();
+        });
+    });
+  });
 });
