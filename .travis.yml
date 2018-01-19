@@ -14,7 +14,3 @@ script:
 - npm run coverage
 - npm install
 after_success: 'npm run coveralls'
-deploy:
-  provider: heroku
-  app:
-    chore/154465272/write-more-tests: still-mesa-59950
