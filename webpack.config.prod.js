@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractWebPlugin = require('extract-text-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -87,11 +86,6 @@ module.exports = {
       }
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new Dotenv({
-      path: path.resolve('./.env'),
-      safe: false,
-      systemvars: true,
-    }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'client/public/index.html'),
       path: buildPath,
