@@ -1,6 +1,20 @@
 const path = require('path');
 const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
+  template: './client/public/index.html',
+  filename: 'index.html',
+  inject: 'body',
+  minify: {
+    collapseWhitespace: true,
+    collapseInlineTageWhitespace: true,
+    removeComments: true,
+    removeRedundantAttributes: true
+  }
+});
+
 
 module.exports = {
   devtool: 'eval-source-map',
@@ -72,5 +86,6 @@ module.exports = {
       safe: false,
       systemvars: true,
     }),
+    HtmlWebpackPluginConfig
   ]
 };

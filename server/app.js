@@ -1,22 +1,22 @@
 import express from 'express';
 import path from 'path';
 import logger from 'morgan';
-import bodyParser from 'body-parser';
-import recipes from './routes/index';
-import user from './routes/user';
 import dotenv from 'dotenv';
-import database from './models';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackConfig from '../webpack.config.dev';
+import bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
+import recipes from './routes/index';
+import user from './routes/user';
+import database from './models';
+import webpackConfig from '../webpack.config.dev';
 
 dotenv.config();
 
 const app = express();
 // swagger definition
-let swaggerDefinition = {
+const swaggerDefinition = {
   info: {
     title: 'More Recipe API',
     version: '1.0.0',
@@ -26,20 +26,20 @@ let swaggerDefinition = {
   basePath: '/',
 };
 
-const publicPath = express.static(path.join(__dirname, '../build/'))
+const publicPath = express.static(path.join(__dirname, '../build/'));
 
 // options for the swagger docs
-let options = {
+const options = {
   // import swaggerDefinitions
-  swaggerDefinition: swaggerDefinition,
+  swaggerDefinition,
   // path to the API docs
   apis: ['./server/doc.js'],
 };
 
 // initialize swagger-jsdoc
-let swaggerSpec = swaggerJSDoc(options);
+const swaggerSpec = swaggerJSDoc(options);
 
-app.get('/swagger.json', function(req, res) {
+app.get('/swagger.json', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerSpec);
 });
@@ -48,18 +48,21 @@ app.use(express.static('./server/swagger'));
 const compiler = webpack(webpackConfig);
 const port = process.env.PORT || 3000;
 
-app.use(webpackHotMiddleware(compiler, {
-  hot: true,
-  publicPath: webpackConfig.output.publicPath,
-  noInfo: true
-}));
+if (process.env.NODE_ENV === 'development') {
+  app.use(webpackHotMiddleware(compiler, {
+    hot: true,
+    publicPath: webpackConfig.output.publicPath,
+    noInfo: true
+  }));
+  app.use(webpackMiddleware(compiler));
+}
+
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/api/v1/recipes', recipes);
 app.use('/api/v1/users', user);
-app.use(webpackMiddleware(compiler));
 
 
 app.get('/*', (req, res) => {
