@@ -5,7 +5,7 @@ body{
     margin:0;
 padding:0;
 height:100%;
-    
+
 }
 
 #fixed button {
@@ -15,8 +15,16 @@ position: fixed;
 
 .popular-recipes{
 max-height: 30px;
-background-color: green; 
+background-color: green;
 
+}
+
+.modal-dialog {
+    max-width: 600px !important;
+}
+
+.modal-content {
+    width: 100%;
 }
 .set-align {
     display: flex !important;
@@ -42,14 +50,14 @@ color: greenyellow;
 }
 
 .navbar{
-border-bottom: #FF4500 3px solid;               
+border-bottom: #FF4500 3px solid;
 }
 
 .home-inner{
-    padding-top: 100px; 
+    padding-top: 100px;
   }
 .heading{
-padding-top: 80px; 
+padding-top: 80px;
 }
 .card{
 margin-bottom: 15px;
@@ -65,7 +73,7 @@ position: relative;
 .navbar{
 background-color:black;
 margin-bottom: 0;
-border-radius: 0;  
+border-radius: 0;
 }
 
 html{
@@ -95,11 +103,11 @@ background:none !important
 }
 
 
-.search input { 
-text-indent: 30px; 
+.search input {
+text-indent: 30px;
 border-radius:20px;
 }
-.search .fa-search { 
+.search .fa-search {
 position: absolute;
 top: 5px;
 left: 160px;
@@ -126,27 +134,27 @@ cursor:pointer;
 
 }
 
-@media only screen and (max-width: 768px) and (min-width: 300px) {   
+@media only screen and (max-width: 768px) and (min-width: 300px) {
 
 .popular{
-    position: relative !important; 
+    position: relative !important;
     right: 5%;
     left: 4%;
     /*padding: 0px;*/
-    
-    margin-bottom: 1%;   
-  
+
+    margin-bottom: 1%;
+
 }
 
 }
 
 @media only screen and (max-width : 575px) {
 form {
-width: 100% ; 
+width: 100% ;
 position: relative;
 };
 .addrecipebtn{
-    margin-right: -5px; 
+    margin-right: -5px;
 };
 /*.heading {
   padding-top:500px;

@@ -59,8 +59,8 @@ class AddRecipeModal extends Component {
         <ModalBody>
           <Form>
             <FormGroup row>
-              <Label for="exampleEmail" sm={4}>Name</Label>
-              <Col sm={8}>
+              <Label for="exampleEmail" sm={3}>Name</Label>
+              <Col sm={9}>
                 <Input
                   type="text"
                   name="name"
@@ -73,8 +73,8 @@ class AddRecipeModal extends Component {
             </FormGroup>
 
             <FormGroup row>
-              <Label for="exampleEmail" sm={4}>Ingredients</Label>
-              <Col sm={8}>
+              <Label for="exampleEmail" sm={3}>Ingredients</Label>
+              <Col sm={9}>
                 <Input
                   type="textarea"
                   name="ingredients"
@@ -82,13 +82,14 @@ class AddRecipeModal extends Component {
                   value={this.state.ingredients}
                   onChange={this.onNameChange}
                   placeholder="Enter the Ingredients"
+                  style={{ height: 150}}
                 />
               </Col>
             </FormGroup>
 
             <FormGroup row>
-              <Label for="exampleEmail" sm={4}>method</Label>
-              <Col sm={8}>
+              <Label for="exampleEmail" sm={3}>method</Label>
+              <Col sm={9}>
                 <Input
                   type="textarea"
                   name="method"
@@ -96,13 +97,14 @@ class AddRecipeModal extends Component {
                   value={this.state.method}
                   onChange={this.onNameChange}
                   placeholder="Enter the description"
+                  style={{ height: 150}}
                 />
               </Col>
             </FormGroup>
 
             <FormGroup row>
-              <Label for="exampleFile" sm={4}>File</Label>
-              <Col sm={8}>
+              <Label for="exampleFile" sm={3}>File</Label>
+              <Col sm={9}>
                 <Input
                   type="file"
                   name="file"
@@ -117,7 +119,7 @@ class AddRecipeModal extends Component {
 
             <FormGroup check row >
               <Col sm={{ size: 10, offset: 2 }}>
-                <Button onClick={this.onSubmit}>Add a recipe</Button>
+                <Button onClick={this.onSubmit} style={{float: 'right', backgroundColor: '#A43741'}}>Add a recipe</Button>
               </Col>
             </FormGroup>
           </Form>
