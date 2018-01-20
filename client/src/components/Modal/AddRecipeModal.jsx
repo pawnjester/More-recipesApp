@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import toastr from 'toastr';
-import { Button, Modal,
-  ModalHeader, ModalBody, Form, Label, Input, FormGroup, Col, FormText } from 'reactstrap';
+import {
+  Button, Modal,
+  ModalHeader, ModalBody, Form, Label, Input, FormGroup, Col, FormText
+} from 'reactstrap';
 import imageUpload from '../../helpers/imageUpload';
 
 /* eslint-disable */
@@ -29,18 +31,19 @@ class AddRecipeModal extends Component {
 
   onSubmit(event) {
     event.preventDefault();
+    console.log(this.state, '+++++');
     this.props.createRecipe(this.state);
     toastr.success('Recipe added');
     this.props.toggle();
   }
 
   Upload(images) {
-    this.setState({ status: 'Uploading...'})
+    this.setState({ status: 'Uploading...' })
     imageUpload(images).then((response) => {
       const { body } = response
       const fileUrl = body.secure_url;
 
-      if(fileUrl) {
+      if (fileUrl) {
         this.setState({
           imageUrl: fileUrl,
           status: 'Uploaded'
@@ -101,13 +104,13 @@ class AddRecipeModal extends Component {
               <Label for="exampleFile" sm={4}>File</Label>
               <Col sm={8}>
                 <Input
-                type="file"
-                name="file"
-                id="exampleFile"
-                onChange={this.Upload}
-                accept="image/*"
+                  type="file"
+                  name="file"
+                  id="exampleFile"
+                  onChange={this.Upload}
+                  accept="image/*"
                 />
-                <h6>{ this.state.status}</h6>
+                <h6>{this.state.status}</h6>
                 <FormText color="muted" />
               </Col>
             </FormGroup>

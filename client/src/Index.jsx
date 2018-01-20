@@ -1,4 +1,5 @@
 import React from 'react';
+import 'babel-polyfill';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { render } from 'react-dom';
@@ -20,6 +21,7 @@ const store = createStore(
     window.devToolsExtension ? window.devToolsExtension() : f => f,
   ),
 );
+console.log('state from store -> ', store.getState());
 
 if (localStorage.jwtToken) {
   setAuthorizationToken(localStorage.jwtToken);

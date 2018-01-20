@@ -19,6 +19,7 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 module.exports = {
   devtool: 'eval-source-map',
   entry: [
+    'babel-polyfill',
     'webpack-hot-middleware/client', path.join(__dirname, './client/src/Index.jsx')
   ],
   output: {
