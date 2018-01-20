@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Signupform from './SignUpForm';
+import Signupform from './signupform';
 import { userSignupRequest } from '../../actions/signupActions';
 
 

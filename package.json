@@ -6,7 +6,7 @@
   "scripts": {
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
-    "start": "node ./dist/app.js",
+    "start": "node dist/app.js",
     "start:dev": "nodemon --exec babel-node server/app.js",
     "sequelize": "sequelize",
     "test": "nyc --reporter=html --reporter=text mocha ./server/test/  --timeout 15000 --compilers js:babel-register",
@@ -14,7 +14,7 @@
     "watch": "webpack --config webpack.config.dev.js --watch",
     "heroku-postbuild": "npm run build:client && npm run build:server",
     "build:client": "webpack --config webpack.config.prod.js",
-    "build:server": "babel -d ./dist ./server -s"
+    "build:server": "babel ./server -d ./dist"
   },
   "repository": {
     "type": "git",

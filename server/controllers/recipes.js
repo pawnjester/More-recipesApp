@@ -1,5 +1,4 @@
 import models from '../models';
-import Recipe from '../../client/src/components/recipe/addRecipe/recipe';
 
 const recipe = models.Recipe;
 const review = models.Review;

@@ -1,4 +1,5 @@
-import { CREATE_RECIPE_SUCCESS,
+import {
+  CREATE_RECIPE_SUCCESS,
   GET_RECIPES,
   DELETE_RECIPE_SUCCESS,
   EDIT_RECIPE_SUCCESS, SEARCH_RECIPE_SUCCESS, SEARCH_RECIPE_FAILURE, GET_PAGE_DETAIL,
@@ -6,14 +7,18 @@ import { CREATE_RECIPE_SUCCESS,
 
 /* eslint-disable */
 
-const initialState = { recipes: [], pages: 1, error: false };
+const initialState = { recipes: [] , pages: 1, error: false };
 
 const recipes = (state = initialState, action) => {
+  console.log('state -> ', state)
   switch (action.type) {
-      case GET_RECIPES:
-        return { ...state, recipes: action.payload.recipes };
+    case GET_RECIPES:
+      console.log('action.recipes -> ', action.payload.recipes)
+      return { ...state, recipes: action.payload.recipes || [] };
     case CREATE_RECIPE_SUCCESS:
-      return { ...state, recipes: [...state.recipes, action.payload.recipe] };
+      const newState = { ...state, recipes: [...state.recipes, action.newRecipe] };
+      console.log('old state -> ', state, 'new state -> ', newState)
+      return newState;
     case DELETE_RECIPE_SUCCESS:
       const recipes = state.recipes.filter(recipe => recipe.id !== action.deletedRecipe);
       return {
