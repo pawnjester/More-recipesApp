@@ -5,7 +5,7 @@ import toastr from 'toastr';
 import AddReview from '../../actions/reviewRecipe';
 import GetRecipeDetail from '../../actions/getRecipeDetail';
 import '../../styles/detail.scss';
-
+/* eslint-disable */
 class Reviews extends Component {
   constructor(props) {
     super(props);
@@ -46,7 +46,7 @@ class Reviews extends Component {
                   value={this.state.data}
                   onChange={this.onNameChange}
                   placeholder="Write A Review..."
-                  
+
                 />
               </div>
               <button type="submit" className="btn btn-outline-light  pull-right bg-danger btn-lg">POST</button>

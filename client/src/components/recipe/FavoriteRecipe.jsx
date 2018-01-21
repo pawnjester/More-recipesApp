@@ -20,7 +20,7 @@ class FavoriteRecipe extends Component {
 
     this.onDelete = this.onDelete.bind(this);
   }
-/**
+  /**
  *
  *
  * @memberof FavoriteRecipe
@@ -51,6 +51,7 @@ class FavoriteRecipe extends Component {
           </div>
           <hr />
           <div className="row high">
+            {favoriteRecipe.length < 1 && (<h4 className="mt-5 text-center no-favorite">You have no favorite</h4>)}
             {favoriteRecipe.map(favorite =>
               <SingleFavorite recipe={favorite.Recipe} deleteFavorite={this.onDelete} favoriteId={favorite.id} key={favorite.Recipe.id} />)}
           </div>
