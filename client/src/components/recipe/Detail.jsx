@@ -86,15 +86,28 @@ class Detail extends Component {
                     </div>
                   </div>
                   <div className="card-body">
-                    <h6>Description</h6>
-                    <p>{singleRecipe.method} </p>
+                    <h6>Cooking Time</h6>
+                    <p><i class="fa fa-clock-o mr-2" aria-hidden="true" style={{color:'orange', fontSize:25}}></i>{singleRecipe.method}</p>
                   </div>
-                  <div className="card-body">
+                  {/* <div className="card-body">
                     <h6 className="card-subtitle mb-2 ">Ingredients</h6>
                     {singleRecipe.ingredients}
-                  </div>
+                  </div> */}
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="container">
+            <div className="row">
+              <div className="col-md-6 col-sm-12 mt-5">
+              <h4 className="text-center">Preparation</h4>
+              <li>{singleRecipe.method}</li>
+              </div>
+              <div className="col-md-6 col-sm-12 mt-5">
+              <h4 className="text-center">Ingredients</h4>
+              <li>{singleRecipe.ingredients}</li>
+              </div>
+
             </div>
           </div>
           <Review recipeId={singleRecipe.id} />

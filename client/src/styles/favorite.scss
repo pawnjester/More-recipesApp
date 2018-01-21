@@ -5,7 +5,7 @@ body{
 
 .popular-recipes{
 max-height: 30px;
-background-color: green; 
+background-color: green;
 
 }
 .fa{
@@ -13,6 +13,9 @@ background: #fff;
 padding: 4px;
 border-radius: 5px;
 font-size: 20px;
+}
+.no-favorite{
+  margin: 0 auto;
 }
 
 .active {
@@ -24,10 +27,10 @@ width:2px;
 }
 
 .home-inner{
-  padding-top: 100px; 
+  padding-top: 100px;
 }
 .heading{
-padding-top: 100px; 
+padding-top: 100px;
 }
 .card{
 margin-bottom: 15px;
@@ -40,23 +43,88 @@ border-radius: 0;
 
 }*/
 
-.search { 
+.search {
 position: relative;
-margin-right: 5px; 
+margin-right: 5px;
 }
 
 .navbar{
-  border-bottom: #FF4500 3px solid;               
+  border-bottom: #FF4500 3px solid;
+}
+
+/* Bob */
+@-webkit-keyframes hvr-bob {
+  0% {
+    -webkit-transform: translateY(-8px);
+    transform: translateY(-8px);
+  }
+  50% {
+    -webkit-transform: translateY(-4px);
+    transform: translateY(-4px);
+  }
+  100% {
+    -webkit-transform: translateY(-8px);
+    transform: translateY(-8px);
+  }
+}
+@keyframes hvr-bob {
+  0% {
+    -webkit-transform: translateY(-8px);
+    transform: translateY(-8px);
+  }
+  50% {
+    -webkit-transform: translateY(-4px);
+    transform: translateY(-4px);
+  }
+  100% {
+    -webkit-transform: translateY(-8px);
+    transform: translateY(-8px);
+  }
+}
+@-webkit-keyframes hvr-bob-float {
+  100% {
+    -webkit-transform: translateY(-8px);
+    transform: translateY(-8px);
+  }
+}
+@keyframes hvr-bob-float {
+  100% {
+    -webkit-transform: translateY(-8px);
+    transform: translateY(-8px);
+  }
+}
+.hvr-bob {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px transparent;
+}
+.hvr-bob:hover, .hvr-bob:focus, .hvr-bob:active {
+  -webkit-animation-name: hvr-bob-float, hvr-bob;
+  animation-name: hvr-bob-float, hvr-bob;
+  -webkit-animation-duration: .3s, 1.5s;
+  animation-duration: .3s, 1.5s;
+  -webkit-animation-delay: 0s, .3s;
+  animation-delay: 0s, .3s;
+  -webkit-animation-timing-function: ease-out, ease-in-out;
+  animation-timing-function: ease-out, ease-in-out;
+  -webkit-animation-iteration-count: 1, infinite;
+  animation-iteration-count: 1, infinite;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-direction: normal, alternate;
+  animation-direction: normal, alternate;
 }
 
 #clickableAwesomeFont{
 cursor:pointer
 }
-.search input { 
-text-indent: 30px; 
+.search input {
+text-indent: 30px;
 border-radius:20px;
 }
-.search .fa-search { 
+.search .fa-search {
 position: absolute;
 top: 5px;
 left: 160px;
@@ -72,7 +140,7 @@ color: white;
 
 @media only screen and (max-width : 575px) {
 form {
-width: 100% ; 
+width: 100% ;
 position: relative;
 }
 }

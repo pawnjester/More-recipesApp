@@ -21,9 +21,7 @@ export class Recipes {
   addRecipe(req, res) {
     let name;
     let ingredients;
-
-    console.log('>>>', req.body);
-
+    
     if (req.body.name) {
       name = req.body.name.trim().toLowerCase();
     }
