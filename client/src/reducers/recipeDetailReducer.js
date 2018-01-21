@@ -1,4 +1,4 @@
-import { GET_RECIPE_DETAIL_SUCCESS, UPVOTE_RECIPE_SUCCESS, DOWNVOTE_RECIPE_SUCCESS, UPVOTE_RECIPE_FAILURE, DOWNVOTE_RECIPE_FAILURE, FAVORITE_RECIPE_FAILURE, FAVORITE_RECIPE_SUCCESS, GET_FAVORITE_RECIPES_SUCCESS, GET_FAVORITE_RECIPES_FAILURE, ADD_REVIEW, ADD_REVIEW_FAILURE, DELETE_REVIEW_FAILURE, DELETE_REVIEW_SUCCESS } from '../actions/types';
+import { GET_RECIPE_DETAIL_SUCCESS, UPVOTE_RECIPE_SUCCESS, DOWNVOTE_RECIPE_SUCCESS, UPVOTE_RECIPE_FAILURE, DOWNVOTE_RECIPE_FAILURE, FAVORITE_RECIPE_FAILURE, FAVORITE_RECIPE_SUCCESS, GET_FAVORITE_RECIPES_SUCCESS, GET_FAVORITE_RECIPES_FAILURE, ADD_REVIEW, ADD_REVIEW_FAILURE, DELETE_REVIEW_FAILURE, DELETE_REVIEW_SUCCESS, DELETE_FAVORITE_SUCCESS, DELETE_FAVORITE_FAILURE } from '../actions/types';
 
 const initialState = {
   currentRecipe: {},
@@ -78,6 +78,11 @@ const detail = (state = initialState, action) => {
       return {
         ...state, currentRecipe: {}, success: false, errors: action.error
       };
+    case DELETE_FAVORITE_SUCCESS:
+      const deletedFavorite = state.favoriteRecipes.filter(deletedFav => deletedFav.id !== action.deletedFavorite);
+      return {
+        ...state, favoriteRecipes: deletedFavorite
+      }
     default:
       return state;
   }
