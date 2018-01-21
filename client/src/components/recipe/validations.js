@@ -8,20 +8,20 @@ export default function validatorInput(data) {
 
   if (Validator.isEmpty(data.name)) {
     errors.name = 'This field is required';
-  } 
+  }
 
-  if (Validator.isEmpty(data.Ingredients)) {
-    errors.Ingredients = 'This field is required';
-  } 
+  if (Validator.isEmpty(data.ingredients)) {
+    errors.ingredients = 'This field is required';
+  }
 
   if (Validator.isEmpty(data.method)) {
     errors.method = 'This field is required';
   }
-  
+
 
 
   return {
-    errors, 
+    errors,
     isValid: isEmpty(errors)
   };
 }

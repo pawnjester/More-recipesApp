@@ -68,12 +68,12 @@ class EditRecipeModal extends Component {
   render() {
     return (
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
-        <ModalHeader toggle={this.props.toggle} className= 'set-align' >Edit A recipe</ModalHeader>
+        <ModalHeader toggle={this.props.toggle} >Edit A recipe</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup row>
-              <Label for="exampleEmail" sm={4}>Name</Label>
-              <Col sm={8}>
+              <Label for="exampleEmail" sm={3}>Name</Label>
+              <Col sm={9}>
                 <Input
                   type="text"
                   name="name"
@@ -86,36 +86,38 @@ class EditRecipeModal extends Component {
             </FormGroup>
 
             <FormGroup row>
-              <Label for="exampleEmail" sm={4}>Ingredients</Label>
-              <Col sm={8}>
+              <Label for="exampleEmail" sm={3}>Ingredients</Label>
+              <Col sm={9}>
                 <Input
                   type="text"
                   name="ingredients"
                   id="exampleEmail"
                   value={this.state.ingredients}
                   onChange={this.onNameChange}
-                  placeholder="Enter the ingredients"
+                  placeholder="Enter the Ingredients"
+                  style={{ height: 150}}
                 />
               </Col>
             </FormGroup>
 
             <FormGroup row>
-              <Label for="exampleEmail" sm={4}>method</Label>
-              <Col sm={8}>
+              <Label for="exampleEmail" sm={3}>method</Label>
+              <Col sm={9}>
                 <Input
                   type="text"
                   name="method"
                   id="exampleEmail"
                   value={this.state.method}
                   onChange={this.onNameChange}
-                  placeholder="Enter the method"
+                  placeholder="Enter the description"
+                  style={{ height: 150}}
                 />
               </Col>
             </FormGroup>
 
             <FormGroup row>
-              <Label for="exampleFile" sm={4}>File</Label>
-              <Col sm={8}>
+              <Label for="exampleFile" sm={3}>File</Label>
+              <Col sm={9}>
               <Input
                 type="file"
                 name="file"
@@ -130,7 +132,7 @@ class EditRecipeModal extends Component {
 
             <FormGroup check row>
               <Col sm={{ size: 10, offset: 2 }}>
-                <Button onClick={this.onSubmit}>Edit a recipe</Button>
+                <Button onClick={this.onSubmit} style={{float: 'right', backgroundColor: '#A43741'}}>Edit a recipe</Button>
               </Col>
             </FormGroup>
           </Form>

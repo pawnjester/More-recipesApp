@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import classnames from 'classnames';
 import validateInput from './validateInput';
 import TextFieldGroup from '../common/TextFieldGroup';
 

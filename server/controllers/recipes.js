@@ -22,6 +22,8 @@ export class Recipes {
     let name;
     let ingredients;
 
+    console.log('>>>', req.body);
+
     if (req.body.name) {
       name = req.body.name.trim().toLowerCase();
     }
@@ -29,6 +31,7 @@ export class Recipes {
       ingredients = req.body.ingredients.trim().toLowerCase();
     }
     const { method } = req.body;
+
     const currentUser = req.currentUser.id;
 
     if (!name) {
@@ -68,7 +71,7 @@ export class Recipes {
           userId: currentUser,
           upVotes: req.body.upVotes,
           downVotes: req.body.downVotes,
-          imageUrl: req.body.imageUrl,
+          imageUrl: req.body.imageUrl || 'https://res.cloudinary.com/digr7ls7o/image/upload/v1516455539/no-img_hdhkpi.png',
         })
           .then((recipe) => {
             res.status(201).json({ statusCode: 201, message: 'Recipe has been created', recipe });

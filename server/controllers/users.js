@@ -28,6 +28,7 @@ export default class User {
     let email;
     let username;
     let password;
+    console.log('req.body>>', req.body);
     const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     const whiteSpace = /\s/;
 

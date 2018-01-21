@@ -42,7 +42,7 @@ class Recipe extends Component {
     const { recipe } = this.props;
     const ellipsis = `${recipe.name.substring(0, 10)}...`;
     return (
-      <div className="col-md-4 col-xs-12 " >
+      <div className="col-md-4 col-xs-12 hvr-bob" >
         <div className="card">
           <img className="card-img-top" src={recipe.imageUrl} style={style} alt="recipeImage" />
           <div className="card-body">

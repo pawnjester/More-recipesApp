@@ -5,6 +5,7 @@ import {
   ModalHeader, ModalBody, Form, Label, Input, FormGroup, Col, FormText
 } from 'reactstrap';
 import imageUpload from '../../helpers/imageUpload';
+import validateInput from '../recipe/validations';
 
 /* eslint-disable */
 class AddRecipeModal extends Component {
@@ -17,6 +18,7 @@ class AddRecipeModal extends Component {
       method: '',
       imageUrl: '',
       status: '',
+      errors: {},
     };
 
     this.onNameChange = this.onNameChange.bind(this);
@@ -29,12 +31,24 @@ class AddRecipeModal extends Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
+  isValid() {
+    const { errors, isValid } = validateInput(this.state);
+
+    if (!isValid) {
+      this.setState({ errors });
+    }
+    return isValid;
+  }
+
   onSubmit(event) {
     event.preventDefault();
-    console.log(this.state, '+++++');
-    this.props.createRecipe(this.state);
-    toastr.success('Recipe added');
-    this.props.toggle();
+    if (this.isValid()) {
+      this.setState({ errors: {} });
+      this.props.createRecipe(this.state).then((res) => {
+        toastr.success('Recipe added');
+        this.props.toggle();
+      })
+    }
   }
 
   Upload(images) {
@@ -53,6 +67,8 @@ class AddRecipeModal extends Component {
   }
 
   render() {
+    const { errors } = this.state;
+    console.log('>>>>', errors);
     return (
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
         <ModalHeader toggle={this.props.toggle}>Add A recipe</ModalHeader>
@@ -69,6 +85,7 @@ class AddRecipeModal extends Component {
                   onChange={this.onNameChange}
                   placeholder="Enter the name"
                 />
+                {errors.error || errors.name && <small style={{color: '#A43741' }}>{errors.name}</small>}
               </Col>
             </FormGroup>
 
@@ -84,6 +101,7 @@ class AddRecipeModal extends Component {
                   placeholder="Enter the Ingredients"
                   style={{ height: 150}}
                 />
+                {errors.error || errors.ingredients && <small style={{color: '#A43741' }}>{errors.ingredients}</small>}
               </Col>
             </FormGroup>
 
@@ -99,6 +117,7 @@ class AddRecipeModal extends Component {
                   placeholder="Enter the description"
                   style={{ height: 150}}
                 />
+                {errors.error || errors.method && <small style={{color: '#A43741' }}>{errors.method}</small>}
               </Col>
             </FormGroup>
 
