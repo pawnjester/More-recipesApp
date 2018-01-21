@@ -17,6 +17,7 @@ class AddRecipeModal extends Component {
       ingredients: '',
       method: '',
       imageUrl: '',
+      cookingTime: 0,
       status: '',
       errors: {},
     };
@@ -42,7 +43,19 @@ class AddRecipeModal extends Component {
 
   onSubmit(event) {
     event.preventDefault();
-    if (this.isValid()) {
+    // if (this.isValid()) {
+    //   this.setState({ errors: {} });
+    //   this.props.createRecipe(this.state).then((res) => {
+    //     toastr.success('Recipe added');
+    //     this.props.toggle();
+    //   })
+
+    // }
+    if(this.state.errors !== {}) {
+      this.setState({ errors: this.props.errors})
+      console.log('~~~~~~~||||')
+      this.props.toggle();
+    } else if (this.isValid()){
       this.setState({ errors: {} });
       this.props.createRecipe(this.state).then((res) => {
         toastr.success('Recipe added');
@@ -69,6 +82,7 @@ class AddRecipeModal extends Component {
   render() {
     const { errors } = this.state;
     console.log('>>>>', errors);
+    console.log('>>this.props', this.props.errors)
     return (
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
         <ModalHeader toggle={this.props.toggle}>Add A recipe</ModalHeader>
@@ -118,6 +132,34 @@ class AddRecipeModal extends Component {
                   style={{ height: 150}}
                 />
                 {errors.error || errors.method && <small style={{color: '#A43741' }}>{errors.method}</small>}
+              </Col>
+            </FormGroup>
+
+            <FormGroup row>
+              <Label for="exampleEmail" sm={3}>Preparation Time</Label>
+              <Col sm={9}>
+                <Input
+                  type="text"
+                  name="cookingTime"
+                  id="exampleEmail"
+                  value={this.state.cookingTime}
+                  onChange={this.onNameChange}
+                  placeholder="Enter the preparation time"
+                />
+
+                <Col sm={12}>
+                  <Input
+                  type="select"
+                  name="select"
+                  id="exampleSelect"
+                  className='mt-3'
+                  onChange={this.onNameChange} >
+                  <option>seconds</option>
+                  <option>minutes</option>
+                  <option>hour(s)</option>
+                  </Input>
+                </Col>
+                {errors.error || errors.cookingTime && <small style={{color: '#A43741' }}>{errors.cookingTime}</small>}
               </Col>
             </FormGroup>
 
