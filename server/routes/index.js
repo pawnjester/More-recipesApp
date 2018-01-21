@@ -25,6 +25,7 @@ router.post('/:recipeId/reviews', authenticate, reviewController.postReview);
 router.get('/:recipeId/reviews', authenticate, reviewController.getReviewById);
 router.delete('/:reviewId/reviews', authenticate, reviewController.deleteReview);
 router.post('/:recipeId/favorite', authenticate, favoriteController.addFavorite);
+router.delete('/:favoriteId/favorite', authenticate, favoriteController.deleteFavorite);
 router.get('/:userId/favorite', authenticate, favoriteController.getAllFavorite);
 router.post('/:recipeId/upvote', authenticate, voteController.upvote);
 router.post('/:recipeId/downvote', authenticate, voteController.downvote);

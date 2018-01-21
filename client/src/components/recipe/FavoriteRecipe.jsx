@@ -5,7 +5,9 @@ import JwtDecode from 'jwt-decode';
 import NavigationBar from '../NavigationBar';
 import '../../styles/favorite.scss';
 import GetFavoriteRecipe from '../../actions/getFavoriteRecipes';
+import DeleteFavorite from '../../actions/deleteFavorite';
 import SingleFavorite from './SingleFavorite';
+import Footer from '../common/Footer';
 /**
  *
  *
@@ -13,6 +15,11 @@ import SingleFavorite from './SingleFavorite';
  * @extends {Component}
  */
 class FavoriteRecipe extends Component {
+  constructor(props) {
+    super(props);
+
+    this.onDelete = this.onDelete.bind(this);
+  }
 /**
  *
  *
@@ -21,6 +28,10 @@ class FavoriteRecipe extends Component {
   componentWillMount() {
     const userId = JwtDecode(localStorage.jwtToken);
     this.props.GetFavoriteRecipe(userId.id);
+  }
+
+  onDelete(favoriteId) {
+    this.props.DeleteFavorite(favoriteId);
   }
   /**
  *
@@ -41,9 +52,10 @@ class FavoriteRecipe extends Component {
           <hr />
           <div className="row high">
             {favoriteRecipe.map(favorite =>
-              <SingleFavorite recipe={favorite.Recipe} key={favorite.Recipe.id} />)}
+              <SingleFavorite recipe={favorite.Recipe} deleteFavorite={this.onDelete} favoriteId={favorite.id} key={favorite.Recipe.id} />)}
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
@@ -62,5 +74,6 @@ export default connect(
   mapStateToProps,
   {
     GetFavoriteRecipe,
+    DeleteFavorite
   },
 )(FavoriteRecipe);

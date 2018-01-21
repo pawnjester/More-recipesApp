@@ -128,4 +128,36 @@ export default class Favorite {
       .catch(() => res.status(500).json({ statusCode: 500, message: 'Recipe cannot be retrieved' }));
     return this;
   }
+  /**
+ *
+ *
+ * @param {any} req
+ * @param {any} res
+ * @memberof Favorite
+ */
+  deleteFavorite(req, res) {
+    const currentUser = req.currentUser.id;
+    const { favoriteId } = req.params;
+    favorite.findOne({
+      where: {
+        userId: currentUser,
+        id: favoriteId
+      }
+    })
+      .then((favoriteFound) => {
+        if (!favoriteFound) {
+          return res.status(404).json({
+            error: 'Favorite not found'
+          });
+        }
+        return favorite.destroy({
+          where: {
+            id: favoriteId,
+          }
+        })
+          .then(() => res.status(200).json({ statusCode: 200, message: 'This is no more your favorite' }));
+      })
+      .catch(error => console.log(error));
+    return this;
+  }
 }

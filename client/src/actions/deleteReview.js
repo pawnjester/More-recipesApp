@@ -18,7 +18,7 @@ const deleteReview = reviewId => dispatch => axios
     dispatch({ type: DELETE_REVIEW_SUCCESS, deletedReview: reviewId });
   })
   .catch(() => {
-    dispatch(deleteReviewFailure('Unable to upvote recipe'));
+    dispatch(deleteReviewFailure('Unable to delete review'));
   });
 
 export default deleteReview;
