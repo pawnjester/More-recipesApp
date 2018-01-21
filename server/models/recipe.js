@@ -13,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     imageUrl: {
       type: DataTypes.TEXT,
+      allowNull: false,
+      defaultValue: 'https://res.cloudinary.com/digr7ls7o/image/upload/v1516455539/no-img_hdhkpi.png'
     },
     upVotes: {
       type: DataTypes.INTEGER,

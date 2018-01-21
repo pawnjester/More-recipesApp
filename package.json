@@ -55,6 +55,7 @@
     "faker": "^4.1.0",
     "file-loader": "^1.1.5",
     "font-loader": "^0.1.2",
+    "hover.css": "^2.2.1",
     "html-webpack-plugin": "^2.30.1",
     "image-webpack-loader": "^3.4.2",
     "jquery": "^3.2.1",

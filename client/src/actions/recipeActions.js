@@ -30,11 +30,11 @@ const addRecipeFailure = error => ({
 const createRecipe = data => dispatch => axios
   .post('/api/v1/recipes', data)
   .then((response) => {
-    console.log('>>>,<<<<', response);
+    console.log('>>>,<<<<', data);
     const recipess = response.data.recipe;
     console.log('////', recipess);
     dispatch(addRecipeSucess(recipess));
-    console.log('works....')
+    console.log('works....', data)
   })
   .catch((error) => {
     console.log('error?>>', error);
