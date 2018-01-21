@@ -27,7 +27,7 @@ class SingleFavorite extends Component {
     };
     const { recipe,favoriteId  } = this.props;
     return (
-      <div className="col-md-4 col-xs-4">
+      <div className="col-md-4 col-xs-4 hvr-bob">
         <div className="card">
           <img className="card-img-top" src={recipe.imageUrl} style={style} alt="Chocolate cream" />
           <div className="card-body">

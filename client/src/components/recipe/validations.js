@@ -5,6 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 
 export default function validatorInput(data) {
   let errors ={};
+  const whiteSpace = /\s/;
 
   if (Validator.isEmpty(data.name)) {
     errors.name = 'This field is required';
