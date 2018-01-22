@@ -14,11 +14,14 @@ import DeleteReview from '../../actions/deleteReview';
 import Review from './Review';
 import DisplayReviews from './DisplayReviews';
 import Footer from '../common/Footer';
-
-/* eslint-disable */
+/*eslint-disable */
 class Detail extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      message: '',
+    }
     this.upvoted = this.upvoted.bind(this);
     this.onDeleteReview = this.onDeleteReview.bind(this);
   }
@@ -26,6 +29,12 @@ class Detail extends Component {
   componentWillMount() {
     this.props.GetRecipeDetail(this.props.match.params.recipeId);
     this.props.GetUserDetail();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      message: nextProps.message
+    })
   }
 
   upvoted() {
@@ -49,8 +58,10 @@ class Detail extends Component {
 
   render() {
     const {
-      singleRecipe, message, userDetail
+      singleRecipe, userDetail
     } = this.props;
+
+    const {message} = this.state
     const user = this.props.userDetail ? this.props.userDetail : {};
 
     const single = this.props.singleRecipe.Reviews ? this.props.singleRecipe.Reviews : [];
@@ -87,17 +98,13 @@ class Detail extends Component {
                   </div>
                   <div className="card-body">
                     <h6>Cooking Time</h6>
-                    <p><i class="fa fa-clock-o mr-2" aria-hidden="true" style={{color:'orange', fontSize:25}}></i>{singleRecipe.method}</p>
+                    <p><i className="fa fa-clock-o mr-2" aria-hidden="true" style={{color:'orange', fontSize:25}}></i>{singleRecipe.cookingTime}</p>
                   </div>
-                  {/* <div className="card-body">
-                    <h6 className="card-subtitle mb-2 ">Ingredients</h6>
-                    {singleRecipe.ingredients}
-                  </div> */}
                 </div>
               </div>
             </div>
           </div>
-          <div className="container">
+          <div className="container detail-height">
             <div className="row">
               <div className="col-md-6 col-sm-12 mt-5">
               <h4 className="text-center">Preparation</h4>

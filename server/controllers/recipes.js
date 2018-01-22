@@ -21,7 +21,7 @@ export class Recipes {
   addRecipe(req, res) {
     let name;
     let ingredients;
-    
+
     if (req.body.name) {
       name = req.body.name.trim().toLowerCase();
     }
@@ -129,7 +129,7 @@ export class Recipes {
           ingredients: req.body.ingredients || recipe.ingredients,
           method: req.body.method || recipe.method,
           imageUrl: req.body.imageUrl || recipe.imageUrl,
-          cookingTime: parseInt(req.body.cookingTime || recipe.cookingTime, 10)
+          cookingTime: req.body.cookingTime || recipe.cookingTime
         })
           .then(() => res.status(201).json({ statusCode: 201, recipe }))
           .catch(error => res.status(500).json(error));

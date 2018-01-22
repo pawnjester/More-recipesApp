@@ -22,7 +22,7 @@ const recipes = (state = initialState, action) => {
     case CREATE_RECIPE_FAILURE:
       console.log('>>>123', action.error);
       return {
-        ...state, recipes: [], error: action.error
+        ...state, error: action.error
       }
     case DELETE_RECIPE_SUCCESS:
       const recipes = state.recipes.filter(recipe => recipe.id !== action.deletedRecipe);

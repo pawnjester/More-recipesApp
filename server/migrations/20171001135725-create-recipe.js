@@ -22,7 +22,7 @@ module.exports = {
         defaultValue: 'https://res.cloudinary.com/digr7ls7o/image/upload/v1516455539/no-img_hdhkpi.png'
       },
       cookingTime: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: true,
         defaultValue: 0,
       },

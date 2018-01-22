@@ -17,9 +17,11 @@ class AddRecipeModal extends Component {
       ingredients: '',
       method: '',
       imageUrl: '',
-      cookingTime: 0,
+      cookingTime: '',
       status: '',
       errors: {},
+      titleError: '',
+      option:'minute(s)'
     };
 
     this.onNameChange = this.onNameChange.bind(this);
@@ -36,31 +38,30 @@ class AddRecipeModal extends Component {
     const { errors, isValid } = validateInput(this.state);
 
     if (!isValid) {
-      this.setState({ errors });
+      this.setState({ errors })
     }
     return isValid;
   }
 
   onSubmit(event) {
     event.preventDefault();
-    // if (this.isValid()) {
-    //   this.setState({ errors: {} });
-    //   this.props.createRecipe(this.state).then((res) => {
-    //     toastr.success('Recipe added');
-    //     this.props.toggle();
-    //   })
-
-    // }
-    if(this.state.errors !== {}) {
-      this.setState({ errors: this.props.errors})
-      console.log('~~~~~~~||||')
-      this.props.toggle();
-    } else if (this.isValid()){
+    if (this.isValid()) {
       this.setState({ errors: {} });
+      const {name, ingredients, method, imageUrl, cookingTime, option} = this.state;
+      const cooking = cookingTime.concat(option);
+      this.state.cookingTime = cooking
       this.props.createRecipe(this.state).then((res) => {
-        toastr.success('Recipe added');
-        this.props.toggle();
+        if(this.props.errors) {
+          this.setState({
+            titleError:this.props.errors
+          })
+          toastr.warning(this.props.errors)
+        }else {
+          toastr.success('Recipe added');
+          this.props.toggle();
+        }
       })
+
     }
   }
 
@@ -80,7 +81,7 @@ class AddRecipeModal extends Component {
   }
 
   render() {
-    const { errors } = this.state;
+    const { errors, titleError } = this.state;
     console.log('>>>>', errors);
     console.log('>>this.props', this.props.errors)
     return (
@@ -99,7 +100,7 @@ class AddRecipeModal extends Component {
                   onChange={this.onNameChange}
                   placeholder="Enter the name"
                 />
-                {errors.error || errors.name && <small style={{color: '#A43741' }}>{errors.name}</small>}
+                {errors.name || titleError && <small style={{color: '#A43741' }}>{errors.name || titleError}</small>}
               </Col>
             </FormGroup>
 
@@ -115,7 +116,7 @@ class AddRecipeModal extends Component {
                   placeholder="Enter the Ingredients"
                   style={{ height: 150}}
                 />
-                {errors.error || errors.ingredients && <small style={{color: '#A43741' }}>{errors.ingredients}</small>}
+                {errors.ingredients && <small style={{color: '#A43741' }}>{errors.ingredients}</small>}
               </Col>
             </FormGroup>
 
@@ -131,7 +132,7 @@ class AddRecipeModal extends Component {
                   placeholder="Enter the description"
                   style={{ height: 150}}
                 />
-                {errors.error || errors.method && <small style={{color: '#A43741' }}>{errors.method}</small>}
+                {errors.method && <small style={{color: '#A43741' }}>{errors.method}</small>}
               </Col>
             </FormGroup>
 
@@ -147,16 +148,17 @@ class AddRecipeModal extends Component {
                   placeholder="Enter the preparation time"
                 />
 
-                <Col sm={12}>
+                <Col sm={15}>
                   <Input
                   type="select"
-                  name="select"
+                  name="option"
                   id="exampleSelect"
                   className='mt-3'
+                  value={this.state.option}
                   onChange={this.onNameChange} >
-                  <option>seconds</option>
-                  <option>minutes</option>
-                  <option>hour(s)</option>
+                  <option value='second(s)'>second(s)</option>
+                  <option value='minute(s)'>minute(s)</option>
+                  <option value='hour(s)'>hour(s)</option>
                   </Input>
                 </Col>
                 {errors.error || errors.cookingTime && <small style={{color: '#A43741' }}>{errors.cookingTime}</small>}

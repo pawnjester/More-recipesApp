@@ -1,37 +1,40 @@
 ul{
     list-style: disc;
   }
-  
+
   btn:focus{
     outline: none !important;
   }
-  
+
   .navbar{
     border-bottom: #FF4500 3px solid;
-                 
-  } 
-  
+
+  }
+
   .round{
     border-radius: 100%;
   }
-  
+  .detail-height{
+    min-height: 250px;
+  }
+
   .profile{
     background: #343a40;
     color: white;
     cursor: pointer;
     /*opacity: 0.8*/
   }
-  
+
   .define-width{
     width: 100px !important;
     height: 100px !important;
     padding-right: 35px !important;
     padding-left: 35px !important;
     padding-top: 2px !important;
-    padding-bottom: 2px !important 
-       
+    padding-bottom: 2px !important
+
   }
-  
+
   .header-banner{
     position: relative;
     width: 100%;
@@ -46,14 +49,14 @@ ul{
   /*
   .container-holder{
   }*/
-  
+
   .detail-container{
     background: #fff !important;
     margin-top: -180px;
     padding: 30px;
     border-radius: 5px;
   }
-  
+
   .no-border-r{
     border-radius: 0px !important;
   }
@@ -65,15 +68,15 @@ ul{
   .navbar{
     position: relative;
   }
-  
+
   .detail-card{
     border: none !important;
   }
-  
+
   .detail-card .card-body{
     padding: 1.25rem 0px !important;
   }
-  
+
   .detail-holder h1{
     text-transform: capitalize;
   }
@@ -85,31 +88,31 @@ ul{
   /*
   form {
     width: 100% !important;
-    float: right; 
+    float: right;
   }*/
-  
-  /* Extra Small Devices, Phones */ 
+
+  /* Extra Small Devices, Phones */
   @media only screen and (max-width : 575px) {
     form {
-      width: 100% ; 
+      width: 100% ;
       position: relative;
   }
   }
-  
+
   @media only screen and (max-width : 768px) {
     .define-width {
       padding-left: 5px !important;
-      padding-right: 5px !important; 
-      margin-left: 90px !important;   
+      padding-right: 5px !important;
+      margin-left: 90px !important;
   }
   }
-  
-  
+
+
   @media only screen and (max-width : 575px) {
     .profile {
       right:50%;
     left: 50%;
     margin-left: 120px;
-    
+
   }
   }
