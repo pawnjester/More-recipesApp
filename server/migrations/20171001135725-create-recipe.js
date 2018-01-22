@@ -21,6 +21,11 @@ module.exports = {
         allowNull: false,
         defaultValue: 'https://res.cloudinary.com/digr7ls7o/image/upload/v1516455539/no-img_hdhkpi.png'
       },
+      cookingTime: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: 0,
+      },
       upVotes: {
         type: Sequelize.INTEGER,
         allowNull: false,

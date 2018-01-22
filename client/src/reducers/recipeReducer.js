@@ -1,5 +1,5 @@
 import {
-  CREATE_RECIPE_SUCCESS,
+  CREATE_RECIPE_SUCCESS, CREATE_RECIPE_FAILURE,
   GET_RECIPES,
   DELETE_RECIPE_SUCCESS,
   EDIT_RECIPE_SUCCESS, SEARCH_RECIPE_SUCCESS, SEARCH_RECIPE_FAILURE, GET_PAGE_DETAIL,
@@ -7,7 +7,7 @@ import {
 
 /* eslint-disable */
 
-const initialState = { recipes: [] , pages: 1, error: false };
+const initialState = { recipes: [] , pages: 1, error: {} };
 
 const recipes = (state = initialState, action) => {
   console.log('state -> ', state)
@@ -19,6 +19,11 @@ const recipes = (state = initialState, action) => {
       const newState = { ...state, recipes: [...state.recipes, action.newRecipe] };
       console.log('old state -> ', state, 'new state -> ', newState)
       return newState;
+    case CREATE_RECIPE_FAILURE:
+      console.log('>>>123', action.error);
+      return {
+        ...state, error: action.error
+      }
     case DELETE_RECIPE_SUCCESS:
       const recipes = state.recipes.filter(recipe => recipe.id !== action.deletedRecipe);
       return {

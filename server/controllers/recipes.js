@@ -21,7 +21,7 @@ export class Recipes {
   addRecipe(req, res) {
     let name;
     let ingredients;
-    
+
     if (req.body.name) {
       name = req.body.name.trim().toLowerCase();
     }
@@ -29,6 +29,7 @@ export class Recipes {
       ingredients = req.body.ingredients.trim().toLowerCase();
     }
     const { method } = req.body;
+    const { cookingTime } = req.body;
 
     const currentUser = req.currentUser.id;
 
@@ -40,6 +41,8 @@ export class Recipes {
       return res.status(406).json({ statusCode: 406, error: 'You need to fill in the method of preparation ' });
     } else if (!ingredients && !name && !method) {
       return res.status(406).json({ statusCode: 406, error: 'Please enter the required details (name, Ingredients and method)' });
+    } else if (Number.isNaN(cookingTime)) {
+      return res.status(422).json({ statusCode: 422, error: 'Cooking time should be a number' });
     }
 
     recipe.findOne({
@@ -70,6 +73,7 @@ export class Recipes {
           upVotes: req.body.upVotes,
           downVotes: req.body.downVotes,
           imageUrl: req.body.imageUrl || 'https://res.cloudinary.com/digr7ls7o/image/upload/v1516455539/no-img_hdhkpi.png',
+          cookingTime,
         })
           .then((recipe) => {
             res.status(201).json({ statusCode: 201, message: 'Recipe has been created', recipe });
@@ -125,6 +129,7 @@ export class Recipes {
           ingredients: req.body.ingredients || recipe.ingredients,
           method: req.body.method || recipe.method,
           imageUrl: req.body.imageUrl || recipe.imageUrl,
+          cookingTime: req.body.cookingTime || recipe.cookingTime
         })
           .then(() => res.status(201).json({ statusCode: 201, recipe }))
           .catch(error => res.status(500).json(error));

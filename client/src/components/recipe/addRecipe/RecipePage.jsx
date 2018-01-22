@@ -31,6 +31,7 @@ class RecipePage extends Component {
       recipes: [],
       loading: true,
       pages: 1,
+      errors: ''
     };
 
     this.toggle = this.toggle.bind(this);
@@ -47,6 +48,7 @@ class RecipePage extends Component {
     this.setState({
       recipes: nextProps.recipes,
       pages: nextProps.pages,
+      errors: nextProps.errors
     });
   }
 
@@ -68,8 +70,9 @@ class RecipePage extends Component {
 
 
   render() {
-    const { recipes } = this.state;
+    const { recipes, errors } = this.state;
     const recipeList = recipes ? recipes: [];
+    console.log('>>>>log', errors)
     return (
       <div>
         <NavigationBar search="true" />
@@ -81,6 +84,7 @@ class RecipePage extends Component {
               isOpen={this.state.modal}
               toggle={this.toggle}
               createRecipe={this.props.CreateRecipe}
+              errors={this.state.errors}
             />
           </div>
           <hr />
@@ -111,6 +115,7 @@ RecipePage.propTypes = {
 const mapStateToProps = state => ({
   recipes: state.recipeReducer.recipes,
   pages: state.recipeReducer.pages,
+  errors: state.recipeReducer.error,
 });
 
 export default connect(

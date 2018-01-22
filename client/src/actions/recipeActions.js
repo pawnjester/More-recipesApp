@@ -1,18 +1,3 @@
-// import axios from 'axios';
-// import { CREATE_RECIPE_SUCCESS } from './types';
-
-// const createRecipe = values => dispatch => axios.post('/api/v1/recipes', values)
-
-//   .then((response) => {
-//     dispatch({ type: CREATE_RECIPE_SUCCESS, payload: response.data });
-//   })
-//   .catch((error) => {
-//     console.log(error.response);
-//   });
-
-// export default createRecipe;
-
-
 import axios from 'axios';
 import { CREATE_RECIPE_SUCCESS, CREATE_RECIPE_FAILURE } from './types';
 
@@ -30,15 +15,12 @@ const addRecipeFailure = error => ({
 const createRecipe = data => dispatch => axios
   .post('/api/v1/recipes', data)
   .then((response) => {
-    console.log('>>>,<<<<', data);
-    const recipess = response.data.recipe;
-    console.log('////', recipess);
-    dispatch(addRecipeSucess(recipess));
-    console.log('works....', data)
+    // const recipess = response.data.recipe;
+    dispatch(addRecipeSucess(response.data.recipe));
   })
   .catch((error) => {
-    console.log('error?>>', error);
-    dispatch(addRecipeFailure(error.response));
+    console.log('error?>>', error.response.data);
+    dispatch(addRecipeFailure(error.response.data.error));
   });
 
 export default createRecipe;
