@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import JwtDecode from 'jwt-decode';
 import Signupform from './signup/signupform';
+import UpvotedRecipes from './upvotedRecipes'
 import { userSignupRequest } from '../actions/signupActions';
 import GetFavoriteRecipe from '../actions/getFavoriteRecipes';
+import GetUpvotedRecipes from '../actions/getUpvotedRecipes';
 import NavigationBar from './NavigationBar';
 import Footer from './common/Footer';
 // import CarouselSlide from './Carousel';
@@ -21,8 +23,18 @@ class Home extends React.Component {
       this.props.GetFavoriteRecipe(userId.id)
     }
   }
+
+  componentDidMount() {
+    this.props.GetUpvotedRecipes()
+  }
+
+  componentWillReceiveProps(nextProps) {
+
+  }
   render() {
-    const { userSignupRequest } = this.props;
+    const { userSignupRequest, upvotedRecipes } = this.props;
+    const UpvotedRecipesList = upvotedRecipes ? upvotedRecipes : []
+    console.log('>>>23,',UpvotedRecipesList.length);
     const { isAuthenticated } = this.props.auth;
 
     const userPage = (
@@ -32,7 +44,7 @@ class Home extends React.Component {
           <div className="container">
             <div className="row">
               <div className="col-lg-12 d-none d-lg-block">
-            <h1 className="display-4 text-center" style={{ color: 'fff' }}> Welcome To More Recipes </h1>
+            <h1 className="display-4 text-center col-sm-12 welcome" style={{ color: 'fff' }}> Welcome To More Recipes </h1>
           </div>
           <div className="col-md-12 text-center mt-5">
           <Link to="/recipes" >
@@ -134,9 +146,15 @@ class Home extends React.Component {
         </div>
 
       </section>
-      {/* <section id="">
-      <CarouselSlide />
-      </section> */}
+      <section id="">
+      <div className="conatiner text-center">
+        <h1 className="pt-3 mb-5 ">Most Loved Recipes</h1>
+        <div className="row ml-3 mr-3">
+        {UpvotedRecipesList.length < 1 && (<h4 className="mt-5 text-center no-recipes mb-5"> No recipes yet </h4>)}
+          {UpvotedRecipesList.map(upvoted => <UpvotedRecipes recipe={upvoted} key={upvoted.id}/>)}
+        </div>
+      </div>
+      </section>
       <Footer />
       </div>
     );
@@ -147,6 +165,7 @@ function mapStateToProps(state) {
   return {
     auth: state.auth,
     favoriteRecipe: state.recipeDetailReducer.favoriteRecipes,
+    upvotedRecipes: state.recipeReducer.upvotedRecipes
   };
 }
 
@@ -154,4 +173,4 @@ Home.propTypes = {
   userSignupRequest: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, { userSignupRequest, GetFavoriteRecipe })(Home);
+export default connect(mapStateToProps, { userSignupRequest, GetFavoriteRecipe, GetUpvotedRecipes })(Home);
