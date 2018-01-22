@@ -352,7 +352,7 @@ export class Recipes {
         .then((recipes) => {
           if (recipes) {
             if (recipes.length < 1) {
-              return res.status(200).json({ statusCode: 200, message: 'There are currently no recipes in collection' });
+              return res.status(200).json({ statusCode: 200, message: 'There are currently no recipes in collection', recipes: [] });
             }
             return res.status(200).json({
               NumberOfItems: numberOfItems,

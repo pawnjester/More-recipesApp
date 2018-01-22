@@ -14,7 +14,7 @@ const recipes = (state = initialState, action) => {
   switch (action.type) {
     case GET_RECIPES:
       console.log('action.recipes -> ', action.payload.recipes)
-      return { ...state, recipes: action.payload.recipes || [] };
+      return { ...state, recipes: action.payload.recipes };
     case CREATE_RECIPE_SUCCESS:
       const newState = { ...state, recipes: [...state.recipes, action.newRecipe] };
       console.log('old state -> ', state, 'new state -> ', newState)
