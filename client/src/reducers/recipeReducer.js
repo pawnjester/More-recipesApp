@@ -2,12 +2,12 @@ import {
   CREATE_RECIPE_SUCCESS, CREATE_RECIPE_FAILURE,
   GET_RECIPES,
   DELETE_RECIPE_SUCCESS,
-  EDIT_RECIPE_SUCCESS, SEARCH_RECIPE_SUCCESS, SEARCH_RECIPE_FAILURE, GET_PAGE_DETAIL,
+  EDIT_RECIPE_SUCCESS, SEARCH_RECIPE_SUCCESS, SEARCH_RECIPE_FAILURE, GET_PAGE_DETAIL, GET_UPVOTED_RECIPES_SUCCESS, GET_ALL_RECIPES_FAILURE
 } from '../actions/types';
 
 /* eslint-disable */
 
-const initialState = { recipes: [] , pages: 1, error: {} };
+const initialState = { recipes: [] , upvotedRecipes: [], pages: 1, error: {} };
 
 const recipes = (state = initialState, action) => {
   console.log('state -> ', state)
@@ -52,6 +52,11 @@ const recipes = (state = initialState, action) => {
       return {
         ...state,
         pages: action.detail.Pages,
+      }
+    case GET_UPVOTED_RECIPES_SUCCESS:
+      return {
+        ...state,
+        upvotedRecipes: action.upvotedRecipes
       }
     default:
       return state;

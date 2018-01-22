@@ -198,27 +198,30 @@ export class Recipes {
    * @memberof Recipe
    */
   getRecipes(req, res) {
-    if (req.query && req.query.sort) {
-      if (req.query.order && req.query.order === 'desc') {
-        recipe.findAll({
-          order: [
-            ['upVotes', 'DESC'],
-          ],
-          limit: 3,
+    if (req.query.sort) {
+      const sort = req.query.sort === 'upVotes' || req.query.sort === 'downVotes' ? req.query.sort : 'upVotes';
+      const order = req.query.order === 'des' ? 'DESC' : 'DESC';
+      console.log('>>>>here');
+      recipe.findAll({
+        order: [
+          [sort, order],
+        ],
+        limit: 3,
+      })
+        .then((orderedRecipe) => {
+          if (!orderedRecipe) {
+            return res.status(400).json({ statusCode: 400, message: 'No recipe found' });
+          }
+          return res.status(201).json({
+            statusCode: 201,
+            message: 'Recipe(s) found',
+            recipe: orderedRecipe,
+          });
         })
-          .then((orderedRecipe) => {
-            if (!orderedRecipe) {
-              return res.status(400).json({ statusCode: 400, message: 'No recipe found' });
-            }
-            return res.status(201).json({
-              statusCode: 201,
-              message: 'Recipe(s) found',
-              recipe: orderedRecipe,
-            });
-          })
-          .catch(() => res.status(500).json({ statusCode: 500, message: 'Error sorting recipes' }));
-      }
+        .catch(() => res.status(500).json({ statusCode: 500, message: 'Error sorting recipes' }));
     } else if (req.query.search && req.query.limit) {
+      console.log('>>>>here34');
+
       const limitValue = req.query.limit || 30;
       const search = req.query.search.split(' ');
 
@@ -243,6 +246,7 @@ export class Recipes {
         });
     } else {
       recipe.findAndCountAll().then((all) => {
+        console.log('>>>>herethen');
         const limit = parseInt((req.query.limit || 6), 10);
         let offset = 0;
         const page = parseInt((req.query.page || 1), 10);

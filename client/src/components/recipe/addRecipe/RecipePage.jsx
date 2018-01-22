@@ -76,7 +76,7 @@ class RecipePage extends Component {
     return (
       <div>
         <NavigationBar search="true" />
-        <div className="container text-center  ">
+        <div className="container text-center">
           <div className="heading">
             <h1 className="p-5 ">My Recipes</h1>
             <Button color="primary" className="addrecipebtn btn btn-outline-success " onClick={this.toggle}> <i className="fa fa-plus" />Recipe</Button>

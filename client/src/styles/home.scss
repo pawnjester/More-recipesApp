@@ -6,12 +6,12 @@
         background-color: white;
       }
       .navbar{
-        border-bottom: #FF4500 3px solid;               
-      }  
+        border-bottom: #FF4500 3px solid;
+      }
 
       .passlink {
         text-decoration: none;
-      }  
+      }
 
       #home-section{
         background: url('../../public/assets/food1.jpg') no-repeat;
@@ -27,11 +27,11 @@
         top: 0;
         left: 0;
         width: 100%;
-        min-height: 700px; 
-      } 
+        min-height: 700px;
+      }
 
       .home-inner{
-        padding-top: 100px; 
+        padding-top: 100px;
       }
 
       .card-form{
@@ -57,15 +57,15 @@
 
       nov {
         padding: -2px -2px 20px;
-        cursor: pointer;        
+        cursor: pointer;
       }
 
       .carousel-control-next-icon, .carousel-control-prev-icon {
         height: 50px;
         width: 50px;
         color:red !important;
-        
-      }     
+
+      }
       .recipes-position {
         color: white;
         border: 1px solid white;
@@ -90,7 +90,7 @@
         font-size: 30px;
         color: black;
         text-shadow: 5px 5px 10px #707070;
-        line-height: -2px;     
+        line-height: -2px;
 
       }
 
@@ -99,7 +99,7 @@
       }
 
       .nov:hover {
-        background-color: #707070; 
+        background-color: #707070;
     color: white;
     padding: -2px -2px;
       }
@@ -112,7 +112,9 @@
       .dep:hover {
         background-color: #dc3545;
       }
-
+.no-recipes {
+  margin: 0 auto;
+}
       .fa cut{
         color: #FF4500;
         background: #FF4500;
@@ -134,15 +136,11 @@
   padding-right:0px;
 }
 
-/* Extra Small Devices, Phones */ 
+/* Extra Small Devices, Phones */
 @media only screen and (max-width : 575px) {
   .size {
-    width: 100% ; 
+    width: 100% ;
     height: 150px;
     margin: auto;
 }
 }
-
-
-
-
