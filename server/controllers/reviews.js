@@ -1,4 +1,5 @@
 import models from '../models';
+import mailer from '../helper/reviewMailer';
 
 const review = models.Review;
 const recipe = models.Recipe;
@@ -25,6 +26,7 @@ class Reviews {
     const { data } = req.body;
     const { recipeId } = req.params;
     const currentUser = req.currentUser.id;
+    let reviewer;
 
     if (Number.isNaN(recipeId)) {
       return res.status(406).json({ statusCode: 406, error: 'Recipe id is not a number' });
@@ -56,6 +58,11 @@ class Reviews {
         })
           .then((reviewed) => {
             res.status(201).json({ statusCode: 201, message: 'Your review has been added', reviewed });
+            reviewed.dataValues.Reviews.map((reviewOwner) => {
+              reviewer = reviewOwner.dataValues.User.dataValues.username;
+            });
+            mailer(reviewed.dataValues.User.dataValues.username, reviewer, reviewed.dataValues.User.dataValues.email, data, reviewed.dataValues.name)
+            // console.log('>>>!@###>>><<<', reviewed.dataValues.Reviews);
           });
         // res.status(201).json({ statusCode: 201, message: 'Your review has been added', reviewed });
       })
