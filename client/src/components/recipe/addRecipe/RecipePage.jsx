@@ -71,7 +71,7 @@ class RecipePage extends Component {
 
   render() {
     const { recipes, errors } = this.state;
-    const recipeList = recipes ? recipes: [];
+    const recipeList = recipes || [];
     console.log('>>>>log', errors)
     return (
       <div>

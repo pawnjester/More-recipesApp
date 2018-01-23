@@ -9,7 +9,7 @@ import EditRecipeModal from '../../Modal/EditRecipeModal';
 class Recipe extends Component {
   constructor(props) {
     super(props);
-    this.onDelete = this.onDelete.bind(this);
+    // this.onDelete = this.onDelete.bind(this);
 
     this.state = {
       modal: false,
@@ -18,7 +18,7 @@ class Recipe extends Component {
     this.toggle = this.toggle.bind(this);
   }
 
-  onDelete() {
+  onDelete = () => {
     confirmAlert({
       title: 'Delete this recipe',
       message: 'Are you sure you want to do this?',
