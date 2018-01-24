@@ -82,6 +82,12 @@ module.exports = {
         beautify: false,
       }
     }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+      'process.env.UPLOADPRESET': JSON.stringify(process.env.UPLOADPRESET),
+      'process.env.CLOUDNAME': JSON.stringify(process.env.CLOUDNAME),
+      'process.env.APIKEY': JSON.stringify(process.env.APIKEY)
+    }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'client/public/index.html'),

@@ -28,7 +28,6 @@ export default class User {
     let email;
     let username;
     let password;
-    console.log('req.body>>', req.body);
     const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     const whiteSpace = /\s/;
 
@@ -96,9 +95,10 @@ export default class User {
               message: `Welcome to More-Recipes ${user.username}`,
               user,
             }))
-          .catch(e => res.status(400).json(e));
+          .catch(e => res.status(400)
+            .json({body: req.body, error: e.message}));
       })
-      .catch(error => res.status(400).json(error));
+      .catch(error => res.status(400).json({body: req.body, error: error.message}));
     return this;
   }
 
