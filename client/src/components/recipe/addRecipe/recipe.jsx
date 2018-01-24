@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import toastr from 'toastr';
 import { confirmAlert } from 'react-confirm-alert';
-// import 'react-confirm-alert/src/react-confirm-alert.css';
 import EditRecipeModal from '../../Modal/EditRecipeModal';
 /* eslint-disable */
 
 class Recipe extends Component {
   constructor(props) {
     super(props);
-    // this.onDelete = this.onDelete.bind(this);
 
     this.state = {
       modal: false,
@@ -56,7 +54,6 @@ class Recipe extends Component {
                 Recipe={recipe}
                 isOpen={this.state.modal}
                 toggle={this.toggle}
-                // editRecipe={this.props.editRecipe}
                 id={this.props.recipe.id}
                 getAllRecipes={this.props.GetAllRecipes}
               />
