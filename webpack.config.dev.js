@@ -23,7 +23,7 @@ module.exports = {
     'webpack-hot-middleware/client', path.join(__dirname, './client/src/Index.jsx')
   ],
   output: {
-    path: path.join(__dirname, './build/js'),
+    path: path.join(__dirname, 'build/js'),
     filename: 'bundle.js',
     publicPath: '/',
   },
