@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import NavigationBar from '../NavigationBar';
 import '../../styles/profile.scss';
 import getUserDetail from '../../actions/getUserDetail';
 import EditUserModal from '../Modal/EditUserModal';
-
+/* eslint-disable */
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -60,7 +61,7 @@ class Profile extends Component {
                     <div className="profile-user-menu">
                       <ul className="list-group">
                         <li className=" list-group-item activ change"><a href=""><i className="fa fa-home" aria-hidden="true" />    Overview</a></li>
-                        <li className="list-group-item change" ><a href="recipes.html"><i className="fa fa-check" aria-hidden="true">  Recipes</i></a></li>
+                        <li className="list-group-item change" ><Link to="/change-password"><i className="fa fa-key" aria-hidden="true">  Change Password</i></Link></li>
                       </ul >
                     </div>
                   </div>
