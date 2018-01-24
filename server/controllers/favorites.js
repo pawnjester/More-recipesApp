@@ -3,15 +3,36 @@ import models from '../models';
 const favorite = models.Favorite;
 const recipe = models.Recipe;
 
+const updateFavoriteCounts = (recipeId) => {
+  favorite
+    .count({
+      where: {
+        recipeId
+      }
+    })
+    .then((totalfavorite) => {
+      recipe.findOne({
+        where: {
+          id: recipeId
+        }
+      }).then((recipeFound) => {
+        recipeFound.updateAttributes({
+          favoriteCount: totalfavorite
+        });
+      });
+    });
+};
+
+
 /**
  *
- *
  * @export
+ *
  * @class Favorite
  */
 export default class Favorite {
   /**
-   * Make a recipe a favorite
+   * @description - Make a recipe a favorite
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
@@ -23,7 +44,7 @@ export default class Favorite {
   addFavorite(req, res) {
     const userId = req.currentUser.id;
     const { recipeId } = req.params;
-    if (isNaN(recipeId)) {
+    if (Number.isNaN(recipeId)) {
       return res.status(406).json({ statusCode: 406, error: 'Recipe id is not a number' });
     }
     recipe.findOne({
@@ -58,6 +79,17 @@ export default class Favorite {
                   ],
                 },
               });
+              recipe.findOne({
+                where: {
+                  id: recipeId,
+                }
+              }).then((recipeFound) => {
+                console.log('>>decrement');
+                recipeFound.decrement('favoriteCount').then(() => {
+                  recipeFound.reload();
+                });
+                console.log('>>>decrement after>>');
+              });
               return res.status(200).json({ statusCode: 200, message: 'Recipe removed from favorite list' });
             }
             favorite.create({
@@ -74,14 +106,19 @@ export default class Favorite {
                       { userId },
                     ],
                   },
-                  include: [{
-                    model: recipe,
-                    where: {
-                      userId,
-                    }
-                  }]
                 }).then((favoriteRecipe) => {
-                  res.status(201).json({ statusCode: 201, message: 'recipe favorited', favoriteRecipe });
+                  recipe.findOne({
+                    where: {
+                      id: recipeId,
+                    }
+                  }).then((recipeFound) => {
+                    console.log('>>>increment');
+                    recipeFound.increment('favoriteCount').then(() => {
+                      recipeFound.reload();
+                    });
+                    console.log('>>>increment after');
+                  });
+                  return res.status(201).json({ statusCode: 201, message: 'recipe favorited', favoriteRecipe });
                 });
               })
               .catch(err => res.status(500).json({ statusCode: 500, error: 'recipe could not be added to favorite', err: err.parent.detail }));
@@ -117,9 +154,6 @@ export default class Favorite {
       },
       include: [{
         model: recipe,
-        where: {
-          userId,
-        },
       }],
     })
       .then((userFavorite) => {

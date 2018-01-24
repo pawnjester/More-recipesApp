@@ -8,9 +8,9 @@ import UpvotedRecipes from './upvotedRecipes'
 import { userSignupRequest } from '../actions/signupActions';
 import GetFavoriteRecipe from '../actions/getFavoriteRecipes';
 import GetUpvotedRecipes from '../actions/getUpvotedRecipes';
+import GetMostFavoriteRecipe from '../actions/getMostFavoriteRecipes';
 import NavigationBar from './NavigationBar';
 import Footer from './common/Footer';
-// import CarouselSlide from './Carousel';
 import '../styles/home.scss';
 /*eslint-disable */
 
@@ -26,15 +26,16 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.props.GetUpvotedRecipes()
+    this.props.GetMostFavoriteRecipe()
   }
 
   componentWillReceiveProps(nextProps) {
 
   }
   render() {
-    const { userSignupRequest, upvotedRecipes } = this.props;
-    const UpvotedRecipesList = upvotedRecipes ? upvotedRecipes : []
-    console.log('>>>23,',UpvotedRecipesList.length);
+    const { userSignupRequest, upvotedRecipes, mostFavoriteRecipe } = this.props;
+    const UpvotedRecipesList = upvotedRecipes ? upvotedRecipes : [];
+    const mostFavorite = mostFavoriteRecipe || [];
     const { isAuthenticated } = this.props.auth;
 
     const userPage = (
@@ -146,12 +147,23 @@ class Home extends React.Component {
         </div>
 
       </section>
+      {isAuthenticated && (
       <section id="">
       <div className="conatiner text-center">
         <h1 className="pt-3 mb-5 ">Most Loved Recipes</h1>
         <div className="row ml-3 mr-3">
         {UpvotedRecipesList.length < 1 && (<h4 className="mt-5 text-center no-recipes mb-5"> No recipes yet </h4>)}
           {UpvotedRecipesList.map(upvoted => <UpvotedRecipes recipe={upvoted} key={upvoted.id}/>)}
+        </div>
+      </div>
+      </section>)}
+      {/* <hr className="mt-3 hr-color"/> */}
+      <section id="">
+      <div className="conatiner text-center">
+        <h1 className="pt-3 mb-5 ">Most Favorited Recipes</h1>
+        <div className="row ml-3 mr-3">
+        {mostFavorite.length < 1 && (<h4 className="mt-5 text-center no-recipes mb-5"> No recipes yet </h4>)}
+          {mostFavorite.map(mostfav => <UpvotedRecipes recipe={mostfav} key={mostfav.id}/>)}
         </div>
       </div>
       </section>
@@ -165,7 +177,8 @@ function mapStateToProps(state) {
   return {
     auth: state.auth,
     favoriteRecipe: state.recipeDetailReducer.favoriteRecipes,
-    upvotedRecipes: state.recipeReducer.upvotedRecipes
+    upvotedRecipes: state.recipeReducer.upvotedRecipes,
+    mostFavoriteRecipe: state.recipeReducer.mostFavorites.favoriteRecipes,
   };
 }
 
@@ -173,4 +186,4 @@ Home.propTypes = {
   userSignupRequest: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, { userSignupRequest, GetFavoriteRecipe, GetUpvotedRecipes })(Home);
+export default connect(mapStateToProps, { userSignupRequest, GetFavoriteRecipe, GetUpvotedRecipes, GetMostFavoriteRecipe })(Home);
