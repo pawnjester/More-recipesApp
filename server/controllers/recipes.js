@@ -1,3 +1,4 @@
+import jwtDecode from 'jwt-decode';
 import models from '../models';
 
 const recipe = models.Recipe;
@@ -321,8 +322,7 @@ export class Recipes {
    *
    * @memberof Recipes
    */
-  getRecipeById(req, res) {
-    const { recipeId } = req.params;
+  getRecipeById({ params: { recipeId }, currentUser }, res) {
     recipe.findOne({
       where: { id: recipeId },
       include: [
@@ -340,9 +340,18 @@ export class Recipes {
         if (!singleRecipe) {
           return res.status(404).json({ statusCode: 404, error: `Recipe with id: ${recipeId} does not exist` });
         }
+        if (currentUser.id === singleRecipe.userId && singleRecipe.viewCheck === false) {
+          singleRecipe
+            .update({ viewCount: singleRecipe.viewCount + 1, viewCheck: true });
+        } else if (currentUser.id !== singleRecipe.userId) {
+          singleRecipe
+            .update({ viewCount: singleRecipe.viewCount + 1 });
+        }
         return res.status(200).json({ statusCode: 200, message: `Recipe with id: ${recipeId} was found`, singleRecipe });
       })
-      .catch(error => res.status(500).json(error));
+      .catch((error) => {
+        res.status(500).json({ error: error.message });
+      });
     return this;
   }
   /**

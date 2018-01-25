@@ -41,6 +41,16 @@ module.exports = {
         allowNull: false,
         defaultValue: 0
       },
+      viewCount: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+      },
+      viewCheck: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
+      },
       userId: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
