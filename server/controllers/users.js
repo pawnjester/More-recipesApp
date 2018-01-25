@@ -310,4 +310,43 @@ export default class User {
       .catch(() => res.status(500).json({ error: 'Server error' }));
     return this;
   }
+  /**
+ *
+ *
+ * @param {any} req
+ * @param {any} res
+ * @memberof User
+ */
+  changePassword(req, res) {
+    const { oldPassword, password } = req.body;
+    const { currentUser } = req;
+
+    if (!oldPassword || oldPassword.length < 6) {
+      return res.status(422).json({ statusCode: 422, error: 'You need to fill in your password, minimum of 6' });
+    }
+    if (!password || password.length < 6) {
+      return res.status(422).json({ statusCode: 422, error: 'You need to fill in your password, minimum of 6' });
+    }
+    user.findOne({
+      where: {
+        id: currentUser.id
+      }
+    })
+      .then((userFound) => {
+        if (!userFound) {
+          return res.status(400).json({ statusCode: 400, message: 'User not found' });
+        } else if (!userFound.validPassword(oldPassword)) {
+          return res.status(400).json({ statusCode: 400, error: 'Invalid password' });
+        } else if (password === oldPassword) {
+          return res.status(400).json({ statusCode: 400, error: 'New Password is the same as the old password' });
+        }
+        const salt = bcrypt.genSaltSync(10);
+        const newPassword = bcrypt.hashSync(password, salt);
+        userFound.update({
+          password: newPassword,
+        })
+          .then(() => res.status(201).json({ statusCode: 201, message: 'Password changed' }));
+      });
+    return this;
+  }
 }
