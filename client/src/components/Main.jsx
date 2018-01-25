@@ -12,6 +12,7 @@ import SearchPage from './SearchPage';
 import PasswordReset from './PasswordReset';
 import PasswordChangeForm from './PasswordChangeForm';
 import RedirectToLogin from './redirectToLogin';
+import ChangePasswordForm from './changePasswordForm';
 
 import requireAuth from '../utils/requireAuth';
 
@@ -29,6 +30,7 @@ const Main = () => (
     <Route path="/reset_password/" component={PasswordReset} />
     <Route path="/auth/reset_password/:token" component={PasswordChangeForm} />
     <Route path="/newLogin" component={RedirectToLogin} />
+    <Route path="/change-password" component={ChangePasswordForm} />
     <Route path="*" component={NotFound} />
   </Switch>
 );

@@ -45,10 +45,10 @@ app.get('/swagger.json', (req, res) => {
 });
 app.use(express.static(path.join(__dirname, '../client/public/assets')));
 app.use(express.static('./server/swagger'));
-const compiler = webpack(webpackConfig);
 const port = process.env.PORT || 3000;
 
 if (process.env.NODE_ENV === 'development') {
+  const compiler = webpack(webpackConfig);
   app.use(webpackHotMiddleware(compiler, {
     hot: true,
     publicPath: webpackConfig.output.publicPath,
@@ -64,10 +64,11 @@ app.use(bodyParser.json());
 app.use('/api/v1/recipes', recipes);
 app.use('/api/v1/users', user);
 
-
-app.get('/*', (req, res) => {
-  res.status(200).sendFile(path.join(__dirname, '../client/public/index.html'));
-});
+app.use('/', express.static('build/js'));
+app.use('*', express.static('build/js'));
+// app.get('/*', (req, res) => {
+//   res.status(200).sendFile(path.join(__dirname, '../client/public/index.html'));
+// });
 
 app.use((req, res, next) => {
   const err = res.status(404).send({

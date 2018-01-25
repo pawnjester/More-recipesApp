@@ -71,8 +71,7 @@ class RecipePage extends Component {
 
   render() {
     const { recipes, errors } = this.state;
-    const recipeList = recipes ? recipes: [];
-    console.log('>>>>log', errors)
+    const recipeList = recipes || [];
     return (
       <div>
         <NavigationBar search="true" />

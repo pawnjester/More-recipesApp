@@ -14,6 +14,7 @@ router.get('/me', authenticate, userController.me);
 router.put('/update-profile', authenticate, userController.editUser);
 router.post('/verify-user', userController.checkEmail);
 router.put('/reset-password', authenticate, userController.resetPassword);
+router.put('/change-password', authenticate, userController.changePassword);
 
 
 export default router;

@@ -51,7 +51,7 @@ class AddRecipeModal extends Component {
       const cooking = cookingTime.concat(option);
       this.state.cookingTime = cooking
       this.props.createRecipe(this.state).then((res) => {
-        if(this.props.errors) {
+        if(Object.entries(this.props.errors).length > 0) {
           this.setState({
             titleError:this.props.errors
           })
@@ -83,7 +83,7 @@ class AddRecipeModal extends Component {
   render() {
     const { errors, titleError } = this.state;
     console.log('>>>>', errors);
-    console.log('>>this.props', this.props.errors)
+    console.log('>>this.props', typeof(this.props.errors))
     return (
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
         <ModalHeader toggle={this.props.toggle}>Add A recipe</ModalHeader>
