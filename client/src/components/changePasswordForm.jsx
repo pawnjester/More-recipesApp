@@ -36,7 +36,7 @@ class ChangePasswordForm extends Component {
         password: ''
       });
     })
-    .catch(error => toastr.error(error.response.data.error));
+      .catch(error => toastr.error(error.response.data.error));
   }
 
   render() {
@@ -44,8 +44,8 @@ class ChangePasswordForm extends Component {
       <div >
         <NavigationBar />
         <div>
-        <form className="mx-auto app-login-form card-login">
-        <h4 className="black text-center mt-5">Change Your Password</h4>
+          <form className="mx-auto app-login-form card-login">
+            <h4 className="black text-center mt-5">Change Your Password</h4>
             <section className="pt-4 input-group">
               <span className="input-group-addon">
                 <i className="fa fa-lock" aria-hidden="true"></i>
@@ -57,7 +57,7 @@ class ChangePasswordForm extends Component {
                 value={this.state.oldPassword}
                 onChange={this.onNameChange}
                 placeholder="Enter your old password"
-                />
+              />
             </section>
             <section className="pt-4 pb-3 input-group">
               <span className="input-group-addon">
@@ -70,19 +70,19 @@ class ChangePasswordForm extends Component {
                 value={this.state.password}
                 onChange={this.onNameChange}
                 placeholder="New Password"
-                />
+              />
             </section>
             <div className="pt-2">
               <button
                 className="btn btn-block text-capitalize"
                 onClick={this.onSubmit}
-                >
+              >
                 change Password
               </button>
             </div>
           </form>
         </div>
-        </div>
+      </div>
     );
   }
 }
