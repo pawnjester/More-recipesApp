@@ -1,40 +1,40 @@
 import {
-  CREATE_RECIPE_SUCCESS, CREATE_RECIPE_FAILURE,
+  CREATE_RECIPE_SUCCESS,
+  CREATE_RECIPE_FAILURE,
   GET_RECIPES,
   DELETE_RECIPE_SUCCESS,
-  EDIT_RECIPE_SUCCESS, SEARCH_RECIPE_SUCCESS, SEARCH_RECIPE_FAILURE, GET_PAGE_DETAIL, GET_UPVOTED_RECIPES_SUCCESS, GET_MOST_FAVORITED_RECIPES
+  EDIT_RECIPE_SUCCESS,
+  SEARCH_RECIPE_SUCCESS,
+  SEARCH_RECIPE_FAILURE,
+  GET_PAGE_DETAIL,
+  GET_UPVOTED_RECIPES_SUCCESS,
+  GET_MOST_FAVORITED_RECIPES
 } from '../actions/types';
 
-/* eslint-disable */
 
-const initialState = { recipes: [] , upvotedRecipes: [], mostFavorites: {}, pages: 1, error: {} };
+const initialState = {
+  recipes: [], upvotedRecipes: [], mostFavorites: {}, pages: 1, error: {}
+};
 
 const recipes = (state = initialState, action) => {
-  console.log('state -> ', state)
   switch (action.type) {
     case GET_RECIPES:
-      console.log('action.recipes -> ', action.payload.recipes)
       return { ...state, recipes: action.payload.recipes };
     case CREATE_RECIPE_SUCCESS:
-      const newState = { ...state, recipes: [...state.recipes, action.newRecipe] };
-      console.log('old state -> ', state, 'new state -> ', newState)
-      return newState;
+      return { ...state, recipes: [...state.recipes, action.newRecipe] };
     case CREATE_RECIPE_FAILURE:
-      console.log('>>>123', action.error);
       return {
         ...state, error: action.error
-      }
+      };
     case DELETE_RECIPE_SUCCESS:
-      const recipes = state.recipes.filter(recipe => recipe.id !== action.deletedRecipe);
       return {
         ...state,
-        recipes,
+        recipes: state.recipes.filter(recipe => recipe.id !== action.deletedRecipe),
       };
     case EDIT_RECIPE_SUCCESS:
-      const editRecipe = state.recipes.map(recipe => ((recipe.id === action.editedRecipe.recipe.id) ? action.editedRecipe.recipe : recipe));
       return {
         ...state,
-        recipes: editRecipe,
+        recipes: state.recipes.map(recipe => ((recipe.id === action.editedRecipe.recipe.id) ? action.editedRecipe.recipe : recipe)),
       };
     case SEARCH_RECIPE_SUCCESS:
       return {
@@ -52,17 +52,17 @@ const recipes = (state = initialState, action) => {
       return {
         ...state,
         pages: action.detail.Pages,
-      }
+      };
     case GET_UPVOTED_RECIPES_SUCCESS:
       return {
         ...state,
         upvotedRecipes: action.upvotedRecipes
-      }
+      };
     case GET_MOST_FAVORITED_RECIPES:
       return {
         ...state,
         mostFavorites: action.favorites
-      }
+      };
     default:
       return state;
   }

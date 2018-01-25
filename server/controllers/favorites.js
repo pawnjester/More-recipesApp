@@ -3,27 +3,6 @@ import models from '../models';
 const favorite = models.Favorite;
 const recipe = models.Recipe;
 
-const updateFavoriteCounts = (recipeId) => {
-  favorite
-    .count({
-      where: {
-        recipeId
-      }
-    })
-    .then((totalfavorite) => {
-      recipe.findOne({
-        where: {
-          id: recipeId
-        }
-      }).then((recipeFound) => {
-        recipeFound.updateAttributes({
-          favoriteCount: totalfavorite
-        });
-      });
-    });
-};
-
-
 /**
  *
  * @export
@@ -84,11 +63,9 @@ export default class Favorite {
                   id: recipeId,
                 }
               }).then((recipeFound) => {
-                console.log('>>decrement');
                 recipeFound.decrement('favoriteCount').then(() => {
                   recipeFound.reload();
                 });
-                console.log('>>>decrement after>>');
               });
               return res.status(200).json({ statusCode: 200, message: 'Recipe removed from favorite list' });
             }
@@ -112,11 +89,9 @@ export default class Favorite {
                       id: recipeId,
                     }
                   }).then((recipeFound) => {
-                    console.log('>>>increment');
                     recipeFound.increment('favoriteCount').then(() => {
                       recipeFound.reload();
                     });
-                    console.log('>>>increment after');
                   });
                   return res.status(201).json({ statusCode: 201, message: 'recipe favorited', favoriteRecipe });
                 });

@@ -298,7 +298,6 @@ export class Recipes {
   listMostFavoritedRecipes(req, res) {
     const limitValue = req.query.limit || 4;
     const sort = 'favoriteCount';
-    console.log('>>>getting here');
     const order = req.query.order === 'asc' ? 'ASC' : 'DESC';
     recipe.findAndCountAll({
       order: [
