@@ -20,6 +20,7 @@ router.post('/', authenticate, recipeController.addRecipe);
 router.put('/:recipeId', authenticate, recipeController.modifyRecipe);
 router.delete('/:recipeId', authenticate, recipeController.deleteRecipe);
 router.get('/userRecipe', authenticate, recipeController.getUserRecipe);
+router.get('/most-favorites', recipeController.listMostFavoritedRecipes);
 router.get('/:recipeId', recipeController.getRecipeById);
 router.post('/:recipeId/reviews', authenticate, reviewController.postReview);
 router.get('/:recipeId/reviews', authenticate, reviewController.getReviewById);

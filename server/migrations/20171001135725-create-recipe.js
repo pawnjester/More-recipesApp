@@ -36,6 +36,11 @@ module.exports = {
         allowNull: false,
         defaultValue: 0
       },
+      favoriteCount: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+      },
       userId: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',

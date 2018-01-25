@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = (sequelize, DataTypes) => {
   const Recipe = sequelize.define('Recipe', {
     name: {
@@ -23,12 +22,17 @@ module.exports = (sequelize, DataTypes) => {
     },
     upVotes: {
       type: DataTypes.INTEGER,
-      allowNull:false,
+      allowNull: false,
       defaultValue: 0
     },
     downVotes: {
       type: DataTypes.INTEGER,
-      allowNull:false,
+      allowNull: false,
+      defaultValue: 0
+    },
+    favoriteCount: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
       defaultValue: 0
     },
     userId: {

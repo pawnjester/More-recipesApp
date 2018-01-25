@@ -11,11 +11,13 @@ const user = models.User;
  */
 export class Recipes {
   /**
-   * Add Recipe record
+   * @description - Add Recipe record
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
+   *
    * @returns {object} Class instance
+   *
    * @memberof Recipe
    */
   addRecipe(req, res) {
@@ -89,7 +91,7 @@ export class Recipes {
 
 
   /**
-   * Modify Recipe record
+   *@description - Modify Recipe record
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
@@ -101,7 +103,7 @@ export class Recipes {
   modifyRecipe(req, res) {
     const { recipeId } = req.params;
     const currentUser = req.currentUser.id;
-    if (isNaN(recipeId)) {
+    if (Number.isNaN(recipeId)) {
       return res.status(406).json({ statusCode: 406, error: 'Recipe id is not a number' });
     }
     recipe.findOne({
@@ -139,7 +141,7 @@ export class Recipes {
   }
 
   /**
-   * Delete Recipe record
+   * @description - Delete Recipe record
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
@@ -151,7 +153,7 @@ export class Recipes {
   deleteRecipe(req, res) {
     const { recipeId } = req.params;
     const currentUser = req.currentUser.id;
-    if (isNaN(recipeId)) {
+    if (Number.isNaN(recipeId)) {
       return res.status(400).json({ statusCode: 400, error: 'Recipe id is not a number' });
     }
     recipe.findOne({
@@ -188,7 +190,7 @@ export class Recipes {
 
 
   /**
-   * Get Recipe record
+   * @description - Get Recipe record
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
@@ -282,15 +284,42 @@ export class Recipes {
 
     return this;
   }
+  /**
+ *@description - list the most favorited recipes
+ *
+ * @param {any} req - HTTP Request
+ *
+ * @param {any} res - HTTP Response
+ *
+ * @returns {object} Class instance
+ *
+ * @memberof Recipes
+ */
+  listMostFavoritedRecipes(req, res) {
+    const limitValue = req.query.limit || 4;
+    const sort = 'favoriteCount';
+    const order = req.query.order === 'asc' ? 'ASC' : 'DESC';
+    recipe.findAndCountAll({
+      order: [
+        [sort, order]
+      ],
+      limit: limitValue
+    })
+      .then(favoriteRecipeList => res.status(200).json({ favoriteRecipes: favoriteRecipeList.rows }))
+      .catch(error => { res.status(422).json({ error: error.message })});
+    return this;
+  }
 
   /**
-   * get recipe by id
+   * @description - get recipe by id
    *
    * @param {object} req - HTTP Request
+   *
    * @param {object} res - HTTP Response
    *
    * @returns {object} Class instance
-   * @memberof Vote
+   *
+   * @memberof Recipes
    */
   getRecipeById(req, res) {
     const { recipeId } = req.params;
@@ -317,11 +346,13 @@ export class Recipes {
     return this;
   }
   /**
+ *@description - Get the users recipes
  *
+ * @param {any} req - HTTP Request
+ * @param {any} res - HTTP Response
  *
- * @param {any} req
- * @param {any} res
- * @returns
+ * @returns {object} Class instance
+ *
  * @memberof Recipes
  */
   getUserRecipe(req, res) {
