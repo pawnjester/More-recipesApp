@@ -4,6 +4,7 @@ import toastr from 'toastr';
 import NavigationBar from './NavigationBar';
 import changePassword from '../actions/changePassword';
 import '../styles/passwordchange.scss';
+
 /**
  *
  *
@@ -19,26 +20,25 @@ class ChangePasswordForm extends Component {
     this.state = {
       oldPassword: '',
       password: ''
-    }
-  }
+    };
+  };
 
   onNameChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
-  }
+  };
 
   onSubmit = (event) => {
     event.preventDefault();
     this.props.changePassword(this.state).then((res) => {
-      toastr.success('Password successfully changed')
+      toastr.success('Password successfully changed');
       this.setState({
         oldPassword: '',
         password: ''
-      })
+      });
     })
-    .catch((error) => {
-      toastr.error(error.response.data.error);
-    })
+    .catch(error => toastr.error(error.response.data.error));
   }
+
   render() {
     return (
       <div >
@@ -56,7 +56,7 @@ class ChangePasswordForm extends Component {
                 type="password"
                 value={this.state.oldPassword}
                 onChange={this.onNameChange}
-                placeholder="old password"
+                placeholder="Enter your old password"
                 />
             </section>
             <section className="pt-4 pb-3 input-group">

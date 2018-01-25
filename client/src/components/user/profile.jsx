@@ -5,8 +5,18 @@ import NavigationBar from '../NavigationBar';
 import '../../styles/profile.scss';
 import getUserDetail from '../../actions/getUserDetail';
 import EditUserModal from '../Modal/EditUserModal';
-/* eslint-disable */
+/**
+ *
+ *
+ * @class Profile
+ * @extends {Component}
+ */
 class Profile extends Component {
+  /**
+   * Creates an instance of Profile.
+   * @param {any} props
+   * @memberof Profile
+   */
   constructor(props) {
     super(props);
 
@@ -15,18 +25,31 @@ class Profile extends Component {
     };
     this.toggle = this.toggle.bind(this);
   }
-
+  /**
+ *
+ *
+ * @memberof Profile
+ */
   componentWillMount() {
     // TODO: get recipes list
     this.props.getUserDetail();
   }
-
+  /**
+ *
+ *
+ * @memberof Profile
+ */
   toggle() {
     this.setState({
       modal: !this.state.modal,
     });
   }
-
+  /**
+ *
+ *
+ * @returns
+ * @memberof Profile
+ */
   render() {
     const detail = (this.props.userDetail) ? this.props.userDetail : {};
     return (
@@ -52,7 +75,7 @@ class Profile extends Component {
                     <div className="profile-user-buttons">
                       <button className="btn btn-danger btn-md" onClick={this.toggle} styles="cursor:pointer"> <i className="fa fa-pencil" aria-hidden="true" /> Edit</button>
                       <EditUserModal
-                        editUser={detail} // state
+                        editUser={detail}
                         isOpen={this.state.modal}
                         toggle={this.toggle}
                         getuserDetail={this.props.getUserDetail}

@@ -318,8 +318,7 @@ export default class User {
  * @memberof User
  */
   changePassword(req, res) {
-    const { oldPassword } = req.body;
-    const { password } = req.body;
+    const { oldPassword, password } = req.body;
     const { currentUser } = req;
 
     if (!oldPassword || oldPassword.length < 6) {
