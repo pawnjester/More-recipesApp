@@ -57,6 +57,7 @@ class AddRecipeModal extends Component {
           })
           toastr.warning(this.props.errors)
         }else {
+          this.props.getRecipe(this.props.currentPage);
           toastr.success('Recipe added');
           this.props.toggle();
         }
@@ -82,8 +83,6 @@ class AddRecipeModal extends Component {
 
   render() {
     const { errors, titleError } = this.state;
-    console.log('>>>>', errors);
-    console.log('>>this.props', typeof(this.props.errors))
     return (
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
         <ModalHeader toggle={this.props.toggle}>Add A recipe</ModalHeader>
