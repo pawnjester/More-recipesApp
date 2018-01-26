@@ -11,35 +11,55 @@ import {
   GET_MOST_FAVORITED_RECIPES
 } from '../actions/types';
 
-
-const initialState = {
-  recipes: [], upvotedRecipes: [], mostFavorites: {}, pages: 1, error: {}
-};
+import initialState from '../utils/initialState';
 
 const recipes = (state = initialState, action) => {
   switch (action.type) {
     case GET_RECIPES:
-      return { ...state, recipes: action.payload.recipes };
+      return {
+        ...state,
+        totalContent: action.payload.recipes.length,
+        recipes: action.payload.recipes,
+        deleted: false
+
+      };
     case CREATE_RECIPE_SUCCESS:
-      return { ...state, recipes: [...state.recipes, action.newRecipe] };
+      return {
+        ...state,
+        deleted: false,
+        totalContent: state.recipes.length,
+        recipes: [
+          ...state.recipes,
+          action.newRecipe
+        ]
+      };
     case CREATE_RECIPE_FAILURE:
       return {
-        ...state, error: action.error
+        ...state,
+        error: action.error,
+        deleted: false
       };
     case DELETE_RECIPE_SUCCESS:
       return {
         ...state,
-        recipes: state.recipes.filter(recipe => recipe.id !== action.deletedRecipe),
+        deleted: true,
+        totalContent: state.recipes.length - 1,
+        recipes: state.recipes
+          .filter(recipe => recipe.id !== action.deletedRecipe),
       };
     case EDIT_RECIPE_SUCCESS:
       return {
         ...state,
+        deleted: false,
+        totalContent: state.recipes.length,
         recipes: state.recipes.map(recipe => ((recipe.id === action.editedRecipe.recipe.id) ? action.editedRecipe.recipe : recipe)),
       };
     case SEARCH_RECIPE_SUCCESS:
       return {
         ...state,
         recipes: action.search,
+        totalContent: state.recipes.length,
+        deleted: false,
         error: false,
       };
     case SEARCH_RECIPE_FAILURE:
@@ -47,21 +67,28 @@ const recipes = (state = initialState, action) => {
         ...state,
         recipes: action.error,
         error: true,
+        deleted: false,
       };
     case GET_PAGE_DETAIL:
       return {
         ...state,
+        totalContent: state.recipes.length,
         pages: action.detail.Pages,
+        deleted: false
       };
     case GET_UPVOTED_RECIPES_SUCCESS:
       return {
         ...state,
-        upvotedRecipes: action.upvotedRecipes
+        totalContent: state.recipes.length,
+        upvotedRecipes: action.upvotedRecipes,
+        deleted: false
       };
     case GET_MOST_FAVORITED_RECIPES:
       return {
         ...state,
-        mostFavorites: action.favorites
+        totalContent: state.recipes.length,
+        mostFavorites: action.favorites,
+        deleted: false
       };
     default:
       return state;

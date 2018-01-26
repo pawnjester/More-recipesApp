@@ -7,7 +7,6 @@ const initialState = {
   success: false,
   errors: null,
 };
-/* eslint-disable */
 
 const detail = (state = initialState, action) => {
   switch (action.type) {
@@ -68,21 +67,22 @@ const detail = (state = initialState, action) => {
         ...state, currentRecipe: {}, success: false, errors: action.error,
       };
     case DELETE_REVIEW_SUCCESS:
-      const deletedReview = state.currentRecipe.Reviews.filter(deletedReview => deletedReview.id !== action.deletedReview);
       return {
-        ...state, currentRecipe: {
-          ...state.currentRecipe, Reviews: deletedReview
-        }, success: true, errors: null,
-      }
+        ...state,
+        currentRecipe: {
+          ...state.currentRecipe, Reviews: state.currentRecipe.Reviews.filter(deletedReview => deletedReview.id !== action.deletedReview)
+        },
+        success: true,
+        errors: null,
+      };
     case DELETE_REVIEW_FAILURE:
       return {
         ...state, currentRecipe: {}, success: false, errors: action.error
       };
     case DELETE_FAVORITE_SUCCESS:
-      const deletedFavorite = state.favoriteRecipes.filter(deletedFav => deletedFav.id !== action.deletedFavorite);
       return {
-        ...state, favoriteRecipes: deletedFavorite
-      }
+        ...state, favoriteRecipes: state.favoriteRecipes.filter(deletedFav => deletedFav.id !== action.deletedFavorite)
+      };
     default:
       return state;
   }

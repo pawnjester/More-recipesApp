@@ -297,7 +297,7 @@ export class Recipes {
  * @memberof Recipes
  */
   listMostFavoritedRecipes(req, res) {
-    const limitValue = req.query.limit || 4;
+    const limitValue = req.query.limit || 3;
     const sort = 'favoriteCount';
     const order = req.query.order === 'asc' ? 'ASC' : 'DESC';
     recipe.findAndCountAll({
@@ -307,7 +307,7 @@ export class Recipes {
       limit: limitValue
     })
       .then(favoriteRecipeList => res.status(200).json({ favoriteRecipes: favoriteRecipeList.rows }))
-      .catch(error => { res.status(422).json({ error: error.message })});
+      .catch((error) => { res.status(422).json({ error: error.message }); });
     return this;
   }
 
