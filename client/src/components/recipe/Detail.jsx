@@ -14,57 +14,99 @@ import DeleteReview from '../../actions/deleteReview';
 import Review from './Review';
 import DisplayReviews from './DisplayReviews';
 import Footer from '../common/Footer';
-/*eslint-disable */
+/**
+ *
+ *
+ * @class Detail
+ * @extends {Component}
+ */
 class Detail extends Component {
+  /**
+   * Creates an instance of Detail.
+   * @param {any} props
+   * @memberof Detail
+   */
   constructor(props) {
     super(props);
 
     this.state = {
       message: '',
-    }
+    };
     this.upvoted = this.upvoted.bind(this);
     this.onDeleteReview = this.onDeleteReview.bind(this);
   }
-
+  /**
+ *
+ *
+ * @memberof Detail
+ *
+ */
   componentWillMount() {
     this.props.GetRecipeDetail(this.props.match.params.recipeId);
     this.props.GetUserDetail();
   }
-
+  /**
+ *
+ *
+ * @param {any} nextProps
+ * @memberof Detail
+ */
   componentWillReceiveProps(nextProps) {
     this.setState({
       message: nextProps.message
-    })
+    });
   }
-
+  /**
+ *
+ *
+ * @memberof Detail
+ */
   upvoted() {
     this.props.UpvoteRecipe(this.props.match.params.recipeId);
   }
-
+  /**
+ *
+ *
+ * @param {any} reviewId
+ * @memberof Detail
+ */
   onDeleteReview(reviewId) {
-    this.props.DeleteReview(reviewId)
+    this.props.DeleteReview(reviewId);
   }
-
+  /**
+ *
+ *
+ * @memberof Detail
+ */
   favorite() {
     this.props.FavoriteRecipe(this.props.match.params.recipeId)
       .then(() => {
         toastr.success(`${this.props.message}`);
       });
   }
-
-  downvoted() {
+/**
+ *
+ *
+ * @memberof Detail
+ */
+downvoted() {
     this.props.DownvoteRecipe(this.props.match.params.recipeId);
   }
-
-  render() {
+/**
+ *
+ *
+ * @returns
+ * @memberof Detail
+ */
+render() {
     const {
       singleRecipe, userDetail
     } = this.props;
 
-    const {message} = this.state
-    const user = this.props.userDetail ? this.props.userDetail : {};
+    const { message } = this.state;
+    const user = this.props.userDetail || {};
 
-    const single = this.props.singleRecipe.Reviews ? this.props.singleRecipe.Reviews : [];
+    const single = this.props.singleRecipe.Reviews || [];
     const style = {
       backgroundImage: `url(${singleRecipe.imageUrl})`,
     };
@@ -82,6 +124,7 @@ class Detail extends Component {
             <div className="col-md-4 col-sm-12">
               <div className="detail-holder">
                 <h1 className="detail-title">{singleRecipe.name}</h1>
+                <i className="fa fa-eye" aria-hidden="true" /><span id="clickableAwesomeFont" className="view" >&nbsp;{singleRecipe.viewCount}</span>
                 <div className="card detail-card">
                   <div className="card-body clearfix">
                     <div className="row">
@@ -98,7 +141,7 @@ class Detail extends Component {
                   </div>
                   <div className="card-body">
                     <h6>Cooking Time</h6>
-                    <p><i className="fa fa-clock-o mr-2" aria-hidden="true" style={{color:'orange', fontSize:25}}></i>{singleRecipe.cookingTime}</p>
+                    <p><i className="fa fa-clock-o mr-2" aria-hidden="true" style={{ color: 'orange', fontSize: 25 }} />{singleRecipe.cookingTime}</p>
                   </div>
                 </div>
               </div>
@@ -107,12 +150,12 @@ class Detail extends Component {
           <div className="container detail-height">
             <div className="row">
               <div className="col-md-6 col-sm-12 mt-5">
-              <h4 className="text-center">Preparation</h4>
-              <li>{singleRecipe.method}</li>
+                <h4 className="text-center">Preparation</h4>
+                <li>{singleRecipe.method}</li>
               </div>
               <div className="col-md-6 col-sm-12 mt-5">
-              <h4 className="text-center">Ingredients</h4>
-              <li>{singleRecipe.ingredients}</li>
+                <h4 className="text-center">Ingredients</h4>
+                <li>{singleRecipe.ingredients}</li>
               </div>
 
             </div>
@@ -123,7 +166,7 @@ class Detail extends Component {
             <hr />
             {single.length < 1 && (<h4 className="mt-5 text-center" > No reviews </h4>)}
             {single.map(reviewed =>
-              <DisplayReviews key={reviewed.id} Review={reviewed} deleteReview={this.onDeleteReview} userDetail={user}/>)}
+              <DisplayReviews key={reviewed.id} Review={reviewed} deleteReview={this.onDeleteReview} userDetail={user} />)}
           </div>
         </div>
         <Footer />

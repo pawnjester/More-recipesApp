@@ -35,6 +35,16 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 0
     },
+    viewCount: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0
+    },
+    viewCheck: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValut: false
+    },
     userId: {
       type: DataTypes.INTEGER,
       references: {
