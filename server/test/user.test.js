@@ -5,24 +5,12 @@ import app from '../app';
 import { seedUsers } from './seed/seed';
 
 export let token;
-export let token2 = 'jkefkjdfjkdfsjkjkdsfjkjk';
+export const token2 = 'kjsdkjdfskjdfsklkjdsjkdskkjl.sdjkdskjksd';
 
 describe('More Recipes', () => {
   before(() => models.sequelize.sync({ force: true }));
 
   describe('Can signup/signin', () => {
-    it('shoud get the home page', (done) => {
-      request(app)
-        .get('/')
-        .expect(200)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          done();
-        });
-    });
-
     it('shoud return a 404 if there is a wrong route', (done) => {
       request(app)
         .get('/6^6fDF')
@@ -35,7 +23,6 @@ describe('More Recipes', () => {
     });
 
     it('shoud return 201 for creating a user', (done) => {
-      setTimeout(done, 15000);
       request(app)
         .post('/api/v1/users/signup')
         .send(seedUsers.userOne)
@@ -48,7 +35,6 @@ describe('More Recipes', () => {
           expect(res.body.user.username).toBe('user111');
           expect(res.body.user.email).toBe('user111@example.com');
           expect(res.token).toExist;
-
           done();
         });
     });
@@ -339,14 +325,11 @@ describe('More Recipes', () => {
           username: 'charlesssyyyu',
           email: 'destikjjny@gmail.com',
         })
-        // .set('x-access-token', token2)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
           expect(404);
-          console.log('>>>>>>455',res.body)
-          // expect(res.body.error).toBe('User not found');
           done();
         });
     });
@@ -360,7 +343,7 @@ describe('More Recipes', () => {
             return done(err);
           }
           expect(200);
-          expect(res.body.username).toBe('charlesss')
+          expect(res.body.username).toBe('charlesss');
           done();
         });
     });
@@ -368,15 +351,107 @@ describe('More Recipes', () => {
     it('should return 404 if no user profile', (done) => {
       request(app)
         .get('/api/v1/users/me')
-        .set('x-access-token', token2)
+        .set('x-access-token', '')
         .end((err, res) => {
           if (err) {
             return done(err);
           }
-          expect(404);
-          // expect(res.body.error).toBe('No currentUser');
+          expect(401);
           done();
         });
     });
+
+    it('should expect 422 when user inputs the old password less than six characters', (done) => {
+      request(app)
+        .put('/api/v1/users/change-password')
+        .set('x-access-token', token)
+        .send({
+          oldPassword: 'use',
+          password: 'user111password',
+        })
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(422);
+          expect(res.body.error).toBe('You need to fill in your password, minimum of 6');
+        });
+      done();
+    });
+
+    it('should expect 422 when user inputs the new password less than six characters', (done) => {
+      request(app)
+        .put('/api/v1/users/change-password')
+        .set('x-access-token', token)
+        .send({
+          oldPassword: 'user111password',
+          password: 'use',
+        })
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(422);
+          expect(res.body.error).toBe('You need to fill in your password, minimum of 6');
+        });
+      done();
+    });
+
+    it('should expect 201 when user changes password', (done) => {
+      request(app)
+        .put('/api/v1/users/change-password')
+        .set('x-access-token', token)
+        .send({
+          oldPassword: 'user111password',
+          password: 'andela011',
+        })
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(201);
+          expect(res.body.message).toBe('Password changed');
+        });
+      done();
+    });
+
+
+    it('should expect 400 when user inputs the same password with the old one', (done) => {
+      request(app)
+        .put('/api/v1/users/change-password')
+        .set('x-access-token', token)
+        .send({
+          oldPassword: 'user111password',
+          password: 'user111password',
+        })
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(400);
+          expect(res.body.error).toBe('New Password is the same as the old password');
+        });
+      done();
+    });
+
+    it('should expect 400 when user changes password', (done) => {
+      request(app)
+        .put('/api/v1/users/change-password')
+        .set('x-access-token', token)
+        .send({
+          oldPassword: 'user19password',
+          password: 'andela011',
+        })
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(400);
+          expect(res.body.error).toBe('Invalid password');
+        });
+      done();
+    });
+
+
   });
 });

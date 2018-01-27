@@ -1,7 +1,3 @@
-import jwt from 'jsonwebtoken';
-
-
-
 export const seedUsers = {
 
     userOne: {
@@ -77,5 +73,29 @@ export const seedRecipes = {
     ingredients: 'Rice maize',
     method: 'Boil the maize',
     upVotes: 100
+  },
+
+  recipeThree: {
+    name: '',
+    ingredients: 'Rice maize',
+    method: 'Boil the maize',
+    upVotes: 100
+  },
+  recipeFour: {
+    name: 'Boli',
+    ingredients: '',
+    method: 'Boil the maize',
+    upVotes: 100
+  },
+  recipeFive: {
+    name: 'Boli',
+    ingredients: 'Rice maize',
+    method: '',
+    upVotes: 100
+  },
+  recipeSix: {
+    name: '',
+    ingredients: '',
+    method: '',
   }
 }

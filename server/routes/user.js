@@ -7,10 +7,9 @@ const userController = new User();
 
 const router = express.Router();
 
-
+router.get('/me', authenticate, userController.me);
 router.post('/signup', userController.signUp);
 router.post('/signin', userController.signIn);
-router.get('/me', authenticate, userController.me);
 router.put('/update-profile', authenticate, userController.editUser);
 router.post('/verify-user', userController.checkEmail);
 router.put('/reset-password', authenticate, userController.resetPassword);

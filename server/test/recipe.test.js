@@ -19,6 +19,51 @@ describe('test of authenticated routes (recipes)', () => {
       });
   });
 
+  it('it should return a 406 when creating a recipe with no name of the recipe', (done) => {
+    request(app)
+      .post('/api/v1/recipes')
+      .send(seedRecipes.recipeThree)
+      .set('x-access-token', token)
+      .expect(406)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.error).toBe('You need to fill in a name of the recipe');
+        done();
+      });
+  });
+
+  it('it should return a 406 when creating a recipe with no ingredients', (done) => {
+    request(app)
+      .post('/api/v1/recipes')
+      .send(seedRecipes.recipeFour)
+      .set('x-access-token', token)
+      .expect(406)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.error).toBe('You need to fill in the Ingredients');
+        done();
+      });
+  });
+
+  it('it should return a 406 when creating a recipe with no method of preparation', (done) => {
+    request(app)
+      .post('/api/v1/recipes')
+      .send(seedRecipes.recipeFive)
+      .set('x-access-token', token)
+      .expect(406)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.error).toBe('You need to fill in the method of preparation');
+        done();
+      });
+  });
+
   it('it should return a 201 when creating a recipe', (done) => {
     request(app)
       .post('/api/v1/recipes')
@@ -33,12 +78,40 @@ describe('test of authenticated routes (recipes)', () => {
       });
   });
 
+  it('it should return a 409 when creating a recipe twice', (done) => {
+    request(app)
+      .post('/api/v1/recipes')
+      .send(seedRecipes.recipeOne)
+      .set('x-access-token', token)
+      .expect(409)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        done();
+      });
+  });
+
   it('it should return a 201 when modifying a recipe', (done) => {
     request(app)
       .put('/api/v1/recipes/2')
       .send(seedRecipes.recipeOne)
       .set('x-access-token', token)
       .expect(201)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        done();
+      });
+  });
+
+  it('it should return a 400 when modifying a recipe', (done) => {
+    request(app)
+      .put('/api/v1/recipes/20')
+      .send(seedRecipes.recipeOne)
+      .set('x-access-token', token)
+      .expect(400)
       .end((err, res) => {
         if (err) {
           return done(err);
@@ -241,7 +314,7 @@ describe('test of authenticated routes (recipes)', () => {
 
   it('it should get all favorites', (done) => {
     request(app)
-      .get('/api/v1/recipes/1/favorites')
+      .get('/api/v1/recipes/1/favorite')
       .set('x-access-token', token)
       .expect(200)
       .end((err, res) => {
@@ -252,11 +325,66 @@ describe('test of authenticated routes (recipes)', () => {
       });
   });
 
-  it('it should return 400 if a wrong userid is passed in get all favorites', (done) => {
+  it('it should get most favorites', (done) => {
+    request(app)
+      .get('/api/v1/recipes/most-favorites')
+      .set('x-access-token', token)
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        done();
+      });
+  });
+
+  it('it should return 400 if a non-number userid is passed in get all favorites', (done) => {
     request(app)
       .get('/api/v1/recipes/g/favorite')
       .set('x-access-token', token)
       .expect(400)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.message).toBe('User id is not a number');
+        done();
+      });
+  });
+
+  it('it should return 400 if a wrong userid is passed in get all favorites', (done) => {
+    request(app)
+      .get('/api/v1/recipes/10/favorite')
+      .set('x-access-token', token)
+      .expect(400)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.message).toBe('This is not your favorite');
+        done();
+      });
+  });
+
+  it('it should return 404 if a wrong userid is passed in delete favorites', (done) => {
+    request(app)
+      .delete('/api/v1/recipes/10/favorite')
+      .set('x-access-token', token)
+      .expect(404)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.error).toBe('Favorite not found');
+        done();
+      });
+  });
+
+  it('it should return 404 if a user deletes a favorites', (done) => {
+    request(app)
+      .delete('/api/v1/recipes/1/favorite')
+      .set('x-access-token', token)
+      .expect(404)
       .end((err, res) => {
         if (err) {
           return done(err);
@@ -303,12 +431,15 @@ describe('test of authenticated routes (recipes)', () => {
     request(app)
       .post('/api/v1/recipes/f/reviews')
       .set('x-access-token', token)
+      .send({
+        data: 'goatt, this is crazy'
+      })
       .expect(406)
       .end((err, res) => {
         if (err) {
           return done(err);
         }
-        expect(res.body.error).toBe('You need to put a review!');
+        expect(res.body.error).toBe('Recipe id is not a number');
         done();
       });
   });
@@ -322,6 +453,34 @@ describe('test of authenticated routes (recipes)', () => {
         if (err) {
           return done(err);
         }
+        done();
+      });
+  });
+
+  it('it should delete a review that its id is not a number', (done) => {
+    request(app)
+      .delete('/api/v1/recipes/1h/reviews')
+      .set('x-access-token', token)
+      .expect(406)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.error).toBe('Review id is not a number');
+        done();
+      });
+  });
+
+  it('it should get a review by id', (done) => {
+    request(app)
+      .get('/api/v1/recipes/18/reviews')
+      .set('x-access-token', token)
+      .expect(406)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.error).toBe('Recipe not found with 18');
         done();
       });
   });
@@ -354,6 +513,20 @@ describe('test of authenticated routes (recipes)', () => {
       });
   });
 
+  it('it should get a single recipe with non-number id', (done) => {
+    request(app)
+      .get('/api/v1/recipes/1d')
+      .set('x-access-token', token)
+      .expect(406)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.error).toBe('Recipe id is not a number')
+        done();
+      });
+  });
+
   it('it should get a single recipe', (done) => {
     request(app)
       .get('/api/v1/recipes/1')
@@ -364,6 +537,20 @@ describe('test of authenticated routes (recipes)', () => {
           return done(err);
         }
         expect(res.body.singleRecipe.name).toBe('Garri stew')
+        done();
+      });
+  });
+
+  it('it should get a single recipe that does not exist', (done) => {
+    request(app)
+      .get('/api/v1/recipes/100')
+      .set('x-access-token', token)
+      .expect(404)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.error).toBe('Recipe with id: 100 does not exist');
         done();
       });
   });
@@ -399,6 +586,21 @@ describe('test of authenticated routes (recipes)', () => {
       });
   });
 
+  it('it should return a 400 when deleting a recipe', (done) => {
+    request(app)
+      .delete('/api/v1/recipes/f')
+      .send(seedRecipes.recipeOne)
+      .set('x-access-token', token)
+      .expect(400)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.error).toBe('Recipe id is not a number');
+        done();
+      });
+  });
+
   it('it should return a 200 when deleting a recipe', (done) => {
     request(app)
       .delete('/api/v1/recipes/2')
@@ -409,6 +611,21 @@ describe('test of authenticated routes (recipes)', () => {
         if (err) {
           return done(err);
         }
+        done();
+      });
+  });
+
+  it('it should return a 400 when deleting a recipe that does not exist', (done) => {
+    request(app)
+      .delete('/api/v1/recipes/29')
+      .send(seedRecipes.recipeOne)
+      .set('x-access-token', token)
+      .expect(400)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.error).toBe('Recipe not found with id : 29');
         done();
       });
   });
