@@ -41,11 +41,9 @@ export class Recipes {
     } else if (!ingredients) {
       return res.status(406).json({ statusCode: 406, error: 'You need to fill in the Ingredients' });
     } else if (!method) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to fill in the method of preparation ' });
+      return res.status(406).json({ statusCode: 406, error: 'You need to fill in the method of preparation' });
     } else if (!ingredients && !name && !method) {
       return res.status(406).json({ statusCode: 406, error: 'Please enter the required details (name, Ingredients and method)' });
-    } else if (Number.isNaN(cookingTime)) {
-      return res.status(422).json({ statusCode: 422, error: 'Cooking time should be a number' });
     }
 
     recipe.findOne({
@@ -104,7 +102,7 @@ export class Recipes {
   modifyRecipe(req, res) {
     const { recipeId } = req.params;
     const currentUser = req.currentUser.id;
-    if (Number.isNaN(recipeId)) {
+    if (isNaN(recipeId)) {
       return res.status(406).json({ statusCode: 406, error: 'Recipe id is not a number' });
     }
     recipe.findOne({
@@ -137,7 +135,9 @@ export class Recipes {
           .then(() => res.status(201).json({ statusCode: 201, recipe }))
           .catch(error => res.status(500).json(error));
       })
-      .catch(error => res.status(500).json(error));
+      .catch((error) => {
+        console.log('>>>>>>>>>>>>uyweuiu', error);
+      });
     return this;
   }
 
@@ -154,7 +154,7 @@ export class Recipes {
   deleteRecipe(req, res) {
     const { recipeId } = req.params;
     const currentUser = req.currentUser.id;
-    if (Number.isNaN(recipeId)) {
+    if (isNaN(recipeId)) {
       return res.status(400).json({ statusCode: 400, error: 'Recipe id is not a number' });
     }
     recipe.findOne({
@@ -204,7 +204,6 @@ export class Recipes {
     if (req.query.sort) {
       const sort = req.query.sort === 'upVotes' || req.query.sort === 'downVotes' ? req.query.sort : 'upVotes';
       const order = req.query.order === 'des' ? 'DESC' : 'DESC';
-      console.log('>>>>here');
       recipe.findAll({
         order: [
           [sort, order],
@@ -223,8 +222,6 @@ export class Recipes {
         })
         .catch(() => res.status(500).json({ statusCode: 500, message: 'Error sorting recipes' }));
     } else if (req.query.search && req.query.limit) {
-      console.log('>>>>here34');
-
       const limitValue = req.query.limit || 30;
       const search = req.query.search.split(' ');
 
@@ -323,6 +320,9 @@ export class Recipes {
    * @memberof Recipes
    */
   getRecipeById({ params: { recipeId }, currentUser }, res) {
+    if (isNaN(recipeId)) {
+      return res.status(406).json({ error: 'Recipe id is not a number' });
+    }
     recipe.findOne({
       where: { id: recipeId },
       include: [
@@ -350,7 +350,7 @@ export class Recipes {
         return res.status(200).json({ statusCode: 200, message: `Recipe with id: ${recipeId} was found`, singleRecipe });
       })
       .catch((error) => {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ '>>>>>123': error.message });
       });
     return this;
   }

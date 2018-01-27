@@ -13,9 +13,10 @@ const user = models.User;
  */
 class Reviews {
   /**
-   * Add review to user recipe
+   * @description Add review to user recipe
    *
    * @param {object} req - HTTP Request
+   *
    * @param {object} res - HTTP Response
    *
    * @returns {object} Class instance
@@ -28,7 +29,7 @@ class Reviews {
     const currentUser = req.currentUser.id;
     let reviewer;
 
-    if (Number.isNaN(recipeId)) {
+    if (isNaN(recipeId)) {
       return res.status(406).json({ statusCode: 406, error: 'Recipe id is not a number' });
     }
     if (!recipeId) {
@@ -58,13 +59,11 @@ class Reviews {
         })
           .then((reviewed) => {
             res.status(201).json({ statusCode: 201, message: 'Your review has been added', reviewed });
-            reviewed.dataValues.Reviews.map((reviewOwner) => {
-              reviewer = reviewOwner.dataValues.User.dataValues.username;
+            reviewed.Reviews.map((reviewOwner) => {
+              reviewer = reviewOwner.User.username;
             });
-            mailer(reviewed.dataValues.User.dataValues.username, reviewer, reviewed.dataValues.User.dataValues.email, data, reviewed.dataValues.name)
-            // console.log('>>>!@###>>><<<', reviewed.dataValues.Reviews);
+            mailer(reviewed.User.username, reviewer, reviewed.User.email, data, reviewed.name);
           });
-        // res.status(201).json({ statusCode: 201, message: 'Your review has been added', reviewed });
       })
       .catch(() => { res.status(500).json({ statusCode: 500, message: 'Error creating review' }); });
     return this;
@@ -82,7 +81,7 @@ class Reviews {
     const currentUser = req.currentUser.id;
 
 
-    if (Number.isNaN(reviewId)) {
+    if (isNaN(reviewId)) {
       return res.status(406).json({ statusCode: 406, error: 'Review id is not a number' });
     }
     if (!reviewId) {
