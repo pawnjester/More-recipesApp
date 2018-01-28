@@ -3,63 +3,81 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../actions/loginActions';
+import getUserDetail from '../actions/getUserDetail';
 import SearchBar from './searchBar';
-
+/**
+ * @description Navigation Bar
+ *
+ * @class NavigationBar
+ *
+ * @extends {React.Component}
+ */
 class NavigationBar extends React.Component {
+/**
+ * Creates an instance of NavigationBar.
+ *
+ * @constructor
+ *
+ * @param {any} props
+ *
+ * @memberof NavigationBar
+ *
+ * @returns {void}
+ */
   constructor(props) {
     super(props);
 
-    this.state = {
-      collapsed: true,
-      modal: false,
-      nestedModal: false,
-    };
-
-    this.toggle = this.toggle.bind(this);
-    this.toggleNested = this.toggleNested.bind(this);
-    this.toggleNavbar = this.toggleNavbar.bind(this);
     this.logout = this.logout.bind(this);
   }
 
-  toggleNavbar() {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
+  /**
+ *@description get user detail
+ *
+ * @method
+ *
+ * @memberof Profile
+ *
+ * @returns {void}
+ */
+  componentWillMount() {
+    this.props.getUserDetail();
   }
 
-  toggleNested() {
-    this.setState({
-      nestedModal: !this.state.nestedModal,
-    });
-  }
-
-  toggle() {
-    this.setState({
-      modal: !this.state.modal,
-    });
-  }
-
-
+  /**
+ *@description logout
+ *
+ * @param {any} e
+ *
+ * @memberof NavigationBar
+ *
+ * @returns {void}
+ */
   logout(e) {
     e.preventDefault();
     this.props.logout();
   }
+  /**
+   *@description renders the jsx element
+   *
+   * @memberof NavigationBar
+   *
+   * @returns {void}
+   */
   render() {
     const { isAuthenticated } = this.props.auth;
 
     const userLinks = (
-      <div>
-        <li className="nav-item">
-          <button onClick={this.logout} className="nav-link nov bg-dark" styles="border-radius: 4px;">Log out</button>
-        </li>
-      </div>
+      // <li className="nav-item">
+      //   <button onClick={this.logout} className="nav-link nov bg-dark" styles="border-radius: 4px;">Log out</button>
+      // </li>
+      <button onClick={this.logout} className="nav-link nov bg-light" styles="border-radius: 4px;">Log out</button>
     );
 
     const guestLinks = (
-      <li className="nav-item">
-        <Link to="/signin" className="nav-link nov bg-dark" styles="border-radius: 4px;">Sign In</Link>
-      </li>
-
+      // <li className="nav-item">
+      //   <Link to="/signin" className="nav-link nov bg-dark" styles="border-radius: 4px;">Sign In</Link>
+      // </li>
+      <Link to="/signin" className="nav-link nov bg-dark" styles="border-radius: 4px;">Sign In</Link>
     );
     return (
       <nav className="navbar navbar-expand-sm navbar-dark navbar-inverse bg-dark fixed-top ">
@@ -71,7 +89,15 @@ class NavigationBar extends React.Component {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ml-auto">
-            {isAuthenticated ? userLinks : guestLinks}
+            <div className="btn-group">
+              <button className="btn btn-secondary dropdown-toggle link-dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{this.props.userDetail.username}
+              </button>
+              <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                {isAuthenticated ? userLinks : guestLinks}
+                <Link to="/favorites" className="dropdown-links" >My Favorites</Link><br />
+                <Link to="/recipes" className="dropdown-links">My Recipes</Link>
+              </div>
+            </div>
 
           </ul>
         </div>
@@ -81,16 +107,14 @@ class NavigationBar extends React.Component {
 }
 
 NavigationBar.propTypes = {
-  auth: PropTypes.object.isRequired,
+  auth: PropTypes.objectOf(PropTypes.any).isRequired,
   logout: PropTypes.func.isRequired,
 };
 
 
+const mapStateToProps = state => ({
+  auth: state.auth,
+  userDetail: state.userDetailReducer.userDetail,
+});
 
-function mapStateToProps(state) {
-  return {
-    auth: state.auth,
-  };
-}
-
-export default connect(mapStateToProps, { logout })(NavigationBar);
+export default connect(mapStateToProps, { logout, getUserDetail })(NavigationBar);

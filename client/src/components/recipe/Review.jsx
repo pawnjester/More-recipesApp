@@ -2,11 +2,22 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import toastr from 'toastr';
-import AddReview from '../../actions/reviewRecipe';
-import GetRecipeDetail from '../../actions/getRecipeDetail';
+import addReview from '../../actions/reviewRecipe';
 import '../../styles/detail.scss';
-/* eslint-disable */
+/**
+ *
+ * @class Reviews
+ *
+ * @extends {Component}
+ */
 class Reviews extends Component {
+  /**
+   * @description Creates an instance of Reviews.
+   *
+   * @param {any} props
+   *
+   * @memberof Reviews
+   */
   constructor(props) {
     super(props);
 
@@ -17,19 +28,41 @@ class Reviews extends Component {
     this.onNameChange = this.onNameChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+  /**
+   *@description set the input to state
+
+   * @param {any} event
+   *
+   * @memberof Reviews
+   *
+   * @returns {void}
+   */
   onNameChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
-
+  /**
+ * @description on submit
+ *
+ * @param {any} event
+ *
+ * @memberof Reviews
+ *
+ * @returns {void}
+ */
   onSubmit(event) {
     event.preventDefault();
     const id = this.props.recipeId;
-    this.props.AddReview(id, this.state);
+    this.props.addReview(id, this.state);
     toastr.success('Review added!!');
-    event.target.reset();
     this.setState({ data: '' });
   }
-
+  /**
+ * @description renders the jsx element
+ *
+ * @memberof Reviews
+ *
+ * @returns {void}
+ */
   render() {
     return (
       <div>
@@ -59,7 +92,7 @@ class Reviews extends Component {
 }
 
 Reviews.propTypes = {
-  AddReview: PropTypes.func.isRequired,
+  addReview: PropTypes.func.isRequired,
 };
 
-export default connect(null, { AddReview, GetRecipeDetail })(Reviews);
+export default connect(null, { addReview })(Reviews);

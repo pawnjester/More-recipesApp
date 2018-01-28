@@ -9,7 +9,10 @@ const user = models.User;
 /**
  *
  *
+ * @export
+ *
  * @class Reviews
+ *
  */
 class Reviews {
   /**
@@ -28,15 +31,6 @@ class Reviews {
     const { recipeId } = req.params;
     const currentUser = req.currentUser.id;
     let reviewer;
-
-    if (isNaN(recipeId)) {
-      return res.status(406).json({ statusCode: 406, error: 'Recipe id is not a number' });
-    }
-    if (!recipeId) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to put in the recipe ID' });
-    } else if (!data) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to put a review!' });
-    }
     review.create({
       data,
       recipeId,
@@ -69,24 +63,19 @@ class Reviews {
     return this;
   }
   /**
- *
+ *@description delete Review
  *
  * @param {any} req
+ *
  * @param {any} res
- * @returns
+ *
  * @memberof Reviews
+ *
+ * @returns {object} Class instance
  */
   deleteReview(req, res) {
     const { reviewId } = req.params;
     const currentUser = req.currentUser.id;
-
-
-    if (isNaN(reviewId)) {
-      return res.status(406).json({ statusCode: 406, error: 'Review id is not a number' });
-    }
-    if (!reviewId) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to put in a review ID' });
-    }
 
     review.findOne({
       where: {
@@ -114,12 +103,15 @@ class Reviews {
     return this;
   }
   /**
- *
+ *@description get Review by id
  *
  * @param {any} req
+ *
  * @param {any} res
- * @returns
+ *
  * @memberof Reviews
+ *
+ * @returns {object} Class instance
  */
   getReviewById(req, res) {
     const { recipeId } = req.params;
@@ -143,7 +135,7 @@ class Reviews {
         })
           .then(reviews => res.status(200).json({ statusCode: 200, message: 'Reviews found: ', reviews }));
       })
-      .catch(() => res.status(500).json({ statusCode: 500, message: 'Recipe cannot be retrieved' }));
+      .catch(() => res.status(500).json({ statusCode: 500, error: 'Recipe cannot be retrieved' }));
     return this;
   }
 }

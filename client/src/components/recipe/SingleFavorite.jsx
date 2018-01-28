@@ -1,15 +1,34 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import toastr from 'toastr';
 import { confirmAlert } from 'react-confirm-alert';
 
-/* eslint-disable */
-
+/**
+ *
+ * @class SingleFavorite
+ *
+ * @extends {Component}
+ */
 class SingleFavorite extends Component {
+  /**
+   * Creates an instance of SingleFavorite.
+   *
+   * @param {any} props
+   *
+   * @memberof SingleFavorite
+   */
   constructor(props) {
     super(props);
     this.onDelete = this.onDelete.bind(this);
   }
-
+  /**
+ *@description delete action
+ *
+ * @memberof SingleFavorite
+ *
+ * @returns {void}
+ */
   onDelete() {
     confirmAlert({
       title: 'Remove this favorite',
@@ -18,14 +37,19 @@ class SingleFavorite extends Component {
       cancelLabel: 'Cancel',
       onConfirm: () => this.props.deleteFavorite(this.props.favoriteId),
       onCancel: () => toastr.success('Good choice!')
-    })
+    });
   }
-
+  /**
+ *
+ * @memberof SingleFavorite
+ *
+ * @returns {void}
+ */
   render() {
     const style = {
       height: 200,
     };
-    const { recipe,favoriteId  } = this.props;
+    const { recipe } = this.props;
     return (
       <div className="col-md-4 col-xs-4 hvr-bob">
         <div className="card">
@@ -49,4 +73,7 @@ class SingleFavorite extends Component {
   }
 }
 
+SingleFavorite.propTypes = {
+  deleteFavorite: PropTypes.func.isRequired,
+};
 export default SingleFavorite;

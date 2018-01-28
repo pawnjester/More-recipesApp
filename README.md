@@ -2,45 +2,76 @@
 [![Coverage Status](https://coveralls.io/repos/github/pawnjester/More-recipesApp/badge.svg?branch=develop)](https://coveralls.io/github/pawnjester/More-recipesApp?branch=develop)
 [![Maintainability](https://api.codeclimate.com/v1/badges/bf0624ea738733e9d0a0/maintainability)](https://codeclimate.com/github/pawnjester/More-recipesApp/maintainability)
 
-# More-recipesApp
+**More-recipesApp**
 This is a full stack application that enables users share exciting recipes, it also comes with other amazing features.
-
-## Documentation
-- SIGN UP A USER : `api/v1/users/signup`
-- SIGNIN A USER: `api/v1/users/signin`
-- CREATE A RECIPE: `api/v1/recipes`
-- GET ALL RECIPE: `api/v1/recipes`
-- GET A RECIPE BY ID: `api/v1/recipes/:recipeId`
-- MODIFY A RECIPE BY ID: `api/v1/recipes/:recipesId`
-- DELETE A RECIPE BY ID: `api/v1/recipes/:recipeId`
-- ADD A REVIEW TO A RECIPE: `api/v1/recipes/reviews`
-- FAVORITE A RECIPE: `api/v1/recipes/:userId/favorite`
-- GET ALL USER FAVORITE: `api/v1/recipes/:userId/favorite`
-- UPVOTE A RECIPE: `api/v1/recipes/:recipeId/vote?vote=downvote`
-- DOWNVOTE A RECIPE: `api/v1/recipes/:recipeId/vote?vote=downvote`
+<br />
+<br />
+<img width="1437" alt="screen shot 2018-01-27 at 12 13 26 pm" src="https://user-images.githubusercontent.com/26750279/35471484-7096d070-035c-11e8-86a6-15bc447fe5e6.png">
 
 
-# App Features
-- Sign In and Sign Up
-- View User Profile
-- Upvote and Downvote Recipes
-- Post reviews on recipe
+View Production App Here:
+[https://still-mesa-59950.herokuapp.com/]
 
-## Dependencies
-- Server: Node/Express + Sequelize/Postgres
-- Client: The frontd was developed with [React](https://facebook.github.io/react/) and [Redux](http://redux.js.org/)
+### Core Technology Stacks
+> - Front-end: React/Redux + Bootstrap
+> - Back-end: Expressjs + Sequelize
+> - System Dependencies: Node + Postgres
 
-# INSTALLATION
-- Ensure you have NodeJs and postgres installed
-- Clone the repo
-- Change your directory `cd MoreRecipesApp`
-- Run `npm install` to install dependencies/dev-dependencies
-- Create a .env file in the root of the folder to store your environmental variables.
-- Setup your db according to the settings in `server/config/config.js`
-- run `$ sequelize db:migrate`
-- run `npm run start` to start the server
+### Folder Structure
+> - `client`: contains React/Redux implementation
+> - `server`: contains the project API developed in Node/express + Sequelize/postgres
 
-## Testing
-#### Server
-*  The backend tests have been written using Mocha framework and Chai assertion library
-*  Run the test with `npm test`
+### Getting Started
+> **Installation**
+> - Clone the repo `https://github.com/pawnjester/More-recipesApp.git`
+> - Ensure you have installed [NodeJS](https://nodejs.org/en/) and [Postgres](https://www.postgresql.org/download/)
+> - Navigate into the app's root directory: `cd folderName`
+> - Setup PostgresSql on your local machine
+> - Run `$ npm install && bower install` to install all dependencies
+> - Install sequelize-cli, Run `$ npm install -g sequelize-cli` (note: sudo install on ubuntu or MAC)
+> - Create a .env file in the root directory using the sample .env.sample file
+> - setup your db according to settings in `server/onfig/config.json`
+> - then run `$ sequelize db:migrate`
+> - Run tests to ensure the app is not broken: `npm test:dev`
+
+> **How to Demo/Run the App**
+> - To start the App in development: `npm run start:dev`
+> - To start the App in a production environment run: `npm run heroku:post-build` then `npm run start`
+
+### Available Functionalities on the Client
+>- Signup
+>- Signin
+>- Create a recipe
+>- Favorite a recipe
+>- Delete a recipe
+>- Edit a recipe
+>- View a recipe
+>- Upvote a recipe
+>- Downvote a recipe
+>- Add a review to a recipe
+>- Delete a review to a recipe
+>- Search for a recipe
+>- Edit a user
+>- Delete a favorite
+>- View most favorited recipes
+>- View most upvoted recipes
+
+
+#### CONTRIBUTING
+This project is open for contributions. All contributions must adhere to the Airbnb styleguide.
+
+- [Javascript](http://airbnb.io/javascript/)
+- [React](https://github.com/airbnb/javascript/tree/master/react)
+
+**To get started:**
+- Raise an Issue [here](https://github.com/pawnjester/More-recipesApp/issues)
+- Fork the repository
+- Create your feature branch: `git checkout -b my-new-feature`
+- Commit your changes: `git commit -am 'Added some features'`
+- Push to the branch: `git push origin my-new-feature`
+- Submit a PR (pull request) to the [develop branch](https://github.com/pawnjester/More-recipesApp/tree/develop)
+
+
+
+#### Author(s)
+>- [Okonji Emmanuel](https://github.com/pawnjester)

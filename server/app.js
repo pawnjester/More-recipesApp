@@ -66,9 +66,9 @@ app.use('/api/v1/users', user);
 
 app.use('/', express.static('build/js'));
 app.use('*', express.static('build/js'));
-// app.get('/*', (req, res) => {
-//   res.status(200).sendFile(path.join(__dirname, '../client/public/index.html'));
-// });
+app.get('/*', (req, res) => {
+  res.status(200).sendFile(path.join(__dirname, '../client/public/index.html'));
+});
 
 app.use((req, res, next) => {
   const err = res.status(404).send({

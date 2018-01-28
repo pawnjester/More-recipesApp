@@ -97,7 +97,7 @@ class PasswordChangeForm extends Component {
               <button
                 onClick={this.onSubmit}
                 type="button"
-                className="btn btn-outline-primary pr-3 pl-3"
+                className="btn btn-outline-primary pr-3 pl-3 password-color"
                 style={{borderRadius: 100, backgroundColor: '#ec7026', marginLeft: 250, color: 'black'}}
               > Change Password </button>
             </form>

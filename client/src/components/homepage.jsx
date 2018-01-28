@@ -14,16 +14,19 @@ import Footer from './common/Footer';
 import '../styles/home.scss';
 
 /**
- *
+ *@description Home
  *
  * @class Home
+ *
  * @extends {React.Component}
  */
 class Home extends React.Component {
   /**
-   *
+   *@description checks if the user is authenticated
    *
    * @memberof Home
+   *
+   * @returns {void}
    */
   componentWillMount() {
     const { isAuthenticated } = this.props.auth;
@@ -33,19 +36,22 @@ class Home extends React.Component {
     }
   }
   /**
- *
+ *@description get upvoted and most favorite recipes
  *
  * @memberof Home
+ *
+ * @returns {void}
  */
   componentDidMount() {
     this.props.getUpvotedRecipes();
     this.props.getMostFavoriteRecipe();
   }
   /**
+ *@description renders the jsx element
  *
- *
- * @returns
  * @memberof Home
+ *
+ * @returns {void}
  */
   render() {
     const { userSignupRequest, upvotedRecipes, mostFavoriteRecipe } = this.props;
@@ -186,20 +192,13 @@ class Home extends React.Component {
     );
   }
 }
-/**
- *
- *
- * @param {any} state
- * @returns
- */
-function mapStateToProps(state) {
-  return {
-    auth: state.auth,
-    favoriteRecipe: state.recipeDetailReducer.favoriteRecipes,
-    upvotedRecipes: state.recipeReducer.upvotedRecipes,
-    mostFavoriteRecipe: state.recipeReducer.mostFavorites.favoriteRecipes,
-  };
-}
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  favoriteRecipe: state.recipeDetailReducer.favoriteRecipes,
+  upvotedRecipes: state.recipeReducer.upvotedRecipes,
+  mostFavoriteRecipe: state.recipeReducer.mostFavorites.favoriteRecipes,
+});
 
 const mapDispatchToProps = dispatch => ({
   userSignupRequest: userData => dispatch(userSignupRequest(userData)),
@@ -210,6 +209,9 @@ const mapDispatchToProps = dispatch => ({
 
 Home.propTypes = {
   userSignupRequest: PropTypes.func.isRequired,
+  getUpvotedRecipes: PropTypes.func.isRequired,
+  getMostFavoriteRecipe: PropTypes.func.isRequired,
+  getFavoriteRecipe: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

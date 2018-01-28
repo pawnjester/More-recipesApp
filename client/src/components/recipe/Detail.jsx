@@ -4,26 +4,29 @@ import PropTypes from 'prop-types';
 import toastr from 'toastr';
 import NavigationBar from '../NavigationBar';
 import '../../styles/detail.scss';
-import GetRecipeDetail from '../../actions/getRecipeDetail';
-import GetReview from '../../actions/getAllReviews';
-import UpvoteRecipe from '../../actions/upvoteRecipe';
-import DownvoteRecipe from '../../actions/downvoteRecipe';
-import FavoriteRecipe from '../../actions/favoriteRecipe';
-import GetUserDetail from '../../actions/getUserDetail';
-import DeleteReview from '../../actions/deleteReview';
+import getRecipeDetail from '../../actions/getRecipeDetail';
+import getReview from '../../actions/getAllReviews';
+import upvoteRecipe from '../../actions/upvoteRecipe';
+import downvoteRecipe from '../../actions/downvoteRecipe';
+import favoriteRecipe from '../../actions/favoriteRecipe';
+import getUserDetail from '../../actions/getUserDetail';
+import deleteReview from '../../actions/deleteReview';
+import getFavoriteId from '../../actions/checkFavoriteId';
 import Review from './Review';
 import DisplayReviews from './DisplayReviews';
 import Footer from '../common/Footer';
 /**
  *
- *
  * @class Detail
+ *
  * @extends {Component}
  */
 class Detail extends Component {
   /**
-   * Creates an instance of Detail.
+   *@description Creates an instance of Detail.
+   *
    * @param {any} props
+   *
    * @memberof Detail
    */
   constructor(props) {
@@ -36,76 +39,95 @@ class Detail extends Component {
     this.onDeleteReview = this.onDeleteReview.bind(this);
   }
   /**
- *
+ *@description get recipe detail and user detail
  *
  * @memberof Detail
  *
+ * @returns {void}
  */
   componentWillMount() {
-    this.props.GetRecipeDetail(this.props.match.params.recipeId);
-    this.props.GetUserDetail();
+    this.props.getRecipeDetail(this.props.match.params.recipeId);
+    this.props.getUserDetail();
+    this.props.getFavoriteId();
   }
   /**
- *
+ *@description set props to state
  *
  * @param {any} nextProps
+ *
  * @memberof Detail
+ *
+ * @returns {void}
  */
   componentWillReceiveProps(nextProps) {
     this.setState({
       message: nextProps.message
     });
   }
+
   /**
- *
- *
- * @memberof Detail
- */
-  upvoted() {
-    this.props.UpvoteRecipe(this.props.match.params.recipeId);
-  }
-  /**
- *
  *
  * @param {any} reviewId
+ *
  * @memberof Detail
+ *
+ * @returns {void}
  */
   onDeleteReview(reviewId) {
-    this.props.DeleteReview(reviewId);
+    this.props.deleteReview(reviewId);
   }
+
   /**
- *
+ *@description upvoted action
  *
  * @memberof Detail
+ *
+ * @returns {void}
+ */
+  upvoted() {
+    this.props.upvoteRecipe(this.props.match.params.recipeId);
+  }
+  /**
+ *@description favorite recipe
+ *
+ * @memberof Detail
+ *
+ * @returns {void}
  */
   favorite() {
-    this.props.FavoriteRecipe(this.props.match.params.recipeId)
+    this.props.favoriteRecipe(this.props.match.params.recipeId)
       .then(() => {
         toastr.success(`${this.props.message}`);
       });
   }
-/**
- *
+  /**
+ *@description downvote a recipe
  *
  * @memberof Detail
+ *
+ * @returns {void}
  */
-downvoted() {
-    this.props.DownvoteRecipe(this.props.match.params.recipeId);
+  downvoted() {
+    this.props.downvoteRecipe(this.props.match.params.recipeId);
   }
-/**
+  /**
+ *@description renders jsx element
  *
- *
- * @returns
  * @memberof Detail
+ *
+ * @returns {void}
  */
-render() {
+  render() {
     const {
-      singleRecipe, userDetail
+      singleRecipe, checkIfFavorite
     } = this.props;
-
+    const ingredientss = singleRecipe.ingredients ? singleRecipe.ingredients : '';
+    const methods = singleRecipe.method ? singleRecipe.method : '';
+    const splittedMethod = methods.split(',');
+    const splittedIngredients = ingredientss.split(',');
+    const checkFavorited = checkIfFavorite || [];
     const { message } = this.state;
     const user = this.props.userDetail || {};
-
     const single = this.props.singleRecipe.Reviews || [];
     const style = {
       backgroundImage: `url(${singleRecipe.imageUrl})`,
@@ -119,7 +141,7 @@ render() {
         <div className="container detail-container bg-white">
           <div className="row">
             <div className="col-md-8 col-sm-12" >
-              <img className="card-img-top img-fluid" src={singleRecipe.imageUrl} alt="Card image cap" />
+              <img className="card-img-top img-fluid" src={singleRecipe.imageUrl} alt="Card cap" />
             </div>
             <div className="col-md-4 col-sm-12">
               <div className="detail-holder">
@@ -135,7 +157,11 @@ render() {
                         <i className="fa fa-thumbs-down" aria-hidden="true" /><span>&nbsp;{singleRecipe.downVotes}</span>
                       </button>
                       <button className="btn btn-white col-sm-4 no-border-x pt-3 pb-3" onClick={() => this.favorite()}>
-                        <i className="fa fa-heart" aria-hidden="true" /><span>&nbsp;</span>
+                        <i
+                          className="fa fa-heart"
+                          aria-hidden="true"
+                          style={checkFavorited.includes(singleRecipe.id) ? { color: 'red' } : { color: 'grey' }}
+                        /><span>&nbsp;</span>
                       </button>
                     </div>
                   </div>
@@ -151,11 +177,20 @@ render() {
             <div className="row">
               <div className="col-md-6 col-sm-12 mt-5">
                 <h4 className="text-center">Preparation</h4>
-                <li>{singleRecipe.method}</li>
+                <ul className="list-group">
+                  {
+                  splittedMethod.map(split =>
+                    <li className="list-group-item">{split}</li>)
+                }
+                </ul>
               </div>
               <div className="col-md-6 col-sm-12 mt-5">
                 <h4 className="text-center">Ingredients</h4>
-                <li>{singleRecipe.ingredients}</li>
+                <ul className="list-group">
+                  { splittedIngredients.map(split =>
+                    <li className="list-group-item" key={split.id}>{ split }</li>)
+                }
+                </ul>
               </div>
 
             </div>
@@ -178,18 +213,22 @@ render() {
 }
 
 Detail.propTypes = {
-  GetRecipeDetail: PropTypes.func.isRequired,
-  UpvoteRecipe: PropTypes.func.isRequired,
-  DownvoteRecipe: PropTypes.func.isRequired,
-  FavoriteRecipe: PropTypes.func.isRequired,
+  getRecipeDetail: PropTypes.func.isRequired,
+  upvoteRecipe: PropTypes.func.isRequired,
+  downvoteRecipe: PropTypes.func.isRequired,
+  favoriteRecipe: PropTypes.func.isRequired,
+  deleteReview: PropTypes.func.isRequired,
+  getUserDetail: PropTypes.func.isRequired,
+  getFavoriteId: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({
   singleRecipe: state.recipeDetailReducer.currentRecipe,
   favoriteRecipes: state.recipeDetailReducer.favoriteRecipe,
   message: state.recipeDetailReducer.message.message,
   userDetail: state.userDetailReducer.userDetail,
+  checkIfFavorite: state.recipeDetailReducer.checkIfFavorited
 });
 
 export default connect(mapStateToProps, {
-  GetRecipeDetail, GetReview, UpvoteRecipe, DownvoteRecipe, FavoriteRecipe, GetUserDetail, DeleteReview
+  getRecipeDetail, getReview, upvoteRecipe, downvoteRecipe, favoriteRecipe, getUserDetail, deleteReview, getFavoriteId
 })(Detail);

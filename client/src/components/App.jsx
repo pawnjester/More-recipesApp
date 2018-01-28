@@ -1,14 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Main from './Main';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="wrap">
-        <Main />
-      </div>
-    );
-  }
-}
+const App = () => (
+  <div className="wrap">
+    <Main />
+  </div>
+);
+
 
 export default App;

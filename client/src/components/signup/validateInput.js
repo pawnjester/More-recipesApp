@@ -1,7 +1,14 @@
-/* eslint-disable */
 import isEmpty from 'lodash/isEmpty';
 import Validator from 'validator';
-
+/**
+ * @description validation function
+ *
+ * @export
+ *
+ * @param {any} data
+ *
+ * @returns {void}
+ */
 export default function validateInput(data) {
   const errors = {};
 

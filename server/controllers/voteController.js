@@ -16,26 +16,26 @@ const downvotes = models.Downvote;
  */
 export default class Votes {
   /**
-   * up-vote a recipe
+   * @description up-vote a recipe
    *
    * @param {object} req - HTTP Request
+   *
    * @param {object} res - HTTP Response
    *
-   * @returns {object} Class instance
    * @memberof Vote
+   *
+   * @returns {object} Class instance
    */
   upvote(req, res) {
     const currentUser = req.currentUser.id;
     const { recipeId } = req.params;
-    if (isNaN(recipeId)) {
-      return res.status(422).json({ statusCode: 422, error: 'Recipe id is not a number' });
-    }
+
     recipe.findById(recipeId)
       .then((recipeFound) => {
         if (!recipeFound) {
-          return res.status(404).json({ error: 'You cannot upvote this recipe' });
+          return res.status(404)
+            .json({ statusCode: 404, error: 'You cannot upvote this recipe' });
         }
-        // check if it has been upvoted
         upvotes.findOne({
           where: {
             userId: currentUser,
@@ -69,7 +69,10 @@ export default class Votes {
                               model: review,
                               attributes: ['id', 'data', 'createdAt'],
                               include: [
-                                { model: user, atrributes: ['username', 'profileImg'] },
+                                {
+                                  model: user,
+                                  atrributes: ['username', 'profileImg']
+                                },
                               ],
                             },
 
@@ -78,6 +81,7 @@ export default class Votes {
                           .then((Recipe) => {
                             if (!Recipe) {
                               return res.status(500).json({
+                                statusCode: 500,
                                 error: 'Recipe can\'t be upvoted',
                               });
                             }
@@ -86,7 +90,7 @@ export default class Votes {
                                 Recipe.reload();
                               })
                                 .then(() => res.status(200).json({
-                                  status: 'success',
+                                  statusCode: 200,
                                   message: 'recipe has been upvoted',
                                   Recipe,
                                 }));
@@ -115,7 +119,11 @@ export default class Votes {
                                   model: review,
                                   attributes: ['id', 'data', 'createdAt'],
                                   include: [
-                                    { model: user, atrributes: ['username', 'profileImg'] },
+                                    {
+                                      model: user,
+                                      atrributes: ['username',
+                                        'profileImg']
+                                    },
                                   ],
                                 },
 
@@ -127,14 +135,18 @@ export default class Votes {
                                     Recipe.decrement('downVotes').then(() => {
                                       Recipe.reload();
                                     }).then(() => res.status(200).send({
-                                      status: 'success',
+                                      statusCode: 200,
                                       message: 'Recipe has been upvoted',
                                       Recipe,
                                     }));
                                   });
                                 }
                                 if (!Recipe) {
-                                  return res.status(500).json({ error: 'Recipe could not be upvoted' });
+                                  return res.status(500)
+                                    .json({
+                                      statusCode: 500,
+                                      error: 'Recipe could not be upvoted'
+                                    });
                                 }
                               });
                           });
@@ -156,7 +168,10 @@ export default class Votes {
                         model: review,
                         attributes: ['id', 'data', 'createdAt'],
                         include: [
-                          { model: user, atrributes: ['username', 'profileImg'] },
+                          {
+                            model: user,
+                            atrributes: ['username', 'profileImg']
+                          },
                         ],
                       },
 
@@ -166,7 +181,7 @@ export default class Votes {
                       Recipe.decrement('upVotes')
                         .then(() => Recipe.reload())
                         .then(() => res.status(200).json({
-                          status: 'success',
+                          statusCode: 200,
                           message: 'upvote removed',
                           Recipe,
                         }));
@@ -175,7 +190,10 @@ export default class Votes {
             }
           });
       })
-      .catch(() => res.status(500).json({ message: 'Server error, unable to complete vote' }));
+      .catch(() => res.status(500).json({
+        statusCode: 500,
+        error: 'Server error, unable to complete vote'
+      }));
     return this;
   }
   /**
@@ -190,15 +208,14 @@ export default class Votes {
   downvote(req, res) {
     const currentUser = req.currentUser.id;
     const { recipeId } = req.params;
-    if (isNaN(recipeId)) {
-      return res.status(422).json({ statusCode: 422, error: 'Recipe id is not a number' });
-    }
     recipe.findById(recipeId)
       .then((recipeFound) => {
         if (!recipeFound) {
-          return res.status(404).json({ error: 'You cannot downvote this recipe' });
+          return res.status(404).json({
+            statusCode: 404,
+            error: 'You cannot downvote this recipe'
+          });
         }
-        // check if it has been downvoted
         downvotes.findOne({
           where: {
             userId: currentUser,
@@ -232,7 +249,10 @@ export default class Votes {
                               model: review,
                               attributes: ['id', 'data', 'createdAt'],
                               include: [
-                                { model: user, atrributes: ['username', 'profileImg'] },
+                                {
+                                  model: user,
+                                  atrributes: ['username', 'profileImg']
+                                },
                               ],
                             },
 
@@ -241,6 +261,7 @@ export default class Votes {
                           .then((Recipe) => {
                             if (!Recipe) {
                               return res.status(500).json({
+                                statusCode: 500,
                                 error: 'Recipe can\'t be downvoted',
                               });
                             }
@@ -249,7 +270,7 @@ export default class Votes {
                                 Recipe.reload();
                               })
                                 .then(() => res.status(200).json({
-                                  status: 'success',
+                                  statusCode: 200,
                                   message: 'recipe has been downvoted',
                                   Recipe,
                                 }));
@@ -278,7 +299,10 @@ export default class Votes {
                                   model: review,
                                   attributes: ['id', 'data', 'createdAt'],
                                   include: [
-                                    { model: user, atrributes: ['username', 'profileImg'] },
+                                    {
+                                      model: user,
+                                      atrributes: ['username', 'profileImg']
+                                    },
                                   ],
                                 },
 
@@ -290,14 +314,18 @@ export default class Votes {
                                     Recipe.decrement('upVotes').then(() => {
                                       Recipe.reload();
                                     }).then(() => res.status(200).send({
-                                      status: 'success',
+                                      statusCode: 200,
                                       message: 'Recipe has been downvoted',
                                       Recipe,
                                     }));
                                   });
                                 }
                                 if (!Recipe) {
-                                  return res.status(500).json({ error: 'Recipe could not be downvoted' });
+                                  return res.status(500)
+                                    .json({
+                                      statusCode: 500,
+                                      error: 'Recipe could not be downvoted'
+                                    });
                                 }
                               });
                           });
@@ -319,7 +347,10 @@ export default class Votes {
                         model: review,
                         attributes: ['id', 'data', 'createdAt'],
                         include: [
-                          { model: user, atrributes: ['username', 'profileImg'] },
+                          {
+                            model: user,
+                            atrributes: ['username', 'profileImg']
+                          },
                         ],
                       },
 
@@ -329,7 +360,7 @@ export default class Votes {
                       Recipe.decrement('downVotes')
                         .then(() => Recipe.reload())
                         .then(() => res.status(200).json({
-                          status: 'success',
+                          statusCode: 200,
                           message: 'downvote removed',
                           Recipe,
                         }));
@@ -338,7 +369,11 @@ export default class Votes {
             }
           });
       })
-      .catch(() => res.status(500).json({ message: 'Server error, unable to complete vote' }));
+      .catch(() => res.status(500)
+        .json({
+          statusCode: 500,
+          error: 'Server error, unable to complete vote'
+        }));
     return this;
   }
 }

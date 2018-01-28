@@ -1,15 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Modal,
-  ModalHeader, ModalBody, Form, Label, Input, FormGroup, Col, FormText } from 'reactstrap';
+import {
+  Button, Modal,
+  ModalHeader, ModalBody, Form, Label, Input, FormGroup, Col, FormText
+} from 'reactstrap';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
 import imageUpload from '../../helpers/imageUpload';
 import editRecipe from '../../actions/editRecipe';
 import GetAllRecipes from '../../actions/getRecipe';
-
-/* eslint-disable */
+/**
+ *
+ * @class EditRecipeModal
+ *
+ * @extends {Component}
+ */
 class EditRecipeModal extends Component {
+  /**
+   * Creates an instance of EditRecipeModal.
+   *
+   * @param {any} props
+   *
+   * @memberof EditRecipeModal
+   */
   constructor(props) {
     super(props);
 
@@ -26,7 +39,13 @@ class EditRecipeModal extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.Upload = this.Upload.bind(this);
   }
-
+  /**
+ * @description set state
+ *
+ * @memberof EditRecipeModal
+ *
+ * @returns {void}
+ */
   componentWillMount() {
     this.setState({
       name: this.props.Recipe.name,
@@ -35,12 +54,28 @@ class EditRecipeModal extends Component {
       imageUrl: this.props.Recipe.imageUrl,
     });
   }
-
+  /**
+   * @description set input value to state
+   *
+   * @param {any} event
+   *
+   * @memberof EditRecipeModal
+   *
+   * @returns {void}
+   */
   onNameChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-
+  /**
+ *@description on submit action
+ *
+ * @param {any} event
+ *
+ * @memberof EditRecipeModal
+ *
+ * @returns {void}
+ */
   onSubmit(event) {
     event.preventDefault();
     this.props.editRecipe(this.state);
@@ -48,23 +83,37 @@ class EditRecipeModal extends Component {
     this.props.GetAllRecipes();
     this.props.toggle();
   }
-
+  /**
+ *@description upload image
+ *
+ * @param {any} images
+ *
+ * @memberof EditRecipeModal
+ *
+ * @returns {void}
+ */
   Upload(images) {
-    this.setState({ status: 'Uploading...'})
+    this.setState({ status: 'Uploading...' });
     imageUpload(images).then((response) => {
-      const { body } = response
+      const { body } = response;
       const fileUrl = body.secure_url;
 
-      if(fileUrl) {
+      if (fileUrl) {
         this.setState({
           imageUrl: fileUrl,
           status: 'Uploaded'
-        })
+        });
       }
-    })
+    });
   }
 
-
+  /**
+   *@description renders jsx element
+   *
+   * @memberof EditRecipeModal
+   *
+   * @returns {void}
+   */
   render() {
     return (
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
@@ -95,7 +144,7 @@ class EditRecipeModal extends Component {
                   value={this.state.ingredients}
                   onChange={this.onNameChange}
                   placeholder="Enter the Ingredients"
-                  style={{ height: 150}}
+                  style={{ height: 150 }}
                 />
               </Col>
             </FormGroup>
@@ -110,7 +159,7 @@ class EditRecipeModal extends Component {
                   value={this.state.method}
                   onChange={this.onNameChange}
                   placeholder="Enter the description"
-                  style={{ height: 150}}
+                  style={{ height: 150 }}
                 />
               </Col>
             </FormGroup>
@@ -118,21 +167,21 @@ class EditRecipeModal extends Component {
             <FormGroup row>
               <Label for="exampleFile" sm={3}>File</Label>
               <Col sm={9}>
-              <Input
-                type="file"
-                name="file"
-                id="exampleFile"
-                onChange={this.Upload}
-                accept="image/*"
+                <Input
+                  type="file"
+                  name="file"
+                  id="exampleFile"
+                  onChange={this.Upload}
+                  accept="image/*"
                 />
-                <h6>{ this.state.status}</h6>
+                <h6>{this.state.status}</h6>
                 <FormText color="muted" />
               </Col>
             </FormGroup>
 
             <FormGroup check row>
               <Col sm={{ size: 10, offset: 2 }}>
-                <Button onClick={this.onSubmit} style={{float: 'right', backgroundColor: '#A43741'}}>Edit a recipe</Button>
+                <Button onClick={this.onSubmit} style={{ float: 'right', backgroundColor: '#A43741' }}>Edit a recipe</Button>
               </Col>
             </FormGroup>
           </Form>
@@ -148,4 +197,4 @@ EditRecipeModal.propTypes = {
 };
 
 
-export default connect(null, { editRecipe,  GetAllRecipes})(EditRecipeModal);
+export default connect(null, { editRecipe, GetAllRecipes })(EditRecipeModal);

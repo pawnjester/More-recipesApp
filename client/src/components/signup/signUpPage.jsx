@@ -7,7 +7,7 @@ import { userSignupRequest } from '../../actions/signupActions';
 
 class signUpPage extends React.Component {
   render() {
-    const { userSignupRequest, addFlashMessage } = this.props;
+    const { userSignupRequest } = this.props;
 
     return (
       <header id="home-section">
@@ -20,7 +20,7 @@ class signUpPage extends React.Component {
                 <div className="card-body">
                   <h3>Sign Up</h3>
                   <p>Please fill this form to register</p>
-                  <Signupform userSignupRequest={userSignupRequest} addFlashMessage={addFlashMessage} />
+                  <Signupform userSignupRequest={userSignupRequest} />
                   <div className="card-body ">
                     <p className="card-text text-right text-dark">Have an account? <a href="signin.html" className="text-danger">SIGN UP</a> </p>
                   </div>
@@ -42,8 +42,6 @@ class signUpPage extends React.Component {
 
 signUpPage.propTypes = {
   userSignupRequest: PropTypes.func.isRequired,
-  addFlashMessage: PropTypes.func.isRequired,
-
 };
 
 export default connect(null, { userSignupRequest })(signUpPage);

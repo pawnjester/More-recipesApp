@@ -16,7 +16,7 @@ import AddRecipeModal from '../../Modal/AddRecipeModal';
 import Footer from '../../common/Footer';
 
 /**
- * RecipePage component
+ * @description RecipePage component
  *
  * @class RecipePage
  *
@@ -149,7 +149,13 @@ class RecipePage extends Component {
         <div className="container text-center">
           <div className="heading">
             <h1 className="p-5 ">My Recipes</h1>
-            <Button color="primary" className="addrecipebtn btn btn-outline-success " onClick={this.toggle}> <i className="fa fa-plus" />Recipe</Button>
+            <Button
+              color="primary"
+              className="addrecipebtn btn btn-outline-success "
+              onClick={this.toggle}
+            >
+              <i className="fa fa-plus" />Recipe
+            </Button>
             <AddRecipeModal
               isOpen={this.state.modal}
               toggle={this.toggle}
@@ -161,12 +167,18 @@ class RecipePage extends Component {
           </div>
           <hr />
           <div className="row high">
-            {recipeList && recipeList.length === 0 && (<h4 className="mt-5 text-center no-recipes"> No recipes yet </h4>)}
+            {recipeList && recipeList.length === 0 &&
+              (<h4 className="mt-5 text-center no-recipes"> No recipes yet </h4>)}
             {this.state.loading ?
               <Loader Loading={this.state.loading} /> :
               recipeList &&
               recipeList.map(recipe =>
-                <Recipe recipe={recipe} key={recipe.id} deleteRecipe={this.onDeleteRecipe} getAllRecipes={this.props.getRecipes} />)}
+                (<Recipe
+                  recipe={recipe}
+                  key={recipe.id}
+                  deleteRecipe={this.onDeleteRecipe}
+                  getAllRecipes={this.props.getRecipes}
+                />))}
           </div>
         </div>
         {recipeList.length > 0 && <ReactPaginate

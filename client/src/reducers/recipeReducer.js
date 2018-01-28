@@ -52,7 +52,9 @@ const recipes = (state = initialState, action) => {
         ...state,
         deleted: false,
         totalContent: state.recipes.length,
-        recipes: state.recipes.map(recipe => ((recipe.id === action.editedRecipe.recipe.id) ? action.editedRecipe.recipe : recipe)),
+        recipes: state.recipes.map(recipe =>
+          ((recipe.id === action.editedRecipe.recipe.id)
+            ? action.editedRecipe.recipe : recipe)),
       };
     case SEARCH_RECIPE_SUCCESS:
       return {

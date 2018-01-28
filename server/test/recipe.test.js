@@ -150,12 +150,12 @@ describe('test of authenticated routes (recipes)', () => {
       });
   });
 
-  it('it should return 422 for upvoting a recipe', (done) => {
+  it('it should return 406 for upvoting a recipe', (done) => {
     request(app)
       .post('/api/v1/recipes/r/upvote')
       .send(seedRecipes.recipeOne)
       .set('x-access-token', token)
-      .expect(422)
+      .expect(406)
       .end((err, res) => {
         if (err) {
           return done(err);
@@ -210,12 +210,12 @@ describe('test of authenticated routes (recipes)', () => {
       });
   });
 
-  it('it should return 422 for downvoting a recipe', (done) => {
+  it('it should return 406 for downvoting a recipe', (done) => {
     request(app)
       .post('/api/v1/recipes/r/downvote')
       .send(seedRecipes.recipeOne)
       .set('x-access-token', token)
-      .expect(422)
+      .expect(406)
       .end((err, res) => {
         if (err) {
           return done(err);
@@ -294,6 +294,20 @@ describe('test of authenticated routes (recipes)', () => {
           return done(err);
         }
         expect(res.body.message).toBe('recipe favorited');
+        done();
+      });
+  });
+
+  it('it should check if a recipe has been favorited', (done) => {
+    request(app)
+      .get('/api/v1/recipes/checkfavoriteId')
+      .set('x-access-token', token)
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.message).toBe('favorite recipes fetched successfully');
         done();
       });
   });
@@ -586,12 +600,12 @@ describe('test of authenticated routes (recipes)', () => {
       });
   });
 
-  it('it should return a 400 when deleting a recipe', (done) => {
+  it('it should return a 406 when deleting a recipe when non-number id', (done) => {
     request(app)
       .delete('/api/v1/recipes/f')
       .send(seedRecipes.recipeOne)
       .set('x-access-token', token)
-      .expect(400)
+      .expect(406)
       .end((err, res) => {
         if (err) {
           return done(err);
