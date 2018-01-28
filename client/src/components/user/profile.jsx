@@ -6,16 +6,23 @@ import '../../styles/profile.scss';
 import getUserDetail from '../../actions/getUserDetail';
 import EditUserModal from '../Modal/EditUserModal';
 /**
- *
+ *@description User Profile
  *
  * @class Profile
+ *
  * @extends {Component}
  */
 class Profile extends Component {
   /**
-   * Creates an instance of Profile.
+   * @description Creates an instance of Profile.
+   *
+   * @constructor
+   *
    * @param {any} props
+   *
    * @memberof Profile
+   *
+   * @returns {void}
    */
   constructor(props) {
     super(props);
@@ -26,18 +33,38 @@ class Profile extends Component {
     this.toggle = this.toggle.bind(this);
   }
   /**
+ *@description get user detail
  *
+ * @method
  *
  * @memberof Profile
+ *
+ * @returns {void}
  */
   componentWillMount() {
-    // TODO: get recipes list
     this.props.getUserDetail();
   }
+
   /**
+ * @description handle errors
  *
+ * @method
+ *
+ * @param {any} nextProps
  *
  * @memberof Profile
+ *
+ * @returns {void}
+ */
+  componentWillReceiveProps(nextProps) {
+    console.log('>>>///', nextProps);
+  }
+  /**
+ *@description set state for modal
+ *
+ * @memberof Profile
+ *
+ * @returns {void}
  */
   toggle() {
     this.setState({
@@ -45,10 +72,11 @@ class Profile extends Component {
     });
   }
   /**
+ *@description renders the jsx element
  *
- *
- * @returns
  * @memberof Profile
+ *
+ * @returns {void}
  */
   render() {
     const detail = (this.props.userDetail) ? this.props.userDetail : {};
@@ -139,6 +167,7 @@ class Profile extends Component {
 
 const mapStateToProps = state => ({
   userDetail: state.userDetailReducer.userDetail,
+  errors: state.userDetailReducer.errors
 });
 
 

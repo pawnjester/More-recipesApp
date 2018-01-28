@@ -6,8 +6,20 @@ import TextFieldGroup from '../common/TextFieldGroup';
 import validateInput from './validations';
 import { login } from '../../actions/loginActions';
 
-/* eslint-disable */
+/**
+ *
+ * @class LoginForm
+ *
+ * @extends {React.Component}
+ */
 class LoginForm extends React.Component {
+  /**
+   * Creates an instance of LoginForm.
+   *
+   * @param {any} props
+   *
+   * @memberof LoginForm
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +33,15 @@ class LoginForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
-
+  /**
+ * @description submit action
+ *
+ * @param {any} e
+ *
+ * @memberof LoginForm
+ *
+ * @returns {void}
+ */
   onSubmit(e) {
     e.preventDefault();
 
@@ -35,11 +55,23 @@ class LoginForm extends React.Component {
       );
     }
   }
-
+  /**
+ *
+ * @param {any} e
+ *
+ * @memberof LoginForm
+ *
+ * @returns {void}
+ */
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-
+  /**
+ *
+ * @memberof LoginForm
+ *
+ * @returns {void}
+ */
   isValid() {
     const { errors, isValid } = validateInput(this.state);
 
@@ -49,7 +81,13 @@ class LoginForm extends React.Component {
 
     return isValid;
   }
-
+  /**
+ *@description renders jsx element
+ *
+ * @memberof LoginForm
+ *
+ * @returns {void}
+ */
   render() {
     const { errors, redirect } = this.state;
     if (redirect) {
@@ -82,7 +120,7 @@ class LoginForm extends React.Component {
           value="Submit"
           className="btn btn-outline-danger btn-block text-dark"
         />
-        <Link to='/reset_password' className="text-red mt-5">Forgot Password?</Link>
+        <Link to="/reset_password" className="text-red mt-5">Forgot Password?</Link>
       </form>
 
     );

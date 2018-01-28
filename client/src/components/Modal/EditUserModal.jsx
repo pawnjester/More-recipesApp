@@ -4,13 +4,29 @@ import { Button, Modal,
   ModalHeader, ModalBody, Form, Label, Input, FormGroup, Col, FormText } from 'reactstrap';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
-import userDetail from '../../actions/editUserDetail';
+import editUserDetail from '../../actions/editUserDetail';
 import imageUpload from '../../helpers/imageUpload';
 
 
-/* eslint-disable */
-
+/**
+ *@description Edit User Modal
+ *
+ * @class EditUserModal
+ *
+ * @extends {Component}
+ */
 class EditUserModal extends Component {
+  /**
+   * Creates an instance of EditUserModal.
+   *
+   * @constructor
+   *
+   * @param {any} props
+   *
+   * @memberof EditUserModal
+   *
+   * @returns {void}
+   */
   constructor(props) {
     super(props);
 
@@ -25,7 +41,15 @@ class EditUserModal extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.Upload = this.Upload.bind(this);
   }
-
+  /**
+   *@description set the current user detail in the modal
+   *
+   * @param {any} nextProps
+   *
+   * @memberof EditUserModal
+   *
+   * @returns {void}
+   */
   componentWillReceiveProps(nextProps) {
     if (nextProps.editUser) {
       this.setState({
@@ -35,34 +59,69 @@ class EditUserModal extends Component {
       });
     }
   }
-
+  /**
+ *@description set the user input to state
+ *
+ * @param {any} event
+ *
+ * @memberof EditUserModal
+ *
+ * @returns {void}
+ */
   onNameChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
-
+  /**
+ *@description submit button
+ *
+ * @param {any} event
+ *
+ * @memberof EditUserModal
+ *
+ * @returns {void}
+ */
   onSubmit(event) {
     event.preventDefault();
-    this.props.userDetail(this.state);
-    toastr.success('User successfully changed');
+    this.props.editUserDetail(this.state).then(() => {
+      if (this.props.errors) {
+        toastr.error(this.props.errors);
+      } else {
+        toastr.success('User successfully changed');
+      }
+    });
     this.props.getuserDetail();
     this.props.toggle();
   }
-
+  /**
+ *@description upload images
+ *
+ * @param {any} images
+ * @memberof EditUserModal
+ *
+ * @returns {void}
+ */
   Upload(images) {
-    this.setState({ status: 'Uploading...'})
+    this.setState({ status: 'Uploading...' });
     imageUpload(images).then((response) => {
-      const { body } = response
+      const { body } = response;
       const fileUrl = body.secure_url;
 
-      if(fileUrl) {
+      if (fileUrl) {
         this.setState({
           profileImg: fileUrl,
           status: 'Uploaded'
-        })
+        });
       }
-    })
+    });
   }
-
+  /**
+ *
+ * @description renders the jsx element
+ *
+ * @memberof RecipePage
+ *
+ * @returns {void}
+ */
   render() {
     const editedUser = (this.props.editUser) ? this.props.editUser : {};
     return (
@@ -97,30 +156,15 @@ class EditUserModal extends Component {
                 />
               </Col>
             </FormGroup>
-
-            {/* <FormGroup row>
-              <Label for="exampleEmail" sm={4}>method</Label>
-              <Col sm={8}>
-                <Input
-                  type="text"
-                  name="method"
-                  id="exampleEmail"
-                  value={this.state.method}
-                  onChange={this.onNameChange}
-                  placeholder="Enter the name"
-                />
-              </Col>
-            </FormGroup> */}
-
             <FormGroup row>
               <Label for="exampleFile" sm={4}>File</Label>
               <Col sm={8}>
-              <Input
-                type="file"
-                name="file"
-                id="exampleFile"
-                onChange={this.Upload}
-                accept="image/*"
+                <Input
+                  type="file"
+                  name="file"
+                  id="exampleFile"
+                  onChange={this.Upload}
+                  accept="image/*"
                 />
                 <h6>{ this.state.status}</h6>
                 <FormText color="muted" />
@@ -140,9 +184,18 @@ class EditUserModal extends Component {
 }
 
 EditUserModal.propTypes = {
-  userDetail: PropTypes.func.isRequired,
-
+  editUserDetail: PropTypes.func.isRequired,
+  toggle: PropTypes.func.isRequired,
+  getuserDetail: PropTypes.func.isRequired,
+  errors: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  profileImg: PropTypes.string.isRequired
 };
 
+const mapStateToProps = state => ({
+  errors: state.userDetailReducer.errors
+});
 
-export default connect(null, { userDetail })(EditUserModal);
+
+export default connect(mapStateToProps, { editUserDetail })(EditUserModal);

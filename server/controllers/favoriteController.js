@@ -14,6 +14,7 @@ export default class Favorite {
    * @description - Make a recipe a favorite
    *
    * @param {object} req - HTTP Request
+   *
    * @param {object} res - HTTP Response
    *
    * @returns {object} Class instance
@@ -23,9 +24,6 @@ export default class Favorite {
   addFavorite(req, res) {
     const userId = req.currentUser.id;
     const { recipeId } = req.params;
-    if (isNaN(recipeId)) {
-      return res.status(406).json({ statusCode: 406, error: 'Recipe id is not a number' });
-    }
     recipe.findOne({
       where: {
         id: recipeId,
@@ -104,26 +102,24 @@ export default class Favorite {
   }
 
   /**
-   * Get user favorite recipes record
+   * @description Get user favorite recipes record
    *
    * @param {object} req - HTTP Request
+   *
    * @param {object} res - HTTP Response
    *
-   * @returns {object} Class instance
-   *
    * @memberof Favorite
+   *
+   * @returns {object} Class instance
    */
   getAllFavorite(req, res) {
     const currentUser = req.currentUser.id;
     const { userId } = req.params;
 
-    if (isNaN(userId)) {
-      return res.status(400).json({ statusCode: 400, message: 'User id is not a number' });
-    }
     if (currentUser != userId) {
       return res.status(400).json({ statuscode: 400, message: 'This is not your favorite' });
     }
-    favorite.findAll({
+    favorite.findAndCountAll({
       where: {
         userId,
       },
@@ -131,18 +127,55 @@ export default class Favorite {
         model: recipe,
       }],
     })
-      .then((userFavorite) => {
-        res.status(200).json({ statusCode: 200, message: 'the list of favorite recipes', userFavorite });
+      .then((all) => {
+        const limit = 6;
+        let offset = 0;
+        const page = parseInt((req.query.page || 1), 10);
+        const numberOfItems = all.count;
+        const pages = Math.ceil(numberOfItems / limit);
+        offset = limit * (page - 1);
+        favorite.findAll({
+          where: {
+            userId,
+          },
+          limit,
+          offset,
+          order: [
+            ['id', 'DESC'],
+          ],
+          include: [{
+            model: recipe,
+          }],
+        }).then((userFavorite) => {
+          if (userFavorite) {
+            if (userFavorite.length < 1) {
+              return res.status(200).json({ statusCode: 200, message: 'There are no favorite recipes in collection', userFavorite: [] });
+            }
+            return res.status(200).json({
+              statusCode: 200,
+              message: 'the list of favorite recipes',
+              NumberOfItems: numberOfItems,
+              Limit: limit,
+              Pages: pages,
+              CurrentPage: page,
+              userFavorite
+            });
+          }
+        });
       })
-      .catch(() => res.status(500).json({ statusCode: 500, message: 'Recipe cannot be retrieved' }));
+      .catch(() => res.status(500).json({ statusCode: 500, error: 'Recipe cannot be retrieved' }));
     return this;
   }
   /**
+ *@description delete favorite
  *
+ * @param {Object} req - HTTP Request
  *
- * @param {any} req
- * @param {any} res
+ * @param {Object} res - HTTP Response
+ *
  * @memberof Favorite
+ *
+ * @returns {object} Class instance
  */
   deleteFavorite(req, res) {
     const currentUser = req.currentUser.id;
@@ -166,7 +199,37 @@ export default class Favorite {
         })
           .then(() => res.status(200).json({ statusCode: 200, message: 'This is no more your favorite' }));
       })
-      .catch(error => console.log(error));
+      .catch(() => res.status(500).json({ statusCode: 500, error: 'Error deleting Favorite recipe' }));
+    return this;
+  }
+  /**
+ * @description check if recipe has been favorited
+ *
+ * @param {any} req - HTTP Request
+ *
+ * @param {any} res - HTTP Response
+ *
+ * @memberof Favorite
+ *
+ * @returns {object} Class instance
+ */
+  checkFavoritedId(req, res) {
+    const { currentUser } = req;
+    favorite.findAll({
+      where: {
+        userId: currentUser.id
+      }
+    }).then((recipes) => {
+      const recipeIds = [];
+      recipes.map(item => recipeIds.push(item.recipeId));
+      res.status(200).json({
+        message: 'favorite recipes fetched successfully',
+        recipeIds
+      });
+    })
+      .catch(() => {
+        res.status(500).json({ message: 'Error occured while fetching favorite recipes' });
+      });
     return this;
   }
 }

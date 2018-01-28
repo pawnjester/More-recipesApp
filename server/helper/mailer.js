@@ -74,6 +74,7 @@ const mailer = (url, name, email, res) => {
 
   transporter.sendMail(mailOptions, (error) => {
     if (error) {
+      console.log('>>weeerror', error);
       return res.status(500).json({ error: 'Unable to send mail' });
     }
     return res.status(200).json({ message: 'Recovery link sent to your mail' });

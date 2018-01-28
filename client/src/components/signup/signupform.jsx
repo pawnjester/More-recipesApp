@@ -3,8 +3,20 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import validateInput from './validateInput';
 import TextFieldGroup from '../common/TextFieldGroup';
-
+/**
+ *
+ * @class signupform
+ *
+ * @extends {React.Component}
+ */
 class signupform extends React.Component {
+  /**
+   * Creates an instance of signupform.
+   *
+   * @param {any} props
+   *
+   * @memberof signupform
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -19,12 +31,27 @@ class signupform extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-
+  /**
+ *
+ * @param {any} e
+ *
+ * @memberof signupform
+ *
+ * @returns {void}
+ */
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-
+  /**
+ *
+ *
+ * @param {any} e
+ *
+ * @memberof signupform
+ *
+ * @returns {void}
+ */
   onSubmit(e) {
     e.preventDefault();
 
@@ -39,7 +66,13 @@ class signupform extends React.Component {
     }
   }
 
-
+  /**
+ *@description check for errors
+ *
+ * @memberof signupform
+ *
+ * @returns {void}
+ */
   isValid() {
     const { errors, isValid } = validateInput(this.state);
 
@@ -49,6 +82,13 @@ class signupform extends React.Component {
 
     return isValid;
   }
+  /**
+   * @description renders jsx element
+   * 
+   * @memberof signupform
+   *
+   * @returns {void}
+   */
   render() {
     const { errors, redirect } = this.state;
     if (redirect) {

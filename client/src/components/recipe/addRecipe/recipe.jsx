@@ -3,8 +3,12 @@ import { Link } from 'react-router-dom';
 import toastr from 'toastr';
 import { confirmAlert } from 'react-confirm-alert';
 import EditRecipeModal from '../../Modal/EditRecipeModal';
-/* eslint-disable */
-
+/**
+ *
+ * @class Recipe
+ * 
+ * @extends {Component}
+ */
 class Recipe extends Component {
   constructor(props) {
     super(props);

@@ -1,9 +1,9 @@
-import { GET_USER_DETAILS_SUCCESS, EDIT_USER_DETAILS_SUCCESS } from '../actions/types';
+import { GET_USER_DETAILS_SUCCESS, EDIT_USER_DETAILS_SUCCESS, EDIT_USER_DETAILS_FAILURE } from '../actions/types';
 
 const initialState = {
   userDetail: {},
   success: false,
-  errors: null,
+  errors: '',
 };
 
 const userDetail = (state = initialState, action) => {
@@ -18,6 +18,12 @@ const userDetail = (state = initialState, action) => {
         userDetail: action.editedUser.userFound,
         success: true,
         errors: null,
+      };
+    case EDIT_USER_DETAILS_FAILURE:
+      return {
+        ...state,
+        success: false,
+        errors: action.error
       };
     default:
       return state;

@@ -6,9 +6,20 @@ import {
 } from 'reactstrap';
 import imageUpload from '../../helpers/imageUpload';
 import validateInput from '../recipe/validations';
-
-/* eslint-disable */
+/**
+ *
+ * @class AddRecipeModal
+ *
+ * @extends {Component}
+ */
 class AddRecipeModal extends Component {
+  /**
+   * Creates an instance of AddRecipeModal.
+   *
+   * @param {any} props
+   *
+   * @memberof AddRecipeModal
+   */
   constructor(props) {
     super(props);
 
@@ -21,7 +32,7 @@ class AddRecipeModal extends Component {
       status: '',
       errors: {},
       titleError: '',
-      option:'minute(s)'
+      option: 'minute(s)'
     };
 
     this.onNameChange = this.onNameChange.bind(this);
@@ -29,58 +40,101 @@ class AddRecipeModal extends Component {
     this.Upload = this.Upload.bind(this);
   }
 
-
+  /**
+ *@description set the input to state
+ *
+ * @param {any} event
+ *
+ * @memberof AddRecipeModal
+ *
+ * @returns {void}
+ */
   onNameChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  isValid() {
-    const { errors, isValid } = validateInput(this.state);
-
-    if (!isValid) {
-      this.setState({ errors })
-    }
-    return isValid;
-  }
-
+  /**
+ *@description onSubmit button event
+ *
+ * @param {any} event
+ * @memberof AddRecipeModal
+ *
+ * @returns {void}
+ */
   onSubmit(event) {
     event.preventDefault();
     if (this.isValid()) {
       this.setState({ errors: {} });
-      const {name, ingredients, method, imageUrl, cookingTime, option} = this.state;
+      const {
+        name, ingredients, method, imageUrl, cookingTime, option
+      } = this.state;
       const cooking = cookingTime.concat(option);
-      this.state.cookingTime = cooking
+      this.state.cookingTime = cooking;
       this.props.createRecipe(this.state).then((res) => {
-        if(Object.entries(this.props.errors).length > 0) {
+        if (Object.entries(this.props.errors).length > 0) {
           this.setState({
-            titleError:this.props.errors
-          })
-          toastr.warning(this.props.errors)
-        }else {
+            titleError: this.props.errors
+          });
+          toastr.warning(this.props.errors);
+        } else {
           this.props.getRecipe(this.props.currentPage);
+          this.setState({
+            name: '',
+            ingredients: '',
+            method: '',
+            imageUrl: '',
+            cookingTime: '',
+          });
           toastr.success('Recipe added');
           this.props.toggle();
         }
-      })
-
+      });
     }
   }
 
+  /**
+ *
+ * @memberof AddRecipeModal
+ *
+ * @returns {void}
+ */
+  isValid() {
+    const { errors, isValid } = validateInput(this.state);
+
+    if (!isValid) {
+      this.setState({ errors });
+    }
+    return isValid;
+  }
+  /**
+ *
+ * @param {any} images
+ *
+ * @memberof AddRecipeModal
+ *
+ * @returns {void}
+ */
   Upload(images) {
-    this.setState({ status: 'Uploading...' })
+    this.setState({ status: 'Uploading...' });
     imageUpload(images).then((response) => {
-      const { body } = response
+      const { body } = response;
       const fileUrl = body.secure_url;
 
       if (fileUrl) {
         this.setState({
           imageUrl: fileUrl,
           status: 'Uploaded'
-        })
+        });
       }
-    })
+    });
   }
-
+  /**
+ * @description renders the jsx element
+ *
+ * @memberof AddRecipeModal
+ *
+ * @returns {void}
+ */
   render() {
     const { errors, titleError } = this.state;
     return (
@@ -99,7 +153,7 @@ class AddRecipeModal extends Component {
                   onChange={this.onNameChange}
                   placeholder="Enter the name"
                 />
-                {errors.name || titleError && <small style={{color: '#A43741' }}>{errors.name || titleError}</small>}
+                {errors.name || titleError && <small style={{ color: '#A43741' }}>{errors.name || titleError}</small>}
               </Col>
             </FormGroup>
 
@@ -113,9 +167,9 @@ class AddRecipeModal extends Component {
                   value={this.state.ingredients}
                   onChange={this.onNameChange}
                   placeholder="Enter the Ingredients"
-                  style={{ height: 150}}
+                  style={{ height: 150 }}
                 />
-                {errors.ingredients && <small style={{color: '#A43741' }}>{errors.ingredients}</small>}
+                {errors.ingredients && <small style={{ color: '#A43741' }}>{errors.ingredients}</small>}
               </Col>
             </FormGroup>
 
@@ -129,9 +183,9 @@ class AddRecipeModal extends Component {
                   value={this.state.method}
                   onChange={this.onNameChange}
                   placeholder="Enter the description"
-                  style={{ height: 150}}
+                  style={{ height: 150 }}
                 />
-                {errors.method && <small style={{color: '#A43741' }}>{errors.method}</small>}
+                {errors.method && <small style={{ color: '#A43741' }}>{errors.method}</small>}
               </Col>
             </FormGroup>
 
@@ -149,18 +203,19 @@ class AddRecipeModal extends Component {
 
                 <Col sm={15}>
                   <Input
-                  type="select"
-                  name="option"
-                  id="exampleSelect"
-                  className='mt-3'
-                  value={this.state.option}
-                  onChange={this.onNameChange} >
-                  <option value='second(s)'>second(s)</option>
-                  <option value='minute(s)'>minute(s)</option>
-                  <option value='hour(s)'>hour(s)</option>
+                    type="select"
+                    name="option"
+                    id="exampleSelect"
+                    className="mt-3"
+                    value={this.state.option}
+                    onChange={this.onNameChange}
+                  >
+                    <option value="second(s)">second(s)</option>
+                    <option value="minute(s)">minute(s)</option>
+                    <option value="hour(s)">hour(s)</option>
                   </Input>
                 </Col>
-                {errors.error || errors.cookingTime && <small style={{color: '#A43741' }}>{errors.cookingTime}</small>}
+                {errors.error || errors.cookingTime && <small style={{ color: '#A43741' }}>{errors.cookingTime}</small>}
               </Col>
             </FormGroup>
 
@@ -181,7 +236,7 @@ class AddRecipeModal extends Component {
 
             <FormGroup check row >
               <Col sm={{ size: 10, offset: 2 }}>
-                <Button onClick={this.onSubmit} style={{float: 'right', backgroundColor: '#A43741'}}>Add a recipe</Button>
+                <Button onClick={this.onSubmit} style={{ float: 'right', backgroundColor: '#A43741' }}>Add a recipe</Button>
               </Col>
             </FormGroup>
           </Form>

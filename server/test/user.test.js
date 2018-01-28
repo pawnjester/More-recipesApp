@@ -247,7 +247,7 @@ describe('More Recipes', () => {
           }
           expect(res.body.id).toNotExist;
           expect(res.body.username).toNotExist;
-          expect(res.body.message).toEqual('User is not registered');
+          expect(res.body.message).toEqual('Invalid credentials');
           expect(res.token).toNotExist;
           done();
         });

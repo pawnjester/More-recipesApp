@@ -17,8 +17,9 @@ const editUserDetail = values => dispatch => axios
     console.log('response is', response.data);
     dispatch(editUserDetailSuccess(response.data));
   })
-  .catch(() => {
-    dispatch(editUserDetailFailure('Unable to edit User'));
+  .catch((error) => {
+    console.log('>>>', error.response.data)
+    dispatch(editUserDetailFailure(error.response.data.error));
   });
 
 export default editUserDetail;

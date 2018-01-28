@@ -1,11 +1,16 @@
-/* eslint-disable */
 
 import Validator from 'validator';
 import isEmpty from 'lodash/isEmpty';
-
+/**
+ *
+ * @export
+ *
+ * @param {any} data
+ *
+ * @returns {void}
+ */
 export default function validatorInput(data) {
-  let errors ={};
-  const whiteSpace = /\s/;
+  const errors = {};
 
   if (Validator.isEmpty(data.name)) {
     errors.name = 'This field is required';

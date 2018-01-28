@@ -21,6 +21,32 @@
         color: #fff;
       }
 
+      .link-dropdown{
+        background-color: #343a40;
+        cursor:pointer;
+        border: none
+      }
+
+      .link-dropdown:hover {
+        background-color: #343a40;
+        border: none
+      }
+
+      .link-dropdown:active {
+        background-color: #343a40;
+        border: none
+      }
+      .dropdown-links {
+        margin: 0 auto;
+        padding-left: 30px;
+        color: black;
+        width: 100%;
+        border-top: 1px solid #343a40;
+      }
+      .dropdown-links:hover {
+        text-decoration: none;
+        color: #343a40
+      }
       .hr-color {
         background-color: #FF4500
       }

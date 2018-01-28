@@ -1,4 +1,3 @@
-import jwtDecode from 'jwt-decode';
 import models from '../models';
 
 const recipe = models.Recipe;
@@ -15,36 +14,18 @@ export class Recipes {
    * @description - Add Recipe record
    *
    * @param {object} req - HTTP Request
+   *
    * @param {object} res - HTTP Response
    *
-   * @returns {object} Class instance
-   *
    * @memberof Recipe
+   *
+   * @returns {object} Class instance
    */
   addRecipe(req, res) {
-    let name;
-    let ingredients;
-
-    if (req.body.name) {
-      name = req.body.name.trim().toLowerCase();
-    }
-    if (req.body.ingredients) {
-      ingredients = req.body.ingredients.trim().toLowerCase();
-    }
+    const { name, ingredients } = req.body;
+    const currentUser = req.currentUser.id;
     const { method } = req.body;
     const { cookingTime } = req.body;
-
-    const currentUser = req.currentUser.id;
-
-    if (!name) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to fill in a name of the recipe' });
-    } else if (!ingredients) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to fill in the Ingredients' });
-    } else if (!method) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to fill in the method of preparation' });
-    } else if (!ingredients && !name && !method) {
-      return res.status(406).json({ statusCode: 406, error: 'Please enter the required details (name, Ingredients and method)' });
-    }
 
     recipe.findOne({
       where: {
@@ -82,8 +63,7 @@ export class Recipes {
       })
       .catch(() => res.status(500).json({
         statusCode: 500,
-        success: false,
-        error: 'shit, something went wrong',
+        error: 'Error creating a recipe',
       }));
     return this;
   }
@@ -95,16 +75,13 @@ export class Recipes {
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
    *
-   * @returns {object} Class instance
-   *
    * @memberof Recipe
+   *
+   * @returns {object} Class instance
    */
   modifyRecipe(req, res) {
     const { recipeId } = req.params;
     const currentUser = req.currentUser.id;
-    if (isNaN(recipeId)) {
-      return res.status(406).json({ statusCode: 406, error: 'Recipe id is not a number' });
-    }
     recipe.findOne({
       where: {
         $and: [
@@ -132,12 +109,9 @@ export class Recipes {
           imageUrl: req.body.imageUrl || recipe.imageUrl,
           cookingTime: req.body.cookingTime || recipe.cookingTime
         })
-          .then(() => res.status(201).json({ statusCode: 201, recipe }))
-          .catch(error => res.status(500).json(error));
+          .then(() => res.status(201).json({ statusCode: 201, recipe }));
       })
-      .catch((error) => {
-        console.log('>>>>>>>>>>>>uyweuiu', error);
-      });
+      .catch(() => res.status(500).json({ statusCode: 500, error: 'Error modifying recipe' }));
     return this;
   }
 
@@ -154,9 +128,6 @@ export class Recipes {
   deleteRecipe(req, res) {
     const { recipeId } = req.params;
     const currentUser = req.currentUser.id;
-    if (isNaN(recipeId)) {
-      return res.status(400).json({ statusCode: 400, error: 'Recipe id is not a number' });
-    }
     recipe.findOne({
       where: {
         $and: [
@@ -219,8 +190,7 @@ export class Recipes {
             message: 'Recipe(s) found',
             recipe: orderedRecipe,
           });
-        })
-        .catch(() => res.status(500).json({ statusCode: 500, message: 'Error sorting recipes' }));
+        });
     } else if (req.query.search && req.query.limit) {
       const limitValue = req.query.limit || 30;
       const search = req.query.search.split(' ');
@@ -246,7 +216,6 @@ export class Recipes {
         });
     } else {
       recipe.findAndCountAll().then((all) => {
-        console.log('>>>>herethen');
         const limit = parseInt((req.query.limit || 6), 10);
         let offset = 0;
         const page = parseInt((req.query.page || 1), 10);
@@ -266,7 +235,7 @@ export class Recipes {
           .then((recipes) => {
             if (recipes) {
               if (recipes.length < 1) {
-                return res.status(404).json({ statusCode: 404, error: 'There are currently no recipes in collection' });
+                return res.status(404).json({ statusCode: 404, error: 'There are currently no recipes in collection', recipes: [] });
               }
               return res.status(200).json({
                 NumberOfItems: numberOfItems,
@@ -320,9 +289,6 @@ export class Recipes {
    * @memberof Recipes
    */
   getRecipeById({ params: { recipeId }, currentUser }, res) {
-    if (isNaN(recipeId)) {
-      return res.status(406).json({ error: 'Recipe id is not a number' });
-    }
     recipe.findOne({
       where: { id: recipeId },
       include: [
@@ -349,8 +315,8 @@ export class Recipes {
         }
         return res.status(200).json({ statusCode: 200, message: `Recipe with id: ${recipeId} was found`, singleRecipe });
       })
-      .catch((error) => {
-        res.status(500).json({ '>>>>>123': error.message });
+      .catch(() => {
+        res.status(500).json({ error: 'Error getting recipe' });
       });
     return this;
   }
@@ -403,7 +369,7 @@ export class Recipes {
             });
           }
         });
-    }).catch(error => res.status(500).json(error));
+    }).catch(() => res.status(500).json({ error: 'Error getting User recipe' }));
     return this;
   }
 }

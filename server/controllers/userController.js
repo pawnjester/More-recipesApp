@@ -15,52 +15,18 @@ const user = models.User;
  */
 export default class User {
   /**
-   * Signup User record
+   * @description Signup User record
    *
    * @param {object} req - HTTP Request
+   *
    * @param {object} res - HTTP Response
    *
-   * @returns {object} Class instance
-   *
    * @memberof User
+   *
+   * @returns {object} Class instance
    */
   signUp(req, res) {
-    let email;
-    let username;
-    let password;
-    console.log('req.body>>', req.body);
-    const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    const whiteSpace = /\s/;
-
-    if (req.body.email) {
-      email = req.body.email.trim();
-    }
-
-    if (req.body.username) {
-      username = req.body.username.trim();
-    }
-
-    if (req.body.password) {
-      password = req.body.password;
-    }
-
-    if (!req.body.username && !req.body.password && !req.body.email) {
-      return res.status(406).json({ statusCode: 406, error: 'Please fill in the required details' });
-    }
-
-    if (!username || username.length < 6) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to fill in your username with a minimum length of 6' });
-    } else if (!email) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to fill in your email' });
-    } else if (!filter.test(email)) {
-      return res.status(406).json({ statusCode: 406, error: 'Invalid email address!' });
-    } else if (!req.body.password) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to fill in the password' });
-    } else if (whiteSpace.test(password)) {
-      return res.status(422).json({ statusCode: 406, error: 'Password cannot contain spaces' });
-    } else if (password.length < 6) {
-      return res.status(422).json({ statusCode: 406, error: 'You need to fill in a password with a minimum length of 6' });
-    }
+    const { email, username, password } = req.body;
 
     user
       .findOne({
@@ -80,10 +46,8 @@ export default class User {
         },
       })
       .then((userFound) => {
-        let errorname;
         if (userFound) {
-          errorname = 'Username or email is already in use';
-          return res.status(409).json({ statusCode: 409, error: errorname });
+          return res.status(409).json({ statusCode: 409, error: 'Username or email is already in use' });
         }
         return user.create({
           username,
@@ -95,45 +59,25 @@ export default class User {
               statusCode: 201,
               message: `Welcome to More-Recipes ${user.username}`,
               user,
-            }))
-          .catch(e => res.status(400).json(e));
+            }));
       })
-      .catch(error => res.status(400).json(error));
+      .catch(() => res.status(400).json({ statusCode: 400, error: 'Error creating an account' }));
     return this;
   }
 
   /**
-   * Signin User record
+   * @description Signin User record
    *
    * @param {object} req - HTTP Request
+   *
    * @param {object} res - HTTP Response
    *
-   * @returns {object} Class instance
-   *
    * @memberof User
+   *
+   * @returns {object} Class instance
    */
   signIn(req, res) {
-    let email;
-    let username;
-
-    if (req.body.email) {
-      email = req.body.email.trim();
-    }
-
-    if (req.body.username) {
-      username = req.body.username.trim();
-    }
-
-    if (!req.body.email && !req.body.username) {
-      return res.status(406).json({ statusCode: 406, error: 'Email or username cannot be empty' });
-    }
-    if (!req.body.password) {
-      return res.status(406)
-        .json({
-          statusCode: 406,
-          error: 'Password field cannot be empty',
-        });
-    }
+    const { email, username } = req.body;
     user.findOne({
       where: {
         $or: [
@@ -152,7 +96,7 @@ export default class User {
     })
       .then((userFound) => {
         if (!userFound) {
-          return res.status(401).json({ statusCode: 401, message: 'User is not registered' });
+          return res.status(401).json({ statusCode: 401, message: 'Invalid credentials' });
         } else if (!userFound.validPassword(req.body.password)) {
           return res.status(401)
             .json({
@@ -168,19 +112,20 @@ export default class User {
           token,
         });
       })
-      .catch(error => res.status(400).json(error));
+      .catch(() => res.status(500).json({ statusCode: 500, error: 'Error signing in' }));
     return this;
   }
 
   /**
-   * Current User record
+   * @description Current User record
    *
    * @param {object} req - HTTP Request
+   *
    * @param {object} res - HTTP Response
    *
-   * @returns {object} Class instance
-   *
    * @memberof User
+   *
+   * @returns {object} Class instance
    */
   me(req, res) {
     const { currentUser } = req;
@@ -198,20 +143,25 @@ export default class User {
         }
         return res.status(200).json(userFound);
       })
-      .catch(error => res.status(404).json({ error: error.message }));
+      .catch(error => res.status(500).json({
+        statusCode: 500,
+        error: error.message
+      }));
     return this;
   }
   /**
- * Edit User record
+ * @description Edit User record
  *
  * @param {any} req - HTTP Request
+ *
  * @param {any} res - HTTP Response
- * @returns {object} Class instance
+ *
  * @memberof User
+ *
+ * @returns {object} Class instance
  */
   editUser(req, res) {
     const { currentUser } = req;
-    console.log('body', req.body);
     user.findOne({
       where: {
         $or: [
@@ -226,32 +176,55 @@ export default class User {
     })
       .then((userFound) => {
         if (!userFound) {
-          return res.status(404).send({
+          return res.status(404).json({
             error: 'User not found',
           });
         }
-        return userFound.update({
-          username: req.body.username || userFound.name,
-          email: req.body.email || userFound.email,
-          profileImg: req.body.profileImg || userFound.profileImg,
-        })
-          .then(() => res.status(201).json({ statusCode: 201, userFound }))
-          .catch(error => res.status(500).json(error));
+        return user.findOne({
+          where: {
+            $or: [
+              {
+                username: req.body.username,
+              },
+              {
+                email: req.body.email,
+              }
+            ]
+          }
+        }).then((CheckUser) => {
+          if (CheckUser) {
+            return res.status(400)
+              .json({
+                statusCode: 400,
+                error: 'Username or email already taken'
+              });
+          }
+          return userFound.update({
+            username: req.body.username || userFound.name,
+            email: req.body.email || userFound.email,
+            profileImg: req.body.profileImg || userFound.profileImg,
+          }).then(() => res.status(201).json({ statusCode: 201, userFound }));
+        });
       })
-      .catch(error => res.status(500).json(error));
+      .catch(() => res.status(500).json({
+        statusCode: 500,
+        error: 'Error editing the user'
+      }));
     return this;
   }
   /**
- * Check email record
+ * @description Check email record
  *
  * @param {any} req - HTTP Request
+ *
  * @param {any} res - HTTP Response
- * @returns {object} Class instance
+ *
  * @memberof User
+ *
+ * @returns {object} Class instance
  */
   checkEmail(req, res) {
     const { email } = req.body;
-    console.log(req.body);
     user.findOne({
       where: {
         email,
@@ -272,16 +245,20 @@ export default class User {
             mailer(url, username, email, res);
           });
       })
-      .catch(() => res.status(500).json({ error: 'Server error' }));
+      .catch(() => res.status(500)
+        .json({ statusCode: 500, error: 'Server error' }));
     return this;
   }
   /**
- * reset password
+ * @description reset password
  *
  * @param {any} req - HTTP Request
+ *
  * @param {any} res - HTTP Response
- * @returns {object} Class instance
+ *
  * @memberof User
+ *
+ * @returns {object} Class instance
  */
   resetPassword(req, res) {
     const { password } = req.body;
@@ -302,31 +279,31 @@ export default class User {
             token: null,
             password: hash,
           })
-            .then(() => res.status(200).json({ message: 'Password reset successful ' }));
+            .then(() => res.status(200)
+              .json({ message: 'Password reset successful ' }));
         } else {
-          return res.status(403).json({ Message: 'You`re unauthorized to perform this action' });
+          return res.status(403)
+            .json({ Message: 'You`re unauthorized to perform this action' });
         }
       })
-      .catch(() => res.status(500).json({ error: 'Server error' }));
+      .catch(() => res.status(500)
+        .json({ statusCode: 500, error: 'Server error' }));
     return this;
   }
   /**
+ *@description Change users password
  *
+ * @param {any} req - HTTP Request
  *
- * @param {any} req
- * @param {any} res
+ * @param {any} res - HTTP Response
+ *
  * @memberof User
+ *
+ * @returns {object} Class instance
  */
   changePassword(req, res) {
     const { oldPassword, password } = req.body;
     const { currentUser } = req;
-
-    if (!oldPassword || oldPassword.length < 6) {
-      return res.status(422).json({ statusCode: 422, error: 'You need to fill in your password, minimum of 6' });
-    }
-    if (!password || password.length < 6) {
-      return res.status(422).json({ statusCode: 422, error: 'You need to fill in your password, minimum of 6' });
-    }
     user.findOne({
       where: {
         id: currentUser.id
@@ -346,7 +323,8 @@ export default class User {
           password: newPassword,
         })
           .then(() => res.status(201).json({ statusCode: 201, message: 'Password changed' }));
-      });
+      })
+      .catch(() => res.status(500).json({ statusCode: 500, error: 'Error changing password' }));
     return this;
   }
 }
