@@ -100,6 +100,14 @@ module.exports = {
         minifyURLs: true
       }
     }),
-    new webpack.optimize.ModuleConcatenationPlugin()
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+      'process.env.UPLOADPRESET': JSON.stringify(process.env.UPLOADPRESET),
+      'process.env.APIKEY': JSON.stringify(process.env.APIKEY),
+      'process.env.CLOUDNAME': JSON.stringify(process.env.CLOUDNAME),
+      'process.env.EMAIL': JSON.stringify(process.env.EMAIL),
+      'process.env.PASSWORD': JSON.stringify(process.env.PASSWORD)
+    }),
   ]
 };
