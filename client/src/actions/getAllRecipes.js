@@ -12,13 +12,13 @@ const getAllRecipesFailure = error => ({
   error,
 });
 
-const getAllRecipes = () => dispatch => axios
-  .get('/api/v1/recipes')
+const getAllRecipes = page => dispatch => axios
+  .get(`/api/v1/recipes?page=${page || 1}`)
   .then((response) => {
-    dispatch(getAllRecipesSuccess(response.data.reviews));
+    dispatch(getAllRecipesSuccess(response.data));
   })
-  .catch(() => {
-    dispatch(getAllRecipesFailure('Unable to get recipes'));
+  .catch((error) => {
+    dispatch(getAllRecipesFailure(error.response.data));
   });
 
 export default getAllRecipes;

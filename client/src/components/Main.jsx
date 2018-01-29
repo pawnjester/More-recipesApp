@@ -13,6 +13,7 @@ import PasswordReset from './PasswordReset';
 import PasswordChangeForm from './PasswordChangeForm';
 import RedirectToLogin from './redirectToLogin';
 import ChangePasswordForm from './changePasswordForm';
+import AllRecipes from './recipe/AllRecipes';
 
 import requireAuth from '../utils/requireAuth';
 
@@ -27,6 +28,7 @@ const Main = () => (
     <Route path="/favorites" component={requireAuth(Favorite)} />
     <Route path="/profile" component={requireAuth(Profile)} />
     <Route path="/search" component={SearchPage} />
+    <Route path="/all-recipes" component={AllRecipes} />
     <Route path="/reset_password/" component={PasswordReset} />
     <Route path="/auth/reset_password/:token" component={PasswordChangeForm} />
     <Route path="/newLogin" component={RedirectToLogin} />

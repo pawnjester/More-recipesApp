@@ -55,7 +55,7 @@ class DisplayReview extends Component {
                 <div className="card-body">
                   <div className="row">
                     <img className="col-sm-2 card-img-top img-fluid round define-width text-center" alt="profile" src={this.props.Review.User.profileImg} />
-                    <div className="col-sm-8">
+                    <div className="col-sm-8 wrap-word">
                       <p className="card-text">{this.props.Review.data}</p>
                       <p className="card-text"><b>posted by</b> {this.props.Review.User.username} </p>
                       <p className="card-text bold">{moment(new Date(this.props.Review.createdAt)).fromNow()}</p>

@@ -18,8 +18,7 @@ const getUpvotedRecipes = () => dispatch => axios
     dispatch(getUpvotedRecipesSuccess(response.data.recipe));
   })
   .catch((error) => {
-    console.log('errorUpvotes>>>', error);
-    dispatch(getUpvotedRecipesFailure(error));
+    dispatch(getUpvotedRecipesFailure(error.response.data));
   });
 
 export default getUpvotedRecipes;

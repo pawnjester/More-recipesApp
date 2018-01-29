@@ -149,7 +149,7 @@ export default class Favorite {
         }).then((userFavorite) => {
           if (userFavorite) {
             if (userFavorite.length < 1) {
-              return res.status(200).json({ statusCode: 200, message: 'There are no favorite recipes in collection', userFavorite: [] });
+              return res.status(200).json({ statusCode: 200, message: 'There are no favorite recipes in collection' });
             }
             return res.status(200).json({
               statusCode: 200,

@@ -61,7 +61,7 @@ export default class User {
               user,
             }));
       })
-      .catch(() => res.status(400).json({ statusCode: 400, error: 'Error creating an account' }));
+      .catch(() => res.status(500).json({ statusCode: 500, error: 'Error creating an account' }));
     return this;
   }
 
@@ -96,12 +96,12 @@ export default class User {
     })
       .then((userFound) => {
         if (!userFound) {
-          return res.status(401).json({ statusCode: 401, message: 'Invalid credentials' });
+          return res.status(401).json({ statusCode: 401, error: 'Invalid credentials' });
         } else if (!userFound.validPassword(req.body.password)) {
           return res.status(401)
             .json({
               statusCode: 401,
-              message: 'Invalid credentials',
+              error: 'Invalid credentials',
             });
         }
         const token = userFound.generateAuthToken();
@@ -143,9 +143,9 @@ export default class User {
         }
         return res.status(200).json(userFound);
       })
-      .catch(error => res.status(500).json({
+      .catch(() => res.status(500).json({
         statusCode: 500,
-        error: error.message
+        error: 'Unable to get user details'
       }));
     return this;
   }
@@ -177,6 +177,7 @@ export default class User {
       .then((userFound) => {
         if (!userFound) {
           return res.status(404).json({
+            statusCode: 404,
             error: 'User not found',
           });
         }
@@ -193,9 +194,9 @@ export default class User {
           }
         }).then((CheckUser) => {
           if (CheckUser) {
-            return res.status(400)
+            return res.status(409)
               .json({
-                statusCode: 400,
+                statusCode: 409,
                 error: 'Username or email already taken'
               });
           }

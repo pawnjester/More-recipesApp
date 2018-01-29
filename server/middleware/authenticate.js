@@ -18,7 +18,6 @@ const authenticate = (req, res, next) => {
   // verifies secret and checks exp
   return jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
     if (err) {
-      console.log(err);
       return res.status(403).json({ success: false, message: 'Failed to authenticate token' });
     }
     user.findById(decoded.id).then((user) => {

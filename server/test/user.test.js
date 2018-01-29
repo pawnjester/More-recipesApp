@@ -179,7 +179,6 @@ describe('More Recipes', () => {
             return done(err);
           }
           token = res.body.token;
-          console.log(token);
           expect(res.body.userFound.id).toExist;
           expect(res.body.userFound.username).toExist;
           expect(res.body.userFound.email).toExist;
@@ -197,7 +196,7 @@ describe('More Recipes', () => {
           if (err) {
             return done(err);
           }
-          expect(res.body.message).toBe('Invalid credentials');
+          expect(res.body.error).toBe('Invalid credentials');
           done();
         });
     });
@@ -247,7 +246,7 @@ describe('More Recipes', () => {
           }
           expect(res.body.id).toNotExist;
           expect(res.body.username).toNotExist;
-          expect(res.body.message).toEqual('Invalid credentials');
+          expect(res.body.error).toEqual('Invalid credentials');
           expect(res.token).toNotExist;
           done();
         });

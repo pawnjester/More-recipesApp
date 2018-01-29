@@ -177,7 +177,7 @@ class Detail extends Component {
             <div className="row">
               <div className="col-md-6 col-sm-12 mt-5">
                 <h4 className="text-center">Preparation</h4>
-                <ul className="list-group">
+                <ul className="list-group wrap-word">
                   {
                   splittedMethod.map(split =>
                     <li className="list-group-item">{split}</li>)
@@ -186,7 +186,7 @@ class Detail extends Component {
               </div>
               <div className="col-md-6 col-sm-12 mt-5">
                 <h4 className="text-center">Ingredients</h4>
-                <ul className="list-group">
+                <ul className="list-group wrap-word">
                   { splittedIngredients.map(split =>
                     <li className="list-group-item" key={split.id}>{ split }</li>)
                 }

@@ -1,0 +1,1238 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "More-Recipes provides a platform for user to share the awesome and exciting  recipe ideas they have invented or learnt.  Suppose a user comes up with a recipe,  he/she can post it on More-Recipes and  get feedback in form of reviews and votes from other user who explore that recipe. user can also keep a list of their favorite recipes on the application.",
+    "version": "v1",
+    "title": "More Recipes API",
+    "contact": {
+      "email": "ebukeokonji@gmail.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://github.com/swagger-api/swagger-ui/blob/master/LICENSE"
+    }
+  },
+  "basePath": "/api/v1/",
+  "tags": [
+    {
+      "name": "users",
+      "description": "Users related routes"
+    },
+    {
+      "name": "/recipes",
+      "description": "Recipes related routes"
+    },
+    {
+      "name": "/reviews",
+      "description": "Reviews related routes"
+    },
+    {
+      "name": "/favorites",
+      "description": "Favorites related routes"
+    },
+    {
+      "name": "/votes",
+      "description": "votes related routes"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "/users/signup": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Allows user to create an account",
+        "description": "User creates account by filling out a form",
+        "operationId": "userSignUp",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Form input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/Signup"
+            }
+          },
+          "406": {
+            "description": "Validation",
+            "schema": {
+              "$ref": "#/definitions/SignupError"
+            }
+          },
+          "409": {
+            "description": "User already exists!",
+            "schema": {
+              "$ref": "#/definitions/SignupValidation"
+            }
+          },
+          "default": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/users/signin": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Signs in a previously logged in user",
+        "description": "Registered users can access the app",
+        "operationId": "signInUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Login credentials",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Signin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "You have successfully signed in!",
+            "schema": {
+              "$ref": "#/definitions/SignInSuccess"
+            }
+          },
+          "401": {
+            "description": "User is not registered",
+            "schema": {
+              "$ref": "#/definitions/SigninError"
+            }
+          },
+          "default": {
+            "description": "Error creating an account"
+          }
+        }
+      }
+    },
+    "/users/me": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get the details of a current user",
+        "description": "Displays details of current user",
+        "operationId": "getCurrentUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-token",
+            "in": "header",
+            "description": "Authentication Token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UserResponse"
+            }
+          },
+          "404": {
+            "description": "No currentUser",
+            "schema": {
+              "$ref": "#/definitions/SigninError"
+            }
+          },
+          "default": {
+            "description": "Unable to get user details"
+          }
+        }
+      }
+    },
+    "/users/update-profile": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Update user's profile",
+        "description": "A user can update their profile",
+        "operationId": "updateUserProfile",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-token",
+            "in": "header",
+            "description": "Authentication Token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "userId",
+            "description": "Edit form",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserResponse"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/UserResponse"
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/SignupValidation"
+            }
+          },
+          "409": {
+            "description": "Username or email already taken"
+          },
+          "default": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/recipes": {
+      "get": {
+        "tags": [
+          "/recipes"
+        ],
+        "summary": "Gets all recipes",
+        "description": "Displays all the recipes",
+        "operationId": "getRecipes",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GetRecipes"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "/recipes"
+        ],
+        "summary": "Create and post a recipe",
+        "description": "This method is called to create and post a recipe",
+        "operationId": "createRecipePost",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-token",
+            "in": "header",
+            "description": "Authentication Token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Recipe"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "schema": {
+              "description": "Responds with a recipe instance",
+              "$ref": "#/definitions/CreatedRecipe"
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/RecipeValidation"
+            }
+          },
+          "default": {
+            "description": "Error creating a recipe"
+          }
+        }
+      }
+    },
+    "/recipes/{recipeId}": {
+      "get": {
+        "tags": [
+          "/recipes"
+        ],
+        "summary": "View a recipe details",
+        "description": "Get the detail of a single recipe",
+        "operationId": "viewRecipeDetail",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-token",
+            "in": "header",
+            "description": "Authentication Token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "recipeId",
+            "in": "path",
+            "description": "ID of recipe",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ViewRecipe"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/RecipeNotFound"
+            }
+          },
+          "403": {
+            "description": "Invalid recipeId parameter",
+            "schema": {
+              "$ref": "#/definitions/RecipeNotFound"
+            }
+          },
+          "default": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "/recipes"
+        ],
+        "summary": "Modify a recipe",
+        "description": "Edit detail of a recipe created",
+        "operationId": "modifyRecipePost",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-token",
+            "in": "header",
+            "description": "Authentication Token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "recipeId",
+            "in": "path",
+            "description": "Id of recipe to be modified",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Recipe form data",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Recipe"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/updatedRecipe"
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/RecipeValidation"
+            }
+          },
+          "403": {
+            "schema": {
+              "$ref": "#/definitions/RecipeNotFound"
+            }
+          },
+          "default": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "/recipes"
+        ],
+        "summary": "Delete Recipe",
+        "description": "Delete recipe created by user",
+        "operationId": "deleteRecipe",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-token",
+            "in": "header",
+            "description": "Authentication Token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "recipeId",
+            "in": "path",
+            "description": "Id of recipe to be deleted",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/DeleteRecipe"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/RecipeNotFound"
+            }
+          },
+          "403": {
+            "description": "Invalid recipeId",
+            "schema": {
+              "$ref": "#/definitions/RecipeNotFound"
+            }
+          },
+          "default": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/userRecipe": {
+      "get": {
+        "tags": [
+          "/recipes"
+        ],
+        "summary": "View recipes posted by user",
+        "description": "Fetch all recipes posted by a user on the system",
+        "operationId": "getUserRecipes",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-token",
+            "in": "header",
+            "description": "Authentication Token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GetRecipes"
+              }
+            }
+          },
+          "default": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/{userId}/favorites": {
+      "get": {
+        "tags": [
+          "/recipes"
+        ],
+        "summary": "list all the favorite recipes available",
+        "description": "Fetch the top 4 favorite recipe",
+        "operationId": "listFavoritedRecipe",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-token",
+            "in": "header",
+            "description": "Authentication Token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GetRecipes"
+              }
+            }
+          },
+          "default": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/recipes/{recipeId}/reviews": {
+      "post": {
+        "tags": [
+          "/reviews"
+        ],
+        "summary": "Post review to a recipe",
+        "description": "Add a review to a recipe",
+        "operationId": "createReview",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-token",
+            "in": "header",
+            "description": "Authentication Token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Review"
+            }
+          },
+          {
+            "name": "recipeId",
+            "in": "path",
+            "description": "Id of recipe to be reviewed",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "schema": {
+              "description": "Review created",
+              "$ref": "#/definitions/Review"
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/ReviewValidation"
+            }
+          },
+          "default": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/recipe/{recipeId}/reviews": {
+      "get": {
+        "tags": [
+          "/reviews"
+        ],
+        "summary": "Get reviews in a recipe",
+        "description": "Get the reviews in a recipe",
+        "operationId": "viewRecipeReviews",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-token",
+            "in": "header",
+            "description": "Authentication Token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "recipeId",
+            "in": "path",
+            "description": "ID of recipe",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ViewRecipe"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/RecipeNotFound"
+            }
+          },
+          "403": {
+            "description": "Invalid recipeId parameter",
+            "schema": {
+              "$ref": "#/definitions/RecipeNotFound"
+            }
+          },
+          "default": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/recipe/{reviewId}/reviews": {
+      "delete": {
+        "tags": [
+          "/reviews"
+        ],
+        "summary": "Delete review",
+        "description": "Delete review posted on a recipe",
+        "operationId": "deleteReview",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-token",
+            "in": "header",
+            "description": "Authentication Token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "recipeId",
+            "in": "path",
+            "description": "Id of review to be deleted",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/DeleteRecipe"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/RecipeNotFound"
+            }
+          },
+          "403": {
+            "description": "Invalid recipeId",
+            "schema": {
+              "$ref": "#/definitions/RecipeNotFound"
+            }
+          },
+          "default": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/recipes/{userId}/favorite": {
+      "get": {
+        "tags": [
+          "/favorites"
+        ],
+        "summary": "Gets all recipes favorited by authenticated user",
+        "description": "Displays all user's favorite recipes",
+        "operationId": "getFavorites",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GetRecipes"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recipe/{recipeId}/favorite": {
+      "delete": {
+      "tags": [
+        "/favorites"
+      ],
+      "summary": "Add recipe as favorite",
+      "description": "This method allows authenticated user add recipe as favorite",
+      "operationId": "createFavorite",
+      "consumes": [
+        "application/json"
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "name": "x-token",
+          "in": "header",
+          "description": "Authentication Token",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "body",
+          "name": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Recipe"
+          }
+        }
+      ],
+      "responses": {
+        "201": {
+          "schema": {
+            "description": "Responds with a recipe instance",
+            "$ref": "#/definitions/CreatedRecipe"
+          }
+        },
+        "400": {
+          "description": "Validation exception",
+          "schema": {
+            "$ref": "#/definitions/RecipeValidation"
+          }
+        },
+        "default": {
+          "description": "An error occured"
+        }
+      }
+    }
+    },
+    "/recipe/{recipeId}/upvote": {
+      "post": {
+      "tags": [
+        "/votes"
+      ],
+      "summary": "Upvote a recipe",
+      "description": "User can upvote recipe of choice",
+      "operationId": "UpvoteRecipe",
+      "consumes": [
+        "application/json"
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "name": "x-token",
+          "in": "header",
+          "description": "Authentication Token",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "body",
+          "name": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Recipe"
+          }
+        }
+      ],
+      "responses": {
+        "201": {
+          "schema": {
+            "description": "Responds with a recipe instance",
+            "$ref": "#/definitions/CreatedRecipe"
+          }
+        },
+        "400": {
+          "description": "Validation exception",
+          "schema": {
+            "$ref": "#/definitions/RecipeValidation"
+          }
+        },
+        "default": {
+          "description": "An error occured"
+        }
+      }
+    }
+    },
+    "/recipe/{recipeId}/downvote": {
+      "post": {
+      "tags": [
+        "/votes"
+      ],
+      "summary": "Downvote a recipe",
+      "description": "User can downvote recipe of choice",
+      "operationId": "DownvoteRecipe",
+      "consumes": [
+        "application/json"
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "name": "x-token",
+          "in": "header",
+          "description": "Authentication Token",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "body",
+          "name": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Recipe"
+          }
+        }
+      ],
+      "responses": {
+        "201": {
+          "schema": {
+            "description": "Responds with a recipe instance",
+            "$ref": "#/definitions/CreatedRecipe"
+          }
+        },
+        "400": {
+          "description": "Validation exception",
+          "schema": {
+            "$ref": "#/definitions/RecipeValidation"
+          }
+        },
+        "default": {
+          "description": "An error occured"
+        }
+      }
+    }
+  }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "required": [
+        "userName",
+        "email",
+        "password"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "example": "joshford"
+        },
+        "email": {
+          "type": "string",
+          "example": "josh@ford.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "password"
+        }
+      }
+    },
+    "UserResponse": {
+      "type": "object",
+      "required": [
+        "username",
+        "email"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "example": "janeDoe"
+        },
+        "email": {
+          "type": "string",
+          "example": "josh@ford.com"
+        }
+      }
+    },
+    "Signin": {
+      "type": "object",
+      "required": [
+        "password",
+        "identifier"
+      ],
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "example": "josh@ford.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "password"
+        }
+      }
+    },
+    "Signup": {
+      "type": "object",
+      "required": [
+        "message",
+        "token"
+      ],
+      "properties": {
+        "userDetail": {
+          "type": "object",
+          "example": {
+            "userName": "janedoe",
+            "email": "jane@doe.com"
+          }
+        }
+      }
+    },
+    "SignupError": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "user already exists!"
+        }
+      }
+    },
+    "SignupValidation": {
+      "type": "object",
+      "required": [
+        "error"
+      ]
+    },
+    "SignInSuccess": {
+      "type": "object",
+      "required": [
+        "message",
+        "token"
+      ],
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "You have successfully signed in!"
+        },
+        "token": {
+          "type": "string",
+          "example": "foo.bar.baz"
+        }
+      }
+    },
+    "SigninError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "object",
+          "error": "User is not registered!",
+          "example": {
+            "error": "User is not registered"
+          }
+        }
+      }
+    },
+    "InvalidInput": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "object",
+          "example": {
+            "error": "Email/Username and password mismatch"
+          }
+        }
+      }
+    },
+    "ValidationError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "object",
+          "example": {
+            "error": "Password is required"
+          }
+        }
+      }
+    },
+    "RecipeNotFound": {
+      "type": "object",
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "type": "object",
+          "example": "Recipe not found"
+        }
+      }
+    },
+    "UnAuthenticatedUser": {
+      "type": "object",
+      "required": [
+        "message",
+        "status"
+      ],
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "You cannot perform this action"
+        }
+      }
+    },
+    "GetRecipes": {
+      "type": "object",
+      "required": [
+        "recipe"
+      ],
+      "properties": {
+        "page": {
+          "type": "integer",
+          "example": 1
+        },
+        "totalCount": {
+          "type": "integer",
+          "example": 5
+        },
+        "pageCount": {
+          "type": "integer",
+          "example": 1
+        },
+        "pageSize": {
+          "type": "integer",
+          "example": 5
+        },
+        "allRecipe": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Recipe"
+          }
+        }
+      }
+    },
+    "Recipe": {
+      "type": "object",
+      "required": [
+        "name",
+        "description",
+        "ingredients"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "rice"
+        },
+        "description": {
+          "type": "string",
+          "example": "cook rice"
+        },
+        "ingredients": {
+          "type": "string",
+          "example": "rice, water"
+        },
+        "cookingTime": {
+          "type": "string",
+          "example": "2 hours"
+        },
+        "imageUrl": {
+          "type": "string",
+          "example": "https://res.cloudinary.com/digr7ls7o/image/upload/v1511785297/zv5zlgvjlqoxg7dkwzux.jpg"
+        },
+        "upVotes": {
+          "type": "integer",
+          "example": 0
+        },
+        "downVotes": {
+          "type": "integer",
+          "example": 0
+        }
+      }
+    },
+    "Review": {
+      "type": "string",
+      "required": "review"
+    },
+    "CreatedRecipe": {
+      "type": "object",
+      "required": [
+        "message",
+        "recipe"
+      ],
+      "properties": {
+        "recipe": {
+          "$ref": "#/definitions/Recipe"
+        }
+      }
+    },
+    "RecipeValidation": {
+      "type": "object",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Please enter a valid recipe name"
+        }
+      }
+    },
+    "ReviewValidation": {
+      "type": "object",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Review cannot be empty"
+        }
+      }
+    },
+    "ViewRecipe": {
+      "type": "object",
+      "required": [
+        "message",
+        "recipe"
+      ],
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Recipe found"
+        },
+        "recipe": {
+          "$ref": "#/definitions/Recipe"
+        }
+      }
+    },
+    "updatedRecipe": {
+      "type": "object",
+      "required": [
+        "message",
+        "recipe"
+      ],
+      "properties": {
+        "updatedrecipe": {
+          "type": "object",
+          "example": {
+            "id": 7,
+            "name": "bean cake",
+            "imageUrl": null,
+            "ingredients": "yam, oil",
+            "method": "cook fufu",
+            "cookingTime": "2 hours",
+            "userId": 1,
+            "upVotes": 0,
+            "downVotes": 0,
+            "favoriteCount": 0,
+            "viewCheck": 0,
+            "viewCount":0,
+            "createdAt": "2018-01-24T22:04:01.944Z",
+            "updatedAt": "2018-01-25T00:09:15.483Z"
+          }
+        },
+        "recipe": {
+          "$ref": "#/definitions/Recipe"
+        }
+      }
+    },
+    "DeleteRecipe": {
+      "type": "object",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Recipe Deleted!"
+        }
+      }
+    },
+    "CreatedReview": {
+      "type": "object",
+      "required": [
+        "message",
+        "review"
+      ],
+      "properties": {
+        "review": {
+          "$ref": "#/definitions/Review"
+        }
+      }
+    }
+  }
+}

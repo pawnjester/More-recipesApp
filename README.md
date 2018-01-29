@@ -21,6 +21,11 @@ View Production App Here:
 > - `client`: contains React/Redux implementation
 > - `server`: contains the project API developed in Node/express + Sequelize/postgres
 
+#### API Documentation
+
+Access to API endpoints are restricted based on the authorization token and roles assigned to the user. This token is generated when a new user signs up, and when a returning user signs in.
+
+For more information of how to use the API, visit the Documentation [here](https://still-mesa-59950.herokuapp.com/api-docs).
 ### Getting Started
 > **Installation**
 > - Clone the repo `https://github.com/pawnjester/More-recipesApp.git`
@@ -55,7 +60,8 @@ View Production App Here:
 >- Delete a favorite
 >- View most favorited recipes
 >- View most upvoted recipes
-
+>- Reset password
+>- Change Password
 
 #### CONTRIBUTING
 This project is open for contributions. All contributions must adhere to the Airbnb styleguide.
