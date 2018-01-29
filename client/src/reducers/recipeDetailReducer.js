@@ -85,7 +85,6 @@ const detail = (state = initialState, action) => {
     case CHECK_FAVORITED_ID_SUCESS:
       return {
         ...state,
-        // checkIfFavorited: [...state.checkIfFavorited, action.recipeId],
         checkIfFavorited: action.favorite.recipeIds,
         success: true,
         errors: null
@@ -118,11 +117,19 @@ const detail = (state = initialState, action) => {
       return {
         ...state, currentRecipe: {}, success: false, errors: action.error
       };
+
     case DELETE_FAVORITE_SUCCESS:
       return {
         ...state,
-        favoriteRecipes: state.favoriteRecipes
-          .filter(deletedFav => deletedFav.id !== action.deletedFavorite)
+        favoriteRecipes: {
+          ...state.favoriteRecipes,
+          userFavorite: state.favoriteRecipes.userFavorite.filter(deletedFav => deletedFav.id !== action.deletedFavorite)
+        }
+      };
+    case DELETE_FAVORITE_FAILURE:
+      return {
+        ...state,
+        errors: action.error
       };
     default:
       return state;

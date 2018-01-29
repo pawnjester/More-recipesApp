@@ -76,6 +76,9 @@ ul{
   .detail-card .card-body{
     padding: 1.25rem 0px !important;
   }
+  .wrap-word {
+    overflow-wrap: break-word;
+  }
 
   .detail-holder h1{
     text-transform: capitalize;

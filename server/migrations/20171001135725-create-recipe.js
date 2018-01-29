@@ -8,13 +8,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
       ingredients: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
       method: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
       imageUrl: {
         type: Sequelize.TEXT,

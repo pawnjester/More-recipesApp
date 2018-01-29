@@ -14,11 +14,9 @@ const upvoteRecipeFailure = error => ({
 const upvoteRecipe = recipeId => dispatch => axios
   .post(`/api/v1/recipes/${recipeId}/upvote`)
   .then((response) => {
-    console.log('upvoteeeeed', response.data.Recipe);
     dispatch(upvoteRecipeSuccess(response.data.Recipe));
   })
   .catch((error) => {
-    console.log(error);
     dispatch(upvoteRecipeFailure('Unable to upvote recipe'));
   });
 

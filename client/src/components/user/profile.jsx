@@ -46,20 +46,6 @@ class Profile extends Component {
   }
 
   /**
- * @description handle errors
- *
- * @method
- *
- * @param {any} nextProps
- *
- * @memberof Profile
- *
- * @returns {void}
- */
-  componentWillReceiveProps(nextProps) {
-    console.log('>>>///', nextProps);
-  }
-  /**
  *@description set state for modal
  *
  * @memberof Profile

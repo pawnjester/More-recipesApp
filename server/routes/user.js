@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get('/me', authenticate, userController.me);
 router.post('/signup', Validation.signUpvalidation, userController.signUp);
-router.post('/signin',Validation.signInValidation, userController.signIn);
+router.post('/signin', Validation.signInValidation, userController.signIn);
 router.put('/update-profile', authenticate, userController.editUser);
 router.post('/verify-user', userController.checkEmail);
 router.put('/reset-password', authenticate, userController.resetPassword);

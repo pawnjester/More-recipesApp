@@ -40,6 +40,10 @@ class FavoriteRecipe extends Component {
     const userId = JwtDecode(localStorage.jwtToken);
     this.props.getFavoriteRecipe(userId.id);
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   this
+  // }
   /**
  * @description set state to currentPage
  *
@@ -126,9 +130,12 @@ FavoriteRecipe.propTypes = {
   deleteFavorite: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  favoriteRecipe: state.recipeDetailReducer.favoriteRecipes,
-});
+const mapStateToProps = state => {
+  console.log('favorite recipe state -> ', state)
+  return {
+    favoriteRecipe: state.recipeDetailReducer.favoriteRecipes,
+  }
+};
 
 export default connect(
   mapStateToProps,

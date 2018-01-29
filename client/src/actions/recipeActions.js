@@ -19,7 +19,6 @@ const createRecipe = data => dispatch => axios
     dispatch(addRecipeSucess(response.data.recipe));
   })
   .catch((error) => {
-    console.log('error?>>', error.response.data);
     dispatch(addRecipeFailure(error.response.data.error));
   });
 

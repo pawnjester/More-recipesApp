@@ -1,8 +1,6 @@
-// /* eslint-disable */
-'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Review = sequelize.define('Review', {
-    data: DataTypes.STRING,
+    data: DataTypes.TEXT,
     userId: {
       type: DataTypes.INTEGER,
       references: {

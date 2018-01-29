@@ -8,7 +8,9 @@ import {
   SEARCH_RECIPE_FAILURE,
   GET_PAGE_DETAIL,
   GET_UPVOTED_RECIPES_SUCCESS,
-  GET_MOST_FAVORITED_RECIPES
+  GET_MOST_FAVORITED_RECIPES,
+  GET_ALL_RECIPES_SUCCESS,
+  GET_ALL_RECIPES_FAILURE,
 } from '../actions/types';
 
 import initialState from '../utils/initialState';
@@ -22,6 +24,16 @@ const recipes = (state = initialState, action) => {
         recipes: action.payload.recipes,
         deleted: false
 
+      };
+    case GET_ALL_RECIPES_SUCCESS:
+      return {
+        ...state,
+        recipes: action.recipes
+      };
+    case GET_ALL_RECIPES_FAILURE:
+      return {
+        ...state,
+        error: action.error
       };
     case CREATE_RECIPE_SUCCESS:
       return {
