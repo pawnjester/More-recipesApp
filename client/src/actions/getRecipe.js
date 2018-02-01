@@ -5,6 +5,10 @@ const getPageDetail = detail => ({
   type: GET_PAGE_DETAIL,
   detail,
 });
+export const getUserRecipesSuccess = payload => ({
+  type: GET_RECIPES,
+  payload
+});
 
 const getRecipeFailure = error => ({
   type: GET_ALL_RECIPES_FAILURE,
@@ -19,7 +23,7 @@ const getRecipe = page => dispatch =>
       const paginationInfo = {
         CurrentPage, Limit, NumberOfItems, Pages,
       };
-      dispatch({ type: GET_RECIPES, payload: response.data });
+      dispatch(getUserRecipesSuccess(response.data));
       dispatch(getPageDetail(paginationInfo));
     })
     .catch((error) => {

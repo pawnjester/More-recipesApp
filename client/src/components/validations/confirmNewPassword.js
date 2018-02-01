@@ -2,10 +2,11 @@ import isEmpty from 'lodash/isEmpty';
 import Validator from 'validator';
 /**
  *
- *
  * @export
+ *
  * @param {any} data
- * @returns
+ *
+ * @returns {void}
  */
 export default function validateInput(data) {
   const errors = {};

@@ -1,11 +1,10 @@
-/* eslint-disable */
 import axios from 'axios';
 
-export default function setAuthorizationToken(token) {
-  if(token) {
+const setAuthorizationToken = (token) => {
+  if (token) {
     axios.defaults.headers.common['Authorization'] = token;
-  }
-  else {
+  } else {
     delete axios.defaults.headers.common['Authorization'];
   }
 }
+export default setAuthorizationToken;

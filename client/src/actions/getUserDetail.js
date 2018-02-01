@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { GET_USER_DETAILS_SUCCESS, GET_FAVORITE_RECIPES_FAILURE } from './types';
 
-const getUserDetailSuccess = user => ({
+export const getUserDetailSuccess = user => ({
   type: GET_USER_DETAILS_SUCCESS,
   user,
 });
 
-const getUserDetailFailure = error => ({
+export const getUserDetailFailure = error => ({
   type: GET_FAVORITE_RECIPES_FAILURE,
   error,
 });

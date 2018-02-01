@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-/* eslint-disable */
-
+/**
+ *
+ * @class UpvotedRecipes
+ *
+ * @extends {Component}
+ */
 class UpvotedRecipes extends Component {
   render() {
     const style = {

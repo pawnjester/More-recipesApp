@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { DOWNVOTE_RECIPE_SUCCESS, DOWNVOTE_RECIPE_FAILURE } from './types';
 
-const downvoteRecipeSuccess = downvote => ({
+export const downvoteRecipeSuccess = downvote => ({
   type: DOWNVOTE_RECIPE_SUCCESS,
   downvote,
 });
 
-const downvoteRecipeFailure = error => ({
+export const downvoteRecipeFailure = error => ({
   type: DOWNVOTE_RECIPE_FAILURE,
   error,
 });
@@ -16,8 +16,8 @@ const downvoteRecipe = recipeId => dispatch => axios
   .then((response) => {
     dispatch(downvoteRecipeSuccess(response.data.Recipe));
   })
-  .catch(() => {
-    dispatch(downvoteRecipeFailure('Unable to upvote recipe'));
+  .catch((error) => {
+    dispatch(downvoteRecipeFailure(error.response.data));
   });
 
 export default downvoteRecipe;

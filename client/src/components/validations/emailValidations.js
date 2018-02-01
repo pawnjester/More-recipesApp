@@ -2,10 +2,11 @@ import Validator from 'validator';
 import isEmpty from 'lodash/isEmpty';
 /**
  *
- *
  * @export
+ *
  * @param {any} data
- * @returns
+ *
+ * @returns {void}
  */
 export default function emailValidator(data) {
   const errors = {};

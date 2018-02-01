@@ -135,7 +135,7 @@ class Detail extends Component {
 
     return (
       <div>
-        <NavigationBar />
+        <NavigationBar search="true" />
         <div className="header-banner" style={style} />
 
         <div className="container detail-container bg-white">
@@ -145,7 +145,7 @@ class Detail extends Component {
             </div>
             <div className="col-md-4 col-sm-12">
               <div className="detail-holder">
-                <h1 className="detail-title">{singleRecipe.name}</h1>
+                <h1 className="detail-title wrap-word">{singleRecipe.name}</h1>
                 <i className="fa fa-eye" aria-hidden="true" /><span id="clickableAwesomeFont" className="view" >&nbsp;{singleRecipe.viewCount}</span>
                 <div className="card detail-card">
                   <div className="card-body clearfix">

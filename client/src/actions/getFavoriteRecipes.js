@@ -1,19 +1,19 @@
 import axios from 'axios';
 import { GET_FAVORITE_RECIPES_SUCCESS, GET_RECIPE_DETAIL_SUCCESS } from './types';
 
-const getFavoriteRecipeSuccess = favorite => ({
+export const getFavoriteRecipeSuccess = favorite => ({
   type: GET_FAVORITE_RECIPES_SUCCESS,
   favorite,
 });
 
-const getFavoriteRecipeFailure = error => ({
+export const getFavoriteRecipeFailure = error => ({
   type: GET_RECIPE_DETAIL_SUCCESS,
   error,
 });
 
 
-const getFavoriteRecipe = (userId, page) => dispatch => axios
-  .get(`/api/v1/recipes/${userId}/favorite?page=${page || 1}`)
+const getFavoriteRecipe = page => dispatch => axios
+  .get(`/api/v1/recipes/favorite?page=${page || 1}`)
   .then((response) => {
     dispatch(getFavoriteRecipeSuccess(response.data));
   })

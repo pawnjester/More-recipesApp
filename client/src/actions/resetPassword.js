@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILURE } from './types';
 
-const resetPasswordSuccess = token => ({
+export const resetPasswordSuccess = token => ({
   type: RESET_PASSWORD_SUCCESS,
   token,
 });
-const resetPasswordFailure = error => ({
+export const resetPasswordFailure = error => ({
   type: RESET_PASSWORD_FAILURE,
   error,
 });

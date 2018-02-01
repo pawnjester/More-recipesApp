@@ -50,16 +50,17 @@ class SingleFavorite extends Component {
       height: 200,
     };
     const { recipe } = this.props;
+    console.log(typeof (recipe));
     return (
       <div className="col-md-4 col-xs-4 hvr-bob">
         <div className="card">
           <img className="card-img-top" src={recipe.imageUrl} style={style} alt="Chocolate cream" />
           <div className="card-body">
-            <h4 className="card-title">{recipe.name}</h4>
+            <h4 className="card-title">{`${recipe.name.substring(0, 10)}...`}</h4>
           </div>
           <div className="card-body clearfix">
             <div className="text-right text-danger float-right">
-              <i className="fa fa-trash" aria-hidden="true" /><span id="clickableAwesomeFont" onClick={() => this.onDelete()} className="delete">&nbsp;Delete</span>
+              <i className="fa fa-trash" aria-hidden="true" /><span id="clickableAwesomeFont" onClick={() => this.onDelete()} className="delete">&nbsp;Remove</span>
             </div>
             <Link to={`/detail/${recipe.id}`}>
               <div className="text-left text-success float-left">
@@ -75,5 +76,6 @@ class SingleFavorite extends Component {
 
 SingleFavorite.propTypes = {
   deleteFavorite: PropTypes.func.isRequired,
+  recipe: PropTypes.objectOf(PropTypes.any).isRequired
 };
 export default SingleFavorite;

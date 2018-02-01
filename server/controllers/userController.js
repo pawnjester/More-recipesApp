@@ -18,7 +18,6 @@ export default class User {
    * @description Signup User record
    *
    * @param {object} req - HTTP Request
-   *
    * @param {object} res - HTTP Response
    *
    * @memberof User
@@ -54,12 +53,16 @@ export default class User {
           email,
           password,
         })
-          .then(user => res.status(201)
-            .json({
-              statusCode: 201,
-              message: `Welcome to More-Recipes ${user.username}`,
-              user,
-            }));
+          .then((foundUser) => {
+            const token = foundUser.generateAuthToken();
+            res.status(201)
+              .json({
+                statusCode: 201,
+                message: `Welcome to More-Recipes ${foundUser.username}`,
+                foundUser,
+                token
+              });
+          });
       })
       .catch(() => res.status(500).json({ statusCode: 500, error: 'Error creating an account' }));
     return this;
@@ -69,7 +72,6 @@ export default class User {
    * @description Signin User record
    *
    * @param {object} req - HTTP Request
-   *
    * @param {object} res - HTTP Response
    *
    * @memberof User
@@ -120,7 +122,6 @@ export default class User {
    * @description Current User record
    *
    * @param {object} req - HTTP Request
-   *
    * @param {object} res - HTTP Response
    *
    * @memberof User
@@ -136,11 +137,6 @@ export default class User {
         },
       })
       .then((userFound) => {
-        if (!user) {
-          return res.status(404).json({
-            error: 'No currentUser',
-          });
-        }
         return res.status(200).json(userFound);
       })
       .catch(() => res.status(500).json({
@@ -153,7 +149,6 @@ export default class User {
  * @description Edit User record
  *
  * @param {any} req - HTTP Request
- *
  * @param {any} res - HTTP Response
  *
  * @memberof User
@@ -175,12 +170,6 @@ export default class User {
       },
     })
       .then((userFound) => {
-        if (!userFound) {
-          return res.status(404).json({
-            statusCode: 404,
-            error: 'User not found',
-          });
-        }
         return user.findOne({
           where: {
             $or: [
@@ -217,7 +206,6 @@ export default class User {
  * @description Check email record
  *
  * @param {any} req - HTTP Request
- *
  * @param {any} res - HTTP Response
  *
  * @memberof User
@@ -254,7 +242,6 @@ export default class User {
  * @description reset password
  *
  * @param {any} req - HTTP Request
- *
  * @param {any} res - HTTP Response
  *
  * @memberof User
@@ -284,7 +271,7 @@ export default class User {
               .json({ message: 'Password reset successful ' }));
         } else {
           return res.status(403)
-            .json({ Message: 'You`re unauthorized to perform this action' });
+            .json({ message: 'You`re unauthorized to perform this action' });
         }
       })
       .catch(() => res.status(500)
@@ -292,10 +279,9 @@ export default class User {
     return this;
   }
   /**
- *@description Change users password
+ * @description Change users password
  *
  * @param {any} req - HTTP Request
- *
  * @param {any} res - HTTP Response
  *
  * @memberof User
@@ -311,9 +297,7 @@ export default class User {
       }
     })
       .then((userFound) => {
-        if (!userFound) {
-          return res.status(400).json({ statusCode: 400, message: 'User not found' });
-        } else if (!userFound.validPassword(oldPassword)) {
+        if (!userFound.validPassword(oldPassword)) {
           return res.status(400).json({ statusCode: 400, error: 'Invalid password' });
         } else if (password === oldPassword) {
           return res.status(400).json({ statusCode: 400, error: 'New Password is the same as the old password' });

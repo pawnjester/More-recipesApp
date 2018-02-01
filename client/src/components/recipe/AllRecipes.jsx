@@ -76,10 +76,10 @@ class AllRecipes extends Component {
     const pageCount = this.props.allRecipes.Pages;
     return (
       <div>
-        <NavigationBar search="true" />
+        <NavigationBar search="true"/>
         <div className="container text-center">
           <div className="heading">
-            <h1 className="p-5 ">My Recipes</h1>
+            <h1 className="p-5 ">All Recipes</h1>
           </div>
           <hr />
           <div className="row high">

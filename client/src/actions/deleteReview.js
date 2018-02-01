@@ -2,12 +2,12 @@ import axios from 'axios';
 import { DELETE_REVIEW_SUCCESS, DELETE_REVIEW_FAILURE } from './types';
 
 
-// const deleteReviewSuccess = deletedReview => ({
-//   type: DELETE_REVIEW_SUCCESS,
-//   deletedReview,
-// });
+export const deleteReviewSuccess = reviewId => ({
+  type: DELETE_REVIEW_SUCCESS,
+  deletedReview: reviewId,
+});
 
-const deleteReviewFailure = error => ({
+export const deleteReviewFailure = error => ({
   type: DELETE_REVIEW_FAILURE,
   error,
 });
@@ -15,10 +15,10 @@ const deleteReviewFailure = error => ({
 const deleteReview = reviewId => dispatch => axios
   .delete(`/api/v1/recipes/${reviewId}/reviews`)
   .then(() => {
-    dispatch({ type: DELETE_REVIEW_SUCCESS, deletedReview: reviewId });
+    dispatch(deleteReviewSuccess(reviewId));
   })
-  .catch(() => {
-    dispatch(deleteReviewFailure('Unable to delete review'));
+  .catch((error) => {
+    dispatch(deleteReviewFailure(error.response.data));
   });
 
 export default deleteReview;

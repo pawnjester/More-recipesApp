@@ -4,7 +4,7 @@ import { Button } from 'reactstrap';
 import ReactPaginate from 'react-paginate';
 import PropTypes from 'prop-types';
 import Loader from '../../common/Loader';
-import createRecipe from '../../../actions/recipeActions';
+import createRecipe from '../../../actions/addRecipe';
 import getRecipes from '../../../actions/getRecipe';
 import deleteRecipe from '../../../actions/deleteRecipe';
 import getRecipeDetail from '../../../actions/getRecipeDetail';
@@ -143,6 +143,7 @@ class RecipePage extends Component {
       recipes, pages, currentPage
     } = this.state;
     const recipeList = recipes || [];
+
     return (
       <div>
         <NavigationBar search="true" />
@@ -179,6 +180,7 @@ class RecipePage extends Component {
                   deleteRecipe={this.onDeleteRecipe}
                   getAllRecipes={this.props.getRecipes}
                 />))}
+
           </div>
         </div>
         {recipeList.length > 0 && <ReactPaginate
@@ -212,7 +214,6 @@ RecipePage.propTypes = {
   deleteRecipe: PropTypes.func.isRequired,
   getRecipes: PropTypes.func.isRequired,
   recipes: PropTypes.arrayOf(PropTypes.any).isRequired,
-  pages: PropTypes.objectOf(PropTypes.any).isRequired,
   errors: PropTypes.objectOf(PropTypes.any).isRequired,
   deleted: PropTypes.bool.isRequired,
   totalContent: PropTypes.number.isRequired

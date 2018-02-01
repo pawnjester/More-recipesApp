@@ -2,9 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Signupform from './signupform';
-import { userSignupRequest } from '../../actions/signupActions';
+import {userSignupRequest} from '../../actions/signupActions';
 
-
+/**
+ * @description sign Up Page
+ *
+ * @class signUpPage
+ * @extends {React.Component}
+ */
 class signUpPage extends React.Component {
   render() {
     const { userSignupRequest } = this.props;
@@ -13,8 +18,8 @@ class signUpPage extends React.Component {
       <header id="home-section">
         <div className="dark-overlay">
           <div className="home-inner">
-          <div className="container">
-          <div className="row justify-content-center">
+            <div className="container">
+            <div className="row justify-content-center">
             <div className="col-lg-6">
               <div className="card bg-white text-center card-form">
                 <div className="card-body">
@@ -30,9 +35,9 @@ class signUpPage extends React.Component {
 
           </div>
 
-        </div>
+          </div>
 
-        </div>
+          </div>
         </div>
 
       </header>

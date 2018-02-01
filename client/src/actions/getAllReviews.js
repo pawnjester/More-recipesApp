@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { GET_RECIPE_DETAIL_FAILURE, GET_REVIEW_SUCCESS } from './types';
 
-const getReviewSuccess = review => ({
+export const getReviewSuccess = review => ({
   type: GET_REVIEW_SUCCESS,
   review,
 });
 
-const getReviewFailure = error => ({
+export const getReviewFailure = error => ({
   type: GET_RECIPE_DETAIL_FAILURE,
   error,
 });

@@ -42,24 +42,6 @@ class EditUserModal extends Component {
     this.Upload = this.Upload.bind(this);
   }
   /**
-   *@description set the current user detail in the modal
-   *
-   * @param {any} nextProps
-   *
-   * @memberof EditUserModal
-   *
-   * @returns {void}
-   */
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.editUser) {
-      this.setState({
-        username: nextProps.editUser.username,
-        email: nextProps.editUser.email,
-        profileImg: nextProps.editUser.profileImg,
-      });
-    }
-  }
-  /**
  *@description set the user input to state
  *
  * @param {any} event

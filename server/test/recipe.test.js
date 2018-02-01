@@ -1,5 +1,6 @@
 import expect from 'expect';
 import request from 'supertest';
+import reviewMailer from '../helper/reviewMailer';
 import app from '../app';
 import { token } from './user.test';
 import { seedRecipes } from './seed/seed';
@@ -15,6 +16,7 @@ describe('test of authenticated routes (recipes)', () => {
         if (err) {
           return done(err);
         }
+        expect(res.body.message).toBe('Unauthorized user, You need to sign in.');
         done();
       });
   });
@@ -74,6 +76,9 @@ describe('test of authenticated routes (recipes)', () => {
         if (err) {
           return done(err);
         }
+        expect(res.body.recipe.name).toBe('Rice');
+        expect(res.body.recipe.ingredients).toBe('Rice flour');
+        expect(res.body.recipe.method).toBe('Boil the rice');
         done();
       });
   });
@@ -88,13 +93,14 @@ describe('test of authenticated routes (recipes)', () => {
         if (err) {
           return done(err);
         }
+        expect(res.body.error).toBe('You cannot create the same recipe twice');
         done();
       });
   });
 
   it('it should return a 201 when modifying a recipe', (done) => {
     request(app)
-      .put('/api/v1/recipes/2')
+      .put('/api/v1/recipes/1')
       .send(seedRecipes.recipeOne)
       .set('x-access-token', token)
       .expect(201)
@@ -102,6 +108,9 @@ describe('test of authenticated routes (recipes)', () => {
         if (err) {
           return done(err);
         }
+        expect(res.body.recipe.name).toBe('Rice');
+        expect(res.body.recipe.ingredients).toBe('Rice flour');
+        expect(res.body.recipe.method).toBe('Boil the rice');
         done();
       });
   });
@@ -116,6 +125,7 @@ describe('test of authenticated routes (recipes)', () => {
         if (err) {
           return done(err);
         }
+        expect(res.body.error).toBe('Recipe not Found with 20');
         done();
       });
   });
@@ -195,6 +205,21 @@ describe('test of authenticated routes (recipes)', () => {
       });
   });
 
+  it('it should return 200 for upvoting a recipe twice', (done) => {
+    request(app)
+      .post('/api/v1/recipes/1/upvote')
+      .send(seedRecipes.recipeOne)
+      .set('x-access-token', token)
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.message).toBe('recipe has been upvoted');
+        done();
+      });
+  });
+
   it('it should return 200 for downvoting a recipe', (done) => {
     request(app)
       .post('/api/v1/recipes/1/downvote')
@@ -205,7 +230,7 @@ describe('test of authenticated routes (recipes)', () => {
         if (err) {
           return done(err);
         }
-        expect(res.body.message).toBe('recipe has been downvoted');
+        expect(res.body.message).toBe('Recipe has been downvoted');
         done();
       });
   });
@@ -251,6 +276,21 @@ describe('test of authenticated routes (recipes)', () => {
           return done(err);
         }
         expect(res.body.message).toBe('downvote removed');
+        done();
+      });
+  });
+
+  it('it should return 200 for downvoting a recipe twice', (done) => {
+    request(app)
+      .post('/api/v1/recipes/1/downvote')
+      .send(seedRecipes.recipeOne)
+      .set('x-access-token', token)
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        expect(res.body.message).toBe('recipe has been downvoted');
         done();
       });
   });
@@ -326,19 +366,6 @@ describe('test of authenticated routes (recipes)', () => {
       });
   });
 
-  it('it should get all favorites', (done) => {
-    request(app)
-      .get('/api/v1/recipes/1/favorite')
-      .set('x-access-token', token)
-      .expect(200)
-      .end((err, res) => {
-        if (err) {
-          return done(err);
-        }
-        done();
-      });
-  });
-
   it('it should get most favorites', (done) => {
     request(app)
       .get('/api/v1/recipes/most-favorites')
@@ -348,34 +375,7 @@ describe('test of authenticated routes (recipes)', () => {
         if (err) {
           return done(err);
         }
-        done();
-      });
-  });
-
-  it('it should return 400 if a non-number userid is passed in get all favorites', (done) => {
-    request(app)
-      .get('/api/v1/recipes/g/favorite')
-      .set('x-access-token', token)
-      .expect(400)
-      .end((err, res) => {
-        if (err) {
-          return done(err);
-        }
-        expect(res.body.message).toBe('User id is not a number');
-        done();
-      });
-  });
-
-  it('it should return 400 if a wrong userid is passed in get all favorites', (done) => {
-    request(app)
-      .get('/api/v1/recipes/10/favorite')
-      .set('x-access-token', token)
-      .expect(400)
-      .end((err, res) => {
-        if (err) {
-          return done(err);
-        }
-        expect(res.body.message).toBe('This is not your favorite');
+        // expect(Array.isArray(res.body.favoriteRecipes)).toBe(true);
         done();
       });
   });
@@ -467,6 +467,7 @@ describe('test of authenticated routes (recipes)', () => {
         if (err) {
           return done(err);
         }
+        expect(res.body.message).toBe('Reviews found: ');
         done();
       });
   });
@@ -536,7 +537,7 @@ describe('test of authenticated routes (recipes)', () => {
         if (err) {
           return done(err);
         }
-        expect(res.body.error).toBe('Recipe id is not a number')
+        expect(res.body.error).toBe('Recipe id is not a number');
         done();
       });
   });
@@ -550,7 +551,7 @@ describe('test of authenticated routes (recipes)', () => {
         if (err) {
           return done(err);
         }
-        expect(res.body.singleRecipe.name).toBe('Garri stew')
+        expect(res.body.singleRecipe.name).toBe('Rice');
         done();
       });
   });
@@ -571,7 +572,7 @@ describe('test of authenticated routes (recipes)', () => {
 
   it('it should search the database for recipes', (done) => {
     request(app)
-      .get('/api/v1/recipes/?search=garri&limit=20')
+      .get('/api/v1/recipes/?search=Rice&limit=20')
       .set('x-access-token', token)
       .expect(200)
       .end((err, res) => {
@@ -593,7 +594,7 @@ describe('test of authenticated routes (recipes)', () => {
         if (err) {
           return done(err);
         }
-        expect(res.body.NumberOfItems).toBe(2);
+        expect(res.body.NumberOfItems).toBe(1);
         expect(res.body.Limit).toBe(6);
         expect(res.body.Pages).toBe(1);
         done();
@@ -617,7 +618,7 @@ describe('test of authenticated routes (recipes)', () => {
 
   it('it should return a 200 when deleting a recipe', (done) => {
     request(app)
-      .delete('/api/v1/recipes/2')
+      .delete('/api/v1/recipes/1')
       .send(seedRecipes.recipeOne)
       .set('x-access-token', token)
       .expect(200)
@@ -625,6 +626,7 @@ describe('test of authenticated routes (recipes)', () => {
         if (err) {
           return done(err);
         }
+        expect(res.body.message).toBe('This recipe has been deleted');
         done();
       });
   });
@@ -660,7 +662,7 @@ describe('test of authenticated routes (recipes)', () => {
 
 
 
-  it('it should return a 201 when getting all recipe', (done) => {
+  it('it should return a 200 when getting all recipe', (done) => {
     request(app)
       .get('/api/v1/recipes')
       .set('x-access-token', token)
@@ -669,8 +671,8 @@ describe('test of authenticated routes (recipes)', () => {
         if (err) {
           return done(err);
         }
+        expect(res.body.message).toBe('There are currently no recipes in collection');
         done();
       });
   });
-
 });

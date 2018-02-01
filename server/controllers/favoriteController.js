@@ -4,22 +4,21 @@ const favorite = models.Favorite;
 const recipe = models.Recipe;
 
 /**
+ * @class Favorite
  *
  * @export
  *
- * @class Favorite
  */
 export default class Favorite {
   /**
    * @description - Make a recipe a favorite
    *
    * @param {object} req - HTTP Request
-   *
    * @param {object} res - HTTP Response
    *
-   * @returns {object} Class instance
-   *
    * @memberof Favorite
+   *
+   * @returns {object} Class instance
    */
   addFavorite(req, res) {
     const userId = req.currentUser.id;
@@ -105,7 +104,6 @@ export default class Favorite {
    * @description Get user favorite recipes record
    *
    * @param {object} req - HTTP Request
-   *
    * @param {object} res - HTTP Response
    *
    * @memberof Favorite
@@ -114,14 +112,9 @@ export default class Favorite {
    */
   getAllFavorite(req, res) {
     const currentUser = req.currentUser.id;
-    const { userId } = req.params;
-
-    if (currentUser != userId) {
-      return res.status(400).json({ statuscode: 400, message: 'This is not your favorite' });
-    }
     favorite.findAndCountAll({
       where: {
-        userId,
+        userId: currentUser
       },
       include: [{
         model: recipe,
@@ -136,7 +129,7 @@ export default class Favorite {
         offset = limit * (page - 1);
         favorite.findAll({
           where: {
-            userId,
+            userId: currentUser,
           },
           limit,
           offset,
@@ -167,10 +160,9 @@ export default class Favorite {
     return this;
   }
   /**
- *@description delete favorite
+ * @description delete favorite
  *
  * @param {Object} req - HTTP Request
- *
  * @param {Object} res - HTTP Response
  *
  * @memberof Favorite
@@ -206,7 +198,6 @@ export default class Favorite {
  * @description check if recipe has been favorited
  *
  * @param {any} req - HTTP Request
- *
  * @param {any} res - HTTP Response
  *
  * @memberof Favorite

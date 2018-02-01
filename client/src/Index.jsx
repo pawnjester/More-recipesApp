@@ -1,5 +1,4 @@
 import React from 'react';
-import 'babel-polyfill';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { render } from 'react-dom';
@@ -23,8 +22,14 @@ const store = createStore(
 );
 
 if (localStorage.jwtToken) {
-  setAuthorizationToken(localStorage.jwtToken);
-  store.dispatch(setCurrentUser(jwtDecode(localStorage.jwtToken)));
+  const decodedToken = jwtDecode(localStorage.jwtToken);
+  const hasExpired = decodedToken.exp - (Date.now() / 1000) < 0;
+  if (!hasExpired) {
+    setAuthorizationToken(localStorage.jwtToken);
+    store.dispatch(setCurrentUser(jwtDecode(localStorage.jwtToken)));
+  } else {
+    localStorage.removeItem('jwtToken');
+  }
 }
 
 

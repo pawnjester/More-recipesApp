@@ -48,7 +48,7 @@ class ChangePasswordForm extends Component {
             <h4 className="black text-center mt-5">Change Your Password</h4>
             <section className="pt-4 input-group">
               <span className="input-group-addon">
-                <i className="fa fa-lock" aria-hidden="true"></i>
+                <i className="fa fa-lock black" aria-hidden="true"></i>
               </span>
               <input
                 name="oldPassword"
@@ -61,7 +61,7 @@ class ChangePasswordForm extends Component {
             </section>
             <section className="pt-4 pb-3 input-group">
               <span className="input-group-addon">
-                <i className="fa fa-lock" aria-hidden="true"></i>
+                <i className="fa fa-lock black" aria-hidden="true"></i>
               </span>
               <input
                 name="password"
@@ -69,12 +69,12 @@ class ChangePasswordForm extends Component {
                 type="password"
                 value={this.state.password}
                 onChange={this.onNameChange}
-                placeholder="New Password"
+                placeholder="Enter a new Password"
               />
             </section>
             <div className="pt-2">
               <button
-                className="btn btn-block text-capitalize"
+                className="btn btn-block text-capitalize password-color"
                 onClick={this.onSubmit}
               >
                 change Password

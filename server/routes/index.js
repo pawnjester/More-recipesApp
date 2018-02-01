@@ -16,9 +16,10 @@ const voteController = new Vote();
 
 const router = express.Router();
 
-router.get('/', authenticate, recipeController.getRecipes);
+router.get('/', recipeController.getRecipes, recipeController.getTopRecipes, recipeController.getRecipesBySearch);
 router.post('/', authenticate, Validation.addRecipeValidation, recipeController.addRecipe);
 router.get('/checkfavoriteId', authenticate, favoriteController.checkFavoritedId);
+router.get('/favorite', authenticate, favoriteController.getAllFavorite);
 router.put('/:recipeId', authenticate, Validation.recipeId, Validation.editRecipeValidation, recipeController.modifyRecipe);
 router.delete('/:recipeId', authenticate, Validation.recipeId, recipeController.deleteRecipe);
 router.get('/userRecipe', authenticate, recipeController.getUserRecipe);
@@ -29,7 +30,6 @@ router.get('/:recipeId/reviews', authenticate, Validation.recipeId, reviewContro
 router.delete('/:reviewId/reviews', authenticate, Validation.reviewId, reviewController.deleteReview);
 router.post('/:recipeId/favorite', authenticate, Validation.recipeId, favoriteController.addFavorite);
 router.delete('/:favoriteId/favorite', authenticate, Validation.favoriteId, favoriteController.deleteFavorite);
-router.get('/:userId/favorite', authenticate, Validation.userId, favoriteController.getAllFavorite);
 router.post('/:recipeId/upvote', Validation.recipeId, authenticate, voteController.upvote);
 router.post('/:recipeId/downvote', Validation.recipeId, authenticate, voteController.downvote);
 

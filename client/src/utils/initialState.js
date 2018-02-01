@@ -1,5 +1,6 @@
 export default {
   recipes: [],
+  searchResults: [],
   totalContent: 1,
   upvotedRecipes: [],
   mostFavorites: {},

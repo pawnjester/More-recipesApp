@@ -2,12 +2,12 @@ import axios from 'axios';
 import { GET_UPVOTED_RECIPES_FAILURE, GET_UPVOTED_RECIPES_SUCCESS } from './types';
 
 
-const getUpvotedRecipesSuccess = upvotedRecipes => ({
+export const getUpvotedRecipesSuccess = upvotedRecipes => ({
   type: GET_UPVOTED_RECIPES_SUCCESS,
   upvotedRecipes,
 });
 
-const getUpvotedRecipesFailure = error => ({
+export const getUpvotedRecipesFailure = error => ({
   type: GET_UPVOTED_RECIPES_FAILURE,
   error,
 });

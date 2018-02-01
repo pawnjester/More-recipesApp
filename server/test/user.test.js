@@ -1,6 +1,7 @@
 import expect from 'expect';
 import request from 'supertest';
 import models from './../models';
+import mailer from '../helper/mailer';
 import app from '../app';
 import { seedUsers } from './seed/seed';
 
@@ -16,8 +17,6 @@ describe('More Recipes', () => {
         .get('/6^6fDF')
         .expect(404)
         .end((err, res) => {
-        // res.should.have.status(404);
-        // res.body.should.have.property('ERROR').eql('404: Sorry Page Not Found!');
           done();
         });
     });
@@ -31,10 +30,9 @@ describe('More Recipes', () => {
           if (err) {
             return done(err);
           }
-          expect(res.body.user.id).toExist;
-          expect(res.body.user.username).toBe('user111');
-          expect(res.body.user.email).toBe('user111@example.com');
-          expect(res.token).toExist;
+          expect(res.body.foundUser.id).toExist;
+          expect(res.body.foundUser.username).toBe('user111');
+          expect(res.body.foundUser.email).toBe('user111@example.com');
           done();
         });
     });
@@ -180,6 +178,7 @@ describe('More Recipes', () => {
           }
           token = res.body.token;
           expect(res.body.userFound.id).toExist;
+          expect(res.body.userFound.username).toBe('user111');
           expect(res.body.userFound.username).toExist;
           expect(res.body.userFound.email).toExist;
           expect(token).toExist;
@@ -285,17 +284,19 @@ describe('More Recipes', () => {
         });
     });
 
-    // it('it should send mail if check users', (done) => {
-    //   request(app)
-    //     .post('/api/v1/users/reset-password')
-    //     .send(seedUsers.userOne.email)
-    //     .end((err, res) => {
-    //       if (err) {
-    //         return done(err);
-    //       }
-    //       expect
-    //     });
-    // });
+    it('should not return a message when registered user resets password', (done) => {
+      request(app)
+        .post('/api/v1/users/verify-user')
+        .send(seedUsers.userOne)
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('Recovery link sent to your mail');
+          done();
+        });
+    });
   });
   describe('Profile', () => {
     it('should edit profile details', (done) => {
@@ -321,14 +322,14 @@ describe('More Recipes', () => {
       request(app)
         .put('/api/v1/users/update-profile')
         .send({
-          username: 'charlesssyyyu',
-          email: 'destikjjny@gmail.com',
+          email: 'yoyo@example.com',
         })
+        .set('x-access-token', token)
         .end((err, res) => {
           if (err) {
             return done(err);
           }
-          expect(404);
+          expect(500);
           done();
         });
     });
@@ -449,6 +450,27 @@ describe('More Recipes', () => {
           expect(res.body.error).toBe('Invalid password');
         });
       done();
+    });
+  });
+
+  describe('Catch block in ', () => {
+    it('should return 500 for recovery email not sent', (done) => {
+      mailer.sendMail = () => Promise.reject(1);
+      const email = 'user111@example.com';
+      request(app)
+        .put('/api/v1/users/reset-password')
+        .set('x-access-token', token)
+        .send({
+          email
+        })
+        .expect(403)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body.message).toBe('You`re unauthorized to perform this action');
+          done();
+        });
     });
 
 

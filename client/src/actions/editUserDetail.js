@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { EDIT_USER_DETAILS_SUCCESS, EDIT_USER_DETAILS_FAILURE } from './types';
 
-const editUserDetailSuccess = editedUser => ({
+export const editUserDetailSuccess = editedUser => ({
   type: EDIT_USER_DETAILS_SUCCESS,
   editedUser,
 });
 
-const editUserDetailFailure = error => ({
+export const editUserDetailFailure = error => ({
   type: EDIT_USER_DETAILS_FAILURE,
   error,
 });

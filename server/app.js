@@ -45,8 +45,8 @@ app.get('/*', (req, res) => {
 });
 
 app.use((req, res, next) => {
-  const err = res.status(404).send({
-    ERROR: '404: Sorry Page Not Found!',
+  const err = res.status(404).json({
+    error: '404: Sorry Page Not Found!',
   });
   next(err);
 });
