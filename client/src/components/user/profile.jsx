@@ -73,7 +73,7 @@ class Profile extends Component {
           <div className="dark">
             <div className="container ">
               <div className="row profile">
-                <div className="col-md-5 col-sm-12 col-xs-12">
+                <div className="col-md-5 col-sm-12 col-xs-12 mobile">
                   <div className="profile-sidebar">
                     <div className="profile-user-pic">
                       <img src={detail.profileImg || '/food1.jpg'} alt="" className="img-fluid img-circle mx-auto d-block" />
@@ -87,7 +87,7 @@ class Profile extends Component {
                       </div>
                     </div>
                     <div className="profile-user-buttons">
-                      <button className="btn btn-danger btn-md" onClick={this.toggle} styles="cursor:pointer"> <i className="fa fa-pencil" aria-hidden="true" /> Edit</button>
+                      <button className="btn btn-danger btn-md" onClick={this.toggle} styles="cursor:pointer"> <i className="fa fa-pencil pen" aria-hidden="true" /> Edit</button>
                       <EditUserModal
                         editUser={detail}
                         isOpen={this.state.modal}
@@ -103,7 +103,7 @@ class Profile extends Component {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-7">
+                <div className="col-md-7 col-sm-12 col-xs-12 mobile">
                   <div className="card card-mix" >
                     <div className="card-body">
                       <table className="table table-borderless mt-3">

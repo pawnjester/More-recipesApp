@@ -168,7 +168,7 @@ class RecipePage extends Component {
           </div>
           <hr />
           <div className="row high">
-            {recipeList && recipeList.length === 0 &&
+            {/* {recipeList && recipeList.length === 0 &&
               (<h4 className="mt-5 text-center no-recipes"> No recipes yet </h4>)}
             {this.state.loading ?
               <Loader Loading={this.state.loading} /> :
@@ -179,7 +179,19 @@ class RecipePage extends Component {
                   key={recipe.id}
                   deleteRecipe={this.onDeleteRecipe}
                   getAllRecipes={this.props.getRecipes}
-                />))}
+                />))} */}
+            {/* {recipeList && recipeList.length === 0 &&
+              (<h4 className="mt-5 text-center no-recipes"> No recipes yet </h4>)} */}
+            {this.state.loading ?
+              <Loader Loading={this.state.loading} /> :
+              recipeList.length > 0 ?
+              recipeList.map(recipe =>
+                (<Recipe
+                  recipe={recipe}
+                  key={recipe.id}
+                  deleteRecipe={this.onDeleteRecipe}
+                  getAllRecipes={this.props.getRecipes}
+                />)) : (<h4 className="mt-5 text-center no-recipes"> No recipes yet </h4>)}
 
           </div>
         </div>

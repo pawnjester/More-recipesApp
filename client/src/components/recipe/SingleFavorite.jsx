@@ -50,7 +50,6 @@ class SingleFavorite extends Component {
       height: 200,
     };
     const { recipe } = this.props;
-    console.log(typeof (recipe));
     return (
       <div className="col-md-4 col-xs-4 hvr-bob">
         <div className="card">
@@ -76,6 +75,7 @@ class SingleFavorite extends Component {
 
 SingleFavorite.propTypes = {
   deleteFavorite: PropTypes.func.isRequired,
-  recipe: PropTypes.objectOf(PropTypes.any).isRequired
+  recipe: PropTypes.objectOf(PropTypes.any).isRequired,
+  favoriteId: PropTypes.number.isRequired
 };
 export default SingleFavorite;

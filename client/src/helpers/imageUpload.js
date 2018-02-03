@@ -5,7 +5,10 @@ import superagentPromise from 'superagent-promise';
 const agent = superagentPromise(superagent, Promise);
 
 /**
+ * @description upload function
+ *
  * @param {string} images
+ *
  * @returns {null} description
  */
 const uploadImage = (images) => {

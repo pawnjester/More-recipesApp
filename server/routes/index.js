@@ -18,7 +18,6 @@ const router = express.Router();
 
 router.get('/', recipeController.getRecipes, recipeController.getTopRecipes, recipeController.getRecipesBySearch);
 router.post('/', authenticate, Validation.addRecipeValidation, recipeController.addRecipe);
-router.get('/checkfavoriteId', authenticate, favoriteController.checkFavoritedId);
 router.get('/favorite', authenticate, favoriteController.getAllFavorite);
 router.put('/:recipeId', authenticate, Validation.recipeId, Validation.editRecipeValidation, recipeController.modifyRecipe);
 router.delete('/:recipeId', authenticate, Validation.recipeId, recipeController.deleteRecipe);

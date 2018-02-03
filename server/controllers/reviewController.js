@@ -44,7 +44,9 @@ class Reviews {
               model: review,
               attributes: ['id', 'data', 'createdAt'],
               include: [
-                { model: user, atrributes: ['username', 'profileImg'] },
+                {
+                  model: user,
+                  atrributes: ['username', 'profileImg'] },
               ],
             },
 
@@ -120,7 +122,7 @@ class Reviews {
     })
       .then((response) => {
         if (!response) {
-          return res.status(406).json({ statusCode: 406, error: `Recipe not found with ${recipeId}` });
+          return res.status(400).json({ statusCode: 400, error: `Recipe not found with ${recipeId}` });
         }
         review.findAll({
           where: {

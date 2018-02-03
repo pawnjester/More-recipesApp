@@ -25,7 +25,7 @@ class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      identifier: '',
       password: '',
       errors: {},
       isLoading: false,
@@ -104,35 +104,39 @@ class LoginForm extends React.Component {
   render() {
     const { errors } = this.state;
     return (
-      <form onSubmit={this.onSubmit}>
-        {errors.message && <div className="alert alert-danger">{errors.message}</div>}
-        <TextFieldGroup
-          error={errors.username || errors.errorname}
-          onChange={this.onChange}
-          value={this.state.username}
-          field="username"
-          placeholder="username"
-          autofocus
-          required
-        />
+      <div>
+        <form onSubmit={this.onSubmit}>
+          {errors.message && <div className="alert alert-danger">{errors.message}</div>}
+          <TextFieldGroup
+            error={errors.identifier || errors.errorname}
+            onChange={this.onChange}
+            value={this.state.identifier}
+            field="identifier"
+            placeholder="enter your username or email"
+            autofocus
+            required
+          />
 
-        <TextFieldGroup
-          error={errors.password}
-          onChange={this.onChange}
-          value={this.state.password}
-          field="password"
-          placeholder="password"
-          type="password"
-        />
-        <input
-          disabled={this.state.isLoading}
-          type="submit"
-          value="Submit"
-          className="btn btn-outline-danger btn-block text-dark"
-        />
-        <Link to="/reset_password" className="forgot mt-5">Forgot Password?</Link>
-      </form>
-
+          <TextFieldGroup
+            error={errors.password}
+            onChange={this.onChange}
+            value={this.state.password}
+            field="password"
+            placeholder="password"
+            type="password"
+          />
+          <input
+            disabled={this.state.isLoading}
+            type="submit"
+            value="Submit"
+            className="btn btn-outline-danger btn-block text-dark"
+          />
+          <div>
+            <Link to="/reset_password" className="forgot mt-5">Forgot Password?</Link><br />
+            <Link to="/" className="mt-5">Sign Up</Link>
+          </div>
+        </form>
+      </div>
     );
   }
 }

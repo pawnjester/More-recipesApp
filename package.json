@@ -9,12 +9,12 @@
     "start": "node dist/app.js",
     "start:dev": "nodemon --exec babel-node server/app.js",
     "sequelize": "sequelize",
-    "test": "nyc --reporter=html --reporter=text mocha ./server/test/index.js  --timeout 15000 --compilers js:babel-register",
-    "test:dev": "./node_modules/.bin/mocha --timeout 15000 --compilers js:babel-core/register server/test/index.js",
+    "test": "nyc --reporter=html --reporter=text mocha ./server/test/  --timeout 15000 --compilers js:babel-register",
+    "test:dev": "./node_modules/.bin/mocha --timeout 15000 --compilers js:babel-core/register server/test/",
     "watch": "webpack --config webpack.config.dev.js --watch",
     "heroku-postbuild": "npm run build:client && npm run build:server",
-    "build:client": "webpack --config webpack.config.prod.js",
-    "build:server": "babel ./server -d ./dist",
+    "build:client": "rm -rf build && webpack --config webpack.config.prod.js",
+    "build:server": "rm -rf dist && babel ./server -d ./dist",
     "test:client": "NODE_ENV=jest jest ./client/test/*/*.spec.js --coverage --collectCoverageFrom=client/**/*.{js,jsx}"
   },
   "jest": {
@@ -23,8 +23,7 @@
     "setupFiles": [
       "./setup.js"
     ],
-    "modulePathIgnorePatterns": [
-    ],
+    "modulePathIgnorePatterns": [],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/assetsTransformer.js",
       "\\.(css|less)$": "<rootDir>/assetsTransformer.js"
@@ -101,6 +100,7 @@
     "react-dom": "^16.0.0",
     "react-dropzone": "^4.2.1",
     "react-hot-loader": "^3.0.0",
+    "react-infinite-scroll": "^0.1.5",
     "react-paginate": "^5.0.0",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",

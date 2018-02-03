@@ -33,7 +33,7 @@ describe('getAllRecipeDetailAction', () => {
     const expectedAction = [
       {
         type: types.GET_RECIPE_DETAIL_SUCCESS,
-        detail: { id: '2', name: 'farmhouse', ingredients: 'beans and tomatoes' }
+        detail: { singleRecipe: { id: '2', name: 'farmhouse', ingredients: 'beans and tomatoes' }}
       }
     ];
 

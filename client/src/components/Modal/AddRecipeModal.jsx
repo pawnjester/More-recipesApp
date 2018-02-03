@@ -85,6 +85,7 @@ class AddRecipeModal extends Component {
             method: '',
             imageUrl: '',
             cookingTime: '',
+            status: ''
           });
           toastr.success('Recipe added');
           this.props.toggle();
@@ -172,12 +173,14 @@ class AddRecipeModal extends Component {
                   style={{ height: 150 }}
                 />
                 {errors.ingredients && <small style={{ color: '#A43741' }}>{errors.ingredients}</small>}
+                <small style={{ color: 'red' }} className="text-center"> Enter the description seperated by commas(,)</small>
+
               </Col>
             </FormGroup>
-
             <FormGroup row>
               <Label for="exampleEmail" sm={3}>method</Label>
               <Col sm={9}>
+
                 <Input
                   type="textarea"
                   name="method"
@@ -187,6 +190,8 @@ class AddRecipeModal extends Component {
                   placeholder="Enter the description"
                   style={{ height: 150 }}
                 />
+                <small style={{ color: 'red' }} className="text-center"> Enter the description seperated by full-stop(.)</small>
+
                 {errors.method && <small style={{ color: '#A43741' }}>{errors.method}</small>}
               </Col>
             </FormGroup>

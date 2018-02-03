@@ -31,8 +31,7 @@ class EditUserModal extends Component {
     super(props);
 
     this.state = {
-      username: '',
-      email: '',
+      identifier: '',
       profileImg: '',
       status: '',
     };
@@ -116,25 +115,11 @@ class EditUserModal extends Component {
               <Col sm={8}>
                 <Input
                   type="text"
-                  name="username"
+                  name="identifier"
                   id="exampleEmail"
-                  value={this.state.username}
+                  value={this.state.identifier}
                   onChange={this.onNameChange}
-                  placeholder="Enter the name"
-                />
-              </Col>
-            </FormGroup>
-
-            <FormGroup row>
-              <Label for="exampleEmail" sm={4}>email</Label>
-              <Col sm={8}>
-                <Input
-                  type="text"
-                  name="email"
-                  id="exampleEmail"
-                  value={this.state.email}
-                  onChange={this.onNameChange}
-                  placeholder="Enter the email"
+                  placeholder="Enter the username"
                 />
               </Col>
             </FormGroup>

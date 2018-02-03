@@ -79,18 +79,18 @@ export default class User {
    * @returns {object} Class instance
    */
   signIn(req, res) {
-    const { email, username } = req.body;
+    const { identifier } = req.body;
     user.findOne({
       where: {
         $or: [
           {
             username: {
-              $iLike: username,
+              $iLike: identifier,
             },
           },
           {
             email: {
-              $iLike: email,
+              $iLike: identifier,
             },
           },
         ],
@@ -174,10 +174,10 @@ export default class User {
           where: {
             $or: [
               {
-                username: req.body.username,
+                username: req.body.identifier,
               },
               {
-                email: req.body.email,
+                profileImg: req.body.profileImg,
               }
             ]
           }
@@ -186,12 +186,11 @@ export default class User {
             return res.status(409)
               .json({
                 statusCode: 409,
-                error: 'Username or email already taken'
+                error: 'Username already taken'
               });
           }
           return userFound.update({
-            username: req.body.username || userFound.name,
-            email: req.body.email || userFound.email,
+            username: req.body.identifier || userFound.identifier,
             profileImg: req.body.profileImg || userFound.profileImg,
           }).then(() => res.status(201).json({ statusCode: 201, userFound }));
         });

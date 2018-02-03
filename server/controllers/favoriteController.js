@@ -194,33 +194,4 @@ export default class Favorite {
       .catch(() => res.status(500).json({ statusCode: 500, error: 'Error deleting Favorite recipe' }));
     return this;
   }
-  /**
- * @description check if recipe has been favorited
- *
- * @param {any} req - HTTP Request
- * @param {any} res - HTTP Response
- *
- * @memberof Favorite
- *
- * @returns {object} Class instance
- */
-  checkFavoritedId(req, res) {
-    const { currentUser } = req;
-    favorite.findAll({
-      where: {
-        userId: currentUser.id
-      }
-    }).then((recipes) => {
-      const recipeIds = [];
-      recipes.map(item => recipeIds.push(item.recipeId));
-      res.status(200).json({
-        message: 'favorite recipes fetched successfully',
-        recipeIds
-      });
-    })
-      .catch(() => {
-        res.status(500).json({ message: 'Error occured while fetching favorite recipes' });
-      });
-    return this;
-  }
 }

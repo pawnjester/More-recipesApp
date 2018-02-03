@@ -80,7 +80,6 @@ class FavoriteRecipe extends Component {
     const favoriteRecipe = this.props.favoriteRecipe.userFavorite ?
       this.props.favoriteRecipe.userFavorite : [];
     const pageCount = this.props.favoriteRecipe.Pages;
-    console.log( typeof (favoriteRecipe))
     return (
       <div>
         <NavigationBar search="true" />
@@ -127,7 +126,7 @@ class FavoriteRecipe extends Component {
 
 FavoriteRecipe.propTypes = {
   getFavoriteRecipe: PropTypes.func.isRequired,
-  favoriteRecipe: PropTypes.arrayOf(PropTypes.any).isRequired,
+  favoriteRecipe: PropTypes.objectOf(PropTypes.object).isRequired,
   deleteFavorite: PropTypes.func.isRequired,
 };
 

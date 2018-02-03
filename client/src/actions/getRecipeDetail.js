@@ -15,7 +15,7 @@ export const getRecipeDetailFailure = error => ({
 const getRecipeDetail = recipeId => dispatch => axios
   .get(`/api/v1/recipes/${recipeId}`)
   .then((response) => {
-    dispatch(getRecipeDetailSuccess(response.data.singleRecipe));
+    dispatch(getRecipeDetailSuccess(response.data));
   })
   .catch((error) => {
     if (error.response.status === 404) {

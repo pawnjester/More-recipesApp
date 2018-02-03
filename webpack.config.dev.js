@@ -7,12 +7,12 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: './client/public/index.html',
   filename: 'index.html',
   inject: 'body',
-  minify: {
-    collapseWhitespace: true,
-    collapseInlineTageWhitespace: true,
-    removeComments: true,
-    removeRedundantAttributes: true
-  }
+  // minify: {
+  //   collapseWhitespace: true,
+  //   collapseInlineTageWhitespace: true,
+  //   removeComments: true,
+  //   removeRedundantAttributes: true
+  // }
 });
 
 

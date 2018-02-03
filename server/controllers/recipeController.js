@@ -3,6 +3,7 @@ import models from '../models';
 const recipe = models.Recipe;
 const review = models.Review;
 const user = models.User;
+const favorite = models.Favorite;
 /**
  *
  *
@@ -236,8 +237,8 @@ export class Recipes {
         if (!orderedRecipe) {
           return res.status(400).json({ statusCode: 400, message: 'No recipe found' });
         }
-        return res.status(201).json({
-          statusCode: 201,
+        return res.status(200).json({
+          statusCode: 200,
           message: 'Recipe(s) found',
           recipe: orderedRecipe,
         });
@@ -265,7 +266,7 @@ export class Recipes {
     recipe.findAll({
       where: {
         $or:
-        ingredientsResp.concat(respName),
+          ingredientsResp.concat(respName),
       },
       order: [
         ['id', 'ASC'],
@@ -320,6 +321,7 @@ export class Recipes {
    * @returns {object} Class instance
    */
   getRecipeById({ params: { recipeId }, currentUser }, res) {
+    let ifFavorite = false;
     recipe.findOne({
       where: { id: recipeId },
       include: [
@@ -328,8 +330,19 @@ export class Recipes {
           model: review,
           attributes: ['id', 'data', 'createdAt'],
           include: [
-            { model: user, atrributes: ['username', 'profileImg'] },
+            {
+              model: user,
+              atrributes: ['username', 'email', 'profileImg']
+            },
           ],
+        },
+        {
+          model: favorite,
+          required: false,
+          where: {
+            userId: currentUser.id,
+            recipeId
+          }
         },
       ],
     })
@@ -344,7 +357,19 @@ export class Recipes {
           singleRecipe
             .update({ viewCount: singleRecipe.viewCount + 1 });
         }
-        return res.status(200).json({ statusCode: 200, message: `Recipe with id: ${recipeId} was found`, singleRecipe });
+        favorite.findOne({
+          where: {
+            recipeId,
+            userId: currentUser.id
+          }
+        }).then((favoriteFound) => {
+          if (favoriteFound) {
+            ifFavorite = true;
+          }
+          return res.status(200).json({
+            statusCode: 200, message: `Recipe with id: ${recipeId} was found`, singleRecipe, ifFavorite
+          });
+        });
       })
       .catch(() => {
         res.status(500).json({ error: 'Error getting recipe' });

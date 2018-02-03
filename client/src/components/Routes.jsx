@@ -24,7 +24,6 @@ const Routes = () => (
 
     <Switch>
       <Route exact path="/" component={Home} />
-      <Route path="/signup" component={SignUp} />
       <Route path="/signin" component={LoginPage} />
       <Route path="/recipes" component={requireAuth(RecipePage)} />
       <Route path="/detail/:recipeId" component={requireAuth(Detail)} />

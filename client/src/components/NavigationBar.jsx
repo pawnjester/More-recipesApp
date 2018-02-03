@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../actions/loginActions';
 import getUserDetail from '../actions/getUserDetail';
-import SearchBar from './searchBar';
+import SearchBar from './SearchBar';
 /**
  * @description Navigation Bar
  *
@@ -115,6 +115,7 @@ class NavigationBar extends React.Component {
 NavigationBar.propTypes = {
   auth: PropTypes.objectOf(PropTypes.any).isRequired,
   logout: PropTypes.func.isRequired,
+  getUserDetail: PropTypes.func.isRequired
 };
 
 

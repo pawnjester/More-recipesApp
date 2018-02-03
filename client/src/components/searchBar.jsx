@@ -62,11 +62,12 @@ class searchBar extends Component {
             className=" mr-sm-2"
             type="text"
             name="search"
-            placeholder="Search"
+            placeholder="Search recipes...."
             aria-label="Search"
             onChange={this.onChange}
             value={this.state.search}
             onFocus={this.onFocus}
+            style={{ width: 320 }}
           />
         </form>
       </div>
