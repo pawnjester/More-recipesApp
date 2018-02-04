@@ -61,7 +61,7 @@ describe('Reviews', () => {
         .set('x-access-token', token)
         .send(fakeData.reviews)
         .end((err, res) => {
-          // res.should.have.status(201);
+          res.should.have.status(201);
           res.body.should.have.property('message').equal('Your review has been added');
           done();
         });
