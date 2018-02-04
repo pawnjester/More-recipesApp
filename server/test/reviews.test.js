@@ -89,23 +89,23 @@ describe('Reviews', () => {
           done();
         });
     });
-    it('should get delete a review', (done) => {
+    it('should delete a non existent review', (done) => {
+      chai.request(app)
+        .delete('/api/v1/recipes/17/reviews')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.have.property('error').equal('Review not found with id : 17');
+          done();
+        });
+    });
+    it('should delete a review', (done) => {
       chai.request(app)
         .delete('/api/v1/recipes/1/reviews')
         .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('message').equal('This review has been deleted');
-          done();
-        });
-    });
-    it('should get delete a non existent review', (done) => {
-      chai.request(app)
-        .delete('/api/v1/recipes/1/reviews')
-        .set('x-access-token', token)
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.have.property('error').equal('Review not found with id : 1');
           done();
         });
     });
