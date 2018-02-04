@@ -76,7 +76,7 @@ const mailer = (name, reviewer, email, review, recipeName, res) => {
     if (error) {
       return res.status(500).json({ error: 'Unable to send mail' });
     }
-    return res.status(200).json({ message: 'Recovery link sent to your mail' });
+    return res.json({ message: 'Recovery link sent to your mail' });
   });
 };
 
