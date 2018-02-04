@@ -91,7 +91,7 @@ describe('Reviews', () => {
     });
     it('should delete a non existent review', (done) => {
       chai.request(app)
-        .delete('/api/v1/recipes/1/reviews')
+        .delete('/api/v1/recipes/17/reviews')
         .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(400);
