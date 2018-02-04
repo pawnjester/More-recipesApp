@@ -1,456 +1,275 @@
-import expect from 'expect';
-import request from 'supertest';
-import models from './../models';
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import fakeData from './seed/seed';
 import app from '../app';
-import { seedUsers } from './seed/seed';
+import db from '../models';
 
-export let token;
-export const token2 = 'kjsdkjdfskjdfsklkjdsjkdskkjl.sdjkdskjksd';
+chai.should();
+const expect = chai.expect;
+chai.use(chaiHttp);
+let token;
 
-describe('More Recipes', () => {
-  before(() => models.sequelize.sync({ force: true }));
+describe('User', () => {
+  before((done) => {
+    chai.request(app).post('/api/v1/users/signup')
+      .send(fakeData.newUser)
+      .end((err, res) => {
+        res.should.have.status(201);
+        chai.request(app)
+          .post('/api/v1/users/signin')
+          .send(fakeData.signedInUser2)
+          .end((err, res) => {
+            res.body.should.be.a('object');
+            done();
+          });
+      });
+  });
+  after(() => db.User.destroy({
+    cascade: true,
+    truncate: true,
+    restartIdentity: true
+  }));
+  it('should create a new User', (done) => {
+    chai.request(app).post('/api/v1/users/signup')
+      .send(fakeData.signupUser)
+      .end((err, res) => {
+        res.should.have.status(201);
+        done();
+      });
+  });
+  it('should not create user with details that exists already', (done) => {
+    chai.request(app).post('/api/v1/users/signup')
+      .send(fakeData.newUser)
+      .end((err, res) => {
+        res.should.be.a('object');
+        res.body.should.have.property('statusCode').equal(409);
+        res.body.should.have.property('error').equal('Username or email is already in use');
+        done();
+      });
+  });
+  it('should not create User with invalid email', (done) => {
+    chai
+      .request(app)
+      .post('/api/v1/users/signup')
+      .send(fakeData.noEmailInput)
+      .end((err, res) => {
+        res.body.should.have.property('error').equal('You need to fill in your email');
+        res.should.have.status(406);
+        done();
+      });
+  });
+  it('should check if email address is supplied', (done) => {
+    chai.request(app).post('/api/v1/users/signup')
+      .send(fakeData.noEmailInput)
+      .end((err, res) => {
+        res.should.have.status(406);
+        res.body.should.have
+          .property('error')
+          .equal('You need to fill in your email');
+        done();
+      });
+  });
+  it('should check if password is supplied', (done) => {
+    chai.request(app).post('/api/v1/users/signup')
+      .send(fakeData.noPasswordSignupInput)
+      .end((err, res) => {
+        res.should.have.status(406);
+        res.body.should.have
+          .property('error')
+          .equal('You need to fill in the password');
+        done();
+      });
+  });
+  it('should check if password is less than 6 characters', (done) => {
+    chai.request(app).post('/api/v1/users/signup')
+      .send(fakeData.lenPasswordShort)
+      .end((err, res) => {
+        res.should.have.status(406);
+        res.body.should.have
+          .property('error')
+          .equal('You need to fill in a password with a minimum length of 6');
+        done();
+      });
+  });
 
-  describe('Can signup/signin', () => {
-    it('shoud return a 404 if there is a wrong route', (done) => {
-      request(app)
-        .get('/6^6fDF')
-        .expect(404)
+  it('should not allow unregistered sign in', (done) => {
+    chai
+      .request(app)
+      .post('/api/v1/users/signin')
+      .send(fakeData.newUser2)
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.have.property('error')
+          .equal('Invalid credentials');
+        done();
+      });
+  });
+
+  it('should not let user sign in without password ', (done) => {
+    chai
+      .request(app)
+      .post('/api/v1/users/signin')
+      .send(fakeData.noPasswordInput)
+      .end((err, res) => {
+        res.should.have.status(406);
+        res.body.should.have.property('error')
+          .equal('Password field cannot be empty');
+        done();
+      });
+  });
+  it('should let user sign in', (done) => {
+    chai.request(app)
+      .post('/api/v1/users/signin')
+      .send(fakeData.signedInUser2)
+      .end((err, res) => {
+        res.body.should.be.a('object');
+        res.body.should.have.property('message')
+          .equal('Welcome back, tester');
+        expect(res.body.userFound.id).to.equal(1);
+        expect(res.body.userFound.username).to.equal('tester');
+        expect(res.body.userFound.email).to.equal('test@test.com');
+        done();
+      });
+  });
+  it('should check that email/username and password match', (done) => {
+    chai.request(app)
+      .post('/api/v1/users/signin')
+      .send(fakeData.signedInUser3)
+      .end((err, res) => {
+        res.body.should.be.a('object');
+        res.body.should.have.property('error')
+          .equal('Invalid credentials');
+        done();
+      });
+  });
+  it('should check that correct email/username is supplied', (done) => {
+    chai.request(app)
+      .post('/api/v1/users/signin')
+      .send(fakeData.signedInUser4)
+      .end((err, res) => {
+        res.body.should.be.a('object');
+        res.should.have.status(406);
+        res.body.should.have.property('error')
+          .equal('Email or username cannot be empty');
+        done();
+      });
+  });
+
+  describe('', () => {
+    before((done) => {
+      chai.request(app).post('/api/v1/users/signin')
+        .send(fakeData.signedInUser2)
         .end((err, res) => {
-        // res.should.have.status(404);
-        // res.body.should.have.property('ERROR').eql('404: Sorry Page Not Found!');
-          done();
-        });
-    });
-
-    it('shoud return 201 for creating a user', (done) => {
-      request(app)
-        .post('/api/v1/users/signup')
-        .send(seedUsers.userOne)
-        .expect(201)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.user.id).toExist;
-          expect(res.body.user.username).toBe('user111');
-          expect(res.body.user.email).toBe('user111@example.com');
-          expect(res.token).toExist;
-          done();
-        });
-    });
-
-    it('shoud return 409 for creating the user same twice', (done) => {
-      request(app)
-        .post('/api/v1/users/signup')
-        .send(seedUsers.userOne)
-        .expect(409)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.id).toNotExist;
-          expect(res.body.username).toNotExist;
-          expect(res.body.email).toNotExist;
-          expect(res.body.error).toBe('Username or email is already in use');
-          done();
-        });
-    });
-
-    it('shoud return 406 for incomplete details(username)', (done) => {
-      request(app)
-        .post('/api/v1/users/signup')
-        .send(seedUsers.userThree)
-        .expect(406)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.id).toNotExist;
-          expect(res.body.username).toNotExist;
-          expect(res.body.email).toNotExist;
-          expect(res.body.error).toEqual('You need to fill in your username with a minimum length of 6');
-          done();
-        });
-    });
-
-    it('shoud return 406 for no details', (done) => {
-      request(app)
-        .post('/api/v1/users/signup')
-        .send(seedUsers.userFour)
-        .expect(406)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.id).toNotExist;
-          expect(res.body.username).toNotExist;
-          expect(res.body.email).toNotExist;
-          expect(res.body.error).toEqual('Please fill in the required details');
-          done();
-        });
-    });
-
-    it('shoud return 406 for incomplete details(email)', (done) => {
-      request(app)
-        .post('/api/v1/users/signup')
-        .send(seedUsers.userFive)
-        .expect(406)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.id).toNotExist;
-          expect(res.body.username).toNotExist;
-          expect(res.body.email).toNotExist;
-          expect(res.body.error).toEqual('You need to fill in your email');
-          done();
-        });
-    });
-
-    it('shoud return 406 for wrong email format', (done) => {
-      request(app)
-        .post('/api/v1/users/signup')
-        .send(seedUsers.userSix)
-        .expect(406)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.id).toNotExist;
-          expect(res.body.username).toNotExist;
-          expect(res.body.email).toNotExist;
-          expect(res.body.error).toEqual('Invalid email address!');
-          done();
-        });
-    });
-
-    it('shoud return 406 for incomplete details(password)', (done) => {
-      request(app)
-        .post('/api/v1/users/signup')
-        .send(seedUsers.userSeven)
-        .expect(406)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.id).toNotExist;
-          expect(res.body.username).toNotExist;
-          expect(res.body.email).toNotExist;
-          expect(res.body.error).toEqual('You need to fill in the password');
-          done();
-        });
-    });
-
-    it('should return 422 when user signs up with a password with whiteSpaces', (done) => {
-      request(app)
-        .post('/api/v1/users/signup')
-        .send(seedUsers.userTen)
-        .expect(422)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.error).toBe('Password cannot contain spaces');
-          done();
-        });
-    });
-
-    it('should return 422 if a user sign up with a password less than six', (done) => {
-      request(app)
-        .post('/api/v1/users/signup')
-        .send(seedUsers.userEleven)
-        .expect(422)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.error).toBe('You need to fill in a password with a minimum length of 6');
-          done();
-        });
-    });
-
-    it('shoud sign in a user', (done) => {
-      request(app)
-        .post('/api/v1/users/signin')
-        .send(seedUsers.userOne)
-        .expect(200)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
           token = res.body.token;
-          expect(res.body.userFound.id).toExist;
-          expect(res.body.userFound.username).toExist;
-          expect(res.body.userFound.email).toExist;
-          expect(token).toExist;
           done();
         });
     });
-
-    it('shoud not sign in a user with wrong password', (done) => {
-      request(app)
-        .post('/api/v1/users/signin')
-        .send(seedUsers.usertwelve)
-        .expect(401)
+    it('should not update user profile with taken username', (done) => {
+      chai.request(app)
+        .put('/api/v1/users/update-profile')
+        .send(fakeData.notupdateProfile)
+        .set('x-access-token', token)
+        .end((err, res)=> {
+          res.should.have.status(409);
+          expect(res.body.error).to.equal('Username already taken');
+          done();
+        })
+    })
+    it('should be able to update profile', (done) => {
+      chai.request(app)
+        .put('/api/v1/users/update-profile')
+        .send(fakeData.updateProfile)
+        .set('x-access-token', token)
         .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.error).toBe('Invalid credentials');
+          expect(res.body.userFound.username).to.equal('flavoour');
+          expect(res.body.userFound.profileImg).to.equal('https://res.cloudinary.com/donut/image/upload/v1516811745/Photo_on_15-12-2017_at_11.18_alidfo.jpg');
           done();
         });
     });
-
-    it('shoud not sign in a user with incomplete user(username)', (done) => {
-      request(app)
-        .post('/api/v1/users/signin')
-        .send(seedUsers.userEight)
-        .expect(406)
+    it('should not allow unauthorized user to view profile', (done) => {
+      chai.request(app)
+        .put('/api/v1/users/update-profile')
         .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.id).toNotExist;
-          expect(res.body.username).toNotExist;
-          expect(res.body.error).toEqual('Email or username cannot be empty');
-          expect(res.token).toNotExist;
+          res.body.should.be.a('object');
+          res.should.have.status(401);
           done();
         });
     });
-
-    it('shoud not sign in a user with incomplete user(password)', (done) => {
-      request(app)
-        .post('/api/v1/users/signin')
-        .send(seedUsers.userNine)
-        .expect(406)
+    it('should not allow unauthorized user to current user details', (done) => {
+      chai.request(app)
+        .get('/api/v1/users/me')
+        .set('x-access-token', token)
         .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.id).toNotExist;
-          expect(res.body.username).toNotExist;
-          expect(res.body.error).toEqual('Password field cannot be empty');
-          expect(res.token).toNotExist;
+          res.body.should.be.a('object');
+          res.should.have.status(200);
           done();
         });
     });
-
-    it('shoud not sign in an unavailable user', (done) => {
-      request(app)
-        .post('/api/v1/users/signin')
-        .send(seedUsers.userTwo)
-        .expect(401)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.id).toNotExist;
-          expect(res.body.username).toNotExist;
-          expect(res.body.error).toEqual('Invalid credentials');
-          expect(res.token).toNotExist;
-          done();
-        });
-    });
-
-    it('shoud not return the user password back', (done) => {
-      request(app)
-        .post('/api/v1/users/signin')
-        .send(seedUsers.userOne)
-        .expect(200)
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.userFound.id).toExist;
-          expect(res.body.userFound.username).toBe('user111');
-          expect(res.body.userFound.password).toNotExist;
-          expect(res.token).toExist;
-          done();
-        });
-    });
-  });
-
-  describe('Can reset password', () => {
-    it('it should return 404 if no email registered', (done) => {
-      request(app)
+    it('should check email for resetting password', (done) => {
+      chai.request(app)
         .post('/api/v1/users/verify-user')
-        .send(seedUsers.userSeven)
-        .expect(404)
+        .send(fakeData.checkEmail)
+        .set('x-access-token', token)
         .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(res.body.error).toBe('User not found');
+          expect(res.body.message).to.equal('Recovery link sent to your mail');
+          done();
+        });
+    });
+    it('should return 404 if no email found in resetting password', (done) => {
+      chai.request(app)
+        .post('/api/v1/users/verify-user')
+        .send(fakeData.notCheckemail)
+        .set('x-access-token', token)
+        .end((err, res) => {
+          expect(res.body.error).to.equal('User not found');
           done();
         });
     });
 
-    // it('it should send mail if check users', (done) => {
-    //   request(app)
-    //     .post('/api/v1/users/reset-password')
-    //     .send(seedUsers.userOne.email)
-    //     .end((err, res) => {
-    //       if (err) {
-    //         return done(err);
-    //       }
-    //       expect
-    //     });
-    // });
-  });
-  describe('Profile', () => {
-    it('should edit profile details', (done) => {
-      request(app)
-        .put('/api/v1/users/update-profile')
-        .send({
-          username: 'charlesss',
-          email: 'destiny@gmail.com',
-        })
+    it('should return 403 for invalid token in reset password', (done) => {
+      chai.request(app)
+        .put('/api/v1/users/reset-password')
+        .send({ password: 'fodddyyy' })
         .set('x-access-token', token)
         .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(201);
-          expect(res.body.userFound.username).toBe('charlesss');
-          expect(res.body.userFound.email).toBe('destiny@gmail.com');
+          expect(res.body.message).to.equal('You`re unauthorized to perform this action');
+          done();
+        });
+    });
+    it('should return 400 for invalid password in change password', (done) => {
+      chai.request(app)
+        .put('/api/v1/users/change-password')
+        .send(fakeData.fakePasswordchange)
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.error).to.equal('Invalid password');
           done();
         });
     });
 
-    it('should not edit profile details', (done) => {
-      request(app)
-        .put('/api/v1/users/update-profile')
-        .send({
-          username: 'charlesssyyyu',
-          email: 'destikjjny@gmail.com',
-        })
+    it('should return for same password in change password', (done) => {
+      chai.request(app)
+        .put('/api/v1/users/change-password')
+        .send(fakeData.samePasswordChange)
+        .set('x-access-token', token)
         .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(404);
+          res.should.have.status(400);
+          expect(res.body.error).to.equal('New Password is the same as the old password');
           done();
         });
     });
 
-    it('should view the user details', (done) => {
-      request(app)
-        .get('/api/v1/users/me')
+    it('should change password', (done) => {
+      chai.request(app)
+        .put('/api/v1/users/change-password')
+        .send(fakeData.passwordChange)
         .set('x-access-token', token)
         .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(200);
-          expect(res.body.username).toBe('charlesss');
+          res.should.have.status(201);
+          expect(res.body.message).to.equal('Password changed');
           done();
         });
     });
-
-    it('should return 404 if no user profile', (done) => {
-      request(app)
-        .get('/api/v1/users/me')
-        .set('x-access-token', '')
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(401);
-          done();
-        });
-    });
-
-    it('should expect 422 when user inputs the old password less than six characters', (done) => {
-      request(app)
-        .put('/api/v1/users/change-password')
-        .set('x-access-token', token)
-        .send({
-          oldPassword: 'use',
-          password: 'user111password',
-        })
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(422);
-          expect(res.body.error).toBe('You need to fill in your password, minimum of 6');
-        });
-      done();
-    });
-
-    it('should expect 422 when user inputs the new password less than six characters', (done) => {
-      request(app)
-        .put('/api/v1/users/change-password')
-        .set('x-access-token', token)
-        .send({
-          oldPassword: 'user111password',
-          password: 'use',
-        })
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(422);
-          expect(res.body.error).toBe('You need to fill in your password, minimum of 6');
-        });
-      done();
-    });
-
-    it('should expect 201 when user changes password', (done) => {
-      request(app)
-        .put('/api/v1/users/change-password')
-        .set('x-access-token', token)
-        .send({
-          oldPassword: 'user111password',
-          password: 'andela011',
-        })
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(201);
-          expect(res.body.message).toBe('Password changed');
-        });
-      done();
-    });
-
-
-    it('should expect 400 when user inputs the same password with the old one', (done) => {
-      request(app)
-        .put('/api/v1/users/change-password')
-        .set('x-access-token', token)
-        .send({
-          oldPassword: 'user111password',
-          password: 'user111password',
-        })
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(400);
-          expect(res.body.error).toBe('New Password is the same as the old password');
-        });
-      done();
-    });
-
-    it('should expect 400 when user changes password', (done) => {
-      request(app)
-        .put('/api/v1/users/change-password')
-        .set('x-access-token', token)
-        .send({
-          oldPassword: 'user19password',
-          password: 'andela011',
-        })
-        .end((err, res) => {
-          if (err) {
-            return done(err);
-          }
-          expect(400);
-          expect(res.body.error).toBe('Invalid password');
-        });
-      done();
-    });
-
-
   });
 });

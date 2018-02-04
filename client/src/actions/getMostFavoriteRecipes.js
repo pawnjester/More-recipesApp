@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { GET_MOST_FAVORITED_RECIPES, GET_MOST_FAVORITED_RECIPES_FAILURE } from './types';
 
-const getMostFavoritesSuccess = favorites => ({
+export const getMostFavoritesSuccess = favorites => ({
   type: GET_MOST_FAVORITED_RECIPES,
   favorites
 });
 
-const getMostFavoritesFailure = error => ({
+export const getMostFavoritesFailure = error => ({
   type: GET_MOST_FAVORITED_RECIPES_FAILURE,
   error
 });
@@ -18,7 +18,7 @@ const getMostFavorites = () => dispatch => axios
     dispatch(getMostFavoritesSuccess(response.data));
   })
   .catch((err) => {
-    dispatch(getMostFavoritesFailure(err));
+    dispatch(getMostFavoritesFailure(err.respone.data));
   });
 
 export default getMostFavorites;

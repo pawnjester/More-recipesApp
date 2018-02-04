@@ -110,26 +110,26 @@ const Validation = {
     } else if (!req.body.password) {
       return res.status(406).json({ statusCode: 406, error: 'You need to fill in the password' });
     } else if (whiteSpace.test(password)) {
-      return res.status(422).json({ statusCode: 406, error: 'Password cannot contain spaces' });
+      return res.status(406).json({ statusCode: 406, error: 'Password cannot contain spaces' });
     } else if (password.length < 6) {
-      return res.status(422).json({ statusCode: 406, error: 'You need to fill in a password with a minimum length of 6' });
+      return res.status(406).json({ statusCode: 406, error: 'You need to fill in a password with a minimum length of 6' });
     }
     next();
   },
 
   signInValidation(req, res, next) {
-    let email;
-    let username;
+    let identifier;
+    // let username;
 
-    if (req.body.email) {
-      email = req.body.email.trim();
+    if (req.body.identifier) {
+      identifier = req.body.identifier.trim();
     }
 
-    if (req.body.username) {
-      username = req.body.username.trim();
+    if (req.body.identifier) {
+      identifier = req.body.identifier.trim();
     }
 
-    if (!req.body.email && !req.body.username) {
+    if (!req.body.identifier) {
       return res.status(406).json({ statusCode: 406, error: 'Email or username cannot be empty' });
     }
     if (!req.body.password) {

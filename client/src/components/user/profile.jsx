@@ -69,11 +69,11 @@ class Profile extends Component {
     return (
       <div>
         <NavigationBar />
-        <div className="heading mt-5">
-          <div className="dark-overlay">
+        <div className="profile-header">
+          <div className="dark">
             <div className="container ">
               <div className="row profile">
-                <div className="col-md-3 col-sm-12 col-xs-12">
+                <div className="col-md-5 col-sm-12 col-xs-12 mobile">
                   <div className="profile-sidebar">
                     <div className="profile-user-pic">
                       <img src={detail.profileImg || '/food1.jpg'} alt="" className="img-fluid img-circle mx-auto d-block" />
@@ -87,7 +87,7 @@ class Profile extends Component {
                       </div>
                     </div>
                     <div className="profile-user-buttons">
-                      <button className="btn btn-danger btn-md" onClick={this.toggle} styles="cursor:pointer"> <i className="fa fa-pencil" aria-hidden="true" /> Edit</button>
+                      <button className="btn btn-danger btn-md" onClick={this.toggle} styles="cursor:pointer"> <i className="fa fa-pencil pen" aria-hidden="true" /> Edit</button>
                       <EditUserModal
                         editUser={detail}
                         isOpen={this.state.modal}
@@ -103,38 +103,18 @@ class Profile extends Component {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-9">
-                  <div className="card" >
+                <div className="col-md-7 col-sm-12 col-xs-12 mobile">
+                  <div className="card card-mix" >
                     <div className="card-body">
                       <table className="table table-borderless mt-3">
                         <tbody>
                           <tr>
-                            <td className="text-dark"><b> Name</b></td>
+                            <td className="text-dark"><b> Username</b></td>
                             <td className="text-dark">{detail.username}</td>
-                          </tr>
-                          <tr>
-                            <td className="text-dark"><b>Phone Number</b></td>
-                            <td>{}</td>
-                          </tr>
-                          <tr>
-                            <td className="text-dark"><b>Fax</b></td>
-                            <td>{}</td>
                           </tr>
                           <tr>
                             <td className="text-dark"><b>Email</b></td>
                             <td className="text-dark">{detail.email}</td>
-                          </tr>
-                          <tr>
-                            <td className="text-dark"><b>Address</b></td>
-                            <td>{}</td>
-                          </tr>
-                          <tr>
-                            <td className="text-dark"><b>Country</b></td>
-                            <td>{}</td>
-                          </tr>
-                          <tr>
-                            <td className="text-dark"><b>Marital Status</b></td>
-                            <td>{}</td>
                           </tr>
                         </tbody>
                       </table>

@@ -79,11 +79,11 @@ class AllRecipes extends Component {
         <NavigationBar search="true" />
         <div className="container text-center">
           <div className="heading">
-            <h1 className="p-5 ">My Recipes</h1>
+            <h1 className="p-5 ">All Recipes</h1>
           </div>
           <hr />
           <div className="row high">
-            {recipeList && recipeList.length === 0 &&
+            {/* {recipeList && recipeList.length === 0 &&
               (<h4 className="mt-5 text-center no-recipes"> No recipes yet </h4>)}
             {this.state.loading ?
               <Loader Loading={this.state.loading} /> :
@@ -92,7 +92,15 @@ class AllRecipes extends Component {
                 (<Recipe
                   recipe={recipe}
                   key={recipe.id}
-                />))}
+                />))} */}
+                 {this.state.loading ?
+              <Loader Loading={this.state.loading} /> :
+              recipeList.length > 0 ?
+              recipeList.map(recipe =>
+                (<Recipe
+                  recipe={recipe}
+                  key={recipe.id}
+                />)) : (<h4 className="mt-5 text-center no-recipes"> No recipes yet </h4>)}
           </div>
         </div>
         {recipeList.length > 0 && <ReactPaginate

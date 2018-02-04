@@ -78,13 +78,13 @@
             }
           },
           "409": {
-            "description": "User already exists!",
+            "description": "Username or email is already in use",
             "schema": {
               "$ref": "#/definitions/SignupValidation"
             }
           },
           "default": {
-            "description": "Internal server error"
+            "description": "Error creating an account"
           }
         }
       }
@@ -163,12 +163,6 @@
               "$ref": "#/definitions/UserResponse"
             }
           },
-          "404": {
-            "description": "No currentUser",
-            "schema": {
-              "$ref": "#/definitions/SigninError"
-            }
-          },
           "default": {
             "description": "Unable to get user details"
           }
@@ -213,14 +207,83 @@
               "$ref": "#/definitions/UserResponse"
             }
           },
-          "404": {
-            "description": "User not found",
-            "schema": {
-              "$ref": "#/definitions/SignupValidation"
-            }
-          },
           "409": {
             "description": "Username or email already taken"
+          },
+          "default": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/users/reset-password": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Update user reset password",
+        "description": "A user can reset password",
+        "operationId": "resetPassword",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-token",
+            "in": "header",
+            "description": "Authentication Token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password reset successful"
+          },
+          "403": {
+            "description": "You`re unauthorized to perform this action"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "default": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/users/change-password": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Change User Password",
+        "description": "A user can change password",
+        "operationId": "changePassword",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-token",
+            "in": "header",
+            "description": "Authentication Token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Password changed"
+          },
+          "400": {
+            "description": "Invalid password"
           },
           "default": {
             "description": "Internal server error"
@@ -291,10 +354,16 @@
               "$ref": "#/definitions/CreatedRecipe"
             }
           },
-          "400": {
+          "406": {
             "description": "Validation exception",
             "schema": {
               "$ref": "#/definitions/RecipeValidation"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/RecipeNameConflict"
             }
           },
           "default": {
@@ -346,7 +415,7 @@
               "$ref": "#/definitions/RecipeNotFound"
             }
           },
-          "403": {
+          "406": {
             "description": "Invalid recipeId parameter",
             "schema": {
               "$ref": "#/definitions/RecipeNotFound"
@@ -451,13 +520,13 @@
               "$ref": "#/definitions/DeleteRecipe"
             }
           },
-          "404": {
+          "400": {
             "description": "Not found",
             "schema": {
               "$ref": "#/definitions/RecipeNotFound"
             }
           },
-          "403": {
+          "406": {
             "description": "Invalid recipeId",
             "schema": {
               "$ref": "#/definitions/RecipeNotFound"
@@ -469,7 +538,7 @@
         }
       }
     },
-    "/userRecipe": {
+    "/recipes/userRecipe": {
       "get": {
         "tags": [
           "/recipes"
@@ -493,6 +562,15 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GetRecipes"
+              }
+            }
+          },
           "201": {
             "description": "OK",
             "schema": {
@@ -508,7 +586,7 @@
         }
       }
     },
-    "/{userId}/favorites": {
+    "/recipes/favorite": {
       "get": {
         "tags": [
           "/recipes"
@@ -548,6 +626,59 @@
       }
     },
     "/recipes/{recipeId}/reviews": {
+      "get": {
+        "tags": [
+          "/reviews"
+        ],
+        "summary": "Get reviews in a recipe",
+        "description": "Get the reviews in a recipe",
+        "operationId": "viewRecipeReviews",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-token",
+            "in": "header",
+            "description": "Authentication Token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "recipeId",
+            "in": "path",
+            "description": "ID of recipe",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ViewRecipe"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/RecipeNotFound"
+            }
+          },
+          "406": {
+            "description": "Invalid recipeId parameter",
+            "schema": {
+              "$ref": "#/definitions/RecipeNotFound"
+            }
+          },
+          "default": {
+            "description": "Internal server error"
+          }
+        }
+      },
       "post": {
         "tags": [
           "/reviews"
@@ -592,8 +723,8 @@
               "$ref": "#/definitions/Review"
             }
           },
-          "400": {
-            "description": "Validation exception",
+          "406": {
+            "description": "Invalid recipeId",
             "schema": {
               "$ref": "#/definitions/ReviewValidation"
             }
@@ -604,62 +735,7 @@
         }
       }
     },
-    "/recipe/{recipeId}/reviews": {
-      "get": {
-        "tags": [
-          "/reviews"
-        ],
-        "summary": "Get reviews in a recipe",
-        "description": "Get the reviews in a recipe",
-        "operationId": "viewRecipeReviews",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "x-token",
-            "in": "header",
-            "description": "Authentication Token",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "recipeId",
-            "in": "path",
-            "description": "ID of recipe",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/ViewRecipe"
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "$ref": "#/definitions/RecipeNotFound"
-            }
-          },
-          "403": {
-            "description": "Invalid recipeId parameter",
-            "schema": {
-              "$ref": "#/definitions/RecipeNotFound"
-            }
-          },
-          "default": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
-    "/recipe/{reviewId}/reviews": {
+    "/recipes/{reviewId}/reviews": {
       "delete": {
         "tags": [
           "/reviews"
@@ -695,13 +771,13 @@
               "$ref": "#/definitions/DeleteRecipe"
             }
           },
-          "404": {
+          "400": {
             "description": "Not found",
             "schema": {
               "$ref": "#/definitions/RecipeNotFound"
             }
           },
-          "403": {
+          "406": {
             "description": "Invalid recipeId",
             "schema": {
               "$ref": "#/definitions/RecipeNotFound"
@@ -713,34 +789,7 @@
         }
       }
     },
-    "/recipes/{userId}/favorite": {
-      "get": {
-        "tags": [
-          "/favorites"
-        ],
-        "summary": "Gets all recipes favorited by authenticated user",
-        "description": "Displays all user's favorite recipes",
-        "operationId": "getFavorites",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/GetRecipes"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/recipe/{recipeId}/favorite": {
+    "/recipes/{recipeId}/favorite": {
       "delete": {
       "tags": [
         "/favorites"
@@ -772,6 +821,12 @@
         }
       ],
       "responses": {
+        "200": {
+          "schema": {
+            "description": "Recipe removed from favorite list",
+            "$ref": "#/definitions/CreatedRecipe"
+          }
+        },
         "201": {
           "schema": {
             "description": "Responds with a recipe instance",
@@ -790,7 +845,7 @@
       }
     }
     },
-    "/recipe/{recipeId}/upvote": {
+    "/recipes/{recipeId}/upvote": {
       "post": {
       "tags": [
         "/votes"
@@ -840,7 +895,7 @@
       }
     }
     },
-    "/recipe/{recipeId}/downvote": {
+    "/recipes/{recipeId}/downvote": {
       "post": {
       "tags": [
         "/votes"
@@ -1148,6 +1203,18 @@
         "message": {
           "type": "string",
           "example": "Please enter a valid recipe name"
+        }
+      }
+    },
+    "RecipeNameConflict": {
+      "type": "object",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "You cannot create the same recipe twice"
         }
       }
     },

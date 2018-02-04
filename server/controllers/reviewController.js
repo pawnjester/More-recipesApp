@@ -19,7 +19,6 @@ class Reviews {
    * @description Add review to user recipe
    *
    * @param {object} req - HTTP Request
-   *
    * @param {object} res - HTTP Response
    *
    * @returns {object} Class instance
@@ -45,7 +44,9 @@ class Reviews {
               model: review,
               attributes: ['id', 'data', 'createdAt'],
               include: [
-                { model: user, atrributes: ['username', 'profileImg'] },
+                {
+                  model: user,
+                  atrributes: ['username', 'profileImg'] },
               ],
             },
 
@@ -63,11 +64,10 @@ class Reviews {
     return this;
   }
   /**
- *@description delete Review
+ * @description delete Review
  *
- * @param {any} req
- *
- * @param {any} res
+ * @param {object} req - HTTP Request
+ * @param {object} res - HTTP Response
  *
  * @memberof Reviews
  *
@@ -103,11 +103,10 @@ class Reviews {
     return this;
   }
   /**
- *@description get Review by id
+ * @description get Review by id
  *
- * @param {any} req
- *
- * @param {any} res
+ * @param {object} req - HTTP Request
+ * @param {object} res - HTTP Response
  *
  * @memberof Reviews
  *
@@ -123,7 +122,7 @@ class Reviews {
     })
       .then((response) => {
         if (!response) {
-          return res.status(406).json({ statusCode: 406, error: `Recipe not found with ${recipeId}` });
+          return res.status(400).json({ statusCode: 400, error: `Recipe not found with ${recipeId}` });
         }
         review.findAll({
           where: {

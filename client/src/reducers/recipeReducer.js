@@ -71,16 +71,14 @@ const recipes = (state = initialState, action) => {
     case SEARCH_RECIPE_SUCCESS:
       return {
         ...state,
-        recipes: action.search,
+        searchResults: action.search,
         totalContent: state.recipes.length,
         deleted: false,
-        error: false,
       };
     case SEARCH_RECIPE_FAILURE:
       return {
         ...state,
-        recipes: action.error,
-        error: true,
+        searchResults: action.error,
         deleted: false,
       };
     case GET_PAGE_DETAIL:

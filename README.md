@@ -63,6 +63,14 @@ For more information of how to use the API, visit the Documentation [here](https
 >- Reset password
 >- Change Password
 
+#### Testing
+>- Front-end: Jest
+>- Back-end: Mocha/Chai, expect, supertest
+
+#### Limitations
+The limitations with this current version of More-recipesApp includes:
+>- Authenticated users cannot view the profile of other users
+>- Authenticated users cannot disable account
 #### CONTRIBUTING
 This project is open for contributions. All contributions must adhere to the Airbnb styleguide.
 
@@ -77,7 +85,8 @@ This project is open for contributions. All contributions must adhere to the Air
 - Push to the branch: `git push origin my-new-feature`
 - Submit a PR (pull request) to the [develop branch](https://github.com/pawnjester/More-recipesApp/tree/develop)
 
-
+### FAQ
+>- view Frequently Asked Questions [here](https://github.com/pawnjester/More-recipesApp/wiki)
 
 #### Author(s)
 >- [Okonji Emmanuel](https://github.com/pawnjester)

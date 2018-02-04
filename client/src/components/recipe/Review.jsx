@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import toastr from 'toastr';
 import addReview from '../../actions/reviewRecipe';
+import validateInput from '../validations/reviewValidation';
 import '../../styles/detail.scss';
 /**
  *
@@ -23,6 +24,7 @@ class Reviews extends Component {
 
     this.state = {
       data: '',
+      errors: {},
     };
 
     this.onNameChange = this.onNameChange.bind(this);
@@ -51,10 +53,27 @@ class Reviews extends Component {
  */
   onSubmit(event) {
     event.preventDefault();
-    const id = this.props.recipeId;
-    this.props.addReview(id, this.state);
-    toastr.success('Review added!!');
-    this.setState({ data: '' });
+    if (this.isValid()) {
+      const id = this.props.recipeId;
+      this.props.addReview(id, this.state);
+      toastr.success('Review added!!');
+      this.setState({ data: '' });
+    }
+  }
+
+  /**
+ *
+ * @memberof AddRecipeModal
+ *
+ * @returns {void}
+ */
+  isValid() {
+    const { errors, isValid } = validateInput(this.state);
+
+    if (!isValid) {
+      this.setState({ errors });
+    }
+    return isValid;
   }
   /**
  * @description renders the jsx element
@@ -64,6 +83,7 @@ class Reviews extends Component {
  * @returns {void}
  */
   render() {
+    const { errors } = this.state;
     return (
       <div>
         <div className="col-sm-12 pt-5 pb-5">
@@ -82,6 +102,7 @@ class Reviews extends Component {
 
                 />
               </div>
+              {errors.data && <small style={{ color: '#A43741' }}>{errors.data}</small>}
               <button type="submit" className="btn btn-outline-light  pull-right bg-danger btn-lg">POST</button>
             </form>
           </div>

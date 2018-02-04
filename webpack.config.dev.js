@@ -7,19 +7,18 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: './client/public/index.html',
   filename: 'index.html',
   inject: 'body',
-  minify: {
-    collapseWhitespace: true,
-    collapseInlineTageWhitespace: true,
-    removeComments: true,
-    removeRedundantAttributes: true
-  }
+  // minify: {
+  //   collapseWhitespace: true,
+  //   collapseInlineTageWhitespace: true,
+  //   removeComments: true,
+  //   removeRedundantAttributes: true
+  // }
 });
 
 
 module.exports = {
   devtool: 'eval-source-map',
   entry: [
-    'babel-polyfill',
     'webpack-hot-middleware/client', path.join(__dirname, './client/src/Index.jsx')
   ],
   output: {

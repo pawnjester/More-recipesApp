@@ -31,8 +31,7 @@ class EditUserModal extends Component {
     super(props);
 
     this.state = {
-      username: '',
-      email: '',
+      identifier: '',
       profileImg: '',
       status: '',
     };
@@ -40,24 +39,6 @@ class EditUserModal extends Component {
     this.onNameChange = this.onNameChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.Upload = this.Upload.bind(this);
-  }
-  /**
-   *@description set the current user detail in the modal
-   *
-   * @param {any} nextProps
-   *
-   * @memberof EditUserModal
-   *
-   * @returns {void}
-   */
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.editUser) {
-      this.setState({
-        username: nextProps.editUser.username,
-        email: nextProps.editUser.email,
-        profileImg: nextProps.editUser.profileImg,
-      });
-    }
   }
   /**
  *@description set the user input to state
@@ -134,25 +115,11 @@ class EditUserModal extends Component {
               <Col sm={8}>
                 <Input
                   type="text"
-                  name="username"
+                  name="identifier"
                   id="exampleEmail"
-                  value={this.state.username}
+                  value={this.state.identifier}
                   onChange={this.onNameChange}
-                  placeholder="Enter the name"
-                />
-              </Col>
-            </FormGroup>
-
-            <FormGroup row>
-              <Label for="exampleEmail" sm={4}>email</Label>
-              <Col sm={8}>
-                <Input
-                  type="text"
-                  name="email"
-                  id="exampleEmail"
-                  value={this.state.email}
-                  onChange={this.onNameChange}
-                  placeholder="Enter the email"
+                  placeholder="Enter the username"
                 />
               </Col>
             </FormGroup>

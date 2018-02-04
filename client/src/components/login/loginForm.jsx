@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import swal from 'sweetalert';
+import history from '../../utils/history';
 import TextFieldGroup from '../common/TextFieldGroup';
-import validateInput from './validations';
+import validateInput from '../validations/loginValidations';
 import { login } from '../../actions/loginActions';
 
 /**
@@ -23,11 +25,10 @@ class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      identifier: '',
       password: '',
       errors: {},
       isLoading: false,
-      redirect: false,
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -47,12 +48,24 @@ class LoginForm extends React.Component {
 
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
-      this.props.login(this.state).then(
-        (res) => {
-          this.setState({ redirect: true });
-        },
-        err => this.setState({ errors: err.response.data, isLoading: false }),
-      );
+      this.props.login(this.state).then(() => {
+        swal({
+          title: 'welcome',
+          text: this.state.username,
+          icon: 'success'
+        });
+        history.push('/recipes');
+      })
+        .catch((err) => {
+          swal({
+            title: 'Oops!',
+            text: `Sorry ${err.response.data.error}`,
+            icon: 'warning'
+          });
+          this.setState({
+            isLoading: false
+          });
+        });
     }
   }
   /**
@@ -89,40 +102,41 @@ class LoginForm extends React.Component {
  * @returns {void}
  */
   render() {
-    const { errors, redirect } = this.state;
-    if (redirect) {
-      return <Redirect to="/recipes" />;
-    }
+    const { errors } = this.state;
     return (
-      <form onSubmit={this.onSubmit}>
-        {errors.message && <div className="alert alert-danger">{errors.message}</div>}
-        <TextFieldGroup
-          error={errors.username || errors.errorname}
-          onChange={this.onChange}
-          value={this.state.username}
-          field="username"
-          placeholder="username"
-          autofocus
-          required
-        />
+      <div>
+        <form onSubmit={this.onSubmit}>
+          {errors.message && <div className="alert alert-danger">{errors.message}</div>}
+          <TextFieldGroup
+            error={errors.identifier || errors.errorname}
+            onChange={this.onChange}
+            value={this.state.identifier}
+            field="identifier"
+            placeholder="enter your username or email"
+            autofocus
+            required
+          />
 
-        <TextFieldGroup
-          error={errors.password}
-          onChange={this.onChange}
-          value={this.state.password}
-          field="password"
-          placeholder="password"
-          type="password"
-        />
-        <input
-          disabled={this.state.isLoading}
-          type="submit"
-          value="Submit"
-          className="btn btn-outline-danger btn-block text-dark"
-        />
-        <Link to="/reset_password" className="text-red mt-5">Forgot Password?</Link>
-      </form>
-
+          <TextFieldGroup
+            error={errors.password}
+            onChange={this.onChange}
+            value={this.state.password}
+            field="password"
+            placeholder="password"
+            type="password"
+          />
+          <input
+            disabled={this.state.isLoading}
+            type="submit"
+            value="Submit"
+            className="btn btn-outline-danger btn-block text-dark"
+          />
+          <div>
+            <Link to="/reset_password" className="forgot mt-5">Forgot Password?</Link><br />
+            <Link to="/" className="mt-5">Sign Up</Link>
+          </div>
+        </form>
+      </div>
     );
   }
 }

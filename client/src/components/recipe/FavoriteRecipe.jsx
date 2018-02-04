@@ -37,8 +37,8 @@ class FavoriteRecipe extends Component {
  * @returns {void}
  */
   componentWillMount() {
-    const userId = JwtDecode(localStorage.jwtToken);
-    this.props.getFavoriteRecipe(userId.id);
+    // const userId = JwtDecode(localStorage.jwtToken);
+    this.props.getFavoriteRecipe();
   }
 
   // componentWillReceiveProps(nextProps) {
@@ -82,7 +82,7 @@ class FavoriteRecipe extends Component {
     const pageCount = this.props.favoriteRecipe.Pages;
     return (
       <div>
-        <NavigationBar />
+        <NavigationBar search="true" />
         <div className="container text-center  ">
           <div className="heading">
             <h1 className="p-5 ">Favorite Recipes</h1>
@@ -126,16 +126,14 @@ class FavoriteRecipe extends Component {
 
 FavoriteRecipe.propTypes = {
   getFavoriteRecipe: PropTypes.func.isRequired,
-  favoriteRecipe: PropTypes.arrayOf(PropTypes.object).isRequired,
+  favoriteRecipe: PropTypes.objectOf(PropTypes.object).isRequired,
   deleteFavorite: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
-  console.log('favorite recipe state -> ', state)
-  return {
-    favoriteRecipe: state.recipeDetailReducer.favoriteRecipes,
-  }
-};
+const mapStateToProps = state => ({
+  favoriteRecipe: state.recipeDetailReducer.favoriteRecipes,
+}
+);
 
 export default connect(
   mapStateToProps,

@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { ADD_REVIEW, ADD_REVIEW_FAILURE } from './types';
 
-const addReviewToRecipeSuccess = review => ({
+export const addReviewToRecipeSuccess = review => ({
   type: ADD_REVIEW,
   review,
 });
 
-const addReviewToRecipeFailure = error => ({
+export const addReviewToRecipeFailure = error => ({
   type: ADD_REVIEW_FAILURE,
   error,
 });

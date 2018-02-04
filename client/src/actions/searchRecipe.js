@@ -1,23 +1,23 @@
 import axios from 'axios';
 import { SEARCH_RECIPE_SUCCESS, SEARCH_RECIPE_FAILURE } from './types';
 
-const searchRecipeSuccess = search => ({
+export const searchRecipeSuccess = search => ({
   type: SEARCH_RECIPE_SUCCESS,
   search,
 });
 
-const searchRecipeFailure = error => ({
+export const searchRecipeFailure = error => ({
   type: SEARCH_RECIPE_FAILURE,
   error,
 });
 
 const searchRecipe = query => dispatch => axios
-  .get(`/api/v1/recipes/?search=${query}&limit=20`)
+  .get(`/api/v1/recipes/?search=${query}&limit=5`)
   .then((response) => {
     dispatch(searchRecipeSuccess(response.data.searchResults));
   })
-  .catch(() => {
-    dispatch(searchRecipeFailure());
+  .catch((error) => {
+    dispatch(searchRecipeFailure(error.response.data.searchResults));
   });
 
 export default searchRecipe;

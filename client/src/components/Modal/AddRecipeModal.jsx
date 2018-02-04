@@ -5,7 +5,7 @@ import {
   ModalHeader, ModalBody, Form, Label, Input, FormGroup, Col, FormText
 } from 'reactstrap';
 import imageUpload from '../../helpers/imageUpload';
-import validateInput from '../recipe/validations';
+import validateInput from '../validations/recipeValidation';
 /**
  *
  * @class AddRecipeModal
@@ -32,7 +32,8 @@ class AddRecipeModal extends Component {
       status: '',
       errors: {},
       titleError: '',
-      option: 'minute(s)'
+      option: 'minute(s)',
+      disabled: false,
     };
 
     this.onNameChange = this.onNameChange.bind(this);
@@ -84,6 +85,7 @@ class AddRecipeModal extends Component {
             method: '',
             imageUrl: '',
             cookingTime: '',
+            status: ''
           });
           toastr.success('Recipe added');
           this.props.toggle();
@@ -115,7 +117,7 @@ class AddRecipeModal extends Component {
  * @returns {void}
  */
   Upload(images) {
-    this.setState({ status: 'Uploading...' });
+    this.setState({ status: 'Uploading...', disabled: true });
     imageUpload(images).then((response) => {
       const { body } = response;
       const fileUrl = body.secure_url;
@@ -123,7 +125,8 @@ class AddRecipeModal extends Component {
       if (fileUrl) {
         this.setState({
           imageUrl: fileUrl,
-          status: 'Uploaded'
+          status: 'Uploaded',
+          disabled: false
         });
       }
     });
@@ -153,7 +156,7 @@ class AddRecipeModal extends Component {
                   onChange={this.onNameChange}
                   placeholder="Enter the name"
                 />
-                {errors.name || titleError && <small style={{ color: '#A43741' }}>{errors.name || titleError}</small>}
+                {(errors.name || titleError) && <small style={{ color: '#A43741' }}>{(errors.name || titleError)}</small>}
               </Col>
             </FormGroup>
 
@@ -170,12 +173,14 @@ class AddRecipeModal extends Component {
                   style={{ height: 150 }}
                 />
                 {errors.ingredients && <small style={{ color: '#A43741' }}>{errors.ingredients}</small>}
+                <small style={{ color: 'red' }} className="text-center"> Enter the description seperated by commas(,)</small>
+
               </Col>
             </FormGroup>
-
             <FormGroup row>
               <Label for="exampleEmail" sm={3}>method</Label>
               <Col sm={9}>
+
                 <Input
                   type="textarea"
                   name="method"
@@ -185,13 +190,15 @@ class AddRecipeModal extends Component {
                   placeholder="Enter the description"
                   style={{ height: 150 }}
                 />
+                <small style={{ color: 'red' }} className="text-center"> Enter the description seperated by full-stop(.)</small>
+
                 {errors.method && <small style={{ color: '#A43741' }}>{errors.method}</small>}
               </Col>
             </FormGroup>
 
             <FormGroup row>
               <Label for="exampleEmail" sm={3}>Preparation Time</Label>
-              <Col sm={9}>
+              <Col sm={9} row>
                 <Input
                   type="text"
                   name="cookingTime"
@@ -201,7 +208,7 @@ class AddRecipeModal extends Component {
                   placeholder="Enter the preparation time"
                 />
 
-                <Col sm={15}>
+                <Col sm={15} row>
                   <Input
                     type="select"
                     name="option"
@@ -215,7 +222,7 @@ class AddRecipeModal extends Component {
                     <option value="hour(s)">hour(s)</option>
                   </Input>
                 </Col>
-                {errors.error || errors.cookingTime && <small style={{ color: '#A43741' }}>{errors.cookingTime}</small>}
+                {(errors.error || errors.cookingTime) && <small style={{ color: '#A43741' }}>{(errors.error || errors.cookingTime)}</small>}
               </Col>
             </FormGroup>
 
@@ -236,7 +243,12 @@ class AddRecipeModal extends Component {
 
             <FormGroup check row >
               <Col sm={{ size: 10, offset: 2 }}>
-                <Button onClick={this.onSubmit} style={{ float: 'right', backgroundColor: '#A43741' }}>Add a recipe</Button>
+                <Button
+                  onClick={this.onSubmit}
+                  style={{ float: 'right', backgroundColor: '#A43741' }}
+                  disabled={this.state.disabled}
+                >Add a recipe
+                </Button>
               </Col>
             </FormGroup>
           </Form>

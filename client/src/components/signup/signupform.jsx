@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
-import validateInput from './validateInput';
+import swal from 'sweetalert';
+import validateInput from '../validations/signupValidation';
+import history from '../../utils/history';
 import TextFieldGroup from '../common/TextFieldGroup';
 /**
  *
@@ -26,7 +27,6 @@ class signupform extends React.Component {
       passwordConfirmation: '',
       errors: {},
       isLoading: false,
-      redirect: false,
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -58,11 +58,23 @@ class signupform extends React.Component {
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
 
-      this.props.userSignupRequest(this.state).then(
-        this.setState({ redirect: true }),
-        err => this.setState({ errors: err.response.data, isLoading: false }),
-
-      );
+      this.props.userSignupRequest(this.state).then(() => {
+        swal({
+          title: 'welcome',
+          text: this.state.username,
+          icon: 'success'
+        });
+        history.push('/recipes');
+      }).catch((err) => {
+        swal({
+          title: 'Oops!',
+          text: `Sorry ${err.response.data.error}`,
+          icon: 'warning'
+        });
+        this.setState({
+          isLoading: false
+        });
+      });
     }
   }
 
@@ -84,16 +96,13 @@ class signupform extends React.Component {
   }
   /**
    * @description renders jsx element
-   * 
+   *
    * @memberof signupform
    *
    * @returns {void}
    */
   render() {
-    const { errors, redirect } = this.state;
-    if (redirect) {
-      return <Redirect to="/signin" />;
-    }
+    const { errors } = this.state;
     return (
       <form onSubmit={this.onSubmit}>
 

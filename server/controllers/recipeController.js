@@ -3,6 +3,7 @@ import models from '../models';
 const recipe = models.Recipe;
 const review = models.Review;
 const user = models.User;
+const favorite = models.Favorite;
 /**
  *
  *
@@ -14,7 +15,6 @@ export class Recipes {
    * @description - Add Recipe record
    *
    * @param {object} req - HTTP Request
-   *
    * @param {object} res - HTTP Response
    *
    * @memberof Recipe
@@ -70,7 +70,7 @@ export class Recipes {
 
 
   /**
-   *@description - Modify Recipe record
+   * @description - Modify Recipe record
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
@@ -121,9 +121,9 @@ export class Recipes {
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
    *
-   * @returns {object} Class instance
-   *
    * @memberof Recipe
+   *
+   * @returns {object} Class instance
    */
   deleteRecipe(req, res) {
     const { recipeId } = req.params;
@@ -166,96 +166,126 @@ export class Recipes {
    *
    * @param {object} req - HTTP Request
    * @param {object} res - HTTP Response
-   *
-   * @returns {object} Class instance
+   * @param {any} next
    *
    * @memberof Recipe
+   *
+   * @returns {object} Class instance
    */
-  getRecipes(req, res) {
-    if (req.query.sort) {
-      const sort = req.query.sort === 'upVotes' || req.query.sort === 'downVotes' ? req.query.sort : 'upVotes';
-      const order = req.query.order === 'des' ? 'DESC' : 'DESC';
+  getRecipes(req, res, next) {
+    if (Object.keys(req.query).indexOf('search') > -1 || Object.keys(req.query).indexOf('sort') > -1) return next();
+    recipe.findAndCountAll().then((all) => {
+      const limit = parseInt((req.query.limit || 6), 10);
+      let offset = 0;
+      const page = parseInt((req.query.page || 1), 10);
+      const numberOfItems = all.count;
+      const pages = Math.ceil(numberOfItems / limit);
+      offset = limit * (page - 1);
       recipe.findAll({
+        limit,
+        offset,
         order: [
-          [sort, order],
+          ['id', 'DESC'],
         ],
-        limit: 3,
-      })
-        .then((orderedRecipe) => {
-          if (!orderedRecipe) {
-            return res.status(400).json({ statusCode: 400, message: 'No recipe found' });
-          }
-          return res.status(201).json({
-            statusCode: 201,
-            message: 'Recipe(s) found',
-            recipe: orderedRecipe,
-          });
-        });
-    } else if (req.query.search && req.query.limit) {
-      const limitValue = req.query.limit || 30;
-      const search = req.query.search.split(' ');
-
-      const ingredientsResp = search.map(value => ({ ingredients: { $iLike: `%${value}%` } }));
-      const respName = search.map(value => ({ name: { $iLike: `%${value}%` } }));
-
-      recipe.findAll({
-        where: {
-          $or:
-          ingredientsResp.concat(respName),
-        },
-        order: [
-          ['id', 'ASC'],
+        include: [
+          { model: user, attributes: ['username', 'email'] },
         ],
-        limit: limitValue,
       })
-        .then((searchResults) => {
-          if (searchResults.length <= 0) {
-            return res.status(400).json({ statusCode: 400, message: 'Recipe(s) do not match your search result' });
-          }
-          return res.status(200).json({ statusCode: 200, message: 'The results found', searchResults });
-        });
-    } else {
-      recipe.findAndCountAll().then((all) => {
-        const limit = parseInt((req.query.limit || 6), 10);
-        let offset = 0;
-        const page = parseInt((req.query.page || 1), 10);
-        const numberOfItems = all.count;
-        const pages = Math.ceil(numberOfItems / limit);
-        offset = limit * (page - 1);
-        recipe.findAll({
-          limit,
-          offset,
-          order: [
-            ['id', 'DESC'],
-          ],
-          include: [
-            { model: user, attributes: ['username', 'email'] },
-          ],
-        })
-          .then((recipes) => {
-            if (recipes) {
-              if (recipes.length < 1) {
-                return res.status(404).json({ statusCode: 404, error: 'There are currently no recipes in collection', recipes: [] });
-              }
-              return res.status(200).json({
-                NumberOfItems: numberOfItems,
-                Limit: limit,
-                Pages: pages,
-                CurrentPage: page,
-                recipes,
-              });
+        .then((recipes) => {
+          if (recipes) {
+            if (recipes.length < 1) {
+              return res.status(200).json({ statusCode: 200, message: 'There are currently no recipes in collection', recipes: [] });
             }
-          });
-      }).catch(error => res.status(500).json(error));
-    }
-
+            return res.status(200).json({
+              NumberOfItems: numberOfItems,
+              Limit: limit,
+              Pages: pages,
+              CurrentPage: page,
+              recipes,
+            });
+          }
+        });
+    }).catch(error => res.status(500).json(error));
     return this;
   }
+  /**
+ * @description get top recipes
+ *
+ * @param {any} req - HTTP Request
+ * @param {any} res - HTTP Response
+ * @param {any} next
+ *
+ * @memberof Recipes
+ *
+ * @returns {void}
+ *
+ */
+  getTopRecipes(req, res, next) {
+    if (Object.keys(req.query).indexOf('search') > -1) return next();
+    const sort = req.query.sort === 'upVotes' || req.query.sort === 'downVotes' ? req.query.sort : 'upVotes';
+    const order = req.query.order === 'des' ? 'DESC' : 'DESC';
+    recipe.findAll({
+      where: {
+        upVotes: { $gt: 0 }
+      },
+      order: [
+        [sort, order],
+      ],
+      limit: 3,
+    })
+      .then((orderedRecipe) => {
+        if (!orderedRecipe) {
+          return res.status(400).json({ statusCode: 400, message: 'No recipe found' });
+        }
+        return res.status(200).json({
+          statusCode: 200,
+          message: 'Recipe(s) found',
+          recipe: orderedRecipe,
+        });
+      });
+    return this;
+  }
+  /**
+ * @description search recipes
+ *
+ * @param {any} req - HTTP Request
+ * @param {any} res - HTTP Response
+ *
+ * @memberof Recipes
+ *
+ * @returns {void}
+ *
+ */
+  getRecipesBySearch(req, res) {
+    const limitValue = req.query.limit || 30;
+    const search = req.query.search.split(' ');
+
+    const ingredientsResp = search.map(value => ({ ingredients: { $iLike: `%${value}%` } }));
+    const respName = search.map(value => ({ name: { $iLike: `%${value}%` } }));
+
+    recipe.findAll({
+      where: {
+        $or:
+          ingredientsResp.concat(respName),
+      },
+      order: [
+        ['id', 'ASC'],
+      ],
+      limit: limitValue,
+    })
+      .then((searchResults) => {
+        if (searchResults.length <= 0) {
+          return res.status(404).json({ statusCode: 404, message: 'Recipe(s) cannot be found', searchResults });
+        }
+        return res.status(200).json({ statusCode: 200, message: 'The results found', searchResults });
+      });
+    return this;
+  }
+
   /**
  *@description - list the most favorited recipes
  *
  * @param {any} req - HTTP Request
- *
  * @param {any} res - HTTP Response
  *
  * @returns {object} Class instance
@@ -267,13 +297,16 @@ export class Recipes {
     const sort = 'favoriteCount';
     const order = req.query.order === 'asc' ? 'ASC' : 'DESC';
     recipe.findAndCountAll({
+      where: {
+        favoriteCount: { $gt: 0 }
+      },
       order: [
         [sort, order]
       ],
       limit: limitValue
     })
       .then(favoriteRecipeList => res.status(200).json({ favoriteRecipes: favoriteRecipeList.rows }))
-      .catch((error) => { res.status(422).json({ error: error.message }); });
+      .catch((error) => { res.status(500).json({ error: error.message }); });
     return this;
   }
 
@@ -281,14 +314,14 @@ export class Recipes {
    * @description - get recipe by id
    *
    * @param {object} req - HTTP Request
-   *
    * @param {object} res - HTTP Response
    *
-   * @returns {object} Class instance
-   *
    * @memberof Recipes
+   *
+   * @returns {object} Class instance
    */
   getRecipeById({ params: { recipeId }, currentUser }, res) {
+    let ifFavorite = false;
     recipe.findOne({
       where: { id: recipeId },
       include: [
@@ -297,8 +330,19 @@ export class Recipes {
           model: review,
           attributes: ['id', 'data', 'createdAt'],
           include: [
-            { model: user, atrributes: ['username', 'profileImg'] },
+            {
+              model: user,
+              atrributes: ['username', 'email', 'profileImg']
+            },
           ],
+        },
+        {
+          model: favorite,
+          required: false,
+          where: {
+            userId: currentUser.id,
+            recipeId
+          }
         },
       ],
     })
@@ -313,7 +357,19 @@ export class Recipes {
           singleRecipe
             .update({ viewCount: singleRecipe.viewCount + 1 });
         }
-        return res.status(200).json({ statusCode: 200, message: `Recipe with id: ${recipeId} was found`, singleRecipe });
+        favorite.findOne({
+          where: {
+            recipeId,
+            userId: currentUser.id
+          }
+        }).then((favoriteFound) => {
+          if (favoriteFound) {
+            ifFavorite = true;
+          }
+          return res.status(200).json({
+            statusCode: 200, message: `Recipe with id: ${recipeId} was found`, singleRecipe, ifFavorite
+          });
+        });
       })
       .catch(() => {
         res.status(500).json({ error: 'Error getting recipe' });
@@ -321,14 +377,14 @@ export class Recipes {
     return this;
   }
   /**
- *@description - Get the users recipes
+ * @description - Get the users recipes
  *
  * @param {any} req - HTTP Request
  * @param {any} res - HTTP Response
  *
- * @returns {object} Class instance
- *
  * @memberof Recipes
+ *
+ * @returns {object} Class instance
  */
   getUserRecipe(req, res) {
     recipe.findAndCountAll({

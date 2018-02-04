@@ -33,6 +33,7 @@ class EditRecipeModal extends Component {
       imageUrl: '',
       status: '',
       id: this.props.id,
+      disabled: false
     };
 
     this.onNameChange = this.onNameChange.bind(this);
@@ -93,7 +94,7 @@ class EditRecipeModal extends Component {
  * @returns {void}
  */
   Upload(images) {
-    this.setState({ status: 'Uploading...' });
+    this.setState({ status: 'Uploading...', disabled: true });
     imageUpload(images).then((response) => {
       const { body } = response;
       const fileUrl = body.secure_url;
@@ -101,7 +102,8 @@ class EditRecipeModal extends Component {
       if (fileUrl) {
         this.setState({
           imageUrl: fileUrl,
-          status: 'Uploaded'
+          status: 'Uploaded',
+          disabled: false
         });
       }
     });
@@ -138,7 +140,7 @@ class EditRecipeModal extends Component {
               <Label for="exampleEmail" sm={3}>Ingredients</Label>
               <Col sm={9}>
                 <Input
-                  type="text"
+                  type="textarea"
                   name="ingredients"
                   id="exampleEmail"
                   value={this.state.ingredients}
@@ -146,6 +148,8 @@ class EditRecipeModal extends Component {
                   placeholder="Enter the Ingredients"
                   style={{ height: 150 }}
                 />
+                <small style={{ color: 'red' }} className="text-center"> Enter the description seperated by commas(,)</small>
+
               </Col>
             </FormGroup>
 
@@ -153,7 +157,7 @@ class EditRecipeModal extends Component {
               <Label for="exampleEmail" sm={3}>method</Label>
               <Col sm={9}>
                 <Input
-                  type="text"
+                  type="textarea"
                   name="method"
                   id="exampleEmail"
                   value={this.state.method}
@@ -161,6 +165,7 @@ class EditRecipeModal extends Component {
                   placeholder="Enter the description"
                   style={{ height: 150 }}
                 />
+                <small style={{ color: 'red' }} className="text-center"> Enter the description seperated by full-stop(.)</small>
               </Col>
             </FormGroup>
 
@@ -181,7 +186,12 @@ class EditRecipeModal extends Component {
 
             <FormGroup check row>
               <Col sm={{ size: 10, offset: 2 }}>
-                <Button onClick={this.onSubmit} style={{ float: 'right', backgroundColor: '#A43741' }}>Edit a recipe</Button>
+                <Button
+                  onClick={this.onSubmit}
+                  style={{ float: 'right', backgroundColor: '#A43741' }}
+                  disabled={this.state.disabled}
+                >Edit a recipe
+                </Button>
               </Col>
             </FormGroup>
           </Form>

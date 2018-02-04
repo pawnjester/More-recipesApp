@@ -1,9 +1,9 @@
-/* eslint-disable */
-'use strict'
+import dotenv from 'dotenv';
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-import dotenv from 'dotenv'
-dotenv.config()
+
+dotenv.config();
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
@@ -33,28 +33,29 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
   });
-  //salt and hash passwords before creating users
+  // salt and hash passwords before creating users
   User.beforeCreate((user, options) => {
-  const salt = bcrypt.genSaltSync();
-  user.password = bcrypt.hashSync(user.password, salt);
-});
+    const salt = bcrypt.genSaltSync();
+    user.password = bcrypt.hashSync(user.password, salt);
+  });
 
 
-  User.prototype.validPassword = function(password) {
+  User.prototype.validPassword = function (password) {
     return bcrypt.compareSync(password, this.password);
   };
 
-  //Instance method to generate token for the user
+  // Instance method to generate token for the user
   User.prototype.generateAuthToken = function generateAuthToken() {
     const user = this;
     const access = 'auth';
-    const token = jwt.sign({id: user.id,access},
-     process.env.SECRET_KEY,
-     //secret key to expire in three days
-     { expiresIn: 259200 }).toString();
+    const token = jwt.sign(
+      { id: user.id, access },
+      process.env.SECRET_KEY,
+      // secret key to expire in three days
+      { expiresIn: 259200 }
+    ).toString();
     return token;
-
-  }
+  };
 
   // Instance method to prevent password from
   // being sent to client.

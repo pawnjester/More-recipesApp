@@ -14,14 +14,13 @@ import {
   DELETE_REVIEW_SUCCESS,
   DELETE_FAVORITE_SUCCESS,
   DELETE_FAVORITE_FAILURE,
-  CHECK_FAVORITED_ID_SUCESS,
-  CHECK_FAVORITED_ID_FAILURE
 } from '../actions/types';
 
 const initialState = {
   currentRecipe: {},
   favoriteRecipes: [],
   checkIfFavorited: [],
+  favoriteStatus: false,
   message: '',
   success: false,
   errors: null,
@@ -32,7 +31,8 @@ const detail = (state = initialState, action) => {
     case GET_RECIPE_DETAIL_SUCCESS:
       return {
         ...state,
-        currentRecipe: action.detail,
+        currentRecipe: action.detail.singleRecipe,
+        favoriteStatus: (action.detail.singleRecipe.Favorites.length > 0),
         success: true,
         errors: null,
       };
@@ -62,6 +62,7 @@ const detail = (state = initialState, action) => {
         favoriteRecipes: action.favorite,
         success: true,
         errors: null,
+        favoriteStatus: action.favorite.statusCode === 201,
         message: action.favorite,
       };
 
@@ -81,17 +82,6 @@ const detail = (state = initialState, action) => {
     case GET_FAVORITE_RECIPES_FAILURE:
       return {
         ...state, favoriteRecipes: [], success: false, errors: action.error,
-      };
-    case CHECK_FAVORITED_ID_SUCESS:
-      return {
-        ...state,
-        checkIfFavorited: action.favorite.recipeIds,
-        success: true,
-        errors: null
-      };
-    case CHECK_FAVORITED_ID_FAILURE:
-      return {
-        ...state, success: null, errors: action.error
       };
     case ADD_REVIEW:
       return {

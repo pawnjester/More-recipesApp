@@ -11,7 +11,6 @@ import downvoteRecipe from '../../actions/downvoteRecipe';
 import favoriteRecipe from '../../actions/favoriteRecipe';
 import getUserDetail from '../../actions/getUserDetail';
 import deleteReview from '../../actions/deleteReview';
-import getFavoriteId from '../../actions/checkFavoriteId';
 import Review from './Review';
 import DisplayReviews from './DisplayReviews';
 import Footer from '../common/Footer';
@@ -48,7 +47,6 @@ class Detail extends Component {
   componentWillMount() {
     this.props.getRecipeDetail(this.props.match.params.recipeId);
     this.props.getUserDetail();
-    this.props.getFavoriteId();
   }
   /**
  *@description set props to state
@@ -96,7 +94,7 @@ class Detail extends Component {
  */
   favorite() {
     this.props.favoriteRecipe(this.props.match.params.recipeId)
-      .then(() => {
+      .then((res) => {
         toastr.success(`${this.props.message}`);
       });
   }
@@ -119,13 +117,12 @@ class Detail extends Component {
  */
   render() {
     const {
-      singleRecipe, checkIfFavorite
+      singleRecipe, favoriteStatus
     } = this.props;
     const ingredientss = singleRecipe.ingredients ? singleRecipe.ingredients : '';
     const methods = singleRecipe.method ? singleRecipe.method : '';
-    const splittedMethod = methods.split(',');
+    const splittedMethod = methods.split('.');
     const splittedIngredients = ingredientss.split(',');
-    const checkFavorited = checkIfFavorite || [];
     const { message } = this.state;
     const user = this.props.userDetail || {};
     const single = this.props.singleRecipe.Reviews || [];
@@ -135,7 +132,7 @@ class Detail extends Component {
 
     return (
       <div>
-        <NavigationBar />
+        <NavigationBar search="true" />
         <div className="header-banner" style={style} />
 
         <div className="container detail-container bg-white">
@@ -145,22 +142,23 @@ class Detail extends Component {
             </div>
             <div className="col-md-4 col-sm-12">
               <div className="detail-holder">
-                <h1 className="detail-title">{singleRecipe.name}</h1>
+                <h1 className="detail-title wrap-word">{singleRecipe.name}
+                </h1>
                 <i className="fa fa-eye" aria-hidden="true" /><span id="clickableAwesomeFont" className="view" >&nbsp;{singleRecipe.viewCount}</span>
                 <div className="card detail-card">
                   <div className="card-body clearfix">
                     <div className="row">
                       <button className="btn btn-success col-sm-4 no-border-r pt-3 pb-3" onClick={() => this.upvoted()}>
-                        <i className="fa fa-thumbs-up" aria-hidden="true" /><span>&nbsp;{singleRecipe.upVotes}</span>
+                        <i className="fa fa-thumbs-up" aria-hidden="true" style={{ color: 'white' }} /><span>&nbsp;{singleRecipe.upVotes}</span>
                       </button>
                       <button className="btn btn-danger col-sm-4 no-border-r pt-3 pb-3" onClick={() => this.downvoted()}>
-                        <i className="fa fa-thumbs-down" aria-hidden="true" /><span>&nbsp;{singleRecipe.downVotes}</span>
+                        <i className="fa fa-thumbs-down" aria-hidden="true" style={{ color: 'white' }} /><span>&nbsp;{singleRecipe.downVotes}</span>
                       </button>
                       <button className="btn btn-white col-sm-4 no-border-x pt-3 pb-3" onClick={() => this.favorite()}>
                         <i
                           className="fa fa-heart"
                           aria-hidden="true"
-                          style={checkFavorited.includes(singleRecipe.id) ? { color: 'red' } : { color: 'grey' }}
+                          style={(favoriteStatus) ? { color: 'red' } : { color: 'grey' }}
                         /><span>&nbsp;</span>
                       </button>
                     </div>
@@ -179,17 +177,17 @@ class Detail extends Component {
                 <h4 className="text-center">Preparation</h4>
                 <ul className="list-group wrap-word">
                   {
-                  splittedMethod.map(split =>
-                    <li className="list-group-item">{split}</li>)
-                }
+                    splittedMethod.map((split, index) =>
+                      <li className="list-group-item" key={ `${index}`}>{split}</li>)
+                  }
                 </ul>
               </div>
               <div className="col-md-6 col-sm-12 mt-5">
                 <h4 className="text-center">Ingredients</h4>
                 <ul className="list-group wrap-word">
-                  { splittedIngredients.map(split =>
-                    <li className="list-group-item" key={split.id}>{ split }</li>)
-                }
+                  {splittedIngredients.map((split, index) =>
+                    <li className="list-group-item" key={`${index}`}>{split}</li>)
+                  }
                 </ul>
               </div>
 
@@ -219,16 +217,14 @@ Detail.propTypes = {
   favoriteRecipe: PropTypes.func.isRequired,
   deleteReview: PropTypes.func.isRequired,
   getUserDetail: PropTypes.func.isRequired,
-  getFavoriteId: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({
   singleRecipe: state.recipeDetailReducer.currentRecipe,
-  favoriteRecipes: state.recipeDetailReducer.favoriteRecipe,
   message: state.recipeDetailReducer.message.message,
   userDetail: state.userDetailReducer.userDetail,
-  checkIfFavorite: state.recipeDetailReducer.checkIfFavorited
+  favoriteStatus: state.recipeDetailReducer.favoriteStatus
 });
 
 export default connect(mapStateToProps, {
-  getRecipeDetail, getReview, upvoteRecipe, downvoteRecipe, favoriteRecipe, getUserDetail, deleteReview, getFavoriteId
+  getRecipeDetail, getReview, upvoteRecipe, downvoteRecipe, favoriteRecipe, getUserDetail, deleteReview
 })(Detail);

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../actions/loginActions';
 import getUserDetail from '../actions/getUserDetail';
-import SearchBar from './searchBar';
+import SearchBar from './SearchBar';
 /**
  * @description Navigation Bar
  *
@@ -67,16 +67,28 @@ class NavigationBar extends React.Component {
     const { isAuthenticated } = this.props.auth;
 
     const userLinks = (
-      <div className="btn-group">
-        <button className="btn btn-secondary dropdown-toggle link-dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{this.props.userDetail.username}
-        </button>
-        <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-          <button onClick={this.logout} className="nav-link nov bg-light" styles="border-radius: 4px;">Log out</button>
-          <Link to="/favorites" className="dropdown-links" >My Favorites</Link><br />
-          <Link to="/recipes" className="dropdown-links">My Recipes</Link><br />
-          <Link to="/all-recipes" className="dropdown-links" >All Recipes</Link>
+      <div>
+        <div className="nav-item dropdown show-large">
+          <Link className="nav-link dropdown-toggle" to="/profile" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{this.props.userDetail.username}
+          </Link>
+          <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style={{ top: 52, marginLeft: -45 }}>
+            <Link to="/favorites" className="dropdown-item" >My Favorites</Link>
+            <Link to="/recipes" className="dropdown-item">My Recipes</Link>
+            <Link to="/all-recipes" className="dropdown-item" >All Recipes</Link>
+            <Link to="/profile" className="dropdown-item" >My Profile</Link>
+            <Link to="/" onClick={this.logout} className=" dropdown-item" styles="border-radius: 4px;">Log out</Link>
+          </div>
         </div>
+
+        <ul className="show-mobile">
+          <li><Link to="/favorites" className="dropdown-item" >My Favorites</Link></li>
+          <li><Link to="/recipes" className="dropdown-item">My Recipes</Link></li>
+          <li><Link to="/all-recipes" className="dropdown-item" >All Recipes</Link></li>
+          <li><Link to="/profile" className="dropdown-item" >My Profile</Link></li>
+          <li><Link to="/" onClick={this.logout} className=" dropdown-item" styles="border-radius: 4px;">Log out</Link></li>
+        </ul>
       </div>
+
     );
 
     const guestLinks = (
@@ -103,6 +115,7 @@ class NavigationBar extends React.Component {
 NavigationBar.propTypes = {
   auth: PropTypes.objectOf(PropTypes.any).isRequired,
   logout: PropTypes.func.isRequired,
+  getUserDetail: PropTypes.func.isRequired
 };
 
 

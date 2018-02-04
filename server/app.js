@@ -20,7 +20,7 @@ const publicPath = express.static(path.join(__dirname, '../build/'));
 app.use(express.static(path.join(__dirname, '../client/public/assets')));
 const port = process.env.PORT || 3000;
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV !== 'production') {
   const compiler = webpack(webpackConfig);
   app.use(webpackHotMiddleware(compiler, {
     hot: true,
@@ -45,8 +45,8 @@ app.get('/*', (req, res) => {
 });
 
 app.use((req, res, next) => {
-  const err = res.status(404).send({
-    ERROR: '404: Sorry Page Not Found!',
+  const err = res.status(404).json({
+    error: '404: Sorry Page Not Found!',
   });
   next(err);
 });

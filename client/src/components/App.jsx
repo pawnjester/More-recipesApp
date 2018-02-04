@@ -1,9 +1,9 @@
 import React from 'react';
-import Main from './Main';
+import Routes from './Routes';
 
 const App = () => (
   <div className="wrap">
-    <Main />
+    <Routes />
   </div>
 );
 

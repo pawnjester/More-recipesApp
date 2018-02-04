@@ -66,23 +66,16 @@ module.exports = {
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
       minimize: true,
+      parallel: true,
       compress: {
-        comparisons: true,
-        conditionals: true,
-        dead_code: true,
-        evaluate: true,
-        if_return: true,
-        join_vars: true,
-        sequences: true,
-        unused: true,
-        warnings: false,
+        passes: 3,
+        drop_console: true
       },
       output: {
         comments: false,
         beautify: false,
       }
     }),
-    new webpack.optimize.OccurrenceOrderPlugin(),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'client/public/index.html'),
       path: buildPath,
