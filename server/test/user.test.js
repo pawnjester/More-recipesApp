@@ -169,12 +169,12 @@ describe('User', () => {
         .put('/api/v1/users/update-profile')
         .send(fakeData.notupdateProfile)
         .set('x-access-token', token)
-        .end((err, res)=> {
+        .end((err, res) => {
           res.should.have.status(409);
           expect(res.body.error).to.equal('Username already taken');
           done();
-        })
-    })
+        });
+    });
     it('should be able to update profile', (done) => {
       chai.request(app)
         .put('/api/v1/users/update-profile')
