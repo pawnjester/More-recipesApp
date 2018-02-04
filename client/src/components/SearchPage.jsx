@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-InfiniteScroll = require('react-infinite-scroll')(React);
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';

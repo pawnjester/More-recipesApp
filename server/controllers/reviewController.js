@@ -53,11 +53,11 @@ class Reviews {
           ],
         })
           .then((reviewed) => {
-            // reviewed.Reviews.map((reviewOwner) => {
-            //   reviewer = reviewOwner.User.username;
-            // });
-            // mailer(reviewed.User.username, reviewer, reviewed.User.email, data, reviewed.name);
-            res.status(201).json({ statusCode: 201, message: 'Your review has been added', reviewed });
+            reviewed.Reviews.map((reviewOwner) => {
+              reviewer = reviewOwner.User.username;
+            });
+            mailer(reviewed.User.username, reviewer, reviewed.User.email, data, reviewed.name);
+            return res.status(201).json({ statusCode: 201, message: 'Your review has been added', reviewed });
           });
       })
       .catch(() => { res.status(500).json({ statusCode: 500, message: 'Error creating review' }); });

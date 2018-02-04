@@ -62,6 +62,7 @@ describe('Reviews', () => {
         .send(fakeData.reviews)
         .end((err, res) => {
           res.should.have.status(201);
+          console.log(res);
           res.body.should.have.property('message').equal('Your review has been added');
           done();
         });
