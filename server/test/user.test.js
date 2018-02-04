@@ -8,6 +8,7 @@ chai.should();
 const expect = chai.expect;
 chai.use(chaiHttp);
 let token;
+const faketoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiYWNjZXNzIjoiYXV0aCIsImlhdCI6MTUxNzc3MDgzOSwiZXhwIjoxNTE4MDMwMDM5fQ.XN_Bq_6AY0-evd41f6zjkxEPhEtmuP5FHvGRZMJR828';
 
 describe('User', () => {
   before((done) => {
@@ -205,17 +206,6 @@ describe('User', () => {
           done();
         });
     });
-    // it('should check email for resetting password', (done) => {
-    //   chai.request(app)
-    //     .post('/api/v1/users/verify-user')
-    //     .send(fakeData.checkEmail)
-    //     .set('x-access-token', token)
-    //     .end((err, res) => {
-    //       // expect(res.body.message).to.equal('Recovery link sent to your mail');
-    //       console.log(res.body);
-    //       done();
-    //     });
-    // });
     it('should return 404 if no email found in resetting password', (done) => {
       chai.request(app)
         .post('/api/v1/users/verify-user')
@@ -223,6 +213,17 @@ describe('User', () => {
         .set('x-access-token', token)
         .end((err, res) => {
           expect(res.body.error).to.equal('User not found');
+          done();
+        });
+    });
+
+    it('should return 404 if no email found in resetting password', (done) => {
+      chai.request(app)
+        .put('/api/v1/users/reset-password')
+        .send(fakeData.notCheckemail)
+        .set('x-access-token', faketoken)
+        .end((err, res) => {
+          expect(res.body.error).to.equal('User cannot be verified');
           done();
         });
     });

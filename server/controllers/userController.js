@@ -256,9 +256,6 @@ export default class User {
       },
     })
       .then((isUser) => {
-        if (!isUser) {
-          return res.status(404).json({ error: 'User not found' });
-        }
         if (isUser.dataValues.token === req.headers['x-access-token']) {
           const salt = bcrypt.genSaltSync(10);
           const hash = bcrypt.hashSync(password, salt);

@@ -68,6 +68,16 @@ describe('Favorite', () => {
           done();
         });
     });
+    it('should check for an empty favorite list', (done) => {
+      chai.request(app)
+        .get('/api/v1/recipes/favorite')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('message').equal('There are no favorite recipes in collection');
+          done();
+        });
+    });
     it('should let user add a recipe as favorite', (done) => {
       chai.request(app)
         .post('/api/v1/recipes/1/favorite')
@@ -95,6 +105,16 @@ describe('Favorite', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('message').equal('Recipe removed from favorite list');
+          done();
+        });
+    });
+    it('delete empty favorite list', (done) => {
+      chai.request(app)
+        .delete('/api/v1/recipes/1/favorite')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.have.property('error').equal('Favorite not found');
           done();
         });
     });
