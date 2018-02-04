@@ -14,13 +14,13 @@ import webpackConfig from '../webpack.config.dev';
 dotenv.config();
 
 const app = express();
-
+console.log('>>>>', process.env.NODE_ENV);
 const publicPath = express.static(path.join(__dirname, '../build/'));
 
 app.use(express.static(path.join(__dirname, '../client/public/assets')));
 const port = process.env.PORT || 3000;
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production' || process.env.NODE_ENV !== 'test') {
   const compiler = webpack(webpackConfig);
   app.use(webpackHotMiddleware(compiler, {
     hot: true,
