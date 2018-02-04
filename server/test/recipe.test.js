@@ -56,6 +56,39 @@ describe('Recipes', () => {
           done();
         });
     });
+    it('should return an error if no name is passed', (done) => {
+      chai.request(app)
+        .post('/api/v1/recipes')
+        .set('x-access-token', token)
+        .send(fakeData.fakeRecipe1)
+        .end((err, res) => {
+          res.should.have.status(406);
+          res.body.should.have.property('error').to.equal('You need to fill in a name of the recipe');
+          done();
+        });
+    });
+    it('should return an error if no ingredients is passed', (done) => {
+      chai.request(app)
+        .post('/api/v1/recipes')
+        .set('x-access-token', token)
+        .send(fakeData.fakeRecipe2)
+        .end((err, res) => {
+          res.should.have.status(406);
+          res.body.should.have.property('error').to.equal('You need to fill in the Ingredients');
+          done();
+        });
+    });
+    it('should return an error if no method is passed', (done) => {
+      chai.request(app)
+        .post('/api/v1/recipes')
+        .set('x-access-token', token)
+        .send(fakeData.fakeRecipe3)
+        .end((err, res) => {
+          res.should.have.status(406);
+          res.body.should.have.property('error').to.equal('You need to fill in the method of preparation');
+          done();
+        });
+    });
     it('should let user add not allow the user add a recipe twice', (done) => {
       chai.request(app)
         .post('/api/v1/recipes')
@@ -119,6 +152,16 @@ describe('Recipes', () => {
         .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(200);
+          done();
+        });
+    });
+    it('should return an error when non-number input is passed', (done) => {
+      chai.request(app)
+        .get('/api/v1/recipes/j')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(406);
+          expect(res.body.error).to.equal('Recipe id is not a number');
           done();
         });
     });

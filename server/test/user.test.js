@@ -8,6 +8,7 @@ chai.should();
 const expect = chai.expect;
 chai.use(chaiHttp);
 let token;
+const faketoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiYWNjZXNzIjoiYXV0aCIsImlhdCI6MTUxNzc3MDgzOSwiZXhwIjoxNTE4MDMwMDM5fQ.XN_Bq_6AY0-evd41f6zjkxEPhEtmuP5FHvGRZMJR828';
 
 describe('User', () => {
   before((done) => {
@@ -58,6 +59,17 @@ describe('User', () => {
         done();
       });
   });
+  it('should return an error if the username is less than six characters', (done) => {
+    chai
+      .request(app)
+      .post('/api/v1/users/signup')
+      .send(fakeData.shortUsername)
+      .end((err, res) => {
+        res.body.should.have.property('error').equal('You need to fill in your username with a minimum length of 6');
+        res.should.have.status(406);
+        done();
+      });
+  });
   it('should check if email address is supplied', (done) => {
     chai.request(app).post('/api/v1/users/signup')
       .send(fakeData.noEmailInput)
@@ -69,6 +81,17 @@ describe('User', () => {
         done();
       });
   });
+  it('should check if email address is valid', (done) => {
+    chai.request(app).post('/api/v1/users/signup')
+      .send(fakeData.invalidEmail)
+      .end((err, res) => {
+        res.should.have.status(406);
+        res.body.should.have
+          .property('error')
+          .equal('Invalid email address!');
+        done();
+      });
+  });
   it('should check if password is supplied', (done) => {
     chai.request(app).post('/api/v1/users/signup')
       .send(fakeData.noPasswordSignupInput)
@@ -77,6 +100,17 @@ describe('User', () => {
         res.body.should.have
           .property('error')
           .equal('You need to fill in the password');
+        done();
+      });
+  });
+  it('should check if password is supplied', (done) => {
+    chai.request(app).post('/api/v1/users/signup')
+      .send(fakeData.spacedPassword)
+      .end((err, res) => {
+        res.should.have.status(406);
+        res.body.should.have
+          .property('error')
+          .equal('Password cannot contain spaces');
         done();
       });
   });
@@ -205,17 +239,6 @@ describe('User', () => {
           done();
         });
     });
-    // it('should check email for resetting password', (done) => {
-    //   chai.request(app)
-    //     .post('/api/v1/users/verify-user')
-    //     .send(fakeData.checkEmail)
-    //     .set('x-access-token', token)
-    //     .end((err, res) => {
-    //       // expect(res.body.message).to.equal('Recovery link sent to your mail');
-    //       console.log(res.body);
-    //       done();
-    //     });
-    // });
     it('should return 404 if no email found in resetting password', (done) => {
       chai.request(app)
         .post('/api/v1/users/verify-user')
@@ -257,6 +280,29 @@ describe('User', () => {
         .end((err, res) => {
           res.should.have.status(400);
           expect(res.body.error).to.equal('New Password is the same as the old password');
+          done();
+        });
+    });
+
+    it('should return an error if old password is less than six', (done) => {
+      chai.request(app)
+        .put('/api/v1/users/change-password')
+        .send(fakeData.lenPassword)
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(406);
+          expect(res.body.error).to.equal('You need to fill in your password, minimum of 6');
+          done();
+        });
+    });
+    it('should return an error if new password is less than six', (done) => {
+      chai.request(app)
+        .put('/api/v1/users/change-password')
+        .send(fakeData.lennewPassword)
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(406);
+          expect(res.body.error).to.equal('You need to fill in your password, minimum of 6');
           done();
         });
     });

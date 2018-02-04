@@ -17,6 +17,21 @@ const fakeData = {
     email: 'test2@test.com',
     password: 'fodddyyy',
   },
+  shortUsername: {
+    username: 'ter2',
+    email: 'test2@test.com',
+    password: 'fodddyyy',
+  },
+  invalidEmail: {
+    username: 'tesrter2',
+    email: 'testk2@',
+    password: 'fodddyyy',
+  },
+  spacedPassword: {
+    username: 'tester2',
+    email: 'test2@test.com',
+    password: 'fodddyyy ',
+  },
   newUser2: {
     identifier: faker.name.findName(),
     password: 'fodddyyy',
@@ -94,6 +109,12 @@ const fakeData = {
     email: faker.internet.email(),
     password: 'food',
   },
+  lenPassword: {
+    oldPassword: 'mmm'
+  },
+  lennewPassword: {
+    password: '',
+  },
   recipe1: {
     name: 'Rice',
     ingredients: 'water rice',
@@ -103,6 +124,21 @@ const fakeData = {
     name: 'Beans',
     ingredients: 'water, beans',
     method: 'fry beans'
+  },
+  fakeRecipe1: {
+    name: '',
+    ingredients: 'water, beans',
+    method: 'fry beans'
+  },
+  fakeRecipe2: {
+    name: 'Bean',
+    ingredients: '',
+    method: 'fry beans'
+  },
+  fakeRecipe3: {
+    name: 'jojol',
+    ingredients: 'water, beans',
+    method: ''
   },
   reviews: {
     data: 'Very nice recipe'
