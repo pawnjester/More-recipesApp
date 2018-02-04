@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import searchRecipe from '../actions/searchRecipe';
-/**
+/*
  *
  * @class searchBar
  * @extends {Component}
