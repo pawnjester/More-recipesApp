@@ -250,17 +250,6 @@ describe('User', () => {
         });
     });
 
-    it('should return 404 if no email found in resetting password', (done) => {
-      chai.request(app)
-        .put('/api/v1/users/reset-password')
-        .send(fakeData.notCheckemail)
-        .set('x-access-token', faketoken)
-        .end((err, res) => {
-          expect(res.body.error).to.equal('User cannot be verified');
-          done();
-        });
-    });
-
     it('should return 403 for invalid token in reset password', (done) => {
       chai.request(app)
         .put('/api/v1/users/reset-password')
