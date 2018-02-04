@@ -8,15 +8,6 @@ const Validation = {
     next();
   },
 
-  userId(req, res, next) {
-    const { userId } = req.params;
-
-    if (isNaN(userId)) {
-      return res.status(400).json({ statusCode: 400, message: 'User id is not a number' });
-    }
-    next();
-  },
-
   reviewId(req, res, next) {
     const { reviewId } = req.params;
     if (isNaN(reviewId)) {
@@ -154,10 +145,10 @@ const Validation = {
     const { oldPassword, password } = req.body;
 
     if (!oldPassword || oldPassword.length < 6) {
-      return res.status(422).json({ statusCode: 422, error: 'You need to fill in your password, minimum of 6' });
+      return res.status(406).json({ statusCode: 406, error: 'You need to fill in your password, minimum of 6' });
     }
     if (!password || password.length < 6) {
-      return res.status(422).json({ statusCode: 422, error: 'You need to fill in your password, minimum of 6' });
+      return res.status(406).json({ statusCode: 406, error: 'You need to fill in your password, minimum of 6' });
     }
 
     next();

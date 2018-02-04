@@ -108,6 +108,16 @@ describe('Favorite', () => {
           done();
         });
     });
+    it('return an error if a non-number favoriteId is passed ', (done) => {
+      chai.request(app)
+        .delete('/api/v1/recipes/1k/favorite')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(406);
+          res.body.should.have.property('error').equal('Favorite id is not a number');
+          done();
+        });
+    });
     it('delete empty favorite list', (done) => {
       chai.request(app)
         .delete('/api/v1/recipes/1/favorite')

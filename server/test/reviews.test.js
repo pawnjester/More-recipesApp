@@ -66,6 +66,17 @@ describe('Reviews', () => {
           done();
         });
     });
+    it('should return an error if no content is passed', (done) => {
+      chai.request(app)
+        .post('/api/v1/recipes/1/reviews')
+        .set('x-access-token', token)
+        .send({ data: '' })
+        .end((err, res) => {
+          res.should.have.status(406);
+          res.body.should.have.property('error').equal('You need to put a review!');
+          done();
+        });
+    });
     it('should get a single review', (done) => {
       chai.request(app)
         .get('/api/v1/recipes/1/reviews')
@@ -106,6 +117,17 @@ describe('Reviews', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('message').equal('This review has been deleted');
+          done();
+        });
+    });
+    it('should return an error when non-number input', (done) => {
+      chai.request(app)
+        .delete('/api/v1/recipes/k/reviews')
+        .set('x-access-token', token)
+        .send(fakeData.reviews)
+        .end((err, res) => {
+          res.should.have.status(406);
+          res.body.should.have.property('error').equal('Review id is not a number');
           done();
         });
     });
