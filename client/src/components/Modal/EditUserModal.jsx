@@ -155,9 +155,6 @@ EditUserModal.propTypes = {
   toggle: PropTypes.func.isRequired,
   getuserDetail: PropTypes.func.isRequired,
   errors: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  profileImg: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({

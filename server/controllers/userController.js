@@ -228,7 +228,7 @@ export default class User {
         );
         isUser.update({ token })
           .then(() => {
-            const url = `http://localhost:3000/auth/reset_password/${token}`;
+            const url = `http://${req.headers.host}/auth/reset_password/${token}`;
             const { username } = isUser.dataValues;
             mailer(url, username, email, res);
           });
