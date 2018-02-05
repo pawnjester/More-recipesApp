@@ -72,7 +72,7 @@ class Profile extends Component {
         <div className="profile-header">
           <div className="dark">
             <div className="container ">
-              <div className="row profile">
+              <div className="row profile-page">
                 <div className="col-md-5 col-sm-12 col-xs-12 mobile">
                   <div className="profile-sidebar">
                     <div className="profile-user-pic">

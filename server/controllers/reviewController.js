@@ -1,4 +1,5 @@
 import models from '../models';
+import { transporter, mailOptions, templates } from '../helper/nodemailer';
 
 const review = models.Review;
 const recipe = models.Recipe;
@@ -27,12 +28,12 @@ class Reviews {
   postReview(req, res) {
     const { data } = req.body;
     const { recipeId } = req.params;
-    const currentUser = req.currentUser.id;
+    const currentUser = req.currentUser;
     let reviewer;
     review.create({
       data,
       recipeId,
-      userId: currentUser,
+      userId: currentUser.id,
     })
       .then(() => {
         recipe.findOne({
@@ -45,14 +46,27 @@ class Reviews {
               include: [
                 {
                   model: user,
-                  atrributes: ['username', 'profileImg'] },
+                  atrributes: ['username', 'profileImg']
+},
               ],
             },
 
           ],
         })
           .then((reviewed) => {
-            return res.status(201).json({ statusCode: 201, message: 'Your review has been added', reviewed });
+            if (reviewed.User.username !== currentUser.username) {
+              const subject = 'You have a review!';
+              const html = templates.reviewmailer(reviewed, data, currentUser.username);
+              transporter.sendMail(mailOptions(reviewed.User.email, subject, html))
+                .then(() => {
+                  return res.status(201).json({ statusCode: 201, message: 'Your review has been added', reviewed });
+                })
+                .catch(() => {
+                  res.json({ error: 'Error sending an email' });
+                });
+            } else {
+              return res.status(201).json({ statusCode: 201, message: 'Your review has been added', reviewed });
+            }
           });
       })
       .catch(() => { res.status(500).json({ statusCode: 500, message: 'Error creating review' }); });

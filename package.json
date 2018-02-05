@@ -13,8 +13,8 @@
     "test:dev": "./node_modules/.bin/mocha --timeout 15000 --compilers js:babel-core/register server/test/",
     "watch": "webpack --config webpack.config.dev.js --watch",
     "heroku-postbuild": "npm run build:client && npm run build:server",
-    "build:client": "rm -rf build && webpack --config webpack.config.prod.js",
-    "build:server": "rm -rf dist && babel ./server -d ./dist",
+    "build:client": "webpack --config webpack.config.prod.js",
+    "build:server": "babel ./server -d ./dist",
     "test:client": "NODE_ENV=jest jest ./client/test/*/*.spec.js --coverage --collectCoverageFrom=client/**/*.{js,jsx}"
   },
   "jest": {

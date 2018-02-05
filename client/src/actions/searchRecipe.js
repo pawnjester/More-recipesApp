@@ -12,7 +12,7 @@ export const searchRecipeFailure = error => ({
 });
 
 const searchRecipe = query => dispatch => axios
-  .get(`/api/v1/recipes/?search=${query}&limit=5`)
+  .get(`/api/v1/recipes/?search=${query}&limit=30`)
   .then((response) => {
     dispatch(searchRecipeSuccess(response.data.searchResults));
   })

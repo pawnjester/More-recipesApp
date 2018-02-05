@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 
 let token;
 
-describe('Reviews', () => {
+describe('Test For Reviews', () => {
   before((done) => {
     chai.request(app).post('/api/v1/users/signup')
       .send(fakeData.newUser)
@@ -31,7 +31,7 @@ describe('Reviews', () => {
     truncate: true,
     restartIdentity: true
   }));
-  it('should let user add a recipe', (done) => {
+  it('should add a recipe', (done) => {
     chai.request(app)
       .post('/api/v1/recipes')
       .set('x-access-token', token)
@@ -45,7 +45,7 @@ describe('Reviews', () => {
         done();
       });
   });
-  describe('Review', () => {
+  describe('Review Testing', () => {
     beforeEach((done) => {
       chai.request(app)
         .post('/api/v1/recipes')
@@ -55,7 +55,7 @@ describe('Reviews', () => {
           done();
         });
     });
-    it('should let user add a review', (done) => {
+    it('should add a review', (done) => {
       chai.request(app)
         .post('/api/v1/recipes/1/reviews')
         .set('x-access-token', token)
@@ -100,7 +100,7 @@ describe('Reviews', () => {
           done();
         });
     });
-    it('should delete a non existent review', (done) => {
+    it('should not delete a non existent review', (done) => {
       chai.request(app)
         .delete('/api/v1/recipes/17/reviews')
         .set('x-access-token', token)
