@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import models from '../models';
-import mailer from '../helper/mailer';
+import { transporter, mailOptions, templates } from '../helper/nodemailer';
 
 dotenv.config();
 
@@ -136,9 +136,7 @@ export default class User {
           id: currentUser.id,
         },
       })
-      .then((userFound) => {
-        return res.status(200).json(userFound);
-      })
+      .then(userFound => res.status(200).json(userFound))
       .catch(() => res.status(500).json({
         statusCode: 500,
         error: 'Unable to get user details'
@@ -169,32 +167,30 @@ export default class User {
         ],
       },
     })
-      .then((userFound) => {
-        return user.findOne({
-          where: {
-            $or: [
-              {
-                username: req.body.identifier,
-              },
-              {
-                profileImg: req.body.profileImg,
-              }
-            ]
-          }
-        }).then((CheckUser) => {
-          if (CheckUser) {
-            return res.status(409)
-              .json({
-                statusCode: 409,
-                error: 'Username already taken'
-              });
-          }
-          return userFound.update({
-            username: req.body.identifier || userFound.identifier,
-            profileImg: req.body.profileImg || userFound.profileImg,
-          }).then(() => res.status(201).json({ statusCode: 201, userFound }));
-        });
-      })
+      .then(userFound => user.findOne({
+        where: {
+          $or: [
+            {
+              username: req.body.identifier,
+            },
+            {
+              profileImg: req.body.profileImg,
+            }
+          ]
+        }
+      }).then((CheckUser) => {
+        if (CheckUser) {
+          return res.status(409)
+            .json({
+              statusCode: 409,
+              error: 'Username already taken'
+            });
+        }
+        return userFound.update({
+          username: req.body.identifier || userFound.identifier,
+          profileImg: req.body.profileImg || userFound.profileImg,
+        }).then(() => res.status(201).json({ statusCode: 201, userFound }));
+      }))
       .catch(() => res.status(500).json({
         statusCode: 500,
         error: 'Error editing the user'
@@ -227,10 +223,23 @@ export default class User {
           { expiresIn: 259200 },
         );
         isUser.update({ token })
-          .then(() => {
-            const url = `http://localhost:3000/auth/reset_password/${token}`;
-            const { username } = isUser.dataValues;
-            mailer(url, username, email, res);
+          .then((update) => {
+            if (update) {
+              const subject = 'Password Reset';
+              const html = templates.recovery(req, update);
+              transporter.sendMail(mailOptions(isUser.email, subject, html))
+                .then(() => {
+                  res.send({
+                    message: `An email with reset instructions has been sent to ${isUser.email}`
+                  });
+                })
+                .catch(() => {
+                  res.status(500).json({ error: 'Error sending recovery mail. Please try again later' });
+                });
+            }
+            // const url = `http://${req.headers.host}/auth/reset_password/${token}`;
+            // const { username } = isUser.dataValues;
+            // mailer(url, username, email, res);
           });
       })
       .catch(() => res.status(500)

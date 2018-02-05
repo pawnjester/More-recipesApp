@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 
 let token;
 
-describe('Favorite', () => {
+describe('Test for Favorite Recipes', () => {
   before((done) => {
     chai.request(app).post('/api/v1/users/signup')
       .send(fakeData.newUser)
@@ -33,7 +33,7 @@ describe('Favorite', () => {
     truncate: true,
     restartIdentity: true
   }));
-  it('should allow a user create a recipe', (done) => {
+  it('should create a recipe', (done) => {
     chai.request(app)
       .post('/api/v1/recipes')
       .set('x-access-token', token)
@@ -48,7 +48,7 @@ describe('Favorite', () => {
         done();
       });
   });
-  describe('Favorite', () => {
+  describe('Favorite Test', () => {
     beforeEach((done) => {
       chai.request(app)
         .post('/api/v1/recipes')
@@ -58,7 +58,7 @@ describe('Favorite', () => {
           done();
         });
     });
-    it('should not let user add a non-exitent recipe as favorite', (done) => {
+    it('should not add a non-exitent recipe as favorite', (done) => {
       chai.request(app)
         .post('/api/v1/recipes/15/favorite')
         .set('x-access-token', token)
@@ -88,7 +88,7 @@ describe('Favorite', () => {
           done();
         });
     });
-    it('should get all favorite', (done) => {
+    it('should get all favorite Recipes', (done) => {
       chai.request(app)
         .get('/api/v1/recipes/favorite')
         .set('x-access-token', token)
@@ -98,7 +98,7 @@ describe('Favorite', () => {
           done();
         });
     });
-    it('should let remove recipe as favorite', (done) => {
+    it('should remove recipe as favorite', (done) => {
       chai.request(app)
         .post('/api/v1/recipes/1/favorite')
         .set('x-access-token', token)
@@ -108,7 +108,7 @@ describe('Favorite', () => {
           done();
         });
     });
-    it('return an error if a non-number favoriteId is passed ', (done) => {
+    it('should return an error if a non-number favoriteId is passed ', (done) => {
       chai.request(app)
         .delete('/api/v1/recipes/1k/favorite')
         .set('x-access-token', token)
@@ -118,7 +118,7 @@ describe('Favorite', () => {
           done();
         });
     });
-    it('delete empty favorite list', (done) => {
+    it('should return an error on deleting empty favorite list', (done) => {
       chai.request(app)
         .delete('/api/v1/recipes/1/favorite')
         .set('x-access-token', token)

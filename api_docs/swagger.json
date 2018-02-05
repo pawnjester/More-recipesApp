@@ -15,7 +15,7 @@
   "basePath": "/api/v1/",
   "tags": [
     {
-      "name": "users",
+      "name": "/users",
       "description": "Users related routes"
     },
     {
@@ -43,7 +43,7 @@
     "/users/signup": {
       "post": {
         "tags": [
-          "users"
+          "/users"
         ],
         "summary": "Allows user to create an account",
         "description": "User creates account by filling out a form",
@@ -92,7 +92,7 @@
     "/users/signin": {
       "post": {
         "tags": [
-          "users"
+          "/users"
         ],
         "summary": "Signs in a previously logged in user",
         "description": "Registered users can access the app",
@@ -136,7 +136,7 @@
     "/users/me": {
       "get": {
         "tags": [
-          "users"
+          "/users"
         ],
         "summary": "Get the details of a current user",
         "description": "Displays details of current user",
@@ -149,7 +149,7 @@
         ],
         "parameters": [
           {
-            "name": "x-token",
+            "name": "x-access-token",
             "in": "header",
             "description": "Authentication Token",
             "required": true,
@@ -172,7 +172,7 @@
     "/users/update-profile": {
       "put": {
         "tags": [
-          "users"
+          "/users"
         ],
         "summary": "Update user's profile",
         "description": "A user can update their profile",
@@ -185,7 +185,7 @@
         ],
         "parameters": [
           {
-            "name": "x-token",
+            "name": "x-access-token",
             "in": "header",
             "description": "Authentication Token",
             "required": true,
@@ -216,6 +216,47 @@
         }
       }
     },
+    "/users/verify-user": {
+      "post": {
+        "tags": [
+          "/users"
+        ],
+        "summary": "Check user email if present",
+        "description": "A user can reset password",
+        "operationId": "checkEmail",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User Email",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/checkEmail"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized user, You need to sign in."
+          },
+          "403": {
+            "description": "Failed to authenticate token"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "default": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/users/reset-password": {
       "put": {
         "tags": [
@@ -232,19 +273,31 @@
         ],
         "parameters": [
           {
-            "name": "x-token",
+            "name": "x-access-token",
             "in": "header",
             "description": "Authentication Token",
             "required": true,
             "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "password",
+            "description": "User Password",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/userPassword"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "Password reset successful"
           },
+          "401": {
+            "description": "Unauthorized user, You need to sign in."
+          },
           "403": {
-            "description": "You`re unauthorized to perform this action"
+            "description": "Failed to authenticate token"
           },
           "404": {
             "description": "User not found"
@@ -271,11 +324,20 @@
         ],
         "parameters": [
           {
-            "name": "x-token",
+            "name": "x-access-token",
             "in": "header",
             "description": "Authentication Token",
             "required": true,
             "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "password",
+            "description": "User Password",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/userPassword"
+            }
           }
         ],
         "responses": {
@@ -284,6 +346,12 @@
           },
           "400": {
             "description": "Invalid password"
+          },
+          "401": {
+            "description": "Unauthorized user, You need to sign in."
+          },
+          "403": {
+            "description": "Failed to authenticate token"
           },
           "default": {
             "description": "Internal server error"
@@ -332,7 +400,7 @@
         ],
         "parameters": [
           {
-            "name": "x-token",
+            "name": "x-access-token",
             "in": "header",
             "description": "Authentication Token",
             "required": true,
@@ -388,7 +456,7 @@
         ],
         "parameters": [
           {
-            "name": "x-token",
+            "name": "x-access-token",
             "in": "header",
             "description": "Authentication Token",
             "required": true,
@@ -441,7 +509,7 @@
         ],
         "parameters": [
           {
-            "name": "x-token",
+            "name": "x-access-token",
             "in": "header",
             "description": "Authentication Token",
             "required": true,
@@ -500,7 +568,7 @@
         ],
         "parameters": [
           {
-            "name": "x-token",
+            "name": "x-access-token",
             "in": "header",
             "description": "Authentication Token",
             "required": true,
@@ -554,7 +622,7 @@
         ],
         "parameters": [
           {
-            "name": "x-token",
+            "name": "x-access-token",
             "in": "header",
             "description": "Authentication Token",
             "required": true,
@@ -563,15 +631,6 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/GetRecipes"
-              }
-            }
-          },
-          "201": {
             "description": "OK",
             "schema": {
               "type": "array",
@@ -592,7 +651,7 @@
           "/recipes"
         ],
         "summary": "list all the favorite recipes available",
-        "description": "Fetch the top 4 favorite recipe",
+        "description": "Fetch the top 3 favorite recipe",
         "operationId": "listFavoritedRecipe",
         "consumes": [
           "application/json"
@@ -602,7 +661,7 @@
         ],
         "parameters": [
           {
-            "name": "x-token",
+            "name": "x-access-token",
             "in": "header",
             "description": "Authentication Token",
             "required": true,
@@ -641,7 +700,7 @@
         ],
         "parameters": [
           {
-            "name": "x-token",
+            "name": "x-access-token",
             "in": "header",
             "description": "Authentication Token",
             "required": true,
@@ -694,7 +753,7 @@
         ],
         "parameters": [
           {
-            "name": "x-token",
+            "name": "x-access-token",
             "in": "header",
             "description": "Authentication Token",
             "required": true,
@@ -751,7 +810,7 @@
         ],
         "parameters": [
           {
-            "name": "x-token",
+            "name": "x-access-token",
             "in": "header",
             "description": "Authentication Token",
             "required": true,
@@ -771,12 +830,6 @@
               "$ref": "#/definitions/DeleteRecipe"
             }
           },
-          "400": {
-            "description": "Not found",
-            "schema": {
-              "$ref": "#/definitions/RecipeNotFound"
-            }
-          },
           "406": {
             "description": "Invalid recipeId",
             "schema": {
@@ -791,160 +844,154 @@
     },
     "/recipes/{recipeId}/favorite": {
       "delete": {
-      "tags": [
-        "/favorites"
-      ],
-      "summary": "Add recipe as favorite",
-      "description": "This method allows authenticated user add recipe as favorite",
-      "operationId": "createFavorite",
-      "consumes": [
-        "application/json"
-      ],
-      "produces": [
-        "application/json"
-      ],
-      "parameters": [
-        {
-          "name": "x-token",
-          "in": "header",
-          "description": "Authentication Token",
-          "required": true,
-          "type": "string"
-        },
-        {
-          "in": "body",
-          "name": "body",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/Recipe"
+        "tags": [
+          "/favorites"
+        ],
+        "summary": "Add recipe as favorite",
+        "description": "This method allows authenticated user add recipe as favorite",
+        "operationId": "createFavorite",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "description": "Authentication Token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Recipe"
+            }
           }
-        }
-      ],
-      "responses": {
-        "200": {
-          "schema": {
-            "description": "Recipe removed from favorite list",
-            "$ref": "#/definitions/CreatedRecipe"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "description": "This is no more your favorite",
+              "$ref": "#/definitions/CreatedRecipe"
+            }
+          },
+          "404": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/RecipeValidation"
+            }
+          },
+          "default": {
+            "description": "An error occured"
           }
-        },
-        "201": {
-          "schema": {
-            "description": "Responds with a recipe instance",
-            "$ref": "#/definitions/CreatedRecipe"
-          }
-        },
-        "400": {
-          "description": "Validation exception",
-          "schema": {
-            "$ref": "#/definitions/RecipeValidation"
-          }
-        },
-        "default": {
-          "description": "An error occured"
         }
       }
-    }
     },
     "/recipes/{recipeId}/upvote": {
       "post": {
-      "tags": [
-        "/votes"
-      ],
-      "summary": "Upvote a recipe",
-      "description": "User can upvote recipe of choice",
-      "operationId": "UpvoteRecipe",
-      "consumes": [
-        "application/json"
-      ],
-      "produces": [
-        "application/json"
-      ],
-      "parameters": [
-        {
-          "name": "x-token",
-          "in": "header",
-          "description": "Authentication Token",
-          "required": true,
-          "type": "string"
-        },
-        {
-          "in": "body",
-          "name": "body",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/Recipe"
+        "tags": [
+          "/votes"
+        ],
+        "summary": "Upvote a recipe",
+        "description": "User can upvote recipe of choice",
+        "operationId": "UpvoteRecipe",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "description": "Authentication Token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Recipe"
+            }
           }
-        }
-      ],
-      "responses": {
-        "201": {
-          "schema": {
-            "description": "Responds with a recipe instance",
-            "$ref": "#/definitions/CreatedRecipe"
+        ],
+        "responses": {
+          "201": {
+            "schema": {
+              "description": "Responds with a recipe instance",
+              "$ref": "#/definitions/CreatedRecipe"
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/RecipeValidation"
+            }
+          },
+          "default": {
+            "description": "An error occured"
           }
-        },
-        "400": {
-          "description": "Validation exception",
-          "schema": {
-            "$ref": "#/definitions/RecipeValidation"
-          }
-        },
-        "default": {
-          "description": "An error occured"
         }
       }
-    }
     },
     "/recipes/{recipeId}/downvote": {
       "post": {
-      "tags": [
-        "/votes"
-      ],
-      "summary": "Downvote a recipe",
-      "description": "User can downvote recipe of choice",
-      "operationId": "DownvoteRecipe",
-      "consumes": [
-        "application/json"
-      ],
-      "produces": [
-        "application/json"
-      ],
-      "parameters": [
-        {
-          "name": "x-token",
-          "in": "header",
-          "description": "Authentication Token",
-          "required": true,
-          "type": "string"
-        },
-        {
-          "in": "body",
-          "name": "body",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/Recipe"
+        "tags": [
+          "/votes"
+        ],
+        "summary": "Downvote a recipe",
+        "description": "User can downvote recipe of choice",
+        "operationId": "DownvoteRecipe",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "description": "Authentication Token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Recipe"
+            }
           }
-        }
-      ],
-      "responses": {
-        "201": {
-          "schema": {
-            "description": "Responds with a recipe instance",
-            "$ref": "#/definitions/CreatedRecipe"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "description": "Recipe has been downvoted",
+              "$ref": "#/definitions/CreatedRecipe"
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/RecipeValidation"
+            }
+          },
+          "default": {
+            "description": "An error occured"
           }
-        },
-        "400": {
-          "description": "Validation exception",
-          "schema": {
-            "$ref": "#/definitions/RecipeValidation"
-          }
-        },
-        "default": {
-          "description": "An error occured"
         }
       }
     }
-  }
   },
   "definitions": {
     "User": {
@@ -986,6 +1033,30 @@
         }
       }
     },
+    "checkEmail": {
+      "type": "object",
+      "required": [
+        "email"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "josh@ford.com"
+        }
+      }
+    },
+    "userPassword": {
+      "type": "object",
+      "required": [
+        "password"
+      ],
+      "properties": {
+        "password": {
+          "type": "string",
+          "example": "janeDoe"
+        }
+      }
+    },
     "Signin": {
       "type": "object",
       "required": [
@@ -1006,23 +1077,25 @@
     "Signup": {
       "type": "object",
       "required": [
-        "message",
-        "token"
+        "userName",
+        "password"
       ],
       "properties": {
-        "userDetail": {
           "type": "object",
-          "example": {
-            "userName": "janedoe",
-            "email": "jane@doe.com"
+          "userName": {
+            "type": "string",
+            "example": "janedoe"
+          },
+          "password": {
+            "example": "jxxxxx123",
+            "type": "string"
           }
-        }
       }
     },
     "SignupError": {
       "type": "object",
       "properties": {
-        "message": {
+        "error": {
           "type": "string",
           "example": "user already exists!"
         }
@@ -1032,7 +1105,14 @@
       "type": "object",
       "required": [
         "error"
-      ]
+      ],
+      "properties": {
+        "type": "object",
+        "error":{
+          "type":"string",
+          "example":"Username or email is already in use"
+        }
+      }
     },
     "SignInSuccess": {
       "type": "object",
@@ -1267,7 +1347,7 @@
             "downVotes": 0,
             "favoriteCount": 0,
             "viewCheck": 0,
-            "viewCount":0,
+            "viewCount": 0,
             "createdAt": "2018-01-24T22:04:01.944Z",
             "updatedAt": "2018-01-25T00:09:15.483Z"
           }

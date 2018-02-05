@@ -9,7 +9,7 @@ const expect = chai.expect;
 chai.use(chaiHttp);
 let token;
 
-describe('Recipes', () => {
+describe('Test for Recipes', () => {
   beforeEach((done) => {
     chai.request(app).post('/api/v1/users/signup')
       .send(fakeData.newUser)
@@ -31,7 +31,7 @@ describe('Recipes', () => {
     restartIdentity: true
   }));
 
-  it('should allow a user create a recipe', (done) => {
+  it('should create a recipe', (done) => {
     chai.request(app)
       .post('/api/v1/recipes')
       .set('x-access-token', token)
@@ -46,7 +46,7 @@ describe('Recipes', () => {
         done();
       });
   });
-  describe('Recipe', () => {
+  describe('Recipe Testing', () => {
     beforeEach((done) => {
       chai.request(app)
         .post('/api/v1/recipes')
@@ -89,7 +89,7 @@ describe('Recipes', () => {
           done();
         });
     });
-    it('should let user add not allow the user add a recipe twice', (done) => {
+    it('should not add the same recipe twice', (done) => {
       chai.request(app)
         .post('/api/v1/recipes')
         .set('x-access-token', token)
@@ -100,7 +100,7 @@ describe('Recipes', () => {
           done();
         });
     });
-    it('should let user delete a recipe', (done) => {
+    it('should delete a recipe', (done) => {
       chai.request(app)
         .delete('/api/v1/recipes/1')
         .set('x-access-token', token)

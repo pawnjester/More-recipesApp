@@ -40,7 +40,10 @@ class NavigationBar extends React.Component {
  * @returns {void}
  */
   componentWillMount() {
-    this.props.getUserDetail();
+    const { isAuthenticated } = this.props.auth;
+    if (isAuthenticated) {
+      this.props.getUserDetail();
+    }
   }
 
   /**

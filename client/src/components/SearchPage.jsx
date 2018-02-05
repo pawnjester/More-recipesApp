@@ -63,8 +63,8 @@ class SearchPage extends Component {
       height: 200,
     };
     const recipes = (this.props.recipes) ? (this.props.recipes) : [];
-    const recipesList = recipes.map(recipe => (
-      <div className="col-md-4 col-xs-12 " >
+    const recipesList = recipes.map((recipe, index )=> (
+      <div className="col-md-4 col-xs-12 " key={ `${index}`}>
         <div className="card">
           <img className="card-img-top" src={recipe.imageUrl} style={style} alt="recipeImage" />
           <div className="card-body">
