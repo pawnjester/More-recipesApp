@@ -8,9 +8,9 @@ chai.should();
 const expect = chai.expect;
 chai.use(chaiHttp);
 let token;
-const faketoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiYWNjZXNzIjoiYXV0aCIsImlhdCI6MTUxNzc3MDgzOSwiZXhwIjoxNTE4MDMwMDM5fQ.XN_Bq_6AY0-evd41f6zjkxEPhEtmuP5FHvGRZMJR828';
 
-describe('User', () => {
+
+describe('Test for User', () => {
   before((done) => {
     chai.request(app).post('/api/v1/users/signup')
       .send(fakeData.newUser)
@@ -139,7 +139,7 @@ describe('User', () => {
       });
   });
 
-  it('should not let user sign in without password ', (done) => {
+  it('should not sign in without password ', (done) => {
     chai
       .request(app)
       .post('/api/v1/users/signin')
@@ -151,7 +151,7 @@ describe('User', () => {
         done();
       });
   });
-  it('should let user sign in', (done) => {
+  it('should sign in', (done) => {
     chai.request(app)
       .post('/api/v1/users/signin')
       .send(fakeData.signedInUser2)
@@ -189,7 +189,7 @@ describe('User', () => {
       });
   });
 
-  describe('', () => {
+  describe('User Test', () => {
     before((done) => {
       chai.request(app).post('/api/v1/users/signin')
         .send(fakeData.signedInUser2)
@@ -207,9 +207,9 @@ describe('User', () => {
           res.should.have.status(409);
           expect(res.body.error).to.equal('Username already taken');
           done();
-        })
-    })
-    it('should be able to update profile', (done) => {
+        });
+    });
+    it('should update profile', (done) => {
       chai.request(app)
         .put('/api/v1/users/update-profile')
         .send(fakeData.updateProfile)
@@ -272,7 +272,7 @@ describe('User', () => {
         });
     });
 
-    it('should return for same password in change password', (done) => {
+    it('should return an error for same password in change password', (done) => {
       chai.request(app)
         .put('/api/v1/users/change-password')
         .send(fakeData.samePasswordChange)

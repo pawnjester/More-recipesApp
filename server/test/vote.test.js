@@ -11,7 +11,7 @@ chai.use(chaiHttp);
 
 let token;
 
-describe('Vote', () => {
+describe('Vote Testing', () => {
   before((done) => {
     chai.request(app).post('/api/v1/users/signup')
       .send(fakeData.newUser)
@@ -31,7 +31,7 @@ describe('Vote', () => {
     truncate: true,
     restartIdentity: true
   }));
-  it('should let user add a recipe', (done) => {
+  it('should add a recipe', (done) => {
     chai.request(app)
       .post('/api/v1/recipes')
       .set('x-access-token', token)
@@ -45,7 +45,7 @@ describe('Vote', () => {
         done();
       });
   });
-  describe('Votes', () => {
+  describe('Votes Testing', () => {
     beforeEach((done) => {
       chai.request(app)
         .post('/api/v1/recipes')
@@ -55,7 +55,7 @@ describe('Vote', () => {
           done();
         });
     });
-    it('should let user upvote a recipe', (done) => {
+    it('should upvote a recipe', (done) => {
       chai.request(app)
         .post('/api/v1/recipes/1/upvote')
         .set('x-access-token', token)
@@ -65,7 +65,7 @@ describe('Vote', () => {
           done();
         });
     });
-    it('should not let user upvote a non existent recipe', (done) => {
+    it('should not upvote a non existent recipe', (done) => {
       chai.request(app)
         .post('/api/v1/recipes/15/upvote')
         .set('x-access-token', token)
@@ -85,7 +85,7 @@ describe('Vote', () => {
           done();
         });
     });
-    it('should let user upvote a recipe', (done) => {
+    it('should upvote a recipe', (done) => {
       chai.request(app)
         .post('/api/v1/recipes/1/upvote')
         .set('x-access-token', token)
