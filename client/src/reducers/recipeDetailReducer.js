@@ -85,12 +85,12 @@ const detail = (state = initialState, action) => {
       };
     case ADD_REVIEW:
       return {
-        ...state, currentRecipe: action.review, sucess: true, errors: null,
+        ...state, currentRecipe: action.review, success: true, errors: null,
       };
 
     case ADD_REVIEW_FAILURE:
       return {
-        ...state, currentRecipe: {}, success: false, errors: action.error,
+        ...state, success: false, errors: action.error,
       };
     case DELETE_REVIEW_SUCCESS:
       return {
@@ -105,7 +105,7 @@ const detail = (state = initialState, action) => {
       };
     case DELETE_REVIEW_FAILURE:
       return {
-        ...state, currentRecipe: {}, success: false, errors: action.error
+        ...state, success: false, errors: action.error
       };
 
     case DELETE_FAVORITE_SUCCESS:

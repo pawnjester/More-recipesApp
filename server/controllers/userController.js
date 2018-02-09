@@ -157,21 +157,14 @@ export default class User {
     const { currentUser } = req;
     user.findOne({
       where: {
-        $or: [
-          {
-            username: currentUser.username,
-          },
-          {
-            email: currentUser.email,
-          },
-        ],
+        id: currentUser.id,
       },
     })
       .then(userFound => user.findOne({
         where: {
           $or: [
             {
-              username: req.body.identifier,
+              username: req.body.username,
             },
             {
               profileImg: req.body.profileImg,
@@ -187,7 +180,7 @@ export default class User {
             });
         }
         return userFound.update({
-          username: req.body.identifier || userFound.identifier,
+          username: req.body.username || userFound.username,
           profileImg: req.body.profileImg || userFound.profileImg,
         }).then(() => res.status(201).json({ statusCode: 201, userFound }));
       }))

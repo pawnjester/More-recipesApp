@@ -43,4 +43,27 @@ describe('downvoteRecipeAction', () => {
         expect(store.getActions()).toEqual(expectedAction);
       });
   });
+
+  it('should handle error', () => {
+    const store = mockStore({});
+    axios.post = jest.fn(() => Promise.reject({
+      response: {
+        data: {
+          error: ''
+        }
+      }
+    }));
+    const expectedAction = [
+      {
+        type: types.DOWNVOTE_RECIPE_FAILURE,
+        error: {
+          error: ''
+        }
+      }
+    ];
+
+    return store.dispatch(downvoteRecipe({})).then(() => {
+      expect(store.getActions()).toEqual(expectedAction)
+    });
+  });
 });

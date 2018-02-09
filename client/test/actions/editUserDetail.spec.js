@@ -45,4 +45,24 @@ describe('editUserAction', () => {
         expect(store.getActions()).toEqual(expectedAction);
       });
   });
+  it('should handle error', () => {
+    const store = mockStore({});
+    axios.put = jest.fn(() => Promise.reject({
+      response: {
+        data: {
+          error: ''
+        }
+      }
+    }));
+    const expectedAction = [
+      {
+        type: types.EDIT_USER_DETAILS_FAILURE,
+        error: ''
+      }
+    ];
+
+    return store.dispatch(editUserDetail({})).then(() => {
+      expect(store.getActions()).toEqual(expectedAction)
+    });
+  });
 });

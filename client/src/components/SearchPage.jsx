@@ -14,7 +14,7 @@ import search from '../actions/searchRecipe';
  *
  * @extends {Component}
  */
-class SearchPage extends Component {
+export class SearchPage extends Component {
   /**
    * @description Creates an instance of SearchPage.
    *
@@ -111,7 +111,7 @@ class SearchPage extends Component {
 }
 
 SearchPage.propTypes = {
-  recipes: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  // recipes: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   search: PropTypes.func.isRequired
 };
 

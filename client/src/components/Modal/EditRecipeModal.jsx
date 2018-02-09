@@ -8,14 +8,14 @@ import { connect } from 'react-redux';
 import toastr from 'toastr';
 import imageUpload from '../../helpers/imageUpload';
 import editRecipe from '../../actions/editRecipe';
-import GetAllRecipes from '../../actions/getRecipe';
+import getAllRecipes from '../../actions/getRecipe';
 /**
  *
  * @class EditRecipeModal
  *
  * @extends {Component}
  */
-class EditRecipeModal extends Component {
+export class EditRecipeModal extends Component {
   /**
    * Creates an instance of EditRecipeModal.
    *
@@ -81,7 +81,7 @@ class EditRecipeModal extends Component {
     event.preventDefault();
     this.props.editRecipe(this.state);
     toastr.success('Recipe successfully changed');
-    this.props.GetAllRecipes();
+    this.props.getAllRecipes();
     this.props.toggle();
   }
   /**
@@ -132,6 +132,7 @@ class EditRecipeModal extends Component {
                   value={this.state.name}
                   onChange={this.onNameChange}
                   placeholder="Enter the name"
+                  className="out"
                 />
               </Col>
             </FormGroup>
@@ -190,6 +191,7 @@ class EditRecipeModal extends Component {
                   onClick={this.onSubmit}
                   style={{ float: 'right', backgroundColor: '#A43741' }}
                   disabled={this.state.disabled}
+                  className="edit-button-recipe"
                 >Edit a recipe
                 </Button>
               </Col>
@@ -202,9 +204,8 @@ class EditRecipeModal extends Component {
 }
 
 EditRecipeModal.propTypes = {
-  GetAllRecipes: PropTypes.func.isRequired,
-
+  getAllRecipes: PropTypes.func.isRequired,
 };
 
 
-export default connect(null, { editRecipe, GetAllRecipes })(EditRecipeModal);
+export default connect(null, { editRecipe, getAllRecipes })(EditRecipeModal);

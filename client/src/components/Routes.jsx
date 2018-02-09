@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, Route, Router } from 'react-router-dom';
 import history from '../utils/history';
 import Home from './homepage';
-import SignUp from './signup/signUpPage';
 import LoginPage from './login/loginPage';
 import RecipePage from './recipe/addRecipe/RecipePage';
 import Detail from './recipe/Detail';

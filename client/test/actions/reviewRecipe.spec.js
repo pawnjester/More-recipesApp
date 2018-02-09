@@ -43,4 +43,24 @@ describe('addReviewAction', () => {
         expect(store.getActions()).toEqual(expectedAction);
       });
   });
+  it('should handle error', () => {
+    const store = mockStore({});
+    axios.post = jest.fn(() => Promise.reject({
+      response: {
+        data: {
+          error: ''
+        }
+      }
+    }));
+    const expectedAction = [
+      {
+        type: types.ADD_REVIEW_FAILURE,
+          error: 'Unable to add review'
+      }
+    ];
+
+    return store.dispatch(addReview({})).then(() => {
+      expect(store.getActions()).toEqual(expectedAction)
+    });
+  });
 });

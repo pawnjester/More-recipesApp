@@ -13,7 +13,7 @@ import '../styles/passwordchange.scss';
  * @extends {Component}
  */
 
-class ChangePasswordForm extends Component {
+export class ChangePasswordForm extends Component {
   constructor(props) {
     super(props);
 

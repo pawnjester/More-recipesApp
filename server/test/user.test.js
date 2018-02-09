@@ -198,6 +198,17 @@ describe('Test for User', () => {
           done();
         });
     });
+    it('should update profile', (done) => {
+      chai.request(app)
+        .put('/api/v1/users/update-profile')
+        .send(fakeData.updateProfile)
+        .set('x-access-token', token)
+        .end((err, res) => {
+          expect(res.body.userFound.username).to.equal('tester');
+          expect(res.body.userFound.profileImg).to.equal('https://res.cloudinary.com/donut/image/upload/v1516811745/Photo_on_15-12-2017_at_11.18_alidfo.jpg');
+          done();
+        });
+    });
     it('should not update user profile with taken username', (done) => {
       chai.request(app)
         .put('/api/v1/users/update-profile')
@@ -209,17 +220,7 @@ describe('Test for User', () => {
           done();
         });
     });
-    it('should update profile', (done) => {
-      chai.request(app)
-        .put('/api/v1/users/update-profile')
-        .send(fakeData.updateProfile)
-        .set('x-access-token', token)
-        .end((err, res) => {
-          expect(res.body.userFound.username).to.equal('flavoour');
-          expect(res.body.userFound.profileImg).to.equal('https://res.cloudinary.com/donut/image/upload/v1516811745/Photo_on_15-12-2017_at_11.18_alidfo.jpg');
-          done();
-        });
-    });
+
     it('should not allow unauthorized user to view profile', (done) => {
       chai.request(app)
         .put('/api/v1/users/update-profile')

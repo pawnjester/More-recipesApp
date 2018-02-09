@@ -42,4 +42,28 @@ describe('searchRecipeAction', () => {
         expect(store.getActions()).toEqual(expectedAction);
       });
   });
+  it('should handle error', () => {
+    const store = mockStore({});
+    axios.get = jest.fn(() => Promise.reject({
+      response: {
+        data: {
+          searchResults: {
+            error: ''
+          }
+        }
+      }
+    }));
+    const expectedAction = [
+      {
+        type: types.SEARCH_RECIPE_FAILURE,
+          error: {
+            error: ''
+          }
+      }
+    ];
+
+    return store.dispatch(searchRecipe({})).then(() => {
+      expect(store.getActions()).toEqual(expectedAction)
+    });
+  });
 });

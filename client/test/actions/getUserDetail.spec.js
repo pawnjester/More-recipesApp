@@ -40,4 +40,25 @@ describe('getUserDetailAction', () => {
         expect(store.getActions()).toEqual(expectedAction);
       });
   });
+
+  it('should handle error', () => {
+    const store = mockStore({});
+    axios.get = jest.fn(() => Promise.reject({
+      response: {
+        data: {
+          error: ''
+        }
+      }
+    }));
+    const expectedAction = [
+      {
+        type: types.GET_USER_DETAILS_FAILURE,
+        error: 'Unable to retrieve this User'
+      }
+    ];
+
+    return store.dispatch(getUserDetail({})).then(() => {
+      expect(store.getActions()).toEqual(expectedAction)
+    });
+  });
 });

@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for Search bar should render correctly 1`] = `
+<searchBar
+  searchRecipe={[MockFunction]}
+/>
+`;

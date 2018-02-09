@@ -40,4 +40,26 @@ describe('getFavoritedRecipesAction', () => {
         expect(store.getActions()).toEqual(expectedAction);
       });
   });
+  it('should handle error', () => {
+    const store = mockStore({});
+    axios.get = jest.fn(() => Promise.reject({
+      response: {
+        data: {
+          error: ''
+        }
+      }
+    }));
+    const expectedAction = [
+      {
+        type: types.GET_FAVORITE_RECIPES_FAILURE,
+        error: {
+          error: ''
+        }
+      }
+    ];
+
+    return store.dispatch(getFavoriteRecipe({})).then(() => {
+      expect(store.getActions()).toEqual(expectedAction)
+    });
+  });
 });

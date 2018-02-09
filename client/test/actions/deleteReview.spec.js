@@ -36,4 +36,23 @@ describe('deleteReviewAction', () => {
         expect(store.getActions()).toEqual(expectedAction);
       });
   });
+  it('should hamdle error for deleting review', () => {
+    const store = mockStore({});
+    axios.delete = jest.fn(() => Promise.reject({
+      response: {
+        data: {
+          error: ''
+        }
+      }
+    }));
+    const expectedAction = [
+      {
+        type: types.DELETE_REVIEW_FAILURE,
+        error: {'error': ''}
+      }
+    ];
+    return store.dispatch(deleteReview({})).then(() => {
+      expect(store.getActions()).toEqual(expectedAction)
+    })
+  })
 });

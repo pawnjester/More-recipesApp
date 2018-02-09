@@ -83,17 +83,7 @@ class AllRecipes extends Component {
           </div>
           <hr />
           <div className="row high">
-            {/* {recipeList && recipeList.length === 0 &&
-              (<h4 className="mt-5 text-center no-recipes"> No recipes yet </h4>)}
             {this.state.loading ?
-              <Loader Loading={this.state.loading} /> :
-              recipeList &&
-              recipeList.map(recipe =>
-                (<Recipe
-                  recipe={recipe}
-                  key={recipe.id}
-                />))} */}
-                 {this.state.loading ?
               <Loader Loading={this.state.loading} /> :
               recipeList.length > 0 ?
               recipeList.map(recipe =>

@@ -43,4 +43,26 @@ describe('upvoteRecipeAction', () => {
         expect(store.getActions()).toEqual(expectedAction);
       });
   });
+  it('should handle error', () => {
+    const store = mockStore({});
+    axios.post = jest.fn(() => Promise.reject({
+      response: {
+        data: {
+          error: ''
+        }
+      }
+    }));
+    const expectedAction = [
+      {
+        type: types.UPVOTE_RECIPE_FAILURE,
+          error: {
+            error: ''
+          }
+      }
+    ];
+
+    return store.dispatch(upvoteRecipe({})).then(() => {
+      expect(store.getActions()).toEqual(expectedAction)
+    });
+  });
 });

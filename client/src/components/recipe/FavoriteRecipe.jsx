@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import JwtDecode from 'jwt-decode';
 import ReactPaginate from 'react-paginate';
 import NavigationBar from '../NavigationBar';
 import '../../styles/favorite.scss';
@@ -37,7 +36,6 @@ class FavoriteRecipe extends Component {
  * @returns {void}
  */
   componentWillMount() {
-    // const userId = JwtDecode(localStorage.jwtToken);
     this.props.getFavoriteRecipe();
   }
 
