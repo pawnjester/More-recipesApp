@@ -9,8 +9,8 @@ import * as types from '../../src/actions/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('searchRecipeAction', () => {
-  it('search recipes success action', () => {
+describe('Search Recipe Action Creator', () => {
+  it('should dispatch a success action when no error occurs', () => {
     const search = 'pineapples';
     const expectedAction = {
       type: types.SEARCH_RECIPE_SUCCESS,
@@ -20,7 +20,7 @@ describe('searchRecipeAction', () => {
     expect(searchRecipeSuccess(search)).toEqual(expectedAction);
   });
 
-  it('search recipes action creator', () => {
+  it('should dispatch a success action when no error occurs', () => {
     const store = mockStore({});
     axios.get = jest.fn(() => Promise.resolve({
       data: {
@@ -42,7 +42,7 @@ describe('searchRecipeAction', () => {
         expect(store.getActions()).toEqual(expectedAction);
       });
   });
-  it('should handle error', () => {
+  it('should dispatch a failure action when an error occurs', () => {
     const store = mockStore({});
     axios.get = jest.fn(() => Promise.reject({
       response: {

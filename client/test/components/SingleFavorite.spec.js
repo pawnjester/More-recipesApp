@@ -16,7 +16,7 @@ const props = {
   favoriteId: 1
 }
 
-function setup() {
+const setup = () => {
   const shallowWrapper = shallow(<SingleFavorite {...props}/> );
   return {
     shallowWrapper,
@@ -29,10 +29,10 @@ describe('Test for Single Favorite Recipes', () => {
   });
 });
 
-describe('onDelete function', () => {
-  it('work when clicked', () => {
-    const shallowWrapper = shallow(<SingleFavorite {...props} />);
-    sinon.spy(SingleFavorite.prototype, 'onDelete');
-    expect(shallowWrapper).toMatchSnapshot();
-  });
+describe('onDelete function should', () => {
+  it('be called when form is submitted', () => {
+    const { shallowWrapper } = setup();
+    shallowWrapper.instance().onDelete();
+    shallowWrapper.find('.delete').simulate('click');
+});
 });

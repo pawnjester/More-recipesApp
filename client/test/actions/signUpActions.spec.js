@@ -11,7 +11,7 @@ const mockStore = configureMockStore(middlewares);
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsInVzZXJuYW1lIjoidGVzdGluZyIsImlhdCI6MTUxNzc0MjgwOSwiZXhwIjoxNTE3ODI5MjA5fQ.IvHzqut0GUPfhBQXanQhrLjJ3PdZwwrw5OmAdOonMkI'
 window.localStorage = localStorageMock;
 
-describe('Sign up', () => {
+describe('Sign up Action Creator', () => {
   it('should dispatch SET_CURRENT_USER action', () => {
     const store = mockStore({});
     axios.post = jest.fn(() => Promise.resolve({

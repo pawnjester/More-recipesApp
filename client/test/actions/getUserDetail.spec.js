@@ -9,8 +9,8 @@ import * as types from '../../src/actions/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('getUserDetailAction', () => {
-  it('get user detail success action', () => {
+describe('Get User Detail Action Creator', () => {
+  it('should dispatch a success action when no error occurs', () => {
     const user = { id: '2', username: 'looo', email: 'looo@example.com' };
     const expectedAction = {
       type: types.GET_USER_DETAILS_SUCCESS,
@@ -20,7 +20,7 @@ describe('getUserDetailAction', () => {
     expect(getUserDetailSuccess(user)).toEqual(expectedAction);
   });
 
-  it('get user detail action creator', () => {
+  it('should dispatch a success action when no error occurs', () => {
     const store = mockStore({});
     axios.get = jest.fn(() => Promise.resolve({
       data: {
@@ -41,7 +41,7 @@ describe('getUserDetailAction', () => {
       });
   });
 
-  it('should handle error', () => {
+  it('should dispatch a failure action when an error occurs', () => {
     const store = mockStore({});
     axios.get = jest.fn(() => Promise.reject({
       response: {

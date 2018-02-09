@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="1"
+            failures="0"
+            tests="3">
+
+  <testsuite name="e2etests.01-landing-page"
+    errors="1" failures="0" hostname="" id="" package="01-landing-page" skipped="0"
+    tests="3" time="15.00" timestamp="Tue, 13 Feb 2018 10:33:13 GMT">
+  
+    <testcase name="Display homepage and ensure all element are available" classname="e2etests.01-landing-page" time="9.805" assertions="5">
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Forgot password link takes you a recovery page " classname="e2etests.01-landing-page" time="5.171" assertions="0">
+    </testcase>
+  
+    <testcase name="Takes user back to the homepage" classname="e2etests.01-landing-page" time="0.02200" assertions="0">
+    </testcase>
+  
+
+  
+    <system-err>
+      ERROR: Unable to locate element: &#34;.nav-brand&#34; using: css selector
+    at Object.Takes user back to the homepage (/Users/andeladeveloper/Desktop/More-recipesApp/e2etests/01-landing-page.js:26:8)
+    at Module.call (/usr/local/lib/node_modules/nightwatch/lib/runner/module.js:62:34)
+    at /usr/local/lib/node_modules/nightwatch/lib/runner/testcase.js:70:29
+    at _fulfilled (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:834:54)
+    at self.promiseDispatch.done (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:863:30)
+    at Promise.promise.promiseDispatch (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:796:13)
+    at /usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:556:49
+    at runSingle (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:137:13)
+    at flush (/usr/local/lib/node_modules/nightwatch/node_modules/q/q.js:125:13)
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    </system-err>
+  
+
+  
+  </testsuite>
+</testsuites>

@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sign Up Form should render correctly 1`] = `
+<form
+  id="Sign-Up-Form"
+  onSubmit={[Function]}
+>
+  <TextFieldGroup
+    autofocus={true}
+    error=""
+    field="username"
+    id="username-field"
+    onChange={[Function]}
+    placeholder="username"
+    required={true}
+    type="text"
+    value=""
+  />
+  <TextFieldGroup
+    error=""
+    field="email"
+    onChange={[Function]}
+    placeholder="email"
+    type="text"
+    value=""
+  />
+  <TextFieldGroup
+    error=""
+    field="password"
+    onChange={[Function]}
+    placeholder="password"
+    type="password"
+    value=""
+  />
+  <TextFieldGroup
+    error=""
+    field="passwordConfirmation"
+    onChange={[Function]}
+    placeholder="Confirm Password"
+    type="password"
+    value=""
+  />
+  <input
+    className="btn btn-outline-light btn-block text-dark"
+    disabled={false}
+    id="submit-button"
+    style={
+      Object {
+        "cursor": "pointer",
+      }
+    }
+    type="submit"
+    value="Submit"
+  />
+</form>
+`;

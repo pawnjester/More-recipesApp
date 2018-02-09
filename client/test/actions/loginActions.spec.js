@@ -11,7 +11,7 @@ const mockStore = configureMockStore(middlewares);
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsInVzZXJuYW1lIjoidGVzdGluZyIsImlhdCI6MTUxNzc0MjgwOSwiZXhwIjoxNTE3ODI5MjA5fQ.IvHzqut0GUPfhBQXanQhrLjJ3PdZwwrw5OmAdOonMkI'
 window.localStorage = localStorageMock;
 
-describe('Sign in', () => {
+describe('Sign in Action creator', () => {
   it('should create an action for sign in user', () => {
     const user = {
       id: 1,

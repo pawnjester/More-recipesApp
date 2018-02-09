@@ -8,8 +8,8 @@ import * as types from '../../src/actions/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('deleteReviewAction', () => {
-  it('delete review success action', () => {
+describe('Delete Review Action Creator', () => {
+  it('should dispatch a success action when no error occurs', () => {
     const deletedReview = { id: 1 };
     const expectedAction = {
       type: types.DELETE_REVIEW_SUCCESS,
@@ -19,7 +19,7 @@ describe('deleteReviewAction', () => {
     expect(deleteReviewSuccess(deletedReview)).toEqual(expectedAction);
   });
 
-  it('delete review action creator', () => {
+  it('should dispatch a success action when no error occurs', () => {
     const store = mockStore({});
     axios.delete = jest.fn(() => Promise.resolve({
     }));
@@ -36,7 +36,7 @@ describe('deleteReviewAction', () => {
         expect(store.getActions()).toEqual(expectedAction);
       });
   });
-  it('should hamdle error for deleting review', () => {
+  it('should dispatch a failure action when an error occurs', () => {
     const store = mockStore({});
     axios.delete = jest.fn(() => Promise.reject({
       response: {

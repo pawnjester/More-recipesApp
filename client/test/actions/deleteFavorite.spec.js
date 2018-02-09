@@ -8,8 +8,8 @@ import * as types from '../../src/actions/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('deleteFavoriteAction', () => {
-  it('delete recipe success action', () => {
+describe('Delete Favorite Action Creator', () => {
+  it('should dispatch a success action when no errors occurs', () => {
     const deletedFavorite = { id: 1 };
     const expectedAction = {
       type: types.DELETE_FAVORITE_SUCCESS,
@@ -19,7 +19,7 @@ describe('deleteFavoriteAction', () => {
     expect(deletedFavoriteSuccess(deletedFavorite)).toEqual(expectedAction);
   });
 
-  it('delete favorite recipe action creator', () => {
+  it('should dispatch a success action when no errors occurs', () => {
     const store = mockStore({});
     axios.delete = jest.fn(() => Promise.resolve({
     }));
@@ -36,7 +36,7 @@ describe('deleteFavoriteAction', () => {
         expect(store.getActions()).toEqual(expectedAction);
       });
   });
-  it('should handle error', () => {
+  it('should dispatch a failure action when an error occurs', () => {
     const store = mockStore({});
     axios.delete = jest.fn(() => Promise.reject({
       response: {

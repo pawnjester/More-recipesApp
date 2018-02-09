@@ -16,21 +16,6 @@ require.extensions['.css'] = function () { return null; };
 require.extensions['.png'] = function () { return null; };
 require.extensions['.jpg'] = function () { return null; };
 
-// // const Hammer = require('materialize-css/js/hammer.min');
-// const { JSDOM } = require('jsdom');
-
-// const localStorageMock = require('./client/test/__mocks__/localStorageMock');
-
-// const jsdom = new JSDOM('<!doctype html><html><body></body></html>');
-// const { window } = jsdom;
-
-// function copyProps(src, target) {
-//   const props = Object.getOwnPropertyNames(src)
-//     .filter(prop => typeof target[prop] === 'undefined')
-//     .map(prop => Object.getOwnPropertyDescriptor(src, prop));
-//   Object.defineProperties(target, props);
-// }
-
 global.expect = expect;
 global.window = window;
 global.shallow = shallow;

@@ -55,15 +55,22 @@ export const templates = {
            padding-bottom:20px;
            margin:20px 0;
            color:#686f7a ">
-          You have requested to reset your password for MoreRecipes account. Please click on this <a style="color: #ff4500" href='${req.protocol}://${req.headers.host}/auth/reset_password/${user.token}'>link</a> to reset password.
-          <p style="color:black">If the above URL does not work, try copying and pasting it into your browser. If you continue to experience problems please feel free to contact us.
+          You have requested to reset your password for MoreRecipes account.
+          Please click on this <a style="color: #ff4500"
+          href='${req.protocol}://${req.headers.host}/auth/reset_password/${user.token}'>
+          link</a> to reset password.
+          <p style="color:black">If the above URL does not work,
+          try copying and pasting it into your browser.
+          If you continue to experience problems please feel free to contact us.
           </p>
         </p>
         <p style="
            padding-bottom:15px;
            margin-top:40px;
            color:#686f7a ">
-          If you haven't made this request please ignore this email and your password would <strong>not</strong> be changed.
+          If you haven't made this request
+          please ignore this email and your password would
+          <strong>not</strong> be changed.
         </p>
         <p style="padding-bottom:10px;
            margin-top:20px;
@@ -101,7 +108,8 @@ export const templates = {
                padding-bottom:20px;
                margin:20px 0;
                color:#686f7a;">
-              Hello, <span style="text-transform: capitalize; font-weight: bold">${reviewed.User.username}<span>
+              Hello, <span style="text-transform: capitalize; font-weight: bold">
+              ${reviewed.User.username}<span>
             </p>
             <p style="
                padding-bottom:20px;
@@ -111,7 +119,11 @@ export const templates = {
             </p>
             <p style="
             padding-bottom:20px;
-margin:20px 0;"><br /><span style="color: "black">${reviewOwner} said,</span><br /><br /><span style="border: 2px solid #ff4500; padding: 15px; margin-top: 105px; margin-right: 30px"> ${data} </span> <br /><br /> <br />about your ${reviewed.name}
+            margin:20px 0;"><br /><span style="color: "black">${reviewOwner} said,
+            </span><br /><br />
+            <span style="border: 2px solid #ff4500;
+            padding: 15px; margin-top: 105px; margin-right: 30px"> ${data} </span>
+            <br /><br /> <br />about your ${reviewed.name}
             </p>
 
             <p style="padding-bottom:10px;

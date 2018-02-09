@@ -86,7 +86,7 @@ exports[`Test for Add Recipe Modal should render correctly 1`] = `
         tag="div"
       >
         <Label
-          for="exampleEmail"
+          for="exampleIngredients"
           sm={3}
           tag="label"
           widths={
@@ -115,7 +115,7 @@ exports[`Test for Add Recipe Modal should render correctly 1`] = `
           }
         >
           <Input
-            id="exampleEmail"
+            id="exampleIngredients"
             name="ingredients"
             onChange={[Function]}
             placeholder="Enter the Ingredients"
@@ -145,7 +145,7 @@ exports[`Test for Add Recipe Modal should render correctly 1`] = `
         tag="div"
       >
         <Label
-          for="exampleEmail"
+          for="exampleMethod"
           sm={3}
           tag="label"
           widths={
@@ -174,7 +174,7 @@ exports[`Test for Add Recipe Modal should render correctly 1`] = `
           }
         >
           <Input
-            id="exampleEmail"
+            id="exampleMethod"
             name="method"
             onChange={[Function]}
             placeholder="Enter the description"
@@ -204,7 +204,7 @@ exports[`Test for Add Recipe Modal should render correctly 1`] = `
         tag="div"
       >
         <Label
-          for="exampleEmail"
+          for="exampleCookingTime"
           sm={3}
           tag="label"
           widths={
@@ -234,7 +234,7 @@ exports[`Test for Add Recipe Modal should render correctly 1`] = `
           }
         >
           <Input
-            id="exampleEmail"
+            id="exampleCookingTime"
             name="cookingTime"
             onChange={[Function]}
             placeholder="Enter the preparation time"

@@ -33,78 +33,7 @@ exports[`Test for Single Favorite Recipes should render correctly 1`] = `
       >
         <i
           aria-hidden="true"
-          className="fa fa-trash"
-        />
-        <span
-          className="delete"
-          id="clickableAwesomeFont"
-          onClick={[Function]}
-        >
-           Remove
-        </span>
-      </div>
-      <Link
-        replace={false}
-        to="/detail/undefined"
-      >
-        <div
-          className="text-left text-success float-left"
-        >
-          <i
-            aria-hidden="true"
-            className="fa fa-eye"
-          />
-          <a
-            href="detail.html"
-          >
-            <span
-              className="text-dark"
-              id="clickableAwesomeFont"
-            >
-               View
-            </span>
-          </a>
-        </div>
-      </Link>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`onDelete function work when clicked 1`] = `
-<div
-  className="col-md-4 col-xs-4 hvr-bob"
->
-  <div
-    className="card"
-  >
-    <img
-      alt="Chocolate cream"
-      className="card-img-top"
-      style={
-        Object {
-          "height": 200,
-        }
-      }
-    />
-    <div
-      className="card-body"
-    >
-      <h4
-        className="card-title"
-      >
-        nodejs...
-      </h4>
-    </div>
-    <div
-      className="card-body clearfix"
-    >
-      <div
-        className="text-right text-danger float-right"
-      >
-        <i
-          aria-hidden="true"
-          className="fa fa-trash"
+          className="fa fa-trash delete-favorite"
         />
         <span
           className="delete"

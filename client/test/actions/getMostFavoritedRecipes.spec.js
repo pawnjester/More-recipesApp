@@ -11,8 +11,8 @@ import getMostFavoriteRecipes from '../../src/actions/getMostFavoriteRecipes';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('getMostFavoritedRecipesAction', () => {
-  it('get most favorited recipes success action', () => {
+describe('Get Most Favorited Recipes Action Creator', () => {
+  it('should dispatch a success action when no error occurs', () => {
     const favorites = [{ id: '2', name: 'farmhouse', ingredients: 'beans and tomatoes' }];
     const expectedAction = {
       type: types.GET_MOST_FAVORITED_RECIPES,
@@ -22,7 +22,7 @@ describe('getMostFavoritedRecipesAction', () => {
     expect(getMostFavoritesSuccess(favorites)).toEqual(expectedAction);
   });
 
-  it('get most favorited recipes action creator', () => {
+  it('should dispatch a success action when no error occurs', () => {
     const store = mockStore({});
     axios.get = jest.fn(() => Promise.resolve({
       data: {
@@ -43,7 +43,7 @@ describe('getMostFavoritedRecipesAction', () => {
       });
   });
 
-  it('should handle error', () => {
+  it('should dispatch a failure action when an error occurs', () => {
     const store = mockStore({});
     axios.get = jest.fn(() => Promise.reject({
       response: {
