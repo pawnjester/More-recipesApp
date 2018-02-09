@@ -7,6 +7,7 @@ module.exports = {
     '/client/js/tests/mocks',
     '/client/test/setup.js',
     '/client/src/Index.jsx',
+    '/client/src/components/validations',
     '/client/public/',
   ],
   collectCoverage: true,

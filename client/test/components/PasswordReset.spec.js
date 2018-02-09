@@ -13,15 +13,15 @@ import { BrowserRouter } from 'react-router-dom';
 configure({ adapter: new Adapter() });
 
 const props = {
-  checkEmail: jest.fn()
+  checkEmail: jest.fn(() => Promise.resolve())
 }
-function setup() {
+const setup = () => {
   const shallowWrapper = shallow(<PasswordReset {...props} />);
   return {
     shallowWrapper,
   };
 }
-describe('Test For reset Password Form', () => {
+describe('Reset Password Form', () => {
   it('should render correctly', () => {
     const { shallowWrapper } = setup();
     expect(shallowWrapper).toMatchSnapshot();
@@ -52,15 +52,12 @@ describe('onSubmit() should', () => {
     expect(wrapper.instance().state.errors).toEqual({ email: 'Please enter an email address' });
   });
   it('be called when form is submitted', () => {
-    const wrapper = shallow(<PasswordReset {...props} />);
+    const { shallowWrapper } = setup();
     const event = {
       preventDefault: jest.fn()
     };
-    wrapper.setState({ email: 'random@email.com', errors: {} });
-  const onSubmitSpy = jest.spyOn(
-    wrapper.instance(), 'onSubmit'
-  ).mockImplementation(() => Promise.reject({}))
-  wrapper.instance().onSubmit(event);
-  expect(onSubmitSpy).toHaveBeenCalled();
+    shallowWrapper.setState({ email: 'random@email.com', errors: {} });
+    shallowWrapper.instance().onSubmit(event);
+    expect(props.checkEmail.mock.calls.length).toEqual(1);
 });
 });

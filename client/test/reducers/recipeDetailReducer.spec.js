@@ -40,30 +40,49 @@ describe('Recipe Detail Reducer', () => {
       }
     });
   });
-  // it('should get recipe detail', () => {
-  //   const singleRecipe = {
-  //     id: 1,
-  //     name: 'Rice cica',
-  //     ingredients: 'rice, cica',
-  //     method: 'boil the rice',
-  //     upVotes: 1,
-  //     downvotes: 0
-  //   };
-  //   const action = {
-  //     type: types.GET_RECIPE_DETAIL_SUCCESS,
-  //     detail: singleRecipe
-  //   };
-  //   const newState = recipeDetailReducer(initialState, action);
-  //   expect(newState).toEqual({
-  //     ...initialState,
-  //     ...{
-  //       currentRecipe: singleRecipe,
-  //       favoriteStatus: singleRecipe.Favorites,
-  //       success: true,
-  //       errors: null
-  //     }
-  //   });
-  // });
+  it('should handle errors for upvoting recipes', () => {
+    const error = {};
+    const action = {
+      type: types.UPVOTE_RECIPE_FAILURE,
+      error
+    };
+    const newState = recipeDetailReducer(initialState, action);
+    expect(newState).toEqual({
+      ...initialState,
+      ...{
+        currentRecipe: {},
+        success: false,
+        errors: error,
+      }
+    });
+  });
+  it('should get recipe detail', () => {
+    const detail = {
+      singleRecipe: {
+        id: 1,
+        name: 'Rice cica',
+        ingredients: 'rice, cica',
+        method: 'boil the rice',
+        upVotes: 1,
+        downvotes: 0,
+        Favorites: [{}]
+      }
+    }
+    const action = {
+      type: types.GET_RECIPE_DETAIL_SUCCESS,
+      detail
+    };
+    const newState = recipeDetailReducer(initialState, action);
+    expect(newState).toEqual({
+      ...initialState,
+      ...{
+        currentRecipe: detail.singleRecipe,
+        favoriteStatus: true,
+        success: true,
+        errors: null
+      }
+    });
+  });
   it('should downvote a recipe', () => {
     const downvote = {
       id: 1,
@@ -89,6 +108,22 @@ describe('Recipe Detail Reducer', () => {
         favoriteRecipes: [],
         favoriteStatus: false,
         message: '',
+      }
+    });
+  });
+  it('should handle errors for downvoting recipes', () => {
+    const error = {};
+    const action = {
+      type: types.DOWNVOTE_RECIPE_FAILURE,
+      error
+    };
+    const newState = recipeDetailReducer(initialState, action);
+    expect(newState).toEqual({
+      ...initialState,
+      ...{
+        currentRecipe: {},
+        success: false,
+        errors: error,
       }
     });
   });
@@ -118,6 +153,22 @@ describe('Recipe Detail Reducer', () => {
       }
     });
   });
+  it('should handle errors for favoriting recipes', () => {
+    const error = {};
+    const action = {
+      type: types.FAVORITE_RECIPE_FAILURE,
+      error
+    };
+    const newState = recipeDetailReducer(initialState, action);
+    expect(newState).toEqual({
+      ...initialState,
+      ...{
+        favoriteRecipes: [],
+        success: false,
+        errors: error,
+      }
+    });
+  });
   it('should get all favorites', () => {
     const favorite = {
       id: 1,
@@ -137,6 +188,22 @@ describe('Recipe Detail Reducer', () => {
         favoriteRecipes: favorite,
         success: true,
         errors: null
+      }
+    });
+  });
+  it('should handle errors for get favoriting recipes', () => {
+    const error = {};
+    const action = {
+      type: types.GET_FAVORITE_RECIPES_FAILURE,
+      error
+    };
+    const newState = recipeDetailReducer(initialState, action);
+    expect(newState).toEqual({
+      ...initialState,
+      ...{
+        favoriteRecipes: [],
+        success: false,
+        errors: error,
       }
     });
   });

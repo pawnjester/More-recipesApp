@@ -88,8 +88,8 @@ exports[`Test For Not Found should render correctly 1`] = `
                     More-Recipes
                   </a>
                 </Link>
-                <Connect(searchBar)>
-                  <searchBar
+                <Connect(SearchBar)>
+                  <SearchBar
                     searchRecipe={[Function]}
                   >
                     <div>
@@ -99,6 +99,7 @@ exports[`Test For Not Found should render correctly 1`] = `
                         <input
                           aria-label="Search"
                           className=" mr-sm-2 searchbars"
+                          id="search-bar"
                           name="search"
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -113,8 +114,8 @@ exports[`Test For Not Found should render correctly 1`] = `
                         />
                       </form>
                     </div>
-                  </searchBar>
-                </Connect(searchBar)>
+                  </SearchBar>
+                </Connect(SearchBar)>
                 <button
                   aria-controls="navbarSupportedContent"
                   aria-expanded="false"
@@ -137,6 +138,7 @@ exports[`Test For Not Found should render correctly 1`] = `
                   >
                     <Link
                       className="nav-link nov bg-dark"
+                      id="sign-in-link"
                       replace={false}
                       styles="border-radius: 4px;"
                       to="/signin"
@@ -144,6 +146,7 @@ exports[`Test For Not Found should render correctly 1`] = `
                       <a
                         className="nav-link nov bg-dark"
                         href="/signin"
+                        id="sign-in-link"
                         onClick={[Function]}
                         styles="border-radius: 4px;"
                       >

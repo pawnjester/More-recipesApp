@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
-import NavigationBar from '../NavigationBar';
+import NavigationBarComponent from '../NavigationBar';
 import '../../styles/favorite.scss';
 import getFavoriteRecipe from '../../actions/getFavoriteRecipes';
 import deleteFavorite from '../../actions/deleteFavorite';
-import SingleFavorite from './SingleFavorite';
-import Footer from '../common/Footer';
+import SingleFavoriteComponent from './SingleFavorite';
+import FooterComponent from '../common/Footer';
 /**
  *
  * @class FavoriteRecipe
  *
  * @extends {Component}
  */
-class FavoriteRecipe extends Component {
+export class FavoriteRecipe extends Component {
   /**
    * Creates an instance of FavoriteRecipe.
    *
@@ -35,7 +35,7 @@ class FavoriteRecipe extends Component {
  *
  * @returns {void}
  */
-  componentWillMount() {
+  componentDidMount() {
     this.props.getFavoriteRecipe();
   }
 
@@ -80,7 +80,7 @@ class FavoriteRecipe extends Component {
     const pageCount = this.props.favoriteRecipe.Pages;
     return (
       <div>
-        <NavigationBar search="true" />
+        <NavigationBarComponent search="true" />
         <div className="container text-center  ">
           <div className="heading">
             <h1 className="p-5 ">Favorite Recipes</h1>
@@ -90,7 +90,7 @@ class FavoriteRecipe extends Component {
             {favoriteRecipe.length < 1 &&
               (<h4 className="mt-5 text-center no-favorite">You have no favorite</h4>)}
             {favoriteRecipe.map(favorite =>
-              (<SingleFavorite
+              (<SingleFavoriteComponent
                 recipe={favorite.Recipe}
                 deleteFavorite={this.onDelete}
                 favoriteId={favorite.id}
@@ -116,7 +116,7 @@ class FavoriteRecipe extends Component {
           previousLinkClassName="page-link"
           onPageChange={this.onPageChange}
         />
-        <Footer />
+        <FooterComponent />
       </div>
     );
   }
@@ -124,7 +124,6 @@ class FavoriteRecipe extends Component {
 
 FavoriteRecipe.propTypes = {
   getFavoriteRecipe: PropTypes.func.isRequired,
-  favoriteRecipe: PropTypes.objectOf(PropTypes.object).isRequired,
   deleteFavorite: PropTypes.func.isRequired,
 };
 

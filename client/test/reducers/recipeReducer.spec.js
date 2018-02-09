@@ -11,22 +11,24 @@ const initialState = {
 };
 
 describe('Recipe Reducer', () => {
-  // it('should get users recipes', () => {
-  //   const recipes = {};
-  //   const action = {
-  //     type: types.GET_RECIPES,
-  //     payload: recipes
-  //   };
-  //   const newState = recipeReducer(initialState, action);
-  //   expect(newState).toEqual({
-  //     ...initialState,
-  //     ...{
-  //       // totalContent: 0,
-  //       recipes,
-  //       deleted: false
-  //     }
-  //   })
-  // })
+  it('should get users recipes', () => {
+    const payload = {
+      recipes: [{}]
+    };
+    const action = {
+      type: types.GET_RECIPES,
+      payload
+    };
+    const newState = recipeReducer(initialState, action);
+    expect(newState).toEqual({
+      ...initialState,
+      ...{
+        totalContent: 1,
+        recipes: payload.recipes,
+        deleted: false
+      }
+    })
+  })
   it('should delete a recipe', () => {
     const recipes = [];
     const action = {
@@ -172,7 +174,8 @@ describe('Recipe Reducer', () => {
       ...{
         deleted: false,
         totalContent: 0,
-        recipes: [newRecipe]
+        recipes: [newRecipe],
+        error: {},
       }
     });
   });
@@ -237,6 +240,24 @@ describe('Recipe Reducer', () => {
         deleted: false,
         totalContent: 0,
         recipes: editedRecipe
+      }
+    });
+  });
+  it('should get page detail', () => {
+    const detail = {
+      Pages: 1
+    };
+    const action = {
+      type: types.GET_PAGE_DETAIL,
+      detail
+    };
+    const newState = recipeReducer(initialState, action);
+    expect(newState).toEqual({
+      ...initialState,
+      ...{
+        deleted: false,
+        totalContent: 0,
+        pages: detail.Pages
       }
     });
   });

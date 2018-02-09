@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Display Reviews Component should render correctly 1`] = `
+<div>
+  <div
+    className="container mb-1 "
+  >
+    <div
+      className="row"
+    >
+      <div
+        className="col-sm-12"
+      >
+        <div
+          className="card mb-3"
+        >
+          <div
+            className="card-body"
+          >
+            <div
+              className="row"
+            >
+              <img
+                alt="profile"
+                className="col-sm-2 card-img-top img-fluid round define-width text-center"
+                src="pic.jpg"
+              />
+              <div
+                className="col-sm-8 wrap-word"
+              >
+                <p
+                  className="card-text"
+                />
+                <p
+                  className="card-text"
+                >
+                  <b>
+                    posted by
+                  </b>
+                </p>
+                <p
+                  className="card-text bold"
+                >
+                  Invalid date
+                </p>
+              </div>
+              <span
+                aria-hidden="true"
+                className="delete-review-id"
+                onClick={[Function]}
+                style={
+                  Object {
+                    "fontSize": 25,
+                  }
+                }
+              >
+                ×
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

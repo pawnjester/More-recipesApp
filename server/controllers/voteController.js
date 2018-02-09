@@ -12,6 +12,7 @@ const downvotes = models.Downvote;
  * Class Definition for the Vote Object
  *
  * @export
+ *
  * @class Vote
  */
 export default class Votes {
@@ -33,7 +34,10 @@ export default class Votes {
       .then((recipeFound) => {
         if (!recipeFound) {
           return res.status(404)
-            .json({ statusCode: 404, error: 'You cannot upvote this recipe' });
+            .json({
+              statusCode: 404,
+              error: 'You cannot upvote this recipe'
+            });
         }
         upvotes.findOne({
           where: {

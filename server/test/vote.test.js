@@ -31,7 +31,7 @@ describe('Vote Testing', () => {
     truncate: true,
     restartIdentity: true
   }));
-  it('should add a recipe', (done) => {
+  it('POST /api/v1/recipes should add a recipe', (done) => {
     chai.request(app)
       .post('/api/v1/recipes')
       .set('x-access-token', token)
@@ -55,7 +55,7 @@ describe('Vote Testing', () => {
           done();
         });
     });
-    it('should upvote a recipe', (done) => {
+    it('POST /api/v1/recipes/1/upvote should upvote a recipe', (done) => {
       chai.request(app)
         .post('/api/v1/recipes/1/upvote')
         .set('x-access-token', token)
@@ -65,7 +65,7 @@ describe('Vote Testing', () => {
           done();
         });
     });
-    it('should not upvote a non existent recipe', (done) => {
+    it('POST /api/v1/recipes/15/upvote should not upvote a non existent recipe', (done) => {
       chai.request(app)
         .post('/api/v1/recipes/15/upvote')
         .set('x-access-token', token)
@@ -75,7 +75,7 @@ describe('Vote Testing', () => {
           done();
         });
     });
-    it('should downvote a recipe', (done) => {
+    it('POST /api/v1/recipes/1/downvote should downvote a recipe', (done) => {
       chai.request(app)
         .post('/api/v1/recipes/1/downvote')
         .set('x-access-token', token)
@@ -85,7 +85,7 @@ describe('Vote Testing', () => {
           done();
         });
     });
-    it('should upvote a recipe', (done) => {
+    it('POST /api/v1/recipes/1/upvote should upvote a recipe', (done) => {
       chai.request(app)
         .post('/api/v1/recipes/1/upvote')
         .set('x-access-token', token)
@@ -95,7 +95,7 @@ describe('Vote Testing', () => {
           done();
         });
     });
-    it('should remove upvote when upvoted twice', (done) => {
+    it('POST /api/v1/recipes/1/upvote should remove upvote when upvoted twice', (done) => {
       chai.request(app)
         .post('/api/v1/recipes/1/upvote')
         .set('x-access-token', token)
@@ -105,7 +105,7 @@ describe('Vote Testing', () => {
           done();
         });
     });
-    it('should downvote a non-existent recipe', (done) => {
+    it('POST /api/v1/recipes/14/downvote should downvote a non-existent recipe', (done) => {
       chai.request(app)
         .post('/api/v1/recipes/14/downvote')
         .set('x-access-token', token)
@@ -115,7 +115,7 @@ describe('Vote Testing', () => {
           done();
         });
     });
-    it('should remove downvote a recipe when downvoted twice', (done) => {
+    it('POST /api/v1/recipes/1/downvote should remove downvote a recipe when downvoted twice', (done) => {
       chai.request(app)
         .post('/api/v1/recipes/1/downvote')
         .set('x-access-token', token)

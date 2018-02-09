@@ -25,39 +25,19 @@ describe('User Reducer', () => {
       }
     });
   });
-  // it('should edit a user',  () => {
-  //   const userFound = {
-  //     id: 1,
-  //     username: 'phil',
-  //     email: 'phil@exmaple.com'
-  //   };
-  //   const action = {
-  //     type: types.EDIT_USER_DETAILS_SUCCESS,
-  //     editedUser: userFound
-  //   }
-  //   const newState = userDetailReducer(initialState, action);
-  //   expect(newState).toEqual({
-  //     ...initialState,
-  //     ...{
-  //       userDetail: userFound,
-  //       success: true,
-  //       errors: null
-  //     }
-  //   });
-  // });
-  it('should edit a user', () => {
+  it('should handle errors for change password',() => {
     const error = {};
     const action = {
-      type: types.EDIT_USER_DETAILS_FAILURE,
+      type: types.CHANGE_PASSWORD_FAILURE,
       error
-    };
+    }
     const newState = userDetailReducer(initialState, action);
     expect(newState).toEqual({
       ...initialState,
       ...{
-        errors: error,
-        success: false
+        success: false,
+        errors: error
       }
-    });
+    })
   });
 });
