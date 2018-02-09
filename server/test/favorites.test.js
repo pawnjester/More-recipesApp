@@ -43,8 +43,8 @@ describe('Test for Favorite Recipes', () => {
           return done(err);
         }
         expect(res.body.message).to.equal('Recipe has been created');
-        expect(res.body.recipe.name).to.equal('Rice');
-        expect(res.body.recipe.ingredients).to.equal('water rice');
+        expect(res.body.recipe.name).to.equal(fakeData.recipe1.name);
+        expect(res.body.recipe.ingredients).to.equal(fakeData.recipe1.ingredients);
         done();
       });
   });

@@ -9,8 +9,8 @@ import * as types from '../../src/actions/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('getUserRecipeAction', () => {
-  it('get user recipes success action', () => {
+describe('Get User Recipe Action Creator', () => {
+  it('should dispatch a success action when no error occurs', () => {
     const payload = [{ id: '2', username: 'richard', email: 'richard@example.com' }];
     const expectedAction = {
       type: types.GET_RECIPES,
@@ -20,33 +20,39 @@ describe('getUserRecipeAction', () => {
     expect(getUserRecipesSuccess(payload)).toEqual(expectedAction);
   });
 
-  it('get user recipes action creator', () => {
+  it('should dispatch a success action when no error occurs', () => {
     const store = mockStore({});
     axios.get = jest.fn(() => Promise.resolve({
-      data: {
-        id: '2', username: 'richard', email: 'richard@example.com'
+        data: {
+          recipes: [],
+          pagination: {
+            NumberOfItems: 1, Limit:5, Pages:1, CurrentPage:1,
+          }
       }
     }));
 
     const expectedAction = [
       {
         type: types.GET_RECIPES,
-        payload: { id: '2', username: 'richard', email: 'richard@example.com' },
+        payload: {recipes: [],
+          pagination: {
+            NumberOfItems: 1, Limit:5, Pages:1, CurrentPage:1,
+          } },
       },
       {
         detail: {
-          CurrentPage: undefined, Limit: undefined, 'NumberO      0 |     4.76fItems': undefined, Pages: undefined
+          NumberOfItems: 1, Limit:5, Pages:1, CurrentPage:1,
         },
         type: 'GET_PAGE_DETAIL'
       }
     ];
 
-    return store.dispatch(getRecipe({}))
+    return store.dispatch(getRecipe(1))
       .then(() => {
         expect(store.getActions()).toEqual(expectedAction);
       });
   });
-  it('should handle error', () => {
+  it('should dispatch a failure action when an error occurs', () => {
     const store = mockStore({});
     axios.get = jest.fn(() => Promise.reject({
       response: {
@@ -59,7 +65,9 @@ describe('getUserRecipeAction', () => {
       {
         type: types.GET_RECIPES_FAILURE,
         error: {
-          error: ''
+          data: {
+            error: ''
+          }
         }
       }
     ];

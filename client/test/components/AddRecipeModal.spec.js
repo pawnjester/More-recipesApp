@@ -9,8 +9,15 @@ import store from '../../src/store/store';
 
 configure({ adapter: new Adapter() });
 
-function setup() {
-  const shallowWrapper = shallow(<AddRecipeModal /> );
+const props = {
+  createRecipe: jest.fn(() => Promise.resolve()),
+  errors: {},
+  getRecipe: jest.fn(),
+  currentPage: 1
+}
+
+const setup = () => {
+  const shallowWrapper = shallow(<AddRecipeModal {...props} /> );
   return {
     shallowWrapper,
   }
@@ -37,13 +44,19 @@ describe('onChange() should', () => {
 
 describe('onSubmit() should', () => {
   it('be called when form is submitted', () => {
-    const wrapper = shallow(<AddRecipeModal /> )
+    const { shallowWrapper } = setup();
     const event = {
       preventDefault: jest.fn()
     };
-    const form = wrapper.find('.add-recipe-button');
-    wrapper.setState({ name: 'randomrecipe', ingredients: 'random', method: 'randommethod', imageUrl: 'random.jpg' });
-    form.simulate('click', event);
-    expect(wrapper.instance().state.name).toBe('randomrecipe');
+    shallowWrapper.setState({
+      name: 'Rice stew',
+      ingredients: 'rice, beans',
+      method: 'Boil the rice',
+      imageUrl: 'pic.jpg',
+      cookingTime: '1',
+      option: 'minutes'
+    });
+    shallowWrapper.instance().onSubmit(event);
+    expect(props.createRecipe.mock.calls.length).toEqual(1);
 });
 });

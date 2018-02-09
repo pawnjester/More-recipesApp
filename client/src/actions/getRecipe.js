@@ -19,7 +19,7 @@ const getRecipe = page => dispatch =>
     .then((response) => {
       const {
         NumberOfItems, Limit, Pages, CurrentPage,
-      } = response.data;
+      } = response.data.pagination;
       const paginationInfo = {
         CurrentPage, Limit, NumberOfItems, Pages,
       };
@@ -27,7 +27,7 @@ const getRecipe = page => dispatch =>
       dispatch(getPageDetail(paginationInfo));
     })
     .catch((error) => {
-      dispatch(getRecipeFailure(error.response.data));
+      dispatch(getRecipeFailure(error.response));
     });
 
 

@@ -7,3 +7,5 @@ npm-debug.log*
 client/bower_components
 dist/
 build/
+logger.log
+selenium-debug.log

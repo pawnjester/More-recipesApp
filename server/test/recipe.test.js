@@ -41,12 +41,12 @@ describe('Test for Recipes', () => {
           return done(err);
         }
         expect(res.body.message).to.equal('Recipe has been created');
-        expect(res.body.recipe.name).to.equal('Rice');
-        expect(res.body.recipe.ingredients).to.equal('water rice');
+        expect(res.body.recipe.name).to.equal(fakeData.recipe1.name);
+        expect(res.body.recipe.ingredients).to.equal(fakeData.recipe1.ingredients);
         done();
       });
   });
-  describe('Recipe Testing', () => {
+  describe('Route', () => {
     beforeEach((done) => {
       chai.request(app)
         .post('/api/v1/recipes')
@@ -56,7 +56,7 @@ describe('Test for Recipes', () => {
           done();
         });
     });
-    it('should return an error if no name is passed', (done) => {
+    it('POST /api/v1/recipes should return an error if no name is passed', (done) => {
       chai.request(app)
         .post('/api/v1/recipes')
         .set('x-access-token', token)
@@ -67,7 +67,7 @@ describe('Test for Recipes', () => {
           done();
         });
     });
-    it('should return an error if no ingredients is passed', (done) => {
+    it('POST /api/v1/recipes should return an error if no ingredients is passed', (done) => {
       chai.request(app)
         .post('/api/v1/recipes')
         .set('x-access-token', token)
@@ -78,7 +78,7 @@ describe('Test for Recipes', () => {
           done();
         });
     });
-    it('should return an error if no method is passed', (done) => {
+    it('POST /api/v1/recipes should return an error if no method is passed', (done) => {
       chai.request(app)
         .post('/api/v1/recipes')
         .set('x-access-token', token)
@@ -89,7 +89,7 @@ describe('Test for Recipes', () => {
           done();
         });
     });
-    it('should not add the same recipe twice', (done) => {
+    it('POST /api/v1/recipes should not add the same recipe twice', (done) => {
       chai.request(app)
         .post('/api/v1/recipes')
         .set('x-access-token', token)
@@ -100,7 +100,7 @@ describe('Test for Recipes', () => {
           done();
         });
     });
-    it('should delete a recipe', (done) => {
+    it('DELETE /api/v1/recipes should delete a recipe', (done) => {
       chai.request(app)
         .delete('/api/v1/recipes/1')
         .set('x-access-token', token)
@@ -111,42 +111,45 @@ describe('Test for Recipes', () => {
           done();
         });
     });
-    it('should return 400 when a recipe is not available', (done) => {
+    it('DELETE /api/v1/recipes/:recipeId should return 404 when a recipe is not available', (done) => {
       chai.request(app)
         .delete('/api/v1/recipes/18')
         .set('x-access-token', token)
         .end((err, res) => {
           res.body.should.have.property('error')
             .equal('Recipe not found with id : 18');
-          res.should.have.status(400);
+          res.should.have.status(404);
           done();
         });
     });
-    it('should edit a recipe', (done) => {
+    it('PUT /api/v1/recipes/:recipeId should edit a recipe', (done) => {
       chai.request(app)
         .put('/api/v1/recipes/1')
         .send(fakeData.recipe2)
         .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(201);
-          expect(res.body.recipe.name).to.equal('Beans');
+          expect(res.body.recipe.name).to.equal('beans');
           expect(res.body.recipe.ingredients).to.equal('water, beans');
           done();
         });
     });
-    it('should check recipe is available for edit', (done) => {
-      chai.request(app)
-        .put('/api/v1/recipes/41')
-        .send(fakeData.recipe2)
-        .set('x-access-token', token)
-        .end((err, res) => {
-          res.body.should.have.property('error')
-            .equal('Recipe not Found with 41');
-          res.should.have.status(400);
-          done();
-        });
-    });
-    it('should get the current users recipes', (done) => {
+    it(
+      'PUT /api/v1/recipes/:recipeId should check recipe is available for edit',
+      (done) => {
+        chai.request(app)
+          .put('/api/v1/recipes/41')
+          .send(fakeData.recipe2)
+          .set('x-access-token', token)
+          .end((err, res) => {
+            res.body.should.have.property('error')
+              .equal('Recipe not Found with 41');
+            res.should.have.status(404);
+            done();
+          });
+      }
+    );
+    it('GET /api/v1/recipes should get the current users recipes', (done) => {
       chai.request(app)
         .get('/api/v1/recipes/userRecipe?page=1')
         .set('x-access-token', token)
@@ -155,17 +158,20 @@ describe('Test for Recipes', () => {
           done();
         });
     });
-    it('should return an error when non-number input is passed', (done) => {
-      chai.request(app)
-        .get('/api/v1/recipes/j')
-        .set('x-access-token', token)
-        .end((err, res) => {
-          res.should.have.status(406);
-          expect(res.body.error).to.equal('Recipe id is not a number');
-          done();
-        });
-    });
-    it('should get a single recipe detail', (done) => {
+    it(
+      'GET /api/v1/recipes should return an error when non-number input is passed',
+      (done) => {
+        chai.request(app)
+          .get('/api/v1/recipes/j')
+          .set('x-access-token', token)
+          .end((err, res) => {
+            res.should.have.status(406);
+            expect(res.body.error).to.equal('Recipe id is not a number');
+            done();
+          });
+      }
+    );
+    it('GET/api/v1/recipes/:recipeId should get a single recipe detail', (done) => {
       chai.request(app)
         .get('/api/v1/recipes/1')
         .set('x-access-token', token)
@@ -174,7 +180,7 @@ describe('Test for Recipes', () => {
           done();
         });
     });
-    it('should return get a single recipe detail', (done) => {
+    it('GET/api/v1/recipes/:recipeId should not return get a single recipe detail', (done) => {
       chai.request(app)
         .get('/api/v1/recipes/16')
         .set('x-access-token', token)
@@ -185,7 +191,7 @@ describe('Test for Recipes', () => {
           done();
         });
     });
-    it('should get all recipes', (done) => {
+    it('GET/api/v1/recipes should get all recipes', (done) => {
       chai.request(app)
         .get('/api/v1/recipes?page=1')
         .set('x-access-token', token)
@@ -195,17 +201,20 @@ describe('Test for Recipes', () => {
           done();
         });
     });
-    it('should get top upvoted recipes', (done) => {
-      chai.request(app)
-        .get('/api/v1/recipes?sort=upVotes&order=desc')
-        .set('x-access-token', token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          expect(res.body.recipe).to.be.an('Array');
-          done();
-        });
-    });
-    it('should search recipes', (done) => {
+    it(
+      'GET /api/v1/recipes?sort=upVotes&order=desc should get top upvoted recipes',
+      (done) => {
+        chai.request(app)
+          .get('/api/v1/recipes?sort=upVotes&order=desc')
+          .set('x-access-token', token)
+          .end((err, res) => {
+            res.should.have.status(200);
+            expect(res.body.recipe).to.be.an('Array');
+            done();
+          });
+      }
+    );
+    it('GET /api/v1/recipes/?search=&limit should search recipes', (done) => {
       chai.request(app)
         .get('/api/v1/recipes/?search=Rice&limit=5')
         .set('x-access-token', token)
@@ -215,26 +224,32 @@ describe('Test for Recipes', () => {
           done();
         });
     });
-    it('should search unavailable recipes', (done) => {
-      chai.request(app)
-        .get('/api/v1/recipes/?search=Ritce&limit=5')
-        .set('x-access-token', token)
-        .end((err, res) => {
-          res.should.have.status(404);
-          res.body.should.have.property('message')
-            .equal('Recipe(s) cannot be found');
-          done();
-        });
-    });
-    it('should list most favorited recipes', (done) => {
-      chai.request(app)
-        .get('/api/v1/recipes/most-favorites')
-        .set('x-access-token', token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          expect(res.body.favoriteRecipes).to.be.an('Array');
-          done();
-        });
-    });
+    it(
+      'GET /api/v1/recipes/?search=&limit should search unavailable recipes',
+      (done) => {
+        chai.request(app)
+          .get('/api/v1/recipes/?search=Ritce&limit=5')
+          .set('x-access-token', token)
+          .end((err, res) => {
+            res.should.have.status(404);
+            res.body.should.have.property('message')
+              .equal('Recipe(s) cannot be found');
+            done();
+          });
+      }
+    );
+    it(
+      'GET /api/v1/recipes/most-favorites should list most favorited recipes',
+      (done) => {
+        chai.request(app)
+          .get('/api/v1/recipes/most-favorites')
+          .set('x-access-token', token)
+          .end((err, res) => {
+            res.should.have.status(200);
+            expect(res.body.favoriteRecipes).to.be.an('Array');
+            done();
+          });
+      }
+    );
   });
 });

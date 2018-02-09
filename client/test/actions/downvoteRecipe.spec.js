@@ -8,8 +8,8 @@ import * as types from '../../src/actions/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('downvoteRecipeAction', () => {
-  it('downvote recipe success action', () => {
+describe('Downvote Recipe Action Creator', () => {
+  it('should dispatch a success action when no error occurs', () => {
     const downvote = { id: 1, name: 'butter', imageUrl: '' };
     const expectedAction = {
       type: types.DOWNVOTE_RECIPE_SUCCESS,
@@ -19,7 +19,7 @@ describe('downvoteRecipeAction', () => {
     expect(downvoteRecipeSuccess(downvote)).toEqual(expectedAction);
   });
 
-  it('downvote recipe action creator', () => {
+  it('should dispatch a success action when no error occurs', () => {
     const store = mockStore({});
     axios.post = jest.fn(() => Promise.resolve({
       data: {
@@ -44,7 +44,7 @@ describe('downvoteRecipeAction', () => {
       });
   });
 
-  it('should handle error', () => {
+  it('should dispatch a failure action when an error occurs', () => {
     const store = mockStore({});
     axios.post = jest.fn(() => Promise.reject({
       response: {

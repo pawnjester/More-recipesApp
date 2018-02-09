@@ -8,8 +8,8 @@ import * as types from '../../src/actions/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('changePasswordAction', () => {
-  it('change Password action', () => {
+describe('Change Password Action Creator', () => {
+  it('should dispatch a success action when a password is given', () => {
     const password = {};
     const expectedAction = {
       type: types.CHANGE_PASSWORD,
@@ -18,7 +18,7 @@ describe('changePasswordAction', () => {
     expect(changePasswordSuccess(password)).toEqual(expectedAction);
   });
 
-  it('change password', () => {
+  it('should dispatch a success action when a password is given', () => {
     const store = mockStore({});
     axios.put = jest.fn(() => Promise.resolve({
       data: {
@@ -40,7 +40,8 @@ describe('changePasswordAction', () => {
       expect(store.getActions()).toEqual(expectedAction);
     });
   });
-  it('should handle error', () => {
+
+  it('should dispatch an failure action when an error occurs', () => {
     const store = mockStore({});
     axios.put = jest.fn(() => Promise.reject({
       response: {

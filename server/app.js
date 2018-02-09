@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import logger from 'morgan';
+import winston from 'winston';
 import dotenv from 'dotenv';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
@@ -29,6 +30,11 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(webpackMiddleware(compiler));
 }
 
+winston.configure({
+  transports: [
+    new (winston.transports.File)({ filename: 'logger.log' })
+  ]
+});
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -43,17 +49,17 @@ app.get('/*', (req, res) => {
   res.status(200).sendFile(path.join(__dirname, '../client/public/index.html'));
 });
 
-app.use((req, res, next) => {
-  const err = res.status(404).json({
+app.use((req, res) => {
+  return res.status(404).json({
+    statusCode: 404,
     error: '404: Sorry Page Not Found!',
   });
-  next(err);
 });
 
 database.sequelize.authenticate()
   .then(() => app.listen(port, () => {
-    console.log(`Application has started on  ${port}`);
+    winston.log('info', `Application has started on  ${port}`);
   }))
-  .catch(error => console.log(error));
+  .catch(error => winston.log('info', error));
 
 export default app;

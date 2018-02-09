@@ -16,7 +16,7 @@ exports[`Test For reset Password Form should render correctly 1`] = `
     >
       <input
         aria-label="Search"
-        className="form-control mr-sm-2"
+        className="form-control mr-sm-2 search-input-bar"
         name="search"
         onChange={[Function]}
         placeholder="Search Recipe name or ingredients"

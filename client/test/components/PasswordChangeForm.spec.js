@@ -3,7 +3,7 @@ import { shallow, mount, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import expect from 'expect';
 import sinon from 'sinon';
-import { provider } from 'react-redux';
+import jwt from 'jsonwebtoken';
 import { PasswordChangeForm } from '../../src/components/PasswordChangeForm';
 import store from '../../src/store/store';
 import { Provider } from 'react-redux';
@@ -13,7 +13,12 @@ import { BrowserRouter } from 'react-router-dom';
 configure({ adapter: new Adapter() });
 
 const props = {
-  resetPassword: jest.fn()
+  match: {
+    params: {
+      token: jwt.sign({ name: 'racingplane' }, 'flavooor', { expiresIn: 86400 })
+    }
+  },
+  resetPassword: jest.fn(() => Promise.resolve())
 }
 function setup() {
   const shallowWrapper = shallow(<PasswordChangeForm {...props} />);
@@ -39,14 +44,23 @@ describe('onChange() should', () => {
     expect(shallowWrapper.instance().state.password).toBe('randomxxcom');
   });
 });
-// describe('onSubmit', () => {
-//   it('should not work for invalid email', () => {
-//     const wrapper = shallow(<PasswordChangeForm {...props} />)
-//     const event = {
-//       preventDefault: jest.fn();
-//       const form = wrapper.find('.password-color');
-//       wrapper.setState({ email: ''});
-//       form.simulate('click', event);
-//     }
-//   })
-// })
+
+describe('onSubmit', () => {
+  it('should submit if passwords match', () => {
+    sinon.spy(PasswordChangeForm.prototype, 'onSubmit');
+    const { shallowWrapper } = setup();
+    const event = {
+      preventDefault: jest.fn(),
+      target: {
+        password: 'andela',
+        passwordConfirmation: 'andela'
+      }
+    }
+      const form = shallowWrapper.find('.password-color');
+      form.simulate('submit', event);
+      shallowWrapper.setState({ password: 'andela',
+      passwordConfirmation: 'andela', errors: {} });
+      shallowWrapper.instance().onSubmit(event);
+      expect(PasswordChangeForm.prototype.onSubmit.calledOnce).toEqual(true);
+  });
+});

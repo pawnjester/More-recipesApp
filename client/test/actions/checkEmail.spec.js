@@ -8,8 +8,8 @@ import * as types from '../../src/actions/types'
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('checkEmaiAction', () => {
-  it('check Email action', () => {
+describe('Check Email Action creator', () => {
+  it('should dispatch a success action when no errors occurs', () => {
     const email = {};
     const expectedAction = {
       type: types.CHECK_EMAIL,
@@ -18,7 +18,7 @@ describe('checkEmaiAction', () => {
     expect(checkEmailSuccess(email)).toEqual(expectedAction);
   });
 
-  it('check email', () => {
+  it('should dispatch a success action when no errors occurs', () => {
     const store = mockStore({});
     axios.post = jest.fn(() => Promise.resolve({
       data: {
