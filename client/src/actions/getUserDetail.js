@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_USER_DETAILS_SUCCESS, GET_FAVORITE_RECIPES_FAILURE } from './types';
+import { GET_USER_DETAILS_SUCCESS, GET_USER_DETAILS_FAILURE } from './types';
 
 export const getUserDetailSuccess = user => ({
   type: GET_USER_DETAILS_SUCCESS,
@@ -7,7 +7,7 @@ export const getUserDetailSuccess = user => ({
 });
 
 export const getUserDetailFailure = error => ({
-  type: GET_FAVORITE_RECIPES_FAILURE,
+  type: GET_USER_DETAILS_FAILURE,
   error,
 });
 

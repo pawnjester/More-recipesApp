@@ -12,7 +12,7 @@ import validateInput from '../validations/recipeValidation';
  *
  * @extends {Component}
  */
-class AddRecipeModal extends Component {
+export class AddRecipeModal extends Component {
   /**
    * Creates an instance of AddRecipeModal.
    *
@@ -155,6 +155,7 @@ class AddRecipeModal extends Component {
                   value={this.state.name}
                   onChange={this.onNameChange}
                   placeholder="Enter the name"
+                  className="name-field"
                 />
                 {(errors.name || titleError) && <small style={{ color: '#A43741' }}>{(errors.name || titleError)}</small>}
               </Col>
@@ -247,6 +248,7 @@ class AddRecipeModal extends Component {
                   onClick={this.onSubmit}
                   style={{ float: 'right', backgroundColor: '#A43741' }}
                   disabled={this.state.disabled}
+                  className="add-recipe-button"
                 >Add a recipe
                 </Button>
               </Col>

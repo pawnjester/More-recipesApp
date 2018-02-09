@@ -36,4 +36,26 @@ describe('deleteRecipeAction', () => {
         expect(store.getActions()).toEqual(expectedAction);
       });
   });
+  it('should handle error', () => {
+    const store = mockStore({});
+    axios.delete = jest.fn(() => Promise.reject({
+      response: {
+        data: {
+          error: ''
+        }
+      }
+    }));
+    const expectedAction = [
+      {
+        type: types.DELETE_RECIPE_FAILURE,
+        error: {
+          error: ''
+        }
+      }
+    ];
+
+    return store.dispatch(deleteRecipe({})).then(() => {
+      expect(store.getActions()).toEqual(expectedAction)
+    });
+  });
 });

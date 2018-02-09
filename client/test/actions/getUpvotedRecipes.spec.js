@@ -43,4 +43,22 @@ describe('getUpvotedRecipeAction', () => {
         expect(store.getActions()).toEqual(expectedAction);
       });
   });
+  it('handle error for getting upvoted recipes', () => {
+    const store = mockStore({});
+    axios.get = jest.fn(() => Promise.reject({
+      // data: {
+        error: ''
+      // }
+    }));
+    const expectedAction = [
+      {
+        type: types.GET_UPVOTED_RECIPES_FAILURE,
+        error: undefined
+      }
+    ];
+    return store.dispatch(getUpvotedRecipes({}))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedAction);
+      });
+  })
 });

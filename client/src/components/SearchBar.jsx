@@ -5,9 +5,10 @@ import searchRecipe from '../actions/searchRecipe';
 /*
  *
  * @class searchBar
+ *
  * @extends {Component}
  */
-class searchBar extends Component {
+export class searchBar extends Component {
   /**
    * @description Creates an instance of searchBar.
    *
@@ -28,7 +29,7 @@ class searchBar extends Component {
  *
  * @description set state to input value
  *
- * @param {any} e
+ * @param {object} e
  *
  * @memberof searchBar
  *
@@ -59,7 +60,7 @@ class searchBar extends Component {
       <div>
         <form className=" my-2 my-lg-0">
           <input
-            className=" mr-sm-2"
+            className=" mr-sm-2 searchbars"
             type="text"
             name="search"
             placeholder="Search recipes...."

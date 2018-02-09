@@ -42,4 +42,25 @@ describe('getAllRecipeDetailAction', () => {
         expect(store.getActions()).toEqual(expectedAction);
       });
   });
+
+  it('should handle error', () => {
+    const store = mockStore({});
+    axios.get = jest.fn(() => Promise.reject({
+      response: {
+        data: {
+          error: ''
+        }
+      }
+    }));
+    const expectedAction = [
+      {
+        type: types.GET_RECIPE_DETAIL_FAILURE,
+        error: ''
+      }
+    ];
+
+    return store.dispatch(getRecipeDetail({})).then(() => {
+      expect(store.getActions()).toEqual(expectedAction)
+    });
+  });
 });

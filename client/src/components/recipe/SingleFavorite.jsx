@@ -10,7 +10,7 @@ import { confirmAlert } from 'react-confirm-alert';
  *
  * @extends {Component}
  */
-class SingleFavorite extends Component {
+export class SingleFavorite extends Component {
   /**
    * Creates an instance of SingleFavorite.
    *

@@ -10,7 +10,7 @@ import validateInput from './validations/emailValidations';
  *
  * @extends {Component}
  */
-class PasswordReset extends Component {
+export class PasswordReset extends Component {
   /**
    * @description Creates an instance of PasswordReset.
    *
@@ -43,20 +43,21 @@ class PasswordReset extends Component {
   /**
  * @description onSubmit function
  *
- * @param {any} e
+ * @param {any} event
  *
  * @memberof PasswordReset
  *
  * @returns {void}
  */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit(event) {
+    event.preventDefault();
     const { email, errors } = this.state;
     if (this.isValid()) {
       this.setState({ errors: {} });
-      this.props.checkEmail(this.state).then((response) => {
-        toastr.success(`check ${email} for link`);
-      })
+      this.props.checkEmail(this.state)
+        .then(() => {
+          toastr.success(`check ${email} for link`);
+        })
         .catch((err) => {
           this.setState({ errors: err.response.data });
           toastr.error(this.state.errors.error);
@@ -119,7 +120,7 @@ class PasswordReset extends Component {
                   <button
                     onClick={this.onSubmit}
                     type="button"
-                    className="btn btn-outline ml-3 pr-3 pl-3"
+                    className="btn btn-outline ml-3 pr-3 pl-3 reset-button"
                     style={{ borderRadius: 100, backgroundColor: '#ec7026' }}
                   > Search
                   </button>

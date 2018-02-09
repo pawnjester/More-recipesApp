@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 
-const TextFieldGroup = ({
+export const TextFieldGroup = ({
   field, value, error, type, onChange, placeholder,
 }) => (
   <div className={classnames('form-group', { 'has-error': error })}>

@@ -13,7 +13,7 @@ import '../styles/passwordchange.scss';
  * @extends {Component}
  */
 
-class ChangePasswordForm extends Component {
+export class ChangePasswordForm extends Component {
   constructor(props) {
     super(props);
 
@@ -29,15 +29,14 @@ class ChangePasswordForm extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.changePassword(this.state).then((res) => {
-      toastr.success('Password successfully changed');
-      this.setState({
-        oldPassword: '',
-        password: ''
-      });
-    })
-      .catch(error => toastr.error(error.response.data.error));
-  }
+    this.props.changePassword(this.state)
+    .then((res) => {
+      if(this.props.errors) {
+        toastr.error(this.props.errors.error);
+      } else {
+        toastr.success('Password successfully changed');
+    }})
+}
 
   render() {
     return (
@@ -87,4 +86,8 @@ class ChangePasswordForm extends Component {
   }
 }
 
-export default connect(null, { changePassword })(ChangePasswordForm);
+const mapStateToProps = state => ({
+  errors: state.userDetailReducer.errors
+});
+
+export default connect(mapStateToProps, { changePassword })(ChangePasswordForm);

@@ -12,7 +12,7 @@ import validateInput from './validations/confirmNewPassword';
  *
  * @extends {Component}
  */
-class PasswordChangeForm extends Component {
+export class PasswordChangeForm extends Component {
   /**
    * @description Creates an instance of PasswordChangeForm.
    *
@@ -115,13 +115,13 @@ class PasswordChangeForm extends Component {
                         name="password"
                         onChange={this.onChange}
                         value={this.state.password}
-                        className="p-1 out"
+                        className="p-1 out password"
                         style={{
                           width: 400, borderRadius: `${10}px`, borderColor: '#ff4500', marginLeft: 130
                         }}
                       />
                     </div>
-                    {errors.error || errors.passwordConfirmation && <small style={{ marginLeft: 250 }}>{errors.error || errors.passwordConfirmation}</small>}
+                    {(errors.error || errors.passwordConfirmation) && <small style={{ marginLeft: 250 }}>{(errors.error || errors.passwordConfirmation)}</small>}
                   </div>
                   <div className="form-group">
                     <div>

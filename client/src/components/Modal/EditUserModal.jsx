@@ -15,7 +15,7 @@ import imageUpload from '../../helpers/imageUpload';
  *
  * @extends {Component}
  */
-class EditUserModal extends Component {
+export class EditUserModal extends Component {
   /**
    * Creates an instance of EditUserModal.
    *
@@ -31,7 +31,7 @@ class EditUserModal extends Component {
     super(props);
 
     this.state = {
-      identifier: '',
+      username: '',
       profileImg: '',
       status: '',
     };
@@ -115,11 +115,12 @@ class EditUserModal extends Component {
               <Col sm={8}>
                 <Input
                   type="text"
-                  name="identifier"
+                  name="username"
                   id="exampleEmail"
-                  value={this.state.identifier}
+                  value={this.state.username}
                   onChange={this.onNameChange}
                   placeholder="Enter the username"
+                  className="name-field"
                 />
               </Col>
             </FormGroup>
@@ -140,7 +141,11 @@ class EditUserModal extends Component {
 
             <FormGroup check row>
               <Col sm={{ size: 10, offset: 2 }}>
-                <Button onClick={this.onSubmit}>Edit profile</Button>
+                <Button
+                  onClick={this.onSubmit}
+                  className="edit-user-button"
+                >Edit profile
+                </Button>
               </Col>
             </FormGroup>
           </Form>

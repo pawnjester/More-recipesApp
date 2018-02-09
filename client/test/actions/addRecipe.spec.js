@@ -43,4 +43,25 @@ describe('addRecipeAction', () => {
         expect(store.getActions()).toEqual(expectedAction);
       });
   });
+
+  it('should handle error', () => {
+    const store = mockStore({});
+    axios.post = jest.fn(() => Promise.reject({
+      response: {
+        data: {
+          error: ''
+        }
+      }
+    }));
+    const expectedAction = [
+      {
+        type: types.CREATE_RECIPE_FAILURE,
+        error: ''
+      }
+    ];
+
+    return store.dispatch(createRecipe({})).then(() => {
+      expect(store.getActions()).toEqual(expectedAction)
+    });
+  });
 });

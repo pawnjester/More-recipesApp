@@ -88,5 +88,8 @@ This project is open for contributions. All contributions must adhere to the Air
 ### FAQ
 >- view Frequently Asked Questions [here](https://github.com/pawnjester/More-recipesApp/wiki)
 
+## License
+Copyright © [The MIT License](./LICENSE)
+
 #### Author(s)
 >- [Okonji Emmanuel](https://github.com/pawnjester)

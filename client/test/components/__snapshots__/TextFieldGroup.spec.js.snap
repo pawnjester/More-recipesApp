@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for TextFieldGroup should render correctly 1`] = `
+<div
+  className="form-group"
+>
+  <input
+    className="form-control form-control-lg"
+    name=""
+    onChange={[MockFunction]}
+    placeholder=""
+    type=""
+    value=""
+  />
+</div>
+`;

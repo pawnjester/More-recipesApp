@@ -19,15 +19,15 @@ const publicPath = express.static(path.join(__dirname, '../build/'));
 app.use(express.static(path.join(__dirname, '../client/public/assets')));
 const port = process.env.PORT || 3000;
 
-// if (process.env.NODE_ENV !== 'production') {
-//   const compiler = webpack(webpackConfig);
-//   app.use(webpackHotMiddleware(compiler, {
-//     hot: true,
-//     publicPath: webpackConfig.output.publicPath,
-//     noInfo: true
-//   }));
-//   app.use(webpackMiddleware(compiler));
-// }
+if (process.env.NODE_ENV !== 'production') {
+  const compiler = webpack(webpackConfig);
+  app.use(webpackHotMiddleware(compiler, {
+    hot: true,
+    publicPath: webpackConfig.output.publicPath,
+    noInfo: true
+  }));
+  app.use(webpackMiddleware(compiler));
+}
 
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
