@@ -1,0 +1,378 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for Add Recipe Modal should render correctly 1`] = `
+<Modal
+  autoFocus={true}
+  backdrop={true}
+  backdropTransition={
+    Object {
+      "mountOnEnter": true,
+      "timeout": 150,
+    }
+  }
+  fade={true}
+  isOpen={false}
+  keyboard={true}
+  modalTransition={
+    Object {
+      "timeout": 300,
+    }
+  }
+  onClosed={[Function]}
+  onOpened={[Function]}
+  role="dialog"
+  zIndex={1050}
+>
+  <ModalHeader
+    closeAriaLabel="Close"
+    tag="h4"
+    wrapTag="div"
+  >
+    Add A recipe
+  </ModalHeader>
+  <ModalBody
+    tag="div"
+  >
+    <Form
+      tag="form"
+    >
+      <FormGroup
+        row={true}
+        tag="div"
+      >
+        <Label
+          for="exampleEmail"
+          sm={3}
+          tag="label"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          Name
+        </Label>
+        <Col
+          sm={9}
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Input
+            className="name-field"
+            id="exampleEmail"
+            name="name"
+            onChange={[Function]}
+            placeholder="Enter the name"
+            tag="p"
+            type="text"
+            value=""
+          />
+        </Col>
+      </FormGroup>
+      <FormGroup
+        row={true}
+        tag="div"
+      >
+        <Label
+          for="exampleIngredients"
+          sm={3}
+          tag="label"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          Ingredients
+        </Label>
+        <Col
+          sm={9}
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Input
+            id="exampleIngredients"
+            name="ingredients"
+            onChange={[Function]}
+            placeholder="Enter the Ingredients"
+            style={
+              Object {
+                "height": 150,
+              }
+            }
+            tag="p"
+            type="textarea"
+            value=""
+          />
+          <small
+            className="text-center"
+            style={
+              Object {
+                "color": "red",
+              }
+            }
+          >
+             Enter the description seperated by commas(,)
+          </small>
+        </Col>
+      </FormGroup>
+      <FormGroup
+        row={true}
+        tag="div"
+      >
+        <Label
+          for="exampleMethod"
+          sm={3}
+          tag="label"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          method
+        </Label>
+        <Col
+          sm={9}
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Input
+            id="exampleMethod"
+            name="method"
+            onChange={[Function]}
+            placeholder="Enter the description"
+            style={
+              Object {
+                "height": 150,
+              }
+            }
+            tag="p"
+            type="textarea"
+            value=""
+          />
+          <small
+            className="text-center"
+            style={
+              Object {
+                "color": "red",
+              }
+            }
+          >
+             Enter the description seperated by full-stop(.)
+          </small>
+        </Col>
+      </FormGroup>
+      <FormGroup
+        row={true}
+        tag="div"
+      >
+        <Label
+          for="exampleCookingTime"
+          sm={3}
+          tag="label"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          Preparation Time
+        </Label>
+        <Col
+          row={true}
+          sm={9}
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Input
+            id="exampleCookingTime"
+            name="cookingTime"
+            onChange={[Function]}
+            placeholder="Enter the preparation time"
+            tag="p"
+            type="text"
+            value=""
+          />
+          <Col
+            row={true}
+            sm={15}
+            tag="div"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            <Input
+              className="mt-3"
+              id="exampleSelect"
+              name="option"
+              onChange={[Function]}
+              tag="p"
+              type="select"
+              value="minute(s)"
+            >
+              <option
+                value="second(s)"
+              >
+                second(s)
+              </option>
+              <option
+                value="minute(s)"
+              >
+                minute(s)
+              </option>
+              <option
+                value="hour(s)"
+              >
+                hour(s)
+              </option>
+            </Input>
+          </Col>
+        </Col>
+      </FormGroup>
+      <FormGroup
+        row={true}
+        tag="div"
+      >
+        <Label
+          for="exampleFile"
+          sm={3}
+          tag="label"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          File
+        </Label>
+        <Col
+          sm={9}
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Input
+            accept="image/*"
+            id="exampleFile"
+            name="file"
+            onChange={[Function]}
+            tag="p"
+            type="file"
+          />
+          <h6 />
+          <FormText
+            color="muted"
+            tag="small"
+          />
+        </Col>
+      </FormGroup>
+      <FormGroup
+        check={true}
+        row={true}
+        tag="div"
+      >
+        <Col
+          sm={
+            Object {
+              "offset": 2,
+              "size": 10,
+            }
+          }
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Button
+            className="add-recipe-button"
+            color="secondary"
+            disabled={false}
+            onClick={[Function]}
+            style={
+              Object {
+                "backgroundColor": "#A43741",
+                "float": "right",
+              }
+            }
+            tag="button"
+          >
+            Add a recipe
+          </Button>
+        </Col>
+      </FormGroup>
+    </Form>
+  </ModalBody>
+</Modal>
+`;

@@ -31,7 +31,7 @@ describe('Test For Reviews', () => {
     truncate: true,
     restartIdentity: true
   }));
-  it('should add a recipe', (done) => {
+  it('POST /api/v1/recipes should add a recipe', (done) => {
     chai.request(app)
       .post('/api/v1/recipes')
       .set('x-access-token', token)
@@ -55,7 +55,7 @@ describe('Test For Reviews', () => {
           done();
         });
     });
-    it('should add a review', (done) => {
+    it('POST /api/v1/recipes/1/reviews should add a review', (done) => {
       chai.request(app)
         .post('/api/v1/recipes/1/reviews')
         .set('x-access-token', token)
@@ -66,18 +66,21 @@ describe('Test For Reviews', () => {
           done();
         });
     });
-    it('should return an error if no content is passed', (done) => {
-      chai.request(app)
-        .post('/api/v1/recipes/1/reviews')
-        .set('x-access-token', token)
-        .send({ data: '' })
-        .end((err, res) => {
-          res.should.have.status(406);
-          res.body.should.have.property('error').equal('You need to put a review!');
-          done();
-        });
-    });
-    it('should get a single review', (done) => {
+    it(
+      'POST /api/v1/recipes/1/reviews should return an error if no content is passed',
+      (done) => {
+        chai.request(app)
+          .post('/api/v1/recipes/1/reviews')
+          .set('x-access-token', token)
+          .send({ data: '' })
+          .end((err, res) => {
+            res.should.have.status(406);
+            res.body.should.have.property('error').equal('You need to put a review!');
+            done();
+          });
+      }
+    );
+    it('GET /api/v1/recipes/1/reviews should get a single review', (done) => {
       chai.request(app)
         .get('/api/v1/recipes/1/reviews')
         .set('x-access-token', token)
@@ -89,7 +92,7 @@ describe('Test For Reviews', () => {
           done();
         });
     });
-    it('should check if there is a review', (done) => {
+    it('GET /api/v1/recipes/14/reviews should check if there is a review', (done) => {
       chai.request(app)
         .get('/api/v1/recipes/14/reviews')
         .set('x-access-token', token)
@@ -100,17 +103,20 @@ describe('Test For Reviews', () => {
           done();
         });
     });
-    it('should not delete a non existent review', (done) => {
-      chai.request(app)
-        .delete('/api/v1/recipes/17/reviews')
-        .set('x-access-token', token)
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.have.property('error').equal('Review not found with id : 17');
-          done();
-        });
-    });
-    it('should delete a review', (done) => {
+    it(
+      'DELETE /api/v1/recipes/17/reviews should not delete a non existent review',
+      (done) => {
+        chai.request(app)
+          .delete('/api/v1/recipes/17/reviews')
+          .set('x-access-token', token)
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.should.have.property('error').equal('Review not found with id : 17');
+            done();
+          });
+      }
+    );
+    it('DELETE /api/v1/recipes/1/reviews should delete a review', (done) => {
       chai.request(app)
         .delete('/api/v1/recipes/1/reviews')
         .set('x-access-token', token)
@@ -120,16 +126,19 @@ describe('Test For Reviews', () => {
           done();
         });
     });
-    it('should return an error when non-number input', (done) => {
-      chai.request(app)
-        .delete('/api/v1/recipes/k/reviews')
-        .set('x-access-token', token)
-        .send(fakeData.reviews)
-        .end((err, res) => {
-          res.should.have.status(406);
-          res.body.should.have.property('error').equal('Review id is not a number');
-          done();
-        });
-    });
+    it(
+      'DELETE /api/v1/recipes/k/reviews should return an error when non-number input',
+      (done) => {
+        chai.request(app)
+          .delete('/api/v1/recipes/k/reviews')
+          .set('x-access-token', token)
+          .send(fakeData.reviews)
+          .end((err, res) => {
+            res.should.have.status(422);
+            res.body.should.have.property('error').equal('Review id is not a number');
+            done();
+          });
+      }
+    );
   });
 });

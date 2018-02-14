@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Redirect to Login Page should render correctly 1`] = `
+<div>
+  <Connect(NavigationBar) />
+  <div
+    className="container"
+  >
+    <div
+      className="row"
+    >
+      <div
+        className="card mt-5"
+        style={
+          Object {
+            "marginLeft": 300,
+          }
+        }
+      >
+        <div
+          card-body="card-body"
+        >
+          <p
+            className="mt-5 p-5"
+          >
+            Your Password has been changed,
+            <br />
+            <br />
+            Please click this 
+            <Link
+              replace={false}
+              to="/signin"
+            >
+              link
+            </Link>
+             to login
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

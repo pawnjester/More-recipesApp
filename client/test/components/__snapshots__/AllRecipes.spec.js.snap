@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`All Recipe Component should render correctly 1`] = `
+<div>
+  <Connect(NavigationBar)
+    search="true"
+  />
+  <div
+    className="container text-center"
+  >
+    <div
+      className="heading"
+    >
+      <h1
+        className="p-5 "
+      >
+        All Recipes
+      </h1>
+    </div>
+    <hr />
+    <div
+      className="high"
+    >
+      <Loader
+        Loading={true}
+      />
+    </div>
+  </div>
+  <Footer />
+</div>
+`;

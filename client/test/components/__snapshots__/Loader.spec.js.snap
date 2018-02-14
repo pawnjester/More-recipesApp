@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for Loader should render correctly 1`] = `
+<div
+  className="sweet-loading loader-center"
+>
+  <onlyUpdateForKeys(Loader)
+    color="#e50000"
+    loading={true}
+    size={60}
+  />
+</div>
+`;
