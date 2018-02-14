@@ -113,7 +113,8 @@ const detail = (state = initialState, action) => {
         ...state,
         favoriteRecipes: {
           ...state.favoriteRecipes,
-          userFavorite: state.favoriteRecipes.userFavorite.filter(deletedFav => deletedFav.id !== action.deletedFavorite)
+          userFavorite: state.favoriteRecipes.userFavorite
+            .filter(deletedFav => deletedFav.id !== action.deletedFavorite)
         }
       };
     case DELETE_FAVORITE_FAILURE:

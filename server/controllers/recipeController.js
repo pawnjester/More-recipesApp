@@ -1,4 +1,5 @@
 import models from '../models';
+import pagination from '../helper/pagination';
 
 const recipe = models.Recipe;
 const review = models.Review;
@@ -22,22 +23,15 @@ export class Recipes {
    * @returns {object} Class instance
    */
   addRecipe(req, res) {
-    const { name, ingredients } = req.body;
+    const { ingredients } = req.body;
     const currentUser = req.currentUser.id;
     const { method } = req.body;
     const { cookingTime } = req.body;
-
+    const name = req.body.name.toLowerCase();
     recipe.findOne({
       where: {
-        $and: [
-          {
-            name,
-          },
-          {
-            userId: currentUser,
-          },
-        ],
-
+        name,
+        userId: currentUser,
       },
     })
       .then((RecipeFound) => {
@@ -54,11 +48,16 @@ export class Recipes {
           userId: currentUser,
           upVotes: req.body.upVotes,
           downVotes: req.body.downVotes,
-          imageUrl: req.body.imageUrl || 'https://res.cloudinary.com/digr7ls7o/image/upload/v1516455539/no-img_hdhkpi.png',
+          imageUrl: req.body.imageUrl
+          || 'https://res.cloudinary.com/digr7ls7o/image/upload/v1516455539/no-img_hdhkpi.png',
           cookingTime,
         })
           .then((recipe) => {
-            res.status(201).json({ statusCode: 201, message: 'Recipe has been created', recipe });
+            res.status(201).json({
+              statusCode: 201,
+              message: 'Recipe has been created',
+              recipe
+            });
           });
       })
       .catch(() => res.status(500).json({
@@ -97,8 +96,8 @@ export class Recipes {
     })
       .then((recipe) => {
         if (!recipe) {
-          return res.status(400).json({
-            statusCode: 400,
+          return res.status(404).json({
+            statusCode: 404,
             error: `Recipe not Found with ${recipeId}`,
           });
         }
@@ -111,7 +110,10 @@ export class Recipes {
         })
           .then(() => res.status(201).json({ statusCode: 201, recipe }));
       })
-      .catch(() => res.status(500).json({ statusCode: 500, error: 'Error modifying recipe' }));
+      .catch(() => res.status(500).json({
+        statusCode: 500,
+        error: 'Error modifying recipe'
+      }));
     return this;
   }
 
@@ -143,8 +145,8 @@ export class Recipes {
     })
       .then((deletedRecipe) => {
         if (!deletedRecipe) {
-          return res.status(400).json({
-            statusCode: 400,
+          return res.status(404).json({
+            statusCode: 404,
             error: `Recipe not found with id : ${recipeId}`,
           });
         }
@@ -154,9 +156,15 @@ export class Recipes {
               id: recipeId,
             },
           })
-          .then(() => res.status(200).json({ statusCode: 200, message: 'This recipe has been deleted' }));
+          .then(() => res.status(200).json({
+            statusCode: 200,
+            message: 'This recipe has been deleted'
+          }));
       })
-      .catch(() => res.status(500).json({ statusCode: 500, error: 'Error deleting recipe' }));
+      .catch(() => res.status(500).json({
+        statusCode: 500,
+        error: 'Error deleting recipe'
+      }));
     return this;
   }
 
@@ -173,14 +181,12 @@ export class Recipes {
    * @returns {object} Class instance
    */
   getRecipes(req, res, next) {
-    if (Object.keys(req.query).indexOf('search') > -1 || Object.keys(req.query).indexOf('sort') > -1) return next();
+    if (Object.keys(req.query).indexOf('search') > -1 ||
+    Object.keys(req.query).indexOf('sort') > -1) return next();
     recipe.findAndCountAll().then((all) => {
+      const paging = pagination(req.query, all.count);
       const limit = parseInt((req.query.limit || 6), 10);
       let offset = 0;
-      const page = parseInt((req.query.page || 1), 10);
-      const numberOfItems = all.count;
-      const pages = Math.ceil(numberOfItems / limit);
-      offset = limit * (page - 1);
       recipe.findAll({
         limit,
         offset,
@@ -194,14 +200,15 @@ export class Recipes {
         .then((recipes) => {
           if (recipes) {
             if (recipes.length < 1) {
-              return res.status(200).json({ statusCode: 200, message: 'There are currently no recipes in collection', recipes: [] });
+              return res.status(200).json({
+                statusCode: 200,
+                message: 'There are currently no recipes in collection',
+                recipes: []
+              });
             }
             return res.status(200).json({
-              NumberOfItems: numberOfItems,
-              Limit: limit,
-              Pages: pages,
-              CurrentPage: page,
-              recipes,
+              pagination: paging,
+              recipes
             });
           }
         });
@@ -222,7 +229,8 @@ export class Recipes {
  */
   getTopRecipes(req, res, next) {
     if (Object.keys(req.query).indexOf('search') > -1) return next();
-    const sort = req.query.sort === 'upVotes' || req.query.sort === 'downVotes' ? req.query.sort : 'upVotes';
+    const sort = req.query.sort === 'upVotes'
+    || req.query.sort === 'downVotes' ? req.query.sort : 'upVotes';
     const order = req.query.order === 'des' ? 'DESC' : 'DESC';
     recipe.findAll({
       where: {
@@ -235,7 +243,10 @@ export class Recipes {
     })
       .then((orderedRecipe) => {
         if (!orderedRecipe) {
-          return res.status(400).json({ statusCode: 400, message: 'No recipe found' });
+          return res.status(404).json({
+            statusCode: 404,
+            message: 'No recipe found'
+          });
         }
         return res.status(200).json({
           statusCode: 200,
@@ -275,9 +286,17 @@ export class Recipes {
     })
       .then((searchResults) => {
         if (searchResults.length <= 0) {
-          return res.status(404).json({ statusCode: 404, message: 'Recipe(s) cannot be found', searchResults });
+          return res.status(404).json({
+            statusCode: 404,
+            message: 'Recipe(s) cannot be found',
+            searchResults
+          });
         }
-        return res.status(200).json({ statusCode: 200, message: 'The results found', searchResults });
+        return res.status(200).json({
+          statusCode: 200,
+          message: 'The results found',
+          searchResults
+        });
       });
     return this;
   }
@@ -305,8 +324,13 @@ export class Recipes {
       ],
       limit: limitValue
     })
-      .then(favoriteRecipeList => res.status(200).json({ favoriteRecipes: favoriteRecipeList.rows }))
-      .catch((error) => { res.status(500).json({ error: error.message }); });
+      .then(favoriteRecipeList => res.status(200).json({
+        favoriteRecipes: favoriteRecipeList.rows
+      }))
+      .catch((error) => {
+        res.status(500)
+          .json({ error: error.message });
+      });
     return this;
   }
 
@@ -321,7 +345,6 @@ export class Recipes {
    * @returns {object} Class instance
    */
   getRecipeById({ params: { recipeId }, currentUser }, res) {
-    let ifFavorite = false;
     recipe.findOne({
       where: { id: recipeId },
       include: [
@@ -348,7 +371,10 @@ export class Recipes {
     })
       .then((singleRecipe) => {
         if (!singleRecipe) {
-          return res.status(404).json({ statusCode: 404, error: `Recipe with id: ${recipeId} does not exist` });
+          return res.status(404).json({
+            statusCode: 404,
+            error: `Recipe with id: ${recipeId} does not exist`
+          });
         }
         if (currentUser.id === singleRecipe.userId && singleRecipe.viewCheck === false) {
           singleRecipe
@@ -357,18 +383,10 @@ export class Recipes {
           singleRecipe
             .update({ viewCount: singleRecipe.viewCount + 1 });
         }
-        favorite.findOne({
-          where: {
-            recipeId,
-            userId: currentUser.id
-          }
-        }).then((favoriteFound) => {
-          if (favoriteFound) {
-            ifFavorite = true;
-          }
-          return res.status(200).json({
-            statusCode: 200, message: `Recipe with id: ${recipeId} was found`, singleRecipe, ifFavorite
-          });
+        return res.status(200).json({
+          statusCode: 200,
+          message: `Recipe with id: ${recipeId} was found`,
+          singleRecipe,
         });
       })
       .catch(() => {
@@ -392,12 +410,9 @@ export class Recipes {
         userId: req.currentUser.id,
       },
     }).then((all) => {
-      const limit = 6;
+      const limit = parseInt((req.query.limit || 6), 10);
+      const paging = pagination(req.query, all.count);
       let offset = 0;
-      const page = parseInt((req.query.page || 1), 10);
-      const numberOfItems = all.count;
-      const pages = Math.ceil(numberOfItems / limit);
-      offset = limit * (page - 1);
       recipe.findAll({
         where: {
           userId: req.currentUser.id,
@@ -414,18 +429,21 @@ export class Recipes {
         .then((recipes) => {
           if (recipes) {
             if (recipes.length < 1) {
-              return res.status(200).json({ statusCode: 200, message: 'There are currently no recipes in collection', recipes: [] });
+              return res.status(200).json({
+                statusCode: 200,
+                message: 'There are currently no recipes in collection',
+                recipes: []
+              });
             }
             return res.status(200).json({
-              NumberOfItems: numberOfItems,
-              Limit: limit,
-              Pages: pages,
-              CurrentPage: page,
+              pagination: paging,
               recipes,
             });
           }
         });
-    }).catch(() => res.status(500).json({ error: 'Error getting User recipe' }));
+    }).catch(() => res.status(500).json({
+      error: 'Error getting User recipe'
+    }));
     return this;
   }
 }

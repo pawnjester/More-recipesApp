@@ -15,7 +15,11 @@
     "heroku-postbuild": "npm run build:client && npm run build:server",
     "build:client": "webpack --config webpack.config.prod.js",
     "build:server": "babel ./server -d ./dist",
-    "test:client": "NODE_ENV=jest jest ./client/test/*/*.spec.js --coverage --collectCoverageFrom=client/**/*.{js,jsx}"
+    "test:client": "NODE_ENV=jest jest ./client/test/*/*.spec.js --coverage --collectCoverageFrom=client/**/*.{js,jsx}",
+    "client": "jest",
+    "pre:test": "sequelize db:migrate:undo:all && sequelize db:migrate",
+    "e2e-setup": "node_modules/selenium-standalone/bin/selenium-standalone install",
+    "e2e:test": "npm run pre:test && nightwatch ./e2etests/*.js"
   },
   "jest": {
     "automock": false,
@@ -95,6 +99,7 @@
     "promise": "^8.0.1",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
+    "react-avatar": "^2.5.1",
     "react-bootstrap": "^0.31.5",
     "react-confirm-alert": "^1.0.8",
     "react-dom": "^16.0.0",
@@ -125,7 +130,8 @@
     "validator": "^9.0.0",
     "webpack": "^3.7.1",
     "webpack-dev-middleware": "^1.12.0",
-    "webpack-hot-middleware": "^2.19.1"
+    "webpack-hot-middleware": "^2.19.1",
+    "winston": "^2.4.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
@@ -139,6 +145,11 @@
     "expect": "^21.2.1",
     "mocha": "^3.5.3",
     "nodemon": "^1.12.1",
+    "react-test-renderer": "^16.2.0",
+    "regenerator": "^0.12.3",
+    "runtime": "^0.14.1",
+    "selenium-standalone": "^6.12.0",
+    "sinon": "^4.2.2",
     "supertest": "^3.0.0"
   }
 }

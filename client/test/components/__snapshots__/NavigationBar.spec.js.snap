@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navigation Bar should render correctly 1`] = `
+<nav
+  className="navbar navbar-expand-sm navbar-dark navbar-inverse bg-dark fixed-top "
+>
+  <Link
+    className="navbar-brand"
+    replace={false}
+    styles="cursor:pointer"
+    to="/"
+  >
+    More-Recipes
+  </Link>
+  <button
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+    className="navbar-toggler"
+    data-target="#navbarSupportedContent"
+    data-toggle="collapse"
+    type="button"
+  >
+    <span
+      className="navbar-toggler-icon"
+    />
+  </button>
+  <div
+    className="collapse navbar-collapse"
+    id="navbarSupportedContent"
+  >
+    <ul
+      className="navbar-nav ml-auto"
+    >
+      <div>
+        <div
+          className="nav-item dropdown show-large"
+        >
+          <Link
+            aria-expanded="false"
+            aria-haspopup="true"
+            className="nav-link dropdown-toggle"
+            data-toggle="dropdown"
+            id="navbarDropdownMenuLink"
+            replace={false}
+            to="/profile"
+          >
+            Emmanuel
+          </Link>
+          <div
+            aria-labelledby="navbarDropdownMenuLink"
+            className="dropdown-menu"
+            style={
+              Object {
+                "marginLeft": -45,
+                "top": 52,
+              }
+            }
+          >
+            <Link
+              className="dropdown-item"
+              id="favorite-drop"
+              replace={false}
+              to="/favorites"
+            >
+              My Favorites
+            </Link>
+            <Link
+              className="dropdown-item"
+              replace={false}
+              to="/recipes"
+            >
+              My Recipes
+            </Link>
+            <Link
+              className="dropdown-item"
+              id="all-recipes-drop"
+              replace={false}
+              to="/all-recipes"
+            >
+              All Recipes
+            </Link>
+            <Link
+              className="dropdown-item"
+              id="profile-drop"
+              replace={false}
+              to="/profile"
+            >
+              My Profile
+            </Link>
+            <Link
+              className=" dropdown-item"
+              id="log-out-link"
+              onClick={[Function]}
+              replace={false}
+              styles="border-radius: 4px;"
+              to="/"
+            >
+              Log out
+            </Link>
+          </div>
+        </div>
+        <ul
+          className="show-mobile"
+        >
+          <li>
+            <Link
+              className="dropdown-item"
+              replace={false}
+              to="/favorites"
+            >
+              My Favorites
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="dropdown-item"
+              replace={false}
+              to="/recipes"
+            >
+              My Recipes
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="dropdown-item"
+              replace={false}
+              to="/all-recipes"
+            >
+              All Recipes
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="dropdown-item"
+              replace={false}
+              to="/profile"
+            >
+              My Profile
+            </Link>
+          </li>
+          <li>
+            <Link
+              className=" dropdown-item"
+              onClick={[Function]}
+              replace={false}
+              styles="border-radius: 4px;"
+              to="/"
+            >
+              Log out
+            </Link>
+          </li>
+        </ul>
+      </div>
+    </ul>
+  </div>
+</nav>
+`;

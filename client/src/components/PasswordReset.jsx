@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
-import NavigationBar from './NavigationBar';
+import NavigationBarComponent from './NavigationBar';
 import checkEmail from '../actions/checkEmail';
 import validateInput from './validations/emailValidations';
 /**
@@ -93,12 +93,23 @@ class PasswordReset extends Component {
     const { errors } = this.state;
     return (
       <div>
-        <NavigationBar />
+        <NavigationBarComponent />
         <div className="container">
           <div className="row mt-5 ml-5">
-            <div className="card " style={{ width: 700, marginLeft: 130, borderColor: '#ec7026' }}>
+            <div
+              className="card "
+              style={{
+                width: 700,
+                marginLeft: 130,
+                borderColor: '#ec7026'
+              }}
+            >
               <div className="card-body">
-                <h4 className="text-center mb-5">Enter your More-Recipes account</h4>
+                <h4
+                  className="text-center mb-5"
+                >
+                  Enter your More-Recipes account
+                </h4>
                 <form className="form-group text-center">
                   <div className="form-group">
                     <p>Find your email address</p>
@@ -110,17 +121,31 @@ class PasswordReset extends Component {
                         onChange={this.onChange}
                         value={this.state.email}
                         className="p-1 out"
-                        style={{ width: 400, borderRadius: `${15}px`, borderColor: '#ff4500' }}
+                        style={{
+                          width: 400,
+                          borderRadius: `${15}px`,
+                          borderColor: '#ff4500'
+                        }}
                         autoFocus
                       />
                     </div>
-                    {(errors.error || errors.email) && <small>{(errors.error || errors.email)}</small>}
+                    {(errors.error || errors.email) &&
+                      <small>{(errors.error || errors.email)}
+                      </small>}
                   </div>
                   <button
                     onClick={this.onSubmit}
                     type="button"
-                    className="btn btn-outline ml-3 pr-3 pl-3"
-                    style={{ borderRadius: 100, backgroundColor: '#ec7026' }}
+                    className="btn
+                    btn-outline
+                    ml-3
+                    pr-3
+                    pl-3
+                    reset-button"
+                    style={{
+                    borderRadius: 100,
+                    backgroundColor: '#ec7026'
+                  }}
                   > Search
                   </button>
                 </form>
@@ -128,7 +153,7 @@ class PasswordReset extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </div >
     );
   }
 }

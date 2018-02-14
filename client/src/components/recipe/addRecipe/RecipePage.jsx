@@ -3,17 +3,17 @@ import { connect } from 'react-redux';
 import { Button } from 'reactstrap';
 import ReactPaginate from 'react-paginate';
 import PropTypes from 'prop-types';
-import Loader from '../../common/Loader';
+import LoaderComponent from '../../common/Loader';
 import createRecipe from '../../../actions/addRecipe';
 import getRecipes from '../../../actions/getRecipe';
 import deleteRecipe from '../../../actions/deleteRecipe';
 import getRecipeDetail from '../../../actions/getRecipeDetail';
 import editRecipe from '../../../actions/editRecipe';
-import NavigationBar from '../../NavigationBar';
+import NavigationBarComponent from '../../NavigationBar';
 import '../../../styles/recipes.scss';
-import Recipe from './recipe';
-import AddRecipeModal from '../../Modal/AddRecipeModal';
-import Footer from '../../common/Footer';
+import Recipe from './Recipe';
+import AddRecipeModalComponent from '../../Modal/AddRecipeModal';
+import FooterComponent from '../../common/Footer';
 
 /**
  * @description RecipePage component
@@ -22,7 +22,7 @@ import Footer from '../../common/Footer';
  *
  * @extends {Component}
  */
-class RecipePage extends Component {
+export class RecipePage extends Component {
   /**
    * Creates an instance of RecipePage.
    *
@@ -59,7 +59,7 @@ class RecipePage extends Component {
  *
  * @returns {void}
  */
-  componentWillMount() {
+  componentDidMount() {
     this.props.getRecipes()
       .then(() => {
         this.setState({ loading: false });
@@ -81,7 +81,6 @@ class RecipePage extends Component {
     this.setState({
       recipes: nextProps.recipes,
       pages: nextProps.pages,
-      errors: nextProps.errors,
     });
     if (nextProps.deleted) {
       this.props.getRecipes(nextProps.totalContent < 1 ?
@@ -146,7 +145,7 @@ class RecipePage extends Component {
 
     return (
       <div>
-        <NavigationBar search="true" />
+        <NavigationBarComponent search="true" />
         <div className="container text-center">
           <div className="heading">
             <h1 className="p-5 ">My Recipes</h1>
@@ -157,41 +156,33 @@ class RecipePage extends Component {
             >
               <i className="fa fa-plus" />Recipe
             </Button>
-            <AddRecipeModal
+            <AddRecipeModalComponent
               isOpen={this.state.modal}
               toggle={this.toggle}
               createRecipe={this.props.createRecipe}
               errors={this.state.errors}
+              serverError={this.props.errors}
               getRecipe={this.props.getRecipes}
               currentPage={currentPage}
             />
           </div>
           <hr />
-          <div className="row high">
-            {/* {recipeList && recipeList.length === 0 &&
-              (<h4 className="mt-5 text-center no-recipes"> No recipes yet </h4>)}
+          <div className="high">
             {this.state.loading ?
-              <Loader Loading={this.state.loading} /> :
-              recipeList &&
-              recipeList.map(recipe =>
-                (<Recipe
-                  recipe={recipe}
-                  key={recipe.id}
-                  deleteRecipe={this.onDeleteRecipe}
-                  getAllRecipes={this.props.getRecipes}
-                />))} */}
-            {/* {recipeList && recipeList.length === 0 &&
-              (<h4 className="mt-5 text-center no-recipes"> No recipes yet </h4>)} */}
-            {this.state.loading ?
-              <Loader Loading={this.state.loading} /> :
-              recipeList.length > 0 ?
-              recipeList.map(recipe =>
-                (<Recipe
-                  recipe={recipe}
-                  key={recipe.id}
-                  deleteRecipe={this.onDeleteRecipe}
-                  getAllRecipes={this.props.getRecipes}
-                />)) : (<h4 className="mt-5 text-center no-recipes"> No recipes yet </h4>)}
+              <LoaderComponent Loading={this.state.loading} /> :
+              <div className="row no-recipes">
+                {
+                  recipeList.length > 0 ?
+                    recipeList.map(recipe =>
+                      (<Recipe
+                        recipe={recipe}
+                        key={recipe.id}
+                        deleteRecipe={this.onDeleteRecipe}
+                        getAllRecipes={this.props.getRecipes}
+                      />)) : (<h4 className="mt-5 text-center no-recipes-yet"> No recipes yet</h4>)
+                }
+              </div>
+            }
 
           </div>
         </div>
@@ -214,7 +205,7 @@ class RecipePage extends Component {
           onPageChange={this.onPageChange}
         />}
 
-        <Footer />
+        <FooterComponent />
       </div>
     );
   }

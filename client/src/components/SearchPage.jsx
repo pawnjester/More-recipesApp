@@ -25,7 +25,6 @@ class SearchPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipes: [],
       displayError: false,
     };
 
@@ -42,13 +41,19 @@ class SearchPage extends Component {
  * @returns {void}
  */
   onNameChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
+    const exp = /[ ]/;
+
     if (event.target.value.length > 0) {
+      const keyLength = event.target.value.length;
+      const charAtLast = event.target.value[keyLength - 1];
       this.setState({ displayError: true });
+      if (charAtLast.match(exp)) {
+        return false;
+      }
+      this.props.search(event.target.value);
     } else {
       this.setState({ displayError: false });
     }
-    this.props.search(event.target.value);
   }
 
   /**
@@ -63,17 +68,27 @@ class SearchPage extends Component {
       height: 200,
     };
     const recipes = (this.props.recipes) ? (this.props.recipes) : [];
-    const recipesList = recipes.map((recipe, index )=> (
-      <div className="col-md-4 col-xs-12 " key={ `${index}`}>
+    const recipesList = recipes.map((recipe, index) => (
+      <div className="col-md-4 col-xs-12 " key={`${index}`}>
         <div className="card">
-          <img className="card-img-top" src={recipe.imageUrl} style={style} alt="recipeImage" />
+          <img
+            className="card-img-top"
+            src={recipe.imageUrl}
+            style={style}
+            alt="recipeImage"
+          />
           <div className="card-body">
-            <h4 className="card-title text-center">{`${recipe.name.substring(0, 10)}...`}</h4>
+            <h4 className="card-title text-center">
+              {`${recipe.name.substring(0, 10)}...`}
+            </h4>
           </div>
           <div className="card-body clearfix">
             <Link to={`/detail/${recipe.id}`}>
               <div className="text-center text-primary float-center">
-                <i className="fa fa-eye" aria-hidden="true" /><span id="clickableAwesomeFont" className="view" >&nbsp;View</span>
+                <i className="fa fa-eye" aria-hidden="true" />
+                <span id="clickableAwesomeFont" className="view" >
+                &nbsp;View
+                </span>
               </div>
             </Link>
 
@@ -85,10 +100,12 @@ class SearchPage extends Component {
       <div>
         <NavigationBar />
         <div className="container">
-          <h1 className="text-center top-margin text-danger">Search New Awesome Recipes</h1>
+          <h1 className="text-center top-margin text-danger">
+          Search New Awesome Recipes
+          </h1>
           <form className="form-inline my-2 my-lg-0">
             <input
-              className="form-control mr-sm-2"
+              className="form-control mr-sm-2 search-input-bar"
               type="text"
               name="search"
               placeholder="Search Recipe name or ingredients"
@@ -97,8 +114,13 @@ class SearchPage extends Component {
             />
           </form>
           <br />
-          {recipesList.length > 0 && <h4 className="text-center"> Search results</h4>}
-          {recipes.length < 1 && this.state.displayError && <h4 className="text-center text-danger"> No result(s) found</h4>}
+          {recipesList.length > 0 && <h4 className="text-center">
+          Search results
+                                     </h4>}
+          {recipes.length < 1 && this.state.displayError &&
+          <h4 className="text-center text-danger">
+          No result(s) found
+          </h4>}
           <br />
           <div className="row high">
             {recipesList}
@@ -111,7 +133,6 @@ class SearchPage extends Component {
 }
 
 SearchPage.propTypes = {
-  recipes: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   search: PropTypes.func.isRequired
 };
 
