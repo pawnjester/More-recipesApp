@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Favorite Recipe Component should render correctly 1`] = `
+<div>
+  <Connect(NavigationBar)
+    search="true"
+  />
+  <div
+    className="container text-center  "
+  >
+    <div
+      className="heading"
+    >
+      <h1
+        className="p-5 "
+      >
+        Favorite Recipes
+      </h1>
+    </div>
+    <hr />
+    <div
+      className="row high"
+    >
+      <h4
+        className="mt-5 text-center no-favorite"
+      >
+        You have no favorite
+      </h4>
+    </div>
+  </div>
+  <PaginationBoxView
+    activeClassName="page-item active"
+    breakClassName="text-center"
+    breakLabel="..."
+    containerClassName="container pagination justify-content-center"
+    disableInitialCallback={false}
+    disabledClassName="disabled"
+    initialPage={0}
+    marginPagesDisplayed={3}
+    nextClassName="page-item"
+    nextLabel="Next"
+    nextLinkClassName="page-link"
+    onPageChange={[Function]}
+    pageClassName="page-item"
+    pageCount={10}
+    pageLinkClassName="page-link"
+    pageRangeDisplayed={5}
+    previousClassName="page-item"
+    previousLabel="Previous"
+    previousLinkClassName="page-link"
+  />
+  <Footer />
+</div>
+`;

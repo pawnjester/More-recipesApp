@@ -26,8 +26,8 @@ const resetPassword = (token, password, passwordConfirmation) => dispatch =>
     .then((response) => {
       dispatch(resetPasswordSuccess(response.data));
     })
-    .catch((err) => {
-      dispatch(resetPasswordFailure(err.data));
+    .catch((error) => {
+      dispatch(resetPasswordFailure(error.response.data));
     });
 
 export default resetPassword;

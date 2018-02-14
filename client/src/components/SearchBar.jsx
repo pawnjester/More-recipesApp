@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import searchRecipe from '../actions/searchRecipe';
-/*
+
+/**
  *
- * @class searchBar
+ *
+ * @class SearchBar
+ *
  * @extends {Component}
  */
-class searchBar extends Component {
+export class SearchBar extends Component {
   /**
    * @description Creates an instance of searchBar.
    *
@@ -28,7 +31,7 @@ class searchBar extends Component {
  *
  * @description set state to input value
  *
- * @param {any} e
+ * @param {object} e
  *
  * @memberof searchBar
  *
@@ -59,7 +62,8 @@ class searchBar extends Component {
       <div>
         <form className=" my-2 my-lg-0">
           <input
-            className=" mr-sm-2"
+            id= "search-bar"
+            className=" mr-sm-2 searchbars"
             type="text"
             name="search"
             placeholder="Search recipes...."
@@ -73,11 +77,11 @@ class searchBar extends Component {
       </div>
     );
   }
-}
-
-
-searchBar.contextTypes = {
-  router: PropTypes.object.isRequired,
 };
 
-export default connect(null, { searchRecipe })(searchBar);
+
+SearchBar.contextTypes = {
+  router: PropTypes.object,
+};
+
+export default connect(null, { searchRecipe })(SearchBar);

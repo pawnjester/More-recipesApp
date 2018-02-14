@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
     viewCheck: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
-      defaultValut: false
+      defaultValue: false
     },
     userId: {
       type: DataTypes.INTEGER,

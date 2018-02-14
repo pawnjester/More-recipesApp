@@ -28,8 +28,7 @@ class Reviews {
   postReview(req, res) {
     const { data } = req.body;
     const { recipeId } = req.params;
-    const currentUser = req.currentUser;
-    let reviewer;
+    const { currentUser } = req;
     review.create({
       data,
       recipeId,
@@ -47,7 +46,7 @@ class Reviews {
                 {
                   model: user,
                   atrributes: ['username', 'profileImg']
-},
+                },
               ],
             },
 
@@ -58,18 +57,30 @@ class Reviews {
               const subject = 'You have a review!';
               const html = templates.reviewmailer(reviewed, data, currentUser.username);
               transporter.sendMail(mailOptions(reviewed.User.email, subject, html))
-                .then(() => {
-                  return res.status(201).json({ statusCode: 201, message: 'Your review has been added', reviewed });
-                })
+                .then(() => res.status(201)
+                  .json({
+                    statusCode: 201,
+                    message: 'Your review has been added',
+                    reviewed
+                  }))
                 .catch(() => {
                   res.json({ error: 'Error sending an email' });
                 });
             } else {
-              return res.status(201).json({ statusCode: 201, message: 'Your review has been added', reviewed });
+              return res.status(201).json({
+                statusCode: 201,
+                message: 'Your review has been added',
+                reviewed
+              });
             }
           });
       })
-      .catch(() => { res.status(500).json({ statusCode: 500, message: 'Error creating review' }); });
+      .catch(() => {
+        res.status(500).json({
+          statusCode: 500,
+          message: 'Error creating review'
+        });
+      });
     return this;
   }
   /**
@@ -94,7 +105,11 @@ class Reviews {
     })
       .then((deletedReview) => {
         if (!deletedReview) {
-          return res.status(400).json({ statusCode: 400, error: `Review not found with id : ${reviewId}` });
+          return res.status(400)
+            .json({
+              statusCode: 400,
+              error: `Review not found with id : ${reviewId}`
+            });
         }
         review.destroy({
           where: {
@@ -104,10 +119,18 @@ class Reviews {
           .then(() => {
             review.findAll()
               .then((reviews) => {
-                res.status(200).json({ message: 'This review has been deleted', reviews });
+                res.status(200)
+                  .json({
+                    message: 'This review has been deleted',
+                    reviews
+                  });
               });
           })
-          .catch(() => res.status(500).json({ statusCode: 500, error: 'Error deleting review ' }));
+          .catch(() => res.status(500)
+            .json({
+              statusCode: 500,
+              error: 'Error deleting review '
+            }));
       });
     return this;
   }
@@ -131,7 +154,11 @@ class Reviews {
     })
       .then((response) => {
         if (!response) {
-          return res.status(400).json({ statusCode: 400, error: `Recipe not found with ${recipeId}` });
+          return res.status(400)
+            .json({
+              statusCode: 400,
+              error: `Recipe not found with ${recipeId}`
+            });
         }
         review.findAll({
           where: {
@@ -141,9 +168,18 @@ class Reviews {
             { model: user, attributes: ['username', 'profileImg'] },
           ],
         })
-          .then(reviews => res.status(200).json({ statusCode: 200, message: 'Reviews found: ', reviews }));
+          .then(reviews => res.status(200)
+            .json({
+              statusCode: 200,
+              message: 'Reviews found: ',
+              reviews
+            }));
       })
-      .catch(() => res.status(500).json({ statusCode: 500, error: 'Recipe cannot be retrieved' }));
+      .catch(() => res.status(500)
+        .json({
+          statusCode: 500,
+          error: 'Recipe cannot be retrieved'
+        }));
     return this;
   }
 }

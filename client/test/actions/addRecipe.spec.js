@@ -8,8 +8,8 @@ import * as types from '../../src/actions/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('addRecipeAction', () => {
-  it('add recipe success action', () => {
+describe('add Recipe action creator', () => {
+  it('should dispatch a success action when dispatched with valid details', () => {
     const newRecipe = { id: 1, name: 'butter', imageUrl: '' };
     const expectedAction = {
       type: types.CREATE_RECIPE_SUCCESS,
@@ -19,7 +19,7 @@ describe('addRecipeAction', () => {
     expect(addRecipeSucess(newRecipe)).toEqual(expectedAction);
   });
 
-  it('add recipe action creator', () => {
+  it('should dispatch a success action when dispatched with valid details', () => {
     const store = mockStore({});
     axios.post = jest.fn(() => Promise.resolve({
       data: {
@@ -42,5 +42,26 @@ describe('addRecipeAction', () => {
       .then(() => {
         expect(store.getActions()).toEqual(expectedAction);
       });
+  });
+
+  it('should dispatch a failure action when an error occurs', () => {
+    const store = mockStore({});
+    axios.post = jest.fn(() => Promise.reject({
+      response: {
+        data: {
+          error: ''
+        }
+      }
+    }));
+    const expectedAction = [
+      {
+        type: types.CREATE_RECIPE_FAILURE,
+        error: ''
+      }
+    ];
+
+    return store.dispatch(createRecipe({})).then(() => {
+      expect(store.getActions()).toEqual(expectedAction)
+    });
   });
 });

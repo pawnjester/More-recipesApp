@@ -2,7 +2,8 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import models from '../models';
-import { transporter, mailOptions, templates } from '../helper/nodemailer';
+import { transporter, mailOptions, templates }
+  from '../helper/nodemailer';
 
 dotenv.config();
 
@@ -46,7 +47,11 @@ export default class User {
       })
       .then((userFound) => {
         if (userFound) {
-          return res.status(409).json({ statusCode: 409, error: 'Username or email is already in use' });
+          return res.status(409)
+            .json({
+              statusCode: 409,
+              error: 'Username or email is already in use'
+            });
         }
         return user.create({
           username,
@@ -64,7 +69,8 @@ export default class User {
               });
           });
       })
-      .catch(() => res.status(500).json({ statusCode: 500, error: 'Error creating an account' }));
+      .catch(() => res.status(500)
+        .json({ statusCode: 500, error: 'Error creating an account' }));
     return this;
   }
 
@@ -98,7 +104,10 @@ export default class User {
     })
       .then((userFound) => {
         if (!userFound) {
-          return res.status(401).json({ statusCode: 401, error: 'Invalid credentials' });
+          return res.status(401).json({
+            statusCode: 401,
+            error: 'Invalid credentials'
+          });
         } else if (!userFound.validPassword(req.body.password)) {
           return res.status(401)
             .json({
@@ -114,7 +123,10 @@ export default class User {
           token,
         });
       })
-      .catch(() => res.status(500).json({ statusCode: 500, error: 'Error signing in' }));
+      .catch(() => res.status(500).json({
+        statusCode: 500,
+        error: 'Error signing in'
+      }));
     return this;
   }
 
@@ -157,21 +169,14 @@ export default class User {
     const { currentUser } = req;
     user.findOne({
       where: {
-        $or: [
-          {
-            username: currentUser.username,
-          },
-          {
-            email: currentUser.email,
-          },
-        ],
+        id: currentUser.id,
       },
     })
       .then(userFound => user.findOne({
         where: {
           $or: [
             {
-              username: req.body.identifier,
+              username: req.body.username,
             },
             {
               profileImg: req.body.profileImg,
@@ -187,7 +192,7 @@ export default class User {
             });
         }
         return userFound.update({
-          username: req.body.identifier || userFound.identifier,
+          username: req.body.username || userFound.username,
           profileImg: req.body.profileImg || userFound.profileImg,
         }).then(() => res.status(201).json({ statusCode: 201, userFound }));
       }))
@@ -229,17 +234,17 @@ export default class User {
               const html = templates.recovery(req, update);
               transporter.sendMail(mailOptions(isUser.email, subject, html))
                 .then(() => {
-                  res.send({
+                  res.json({
                     message: `An email with reset instructions has been sent to ${isUser.email}`
                   });
                 })
                 .catch(() => {
-                  res.status(500).json({ error: 'Error sending recovery mail. Please try again later' });
+                  res.status(500)
+                    .json({
+                      error: 'Error sending recovery mail. Please try again later'
+                    });
                 });
             }
-            // const url = `http://${req.headers.host}/auth/reset_password/${token}`;
-            // const { username } = isUser.dataValues;
-            // mailer(url, username, email, res);
           });
       })
       .catch(() => res.status(500)
@@ -276,7 +281,7 @@ export default class User {
               .json({ message: 'Password reset successful ' }));
         } else {
           return res.status(403)
-            .json({ message: 'You`re unauthorized to perform this action' });
+            .json({message: 'You`re unauthorized to perform this action' });
         }
       })
       .catch(() => res.status(500)
@@ -303,18 +308,33 @@ export default class User {
     })
       .then((userFound) => {
         if (!userFound.validPassword(oldPassword)) {
-          return res.status(400).json({ statusCode: 400, error: 'Invalid password' });
+          return res.status(400).json({
+            statusCode: 400,
+            error: 'Invalid password'
+          });
         } else if (password === oldPassword) {
-          return res.status(400).json({ statusCode: 400, error: 'New Password is the same as the old password' });
+          return res.status(400)
+            .json({
+              statusCode: 400,
+              error: 'New Password is the same as the old password'
+            });
         }
         const salt = bcrypt.genSaltSync(10);
         const newPassword = bcrypt.hashSync(password, salt);
         userFound.update({
           password: newPassword,
         })
-          .then(() => res.status(201).json({ statusCode: 201, message: 'Password changed' }));
+          .then(() => res.status(201)
+            .json({
+              statusCode: 201,
+              message: 'Password changed'
+            }));
       })
-      .catch(() => res.status(500).json({ statusCode: 500, error: 'Error changing password' }));
+      .catch(() => res.status(500)
+        .json({
+          statusCode: 500,
+          error: 'Error changing password'
+        }));
     return this;
   }
 }

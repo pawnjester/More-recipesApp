@@ -1,0 +1,207 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Recipe detail Component should render correctly 1`] = `
+<div>
+  <Connect(NavigationBar)
+    search="true"
+  />
+  <div
+    className="header-banner"
+    style={
+      Object {
+        "backgroundImage": "url(pic.jpg)",
+      }
+    }
+  />
+  <div
+    className="container detail-container bg-white"
+  >
+    <div
+      className="row"
+    >
+      <div
+        className="col-md-8 col-sm-12"
+      >
+        <img
+          alt="Card cap"
+          className="card-img-top img-fluid"
+          src="pic.jpg"
+        />
+      </div>
+      <div
+        className="col-md-4 col-sm-12"
+      >
+        <div
+          className="detail-holder"
+        >
+          <h1
+            className="detail-title wrap-word"
+          >
+            rice
+          </h1>
+          <i
+            aria-hidden="true"
+            className="fa fa-eye"
+          />
+          <span
+            className="view"
+            id="clickableAwesomeFont"
+          >
+            1
+          </span>
+          <div
+            className="card detail-card"
+          >
+            <div
+              className="card-body clearfix"
+            >
+              <div
+                className="row"
+              >
+                <button
+                  className="btn btn-success col-sm-4 no-border-r pt-3 pb-3 upvote-btn"
+                  onClick={[Function]}
+                >
+                  <i
+                    aria-hidden="true"
+                    className="fa fa-thumbs-up upvote-state"
+                    style={
+                      Object {
+                        "color": "white",
+                      }
+                    }
+                  />
+                  <span
+                    id="upvote-state"
+                  >
+                    1
+                  </span>
+                </button>
+                <button
+                  className="btn btn-danger col-sm-4 no-border-r pt-3 pb-3 downvote-btn"
+                  onClick={[Function]}
+                >
+                  <i
+                    aria-hidden="true"
+                    className="fa fa-thumbs-down"
+                    style={
+                      Object {
+                        "color": "white",
+                      }
+                    }
+                  />
+                  <span
+                    id="downvote-state"
+                  >
+                    0
+                  </span>
+                </button>
+                <button
+                  className="btn btn-white col-sm-4 no-border-x pt-3 pb-3 favorite-btn"
+                  onClick={[Function]}
+                >
+                  <i
+                    aria-hidden="true"
+                    className="fa fa-heart"
+                    style={
+                      Object {
+                        "color": "grey",
+                      }
+                    }
+                  />
+                  <span>
+                     
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              className="card-body"
+            >
+              <h6>
+                Cooking Time
+              </h6>
+              <p>
+                <i
+                  aria-hidden="true"
+                  className="fa fa-clock-o mr-2"
+                  style={
+                    Object {
+                      "color": "orange",
+                      "fontSize": 25,
+                    }
+                  }
+                />
+                30
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="container detail-height"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-md-6 col-sm-12 mt-5"
+        >
+          <h4
+            className="text-center"
+          >
+            Preparation
+          </h4>
+          <ul
+            className="list-group wrap-word"
+          >
+            <li
+              className="list-group-item"
+              key="0"
+            >
+              dry the maize
+            </li>
+          </ul>
+        </div>
+        <div
+          className="col-md-6 col-sm-12 mt-5"
+        >
+          <h4
+            className="text-center"
+          >
+            Ingredients
+          </h4>
+          <ul
+            className="list-group wrap-word"
+          >
+            <li
+              className="list-group-item"
+              key="0"
+            >
+              beans
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <Connect(Reviews)
+      recipeId="1"
+    />
+    <div
+      className="container mb-5 mt-5"
+    >
+      <h1>
+        Reviews
+      </h1>
+      <hr />
+      <h4
+        className="mt-5 text-center"
+      >
+         No reviews 
+      </h4>
+    </div>
+  </div>
+  <Footer />
+</div>
+`;

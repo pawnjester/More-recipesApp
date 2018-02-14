@@ -30,7 +30,10 @@ export default class Favorite {
     })
       .then((found) => {
         if (!found) {
-          return res.status(404).json({ statusCode: 404, error: `Recipe with id: ${recipeId} could not be found` });
+          return res.status(404).json({
+            statusCode: 404,
+            error: `Recipe with id: ${recipeId} could not be found`
+          });
         }
 
         favorite.findOne({
@@ -64,7 +67,10 @@ export default class Favorite {
                   recipeFound.reload();
                 });
               });
-              return res.status(200).json({ statusCode: 200, message: 'Recipe removed from favorite list' });
+              return res.status(200).json({
+                statusCode: 200,
+                message: 'Recipe removed from favorite list'
+              });
             }
             favorite.create({
               recipeId,
@@ -90,10 +96,18 @@ export default class Favorite {
                       recipeFound.reload();
                     });
                   });
-                  return res.status(201).json({ statusCode: 201, message: 'recipe favorited', favoriteRecipe });
+                  return res.status(201).json({
+                    statusCode: 201,
+                    message: 'recipe favorited',
+                    favoriteRecipe
+                  });
                 });
               })
-              .catch(err => res.status(500).json({ statusCode: 500, error: 'recipe could not be added to favorite', err: err.parent.detail }));
+              .catch(err => res.status(500).json({
+                statusCode: 500,
+                error: 'recipe could not be added to favorite',
+                err: err.parent.detail
+              }));
             return this;
           });
       });
@@ -142,7 +156,10 @@ export default class Favorite {
         }).then((userFavorite) => {
           if (userFavorite) {
             if (userFavorite.length < 1) {
-              return res.status(200).json({ statusCode: 200, message: 'There are no favorite recipes in collection' });
+              return res.status(200).json({
+                statusCode: 200,
+                message: 'There are no favorite recipes in collection'
+              });
             }
             return res.status(200).json({
               statusCode: 200,
@@ -156,7 +173,10 @@ export default class Favorite {
           }
         });
       })
-      .catch(() => res.status(500).json({ statusCode: 500, error: 'Recipe cannot be retrieved' }));
+      .catch(() => res.status(500).json({
+        statusCode: 500,
+        error: 'Recipe cannot be retrieved'
+      }));
     return this;
   }
   /**
@@ -189,9 +209,15 @@ export default class Favorite {
             id: favoriteId,
           }
         })
-          .then(() => res.status(200).json({ statusCode: 200, message: 'This is no more your favorite' }));
+          .then(() => res.status(200).json({
+            statusCode: 200,
+            message: 'This is no more your favorite'
+          }));
       })
-      .catch(() => res.status(500).json({ statusCode: 500, error: 'Error deleting Favorite recipe' }));
+      .catch(() => res.status(500).json({
+        statusCode: 500,
+        error: 'Error deleting Favorite recipe'
+      }));
     return this;
   }
 }

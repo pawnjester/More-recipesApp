@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="0"
+            tests="3">
+
+  <testsuite name="e2etests.02-signin"
+    errors="0" failures="0" hostname="" id="" package="02-signin" skipped="0"
+    tests="3" time="32.78" timestamp="Tue, 13 Feb 2018 03:42:17 GMT">
+  
+    <testcase name="do not allow a user sign in with no empty passsword" classname="e2etests.02-signin" time="12.45" assertions="1">
+
+    
+    </testcase>
+  
+    <testcase name="do not allow a user sign in with a wrong passsword" classname="e2etests.02-signin" time="10.13" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="allow a user sign in " classname="e2etests.02-signin" time="10.19" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+
+  
+
+  
+  </testsuite>
+</testsuites>

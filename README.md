@@ -38,6 +38,7 @@ For more information of how to use the API, visit the Documentation [here](https
 > - setup your db according to settings in `server/onfig/config.json`
 > - then run `$ sequelize db:migrate`
 > - Run tests to ensure the app is not broken: `npm test:dev`
+> - For end to end testing, run `npm run start:dev` and `npm run e2e:test` simultaneously
 
 > **How to Demo/Run the App**
 > - To start the App in development: `npm run start:dev`
@@ -87,6 +88,9 @@ This project is open for contributions. All contributions must adhere to the Air
 
 ### FAQ
 >- view Frequently Asked Questions [here](https://github.com/pawnjester/More-recipesApp/wiki)
+
+## License
+Copyright © [The MIT License](./LICENSE)
 
 #### Author(s)
 >- [Okonji Emmanuel](https://github.com/pawnjester)

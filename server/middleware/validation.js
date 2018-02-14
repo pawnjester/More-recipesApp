@@ -3,7 +3,10 @@ const Validation = {
     const { recipeId } = req.params;
 
     if (isNaN(recipeId)) {
-      return res.status(406).json({ statusCode: 406, error: 'Recipe id is not a number' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'Recipe id is not a number'
+      });
     }
     next();
   },
@@ -11,10 +14,16 @@ const Validation = {
   reviewId(req, res, next) {
     const { reviewId } = req.params;
     if (isNaN(reviewId)) {
-      return res.status(406).json({ statusCode: 406, error: 'Review id is not a number' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'Review id is not a number'
+      });
     }
     if (!reviewId) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to put in a review ID' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'You need to put in a review ID'
+      });
     }
     next();
   },
@@ -22,7 +31,10 @@ const Validation = {
   reviewContent(req, res, next) {
     const { data } = req.body;
     if (!data) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to put a review!' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'You need to put a review!'
+      });
     }
     next();
   },
@@ -30,7 +42,10 @@ const Validation = {
   favoriteId(req, res, next) {
     const { favoriteId } = req.params;
     if (isNaN(favoriteId)) {
-      return res.status(406).json({ statusCode: 406, error: 'Favorite id is not a number' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'Favorite id is not a number'
+      });
     }
     next();
   },
@@ -46,13 +61,25 @@ const Validation = {
     }
     const { method } = req.body;
     if (!name) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to fill in a name of the recipe' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'You need to fill in a name of the recipe'
+      });
     } else if (!ingredients) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to fill in the Ingredients' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'You need to fill in the Ingredients'
+      });
     } else if (!method) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to fill in the method of preparation' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'You need to fill in the method of preparation'
+      });
     } else if (!ingredients && !name && !method) {
-      return res.status(406).json({ statusCode: 406, error: 'Please enter the required details (name, Ingredients and method)' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'Please enter the required details (name, Ingredients and method)'
+      });
     }
     next();
   },
@@ -89,28 +116,48 @@ const Validation = {
     }
 
     if (!username && !password && !email) {
-      return res.status(406).json({ statusCode: 406, error: 'Please fill in the required details' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'Please fill in the required details'
+      });
     }
 
     if (!username || username.length < 6) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to fill in your username with a minimum length of 6' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'You need to fill in your username with a minimum length of 6'
+      });
     } else if (!email) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to fill in your email' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'You need to fill in your email'
+      });
     } else if (!filter.test(email)) {
-      return res.status(406).json({ statusCode: 406, error: 'Invalid email address!' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'Invalid email address!'
+      });
     } else if (!req.body.password) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to fill in the password' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'You need to fill in the password'
+      });
     } else if (whiteSpace.test(password)) {
-      return res.status(406).json({ statusCode: 406, error: 'Password cannot contain spaces' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'Password cannot contain spaces'
+      });
     } else if (password.length < 6) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to fill in a password with a minimum length of 6' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'You need to fill in a password with a minimum length of 6'
+      });
     }
     next();
   },
 
   signInValidation(req, res, next) {
     let identifier;
-    // let username;
 
     if (req.body.identifier) {
       identifier = req.body.identifier.trim();
@@ -121,7 +168,10 @@ const Validation = {
     }
 
     if (!req.body.identifier) {
-      return res.status(406).json({ statusCode: 406, error: 'Email or username cannot be empty' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'Email or username cannot be empty'
+      });
     }
     if (!req.body.password) {
       return res.status(406)
@@ -136,7 +186,10 @@ const Validation = {
   checkEmailValidation(req, res, next) {
     const { email } = req.body;
     if (!email) {
-      return res.status(406).json({ statusCode: 406, error: 'Please put in an email' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'Please put in an email'
+      });
     }
     next();
   },
@@ -145,10 +198,16 @@ const Validation = {
     const { oldPassword, password } = req.body;
 
     if (!oldPassword || oldPassword.length < 6) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to fill in your password, minimum of 6' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'You need to fill in your password, minimum of 6'
+      });
     }
     if (!password || password.length < 6) {
-      return res.status(406).json({ statusCode: 406, error: 'You need to fill in your password, minimum of 6' });
+      return res.status(406).json({
+        statusCode: 406,
+        error: 'You need to fill in your password, minimum of 6'
+      });
     }
 
     next();
