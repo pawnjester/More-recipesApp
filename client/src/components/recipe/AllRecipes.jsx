@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
-import NavigationBar from '../NavigationBar';
-import Loader from '../common/Loader';
+import NavigationBarComponent from '../NavigationBar';
+import LoaderComponent from '../common/Loader';
 import getAllRecipes from '../../actions/getAllRecipes';
-import Footer from '../common/Footer';
+import FooterComponent from '../common/Footer';
 import Recipe from './RecipeCard';
 /**
  * @description All Recipes component
@@ -14,7 +14,7 @@ import Recipe from './RecipeCard';
  *
  * @extends {Component}
  */
-class AllRecipes extends Component {
+export class AllRecipes extends Component {
   /**
    * @description Creates an instance of AllRecipes.
    *
@@ -42,7 +42,7 @@ class AllRecipes extends Component {
  *
  * @returns {void}
  */
-  componentWillMount() {
+  componentDidMount() {
     this.props.getAllRecipes()
       .then(() => {
         this.setState({ loading: false });
@@ -73,38 +73,33 @@ class AllRecipes extends Component {
  */
   render() {
     const recipeList = this.props.allRecipes.recipes || [];
-    const pageCount = this.props.allRecipes.Pages;
+    const pageCount = this.props.allRecipes.pagination || {};
     return (
       <div>
-        <NavigationBar search="true" />
+        <NavigationBarComponent search="true" />
         <div className="container text-center">
           <div className="heading">
             <h1 className="p-5 ">All Recipes</h1>
           </div>
           <hr />
-          <div className="row high">
-            {/* {recipeList && recipeList.length === 0 &&
-              (<h4 className="mt-5 text-center no-recipes"> No recipes yet </h4>)}
+          <div className="high">
             {this.state.loading ?
-              <Loader Loading={this.state.loading} /> :
-              recipeList &&
-              recipeList.map(recipe =>
-                (<Recipe
-                  recipe={recipe}
-                  key={recipe.id}
-                />))} */}
-                 {this.state.loading ?
-              <Loader Loading={this.state.loading} /> :
-              recipeList.length > 0 ?
-              recipeList.map(recipe =>
-                (<Recipe
-                  recipe={recipe}
-                  key={recipe.id}
-                />)) : (<h4 className="mt-5 text-center no-recipes"> No recipes yet </h4>)}
+              <LoaderComponent Loading={this.state.loading} /> :
+              <div className="row no-recipes">
+                {
+                  recipeList.length > 0 ?
+                    recipeList.map(recipe =>
+                      (<Recipe
+                        recipe={recipe}
+                        key={recipe.id}
+                      />)) : (<h4 className="mt-5 text-center no-recipes-yet"> No recipes yet </h4>)
+                }
+              </div>
+            }
           </div>
         </div>
         {recipeList.length > 0 && <ReactPaginate
-          pageCount={pageCount}
+          pageCount={pageCount.Pages}
           pageRangeDisplayed={5}
           marginPagesDisplayed={3}
           previousLabel="Previous"
@@ -122,7 +117,7 @@ class AllRecipes extends Component {
           onPageChange={this.onPageChange}
         />}
 
-        <Footer />
+        <FooterComponent />
       </div>
     );
   }

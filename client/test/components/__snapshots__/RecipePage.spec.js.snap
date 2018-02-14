@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RecipePage Component should render correctly 1`] = `
+<div>
+  <Connect(NavigationBar)
+    search="true"
+  />
+  <div
+    className="container text-center"
+  >
+    <div
+      className="heading"
+    >
+      <h1
+        className="p-5 "
+      >
+        My Recipes
+      </h1>
+      <Button
+        className="addrecipebtn btn btn-outline-success "
+        color="primary"
+        onClick={[Function]}
+        tag="button"
+      >
+        <i
+          className="fa fa-plus"
+        />
+        Recipe
+      </Button>
+      <AddRecipeModal
+        createRecipe={[MockFunction]}
+        currentPage={1}
+        errors=""
+        getRecipe={
+          [MockFunction] {
+            "calls": Array [
+              Array [],
+            ],
+          }
+        }
+        isOpen={false}
+        serverError={Object {}}
+        toggle={[Function]}
+      />
+    </div>
+    <hr />
+    <div
+      className="high"
+    >
+      <Loader
+        Loading={true}
+      />
+    </div>
+  </div>
+  <Footer />
+</div>
+`;

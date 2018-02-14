@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_FAVORITE_RECIPES_SUCCESS, GET_RECIPE_DETAIL_SUCCESS } from './types';
+import { GET_FAVORITE_RECIPES_SUCCESS, GET_FAVORITE_RECIPES_FAILURE } from './types';
 
 export const getFavoriteRecipeSuccess = favorite => ({
   type: GET_FAVORITE_RECIPES_SUCCESS,
@@ -7,7 +7,7 @@ export const getFavoriteRecipeSuccess = favorite => ({
 });
 
 export const getFavoriteRecipeFailure = error => ({
-  type: GET_RECIPE_DETAIL_SUCCESS,
+  type: GET_FAVORITE_RECIPES_FAILURE,
   error,
 });
 
@@ -18,7 +18,7 @@ const getFavoriteRecipe = page => dispatch => axios
     dispatch(getFavoriteRecipeSuccess(response.data));
   })
   .catch((err) => {
-    dispatch(getFavoriteRecipeFailure(err.data));
+    dispatch(getFavoriteRecipeFailure(err.response.data));
   });
 
 export default getFavoriteRecipe;
