@@ -8,9 +8,9 @@ import * as types from '../../src/actions/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('Reset Password Action Creator', () => {
-  it('should dispatch a success action when no error occurs', () => {
-    const token = '';
+describe('reset Password', () => {
+  it('reset user password', () => {
+    const token = 'eyhdjhdsjhjhsdjhds.dskjdsjkjkdsjkjds.dskjdskjdskjdkjdsjk';
     const expectedAction = {
       type: types.RESET_PASSWORD_SUCCESS,
       token
@@ -18,4 +18,29 @@ describe('Reset Password Action Creator', () => {
 
     expect(resetPasswordSuccess(token)).toEqual(expectedAction);
   });
+
+  // it('reset password action creator', () => {
+  //   const store = mockStore({});
+  //   axios.put = jest.fn(() => Promise.resolve({
+  //     data: {
+  //       token: 'eyhdjhdsjhjhsdjhds.dskjdsjkjkdsjkjds.dskjdskjdskjdkjdsjk',
+  //       password: 'charther001',
+  //       passwordConfirmation: 'charther001'
+  //     }
+  //   }));
+
+  //   const expectedAction = [
+  //     {
+  //       type: types.RESET_PASSWORD_SUCCESS,
+  //       token: 'eyhdjhdsjhjhsdjhds.dskjdsjkjkdsjkjds.dskjdskjdskjdkjdsjk',
+  //       password: 'charther001',
+  //       passwordConfirmation: 'charther001'
+  //     }
+  //   ];
+
+  //   return store.dispatch(resetPassword({}))
+  //     .then(() => {
+  //       expect(store.getActions()).toEqual(expectedAction);
+  //     });
+  // });
 });

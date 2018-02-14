@@ -9,17 +9,9 @@ import * as types from '../../src/actions/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('Get Upvoted Recipe Action Creator', () => {
-  it('should dispatch a success action when no error occurs', () => {
-    const upvotedRecipes = [{ id: '2',
-    name: 'farmhouse',
-    ingredients: 'beans and tomatoes'
-  }, {
-    id: '3',
-    name: 'tomatoes',
-    ingredients:
-    'tomatoe and oil'
-  }];
+describe('getUpvotedRecipeAction', () => {
+  it('get upvoted recipe success action', () => {
+    const upvotedRecipes = [{ id: '2', name: 'farmhouse', ingredients: 'beans and tomatoes' }, { id: '3', name: 'tomatoes', ingredients: 'tomatoe and oil' }];
     const expectedAction = {
       type: types.GET_UPVOTED_RECIPES_SUCCESS,
       upvotedRecipes
@@ -28,7 +20,7 @@ describe('Get Upvoted Recipe Action Creator', () => {
     expect(getUpvotedRecipesSuccess(upvotedRecipes)).toEqual(expectedAction);
   });
 
-  it('should dispatch a success action when no error occurs', () => {
+  it('get upvoted recipes action creator', () => {
     const store = mockStore({});
     axios.get = jest.fn(() => Promise.resolve({
       data: {
@@ -51,20 +43,4 @@ describe('Get Upvoted Recipe Action Creator', () => {
         expect(store.getActions()).toEqual(expectedAction);
       });
   });
-  it('should dispatch a failure action when an error occurs', () => {
-    const store = mockStore({});
-    axios.get = jest.fn(() => Promise.reject({
-        error: ''
-    }));
-    const expectedAction = [
-      {
-        type: types.GET_UPVOTED_RECIPES_FAILURE,
-        error: undefined
-      }
-    ];
-    return store.dispatch(getUpvotedRecipes({}))
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedAction);
-      });
-  })
 });

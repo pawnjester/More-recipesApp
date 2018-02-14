@@ -8,8 +8,8 @@ import * as types from '../../src/actions/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('Edit Recipe Action Creator', () => {
-  it('should dispatch a success action when no error occurs', () => {
+describe('editRecipeAction', () => {
+  it('edit recipe success action', () => {
     const editedRecipe = { id: '2', name: 'farmhouse', ingredients: 'beans and tomatoes' };
     const expectedAction = {
       type: types.EDIT_RECIPE_SUCCESS,
@@ -19,7 +19,7 @@ describe('Edit Recipe Action Creator', () => {
     expect(editRecipeSuccess(editedRecipe)).toEqual(expectedAction);
   });
 
-  it('should dispatch a success action when no error occurs', () => {
+  it('edit recipe action creator', () => {
     const store = mockStore({});
     axios.put = jest.fn(() => Promise.resolve({
       data: {
@@ -30,7 +30,7 @@ describe('Edit Recipe Action Creator', () => {
     const expectedAction = [
       {
         type: types.EDIT_RECIPE_SUCCESS,
-        editedRecipe: {
+        editedRecipe: { //what the action returns
           id: '2', name: 'farmhouse', ingredients: 'beans and tomatoes'
         }
       }
@@ -40,27 +40,5 @@ describe('Edit Recipe Action Creator', () => {
       .then(() => {
         expect(store.getActions()).toEqual(expectedAction);
       });
-  });
-  it('should dispatch a failure action when an error occurs', () => {
-    const store = mockStore({});
-    axios.put = jest.fn(() => Promise.reject({
-      response: {
-        data: {
-          error: ''
-        }
-      }
-    }));
-    const expectedAction = [
-      {
-        type: types.EDIT_RECIPE_FAILURE,
-        error: {
-          error: ''
-        }
-      }
-    ];
-
-    return store.dispatch(editRecipe({})).then(() => {
-      expect(store.getActions()).toEqual(expectedAction)
-    });
   });
 });

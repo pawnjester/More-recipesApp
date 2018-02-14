@@ -8,8 +8,8 @@ import * as types from '../../src/actions/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('Delete Recipe Action Creator', () => {
-  it('should dispatch a success action when no error occurs', () => {
+describe('deleteRecipeAction', () => {
+  it('delete recipe success action', () => {
     const deletedRecipe = { id: 1 };
     const expectedAction = {
       type: types.DELETE_RECIPE_SUCCESS,
@@ -19,7 +19,7 @@ describe('Delete Recipe Action Creator', () => {
     expect(deletedRecipeSuccess(deletedRecipe)).toEqual(expectedAction);
   });
 
-  it('should dispatch a success action when no error occurs', () => {
+  it('delete recipe action creator', () => {
     const store = mockStore({});
     axios.delete = jest.fn(() => Promise.resolve({
     }));
@@ -35,27 +35,5 @@ describe('Delete Recipe Action Creator', () => {
       .then(() => {
         expect(store.getActions()).toEqual(expectedAction);
       });
-  });
-  it('should dispatch a failure action when an error occurs', () => {
-    const store = mockStore({});
-    axios.delete = jest.fn(() => Promise.reject({
-      response: {
-        data: {
-          error: ''
-        }
-      }
-    }));
-    const expectedAction = [
-      {
-        type: types.DELETE_RECIPE_FAILURE,
-        error: {
-          error: ''
-        }
-      }
-    ];
-
-    return store.dispatch(deleteRecipe({})).then(() => {
-      expect(store.getActions()).toEqual(expectedAction)
-    });
   });
 });

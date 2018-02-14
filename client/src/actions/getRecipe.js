@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_RECIPES, GET_PAGE_DETAIL, GET_RECIPES_FAILURE } from './types';
+import { GET_RECIPES, GET_PAGE_DETAIL, GET_ALL_RECIPES_FAILURE } from './types';
 
 const getPageDetail = detail => ({
   type: GET_PAGE_DETAIL,
@@ -11,7 +11,7 @@ export const getUserRecipesSuccess = payload => ({
 });
 
 const getRecipeFailure = error => ({
-  type: GET_RECIPES_FAILURE,
+  type: GET_ALL_RECIPES_FAILURE,
   error
 });
 const getRecipe = page => dispatch =>
@@ -19,7 +19,7 @@ const getRecipe = page => dispatch =>
     .then((response) => {
       const {
         NumberOfItems, Limit, Pages, CurrentPage,
-      } = response.data.pagination;
+      } = response.data;
       const paginationInfo = {
         CurrentPage, Limit, NumberOfItems, Pages,
       };
@@ -27,7 +27,7 @@ const getRecipe = page => dispatch =>
       dispatch(getPageDetail(paginationInfo));
     })
     .catch((error) => {
-      dispatch(getRecipeFailure(error.response));
+      dispatch(getRecipeFailure(error.data));
     });
 
 

@@ -19,4 +19,4 @@ export function userSignupRequest(userData) {
     setAuthToken(token);
     dispatch(setCurrentUser(jwtDecode(token)));
   });
-};
+}

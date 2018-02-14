@@ -12,7 +12,7 @@ import validateInput from '../validations/recipeValidation';
  *
  * @extends {Component}
  */
-export class AddRecipeModal extends Component {
+class AddRecipeModal extends Component {
   /**
    * Creates an instance of AddRecipeModal.
    *
@@ -38,7 +38,7 @@ export class AddRecipeModal extends Component {
 
     this.onNameChange = this.onNameChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.upload = this.upload.bind(this);
+    this.Upload = this.Upload.bind(this);
   }
 
   /**
@@ -69,15 +69,14 @@ export class AddRecipeModal extends Component {
       const {
         name, ingredients, method, imageUrl, cookingTime, option
       } = this.state;
-
       const cooking = cookingTime.concat(option);
       this.state.cookingTime = cooking;
       this.props.createRecipe(this.state).then((res) => {
-        if (Object.entries(this.props.serverError).length > 0) {
+        if (Object.entries(this.props.errors).length > 0) {
           this.setState({
-            titleError: this.props.serverError
+            titleError: this.props.errors
           });
-          toastr.warning(this.props.serverError);
+          toastr.warning(this.props.errors);
         } else {
           this.props.getRecipe(this.props.currentPage);
           this.setState({
@@ -86,8 +85,7 @@ export class AddRecipeModal extends Component {
             method: '',
             imageUrl: '',
             cookingTime: '',
-            status: '',
-            errors: {}
+            status: ''
           });
           toastr.success('Recipe added');
           this.props.toggle();
@@ -118,7 +116,7 @@ export class AddRecipeModal extends Component {
  *
  * @returns {void}
  */
-  upload(images) {
+  Upload(images) {
     this.setState({ status: 'Uploading...', disabled: true });
     imageUpload(images).then((response) => {
       const { body } = response;
@@ -157,19 +155,18 @@ export class AddRecipeModal extends Component {
                   value={this.state.name}
                   onChange={this.onNameChange}
                   placeholder="Enter the name"
-                  className="name-field"
                 />
                 {(errors.name || titleError) && <small style={{ color: '#A43741' }}>{(errors.name || titleError)}</small>}
               </Col>
             </FormGroup>
 
             <FormGroup row>
-              <Label for="exampleIngredients" sm={3}>Ingredients</Label>
+              <Label for="exampleEmail" sm={3}>Ingredients</Label>
               <Col sm={9}>
                 <Input
                   type="textarea"
                   name="ingredients"
-                  id="exampleIngredients"
+                  id="exampleEmail"
                   value={this.state.ingredients}
                   onChange={this.onNameChange}
                   placeholder="Enter the Ingredients"
@@ -181,13 +178,13 @@ export class AddRecipeModal extends Component {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label for="exampleMethod" sm={3}>method</Label>
+              <Label for="exampleEmail" sm={3}>method</Label>
               <Col sm={9}>
 
                 <Input
                   type="textarea"
                   name="method"
-                  id="exampleMethod"
+                  id="exampleEmail"
                   value={this.state.method}
                   onChange={this.onNameChange}
                   placeholder="Enter the description"
@@ -200,12 +197,12 @@ export class AddRecipeModal extends Component {
             </FormGroup>
 
             <FormGroup row>
-              <Label for="exampleCookingTime" sm={3}>Preparation Time</Label>
+              <Label for="exampleEmail" sm={3}>Preparation Time</Label>
               <Col sm={9} row>
                 <Input
                   type="text"
                   name="cookingTime"
-                  id="exampleCookingTime"
+                  id="exampleEmail"
                   value={this.state.cookingTime}
                   onChange={this.onNameChange}
                   placeholder="Enter the preparation time"
@@ -236,7 +233,7 @@ export class AddRecipeModal extends Component {
                   type="file"
                   name="file"
                   id="exampleFile"
-                  onChange={this.upload}
+                  onChange={this.Upload}
                   accept="image/*"
                 />
                 <h6>{this.state.status}</h6>
@@ -250,7 +247,6 @@ export class AddRecipeModal extends Component {
                   onClick={this.onSubmit}
                   style={{ float: 'right', backgroundColor: '#A43741' }}
                   disabled={this.state.disabled}
-                  className="add-recipe-button"
                 >Add a recipe
                 </Button>
               </Col>

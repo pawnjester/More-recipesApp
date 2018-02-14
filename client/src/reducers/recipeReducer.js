@@ -40,7 +40,6 @@ const recipes = (state = initialState, action) => {
         ...state,
         deleted: false,
         totalContent: state.recipes.length,
-        error: {},
         recipes: [
           ...state.recipes,
           action.newRecipe

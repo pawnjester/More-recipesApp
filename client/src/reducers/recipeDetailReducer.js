@@ -85,12 +85,12 @@ const detail = (state = initialState, action) => {
       };
     case ADD_REVIEW:
       return {
-        ...state, currentRecipe: action.review, success: true, errors: null,
+        ...state, currentRecipe: action.review, sucess: true, errors: null,
       };
 
     case ADD_REVIEW_FAILURE:
       return {
-        ...state, success: false, errors: action.error,
+        ...state, currentRecipe: {}, success: false, errors: action.error,
       };
     case DELETE_REVIEW_SUCCESS:
       return {
@@ -105,7 +105,7 @@ const detail = (state = initialState, action) => {
       };
     case DELETE_REVIEW_FAILURE:
       return {
-        ...state, success: false, errors: action.error
+        ...state, currentRecipe: {}, success: false, errors: action.error
       };
 
     case DELETE_FAVORITE_SUCCESS:
@@ -113,8 +113,7 @@ const detail = (state = initialState, action) => {
         ...state,
         favoriteRecipes: {
           ...state.favoriteRecipes,
-          userFavorite: state.favoriteRecipes.userFavorite
-            .filter(deletedFav => deletedFav.id !== action.deletedFavorite)
+          userFavorite: state.favoriteRecipes.userFavorite.filter(deletedFav => deletedFav.id !== action.deletedFavorite)
         }
       };
     case DELETE_FAVORITE_FAILURE:

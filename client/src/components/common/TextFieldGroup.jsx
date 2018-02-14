@@ -3,8 +3,8 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 
-export const TextFieldGroup = ({
-  field, value, error, type, onChange, placeholder, id
+const TextFieldGroup = ({
+  field, value, error, type, onChange, placeholder,
 }) => (
   <div className={classnames('form-group', { 'has-error': error })}>
     <input
@@ -14,7 +14,6 @@ export const TextFieldGroup = ({
       name={field}
       placeholder={placeholder}
       className="form-control form-control-lg"
-      id={id}
     />
 
     {error && <span className="help-block"> {error}</span>}
@@ -28,7 +27,8 @@ TextFieldGroup.propTypes = {
   type: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
-  id: PropTypes.string
+
+
 };
 
 TextFieldGroup.defaultProps = {

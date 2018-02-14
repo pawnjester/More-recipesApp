@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Footer = () => (
+const Footer = () => (
   <div>
     <footer id="main-footer" className="bg-danger navbar-static-bottom ">
       <div className="container">

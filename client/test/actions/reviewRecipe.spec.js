@@ -8,8 +8,8 @@ import * as types from '../../src/actions/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('Add Review Action Creator', () => {
-  it('should dispatch a success action when no error occurs', () => {
+describe('addReviewAction', () => {
+  it('add review to recipe success action', () => {
     const review = { data: 'yoooooooo' };
     const expectedAction = {
       type: types.ADD_REVIEW,
@@ -19,11 +19,11 @@ describe('Add Review Action Creator', () => {
     expect(addReviewToRecipeSuccess(review)).toEqual(expectedAction);
   });
 
-  it('should dispatch a success action when no error occurs', () => {
+  it('add recipe action creator', () => {
     const store = mockStore({});
     axios.post = jest.fn(() => Promise.resolve({
       data: {
-        reviewed: {
+        reviewed: { //returned from server side
           data: 'yoooooo'
         }
       }
@@ -32,7 +32,7 @@ describe('Add Review Action Creator', () => {
     const expectedAction = [
       {
         type: types.ADD_REVIEW,
-        review: {
+        review: { //what the action returns
           data: 'yoooooo'
         }
       }
@@ -42,25 +42,5 @@ describe('Add Review Action Creator', () => {
       .then(() => {
         expect(store.getActions()).toEqual(expectedAction);
       });
-  });
-  it('should dispatch a failure action when an error occurs', () => {
-    const store = mockStore({});
-    axios.post = jest.fn(() => Promise.reject({
-      response: {
-        data: {
-          error: ''
-        }
-      }
-    }));
-    const expectedAction = [
-      {
-        type: types.ADD_REVIEW_FAILURE,
-          error: 'Unable to add review'
-      }
-    ];
-
-    return store.dispatch(addReview({})).then(() => {
-      expect(store.getActions()).toEqual(expectedAction)
-    });
   });
 });

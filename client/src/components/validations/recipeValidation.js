@@ -15,9 +15,9 @@ export default function validatorInput(data) {
   if (Validator.isEmpty(data.name)) {
     errors.name = 'Recipe name shouldn\'t be empty';
   } else if (!Validator.isLength(data.name, {
-    min: 6, max: 25
+    min: 6, max: 20
   })) {
-    errors.name = 'Recipe name should be at least 6 characters, max 25 characters';
+    errors.name = 'Recipe name should be at least 6 characters, max 20 characters';
   } else if (data.name.trim() === '') {
     errors.name = 'Recipe name cannot contain spaces';
   }

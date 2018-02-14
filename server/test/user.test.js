@@ -30,7 +30,7 @@ describe('Test for User', () => {
     truncate: true,
     restartIdentity: true
   }));
-  it('POST /api/v1/users/signup should create a new User', (done) => {
+  it('should create a new User', (done) => {
     chai.request(app).post('/api/v1/users/signup')
       .send(fakeData.signupUser)
       .end((err, res) => {
@@ -38,7 +38,7 @@ describe('Test for User', () => {
         done();
       });
   });
-  it('POST /api/v1/users/signup should not create user with details that exists already', (done) => {
+  it('should not create user with details that exists already', (done) => {
     chai.request(app).post('/api/v1/users/signup')
       .send(fakeData.newUser)
       .end((err, res) => {
@@ -48,7 +48,7 @@ describe('Test for User', () => {
         done();
       });
   });
-  it('POST /api/v1/users/signup should not create User with invalid email', (done) => {
+  it('should not create User with invalid email', (done) => {
     chai
       .request(app)
       .post('/api/v1/users/signup')
@@ -59,7 +59,7 @@ describe('Test for User', () => {
         done();
       });
   });
-  it('POST /api/v1/users/signup should return an error if the username is less than six characters', (done) => {
+  it('should return an error if the username is less than six characters', (done) => {
     chai
       .request(app)
       .post('/api/v1/users/signup')
@@ -70,7 +70,7 @@ describe('Test for User', () => {
         done();
       });
   });
-  it('POST /api/v1/users/signup should check if email address is supplied', (done) => {
+  it('should check if email address is supplied', (done) => {
     chai.request(app).post('/api/v1/users/signup')
       .send(fakeData.noEmailInput)
       .end((err, res) => {
@@ -81,7 +81,7 @@ describe('Test for User', () => {
         done();
       });
   });
-  it('POST /api/v1/users/signup should check if email address is valid', (done) => {
+  it('should check if email address is valid', (done) => {
     chai.request(app).post('/api/v1/users/signup')
       .send(fakeData.invalidEmail)
       .end((err, res) => {
@@ -92,7 +92,7 @@ describe('Test for User', () => {
         done();
       });
   });
-  it('POST /api/v1/users/signup should check if password is supplied', (done) => {
+  it('should check if password is supplied', (done) => {
     chai.request(app).post('/api/v1/users/signup')
       .send(fakeData.noPasswordSignupInput)
       .end((err, res) => {
@@ -103,7 +103,7 @@ describe('Test for User', () => {
         done();
       });
   });
-  it('POST /api/v1/users/signup should check if password is supplied', (done) => {
+  it('should check if password is supplied', (done) => {
     chai.request(app).post('/api/v1/users/signup')
       .send(fakeData.spacedPassword)
       .end((err, res) => {
@@ -114,7 +114,7 @@ describe('Test for User', () => {
         done();
       });
   });
-  it('POST /api/v1/users/signup should check if password is less than 6 characters', (done) => {
+  it('should check if password is less than 6 characters', (done) => {
     chai.request(app).post('/api/v1/users/signup')
       .send(fakeData.lenPasswordShort)
       .end((err, res) => {
@@ -126,7 +126,7 @@ describe('Test for User', () => {
       });
   });
 
-  it('POST /api/v1/users/signin should not allow unregistered sign in', (done) => {
+  it('should not allow unregistered sign in', (done) => {
     chai
       .request(app)
       .post('/api/v1/users/signin')
@@ -139,7 +139,7 @@ describe('Test for User', () => {
       });
   });
 
-  it('POST /api/v1/users/signin should not sign in without password ', (done) => {
+  it('should not sign in without password ', (done) => {
     chai
       .request(app)
       .post('/api/v1/users/signin')
@@ -151,7 +151,7 @@ describe('Test for User', () => {
         done();
       });
   });
-  it('POST /api/v1/users/signin should sign in', (done) => {
+  it('should sign in', (done) => {
     chai.request(app)
       .post('/api/v1/users/signin')
       .send(fakeData.signedInUser2)
@@ -165,7 +165,7 @@ describe('Test for User', () => {
         done();
       });
   });
-  it('POST /api/v1/users/signin should check that email/username and password match', (done) => {
+  it('should check that email/username and password match', (done) => {
     chai.request(app)
       .post('/api/v1/users/signin')
       .send(fakeData.signedInUser3)
@@ -176,7 +176,7 @@ describe('Test for User', () => {
         done();
       });
   });
-  it('POST /api/v1/users/signin should check that correct email/username is supplied', (done) => {
+  it('should check that correct email/username is supplied', (done) => {
     chai.request(app)
       .post('/api/v1/users/signin')
       .send(fakeData.signedInUser4)
@@ -198,18 +198,7 @@ describe('Test for User', () => {
           done();
         });
     });
-    it('PUT /api/v1/users/update-profile should update profile', (done) => {
-      chai.request(app)
-        .put('/api/v1/users/update-profile')
-        .send(fakeData.updateProfile)
-        .set('x-access-token', token)
-        .end((err, res) => {
-          expect(res.body.userFound.username).to.equal('tester');
-          expect(res.body.userFound.profileImg).to.equal('https://res.cloudinary.com/donut/image/upload/v1516811745/Photo_on_15-12-2017_at_11.18_alidfo.jpg');
-          done();
-        });
-    });
-    it('PUT /api/v1/users/update-profile should not update user profile with taken username', (done) => {
+    it('should not update user profile with taken username', (done) => {
       chai.request(app)
         .put('/api/v1/users/update-profile')
         .send(fakeData.notupdateProfile)
@@ -220,8 +209,18 @@ describe('Test for User', () => {
           done();
         });
     });
-
-    it('PUT /api/v1/users/update-profile should not allow unauthorized user to view profile', (done) => {
+    it('should update profile', (done) => {
+      chai.request(app)
+        .put('/api/v1/users/update-profile')
+        .send(fakeData.updateProfile)
+        .set('x-access-token', token)
+        .end((err, res) => {
+          expect(res.body.userFound.username).to.equal('flavoour');
+          expect(res.body.userFound.profileImg).to.equal('https://res.cloudinary.com/donut/image/upload/v1516811745/Photo_on_15-12-2017_at_11.18_alidfo.jpg');
+          done();
+        });
+    });
+    it('should not allow unauthorized user to view profile', (done) => {
       chai.request(app)
         .put('/api/v1/users/update-profile')
         .end((err, res) => {
@@ -230,7 +229,7 @@ describe('Test for User', () => {
           done();
         });
     });
-    it('GET /api/v1/users/me should not allow unauthorized user to current user details', (done) => {
+    it('should not allow unauthorized user to current user details', (done) => {
       chai.request(app)
         .get('/api/v1/users/me')
         .set('x-access-token', token)
@@ -240,7 +239,7 @@ describe('Test for User', () => {
           done();
         });
     });
-    it('POST /api/v1/users/verify-user should return 404 if no email found in resetting password', (done) => {
+    it('should return 404 if no email found in resetting password', (done) => {
       chai.request(app)
         .post('/api/v1/users/verify-user')
         .send(fakeData.notCheckemail)
@@ -251,7 +250,7 @@ describe('Test for User', () => {
         });
     });
 
-    it('PUT /api/v1/users/reset-password should return 403 for invalid token in reset password', (done) => {
+    it('should return 403 for invalid token in reset password', (done) => {
       chai.request(app)
         .put('/api/v1/users/reset-password')
         .send({ password: 'fodddyyy' })
@@ -261,7 +260,7 @@ describe('Test for User', () => {
           done();
         });
     });
-    it('PUT /api/v1/users/change-password should return 400 for invalid password in change password', (done) => {
+    it('should return 400 for invalid password in change password', (done) => {
       chai.request(app)
         .put('/api/v1/users/change-password')
         .send(fakeData.fakePasswordchange)
@@ -273,7 +272,7 @@ describe('Test for User', () => {
         });
     });
 
-    it('PUT /api/v1/users/change-password should return an error for same password in change password', (done) => {
+    it('should return an error for same password in change password', (done) => {
       chai.request(app)
         .put('/api/v1/users/change-password')
         .send(fakeData.samePasswordChange)
@@ -285,7 +284,7 @@ describe('Test for User', () => {
         });
     });
 
-    it('PUT /api/v1/users/change-password should return an error if old password is less than six', (done) => {
+    it('should return an error if old password is less than six', (done) => {
       chai.request(app)
         .put('/api/v1/users/change-password')
         .send(fakeData.lenPassword)
@@ -296,7 +295,7 @@ describe('Test for User', () => {
           done();
         });
     });
-    it('PUT /api/v1/users/change-password should return an error if new password is less than six', (done) => {
+    it('should return an error if new password is less than six', (done) => {
       chai.request(app)
         .put('/api/v1/users/change-password')
         .send(fakeData.lennewPassword)
@@ -308,7 +307,7 @@ describe('Test for User', () => {
         });
     });
 
-    it('PUT /api/v1/users/change-password should change password', (done) => {
+    it('should change password', (done) => {
       chai.request(app)
         .put('/api/v1/users/change-password')
         .send(fakeData.passwordChange)
