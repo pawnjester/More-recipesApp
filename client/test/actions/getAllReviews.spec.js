@@ -9,8 +9,8 @@ import * as types from '../../src/actions/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('Get All Reviews Action Creator', () => {
-  it('should dispatch a success action when no error occurs', () => {
+describe('getAllReviewsAction', () => {
+  it('get all recipe success action', () => {
     const review = [{ id: '2', name: 'farmhouse', ingredients: 'beans and tomatoes' }];
     const expectedAction = {
       type: types.GET_REVIEW_SUCCESS,
@@ -20,7 +20,7 @@ describe('Get All Reviews Action Creator', () => {
     expect(getReviewSuccess(review)).toEqual(expectedAction);
   });
 
-  it('should dispatch a success action when no error occurs', () => {
+  it('get all reviews action creator', () => {
     const store = mockStore({});
     axios.get = jest.fn(() => Promise.resolve({
       data: {
@@ -41,25 +41,5 @@ describe('Get All Reviews Action Creator', () => {
       .then(() => {
         expect(store.getActions()).toEqual(expectedAction);
       });
-  });
-  it('should dispatch a failure action when an error occurs', () => {
-    const store = mockStore({});
-    axios.get = jest.fn(() => Promise.reject({
-      response: {
-        data: {
-          error: ''
-        }
-      }
-    }));
-    const expectedAction = [
-      {
-        type: types.GET_RECIPE_DETAIL_FAILURE,
-        error: 'Unable to add review'
-      }
-    ];
-
-    return store.dispatch(getReview({})).then(() => {
-      expect(store.getActions()).toEqual(expectedAction)
-    });
   });
 });

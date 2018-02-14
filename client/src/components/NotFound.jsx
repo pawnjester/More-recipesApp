@@ -1,9 +1,9 @@
 import React from 'react';
-import NavigationBarComponent from './NavigationBar';
+import NavigationBar from './NavigationBar';
 
 const NotFound = () =>
   (<div>
-    <NavigationBarComponent search="true" />
+    <NavigationBar search="true" />
     <div className="container">
       <div className="row mt-5">
         <div className="col-md-4">

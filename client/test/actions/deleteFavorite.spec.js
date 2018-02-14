@@ -8,8 +8,8 @@ import * as types from '../../src/actions/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('Delete Favorite Action Creator', () => {
-  it('should dispatch a success action when no errors occurs', () => {
+describe('deleteFavoriteAction', () => {
+  it('delete recipe success action', () => {
     const deletedFavorite = { id: 1 };
     const expectedAction = {
       type: types.DELETE_FAVORITE_SUCCESS,
@@ -19,7 +19,7 @@ describe('Delete Favorite Action Creator', () => {
     expect(deletedFavoriteSuccess(deletedFavorite)).toEqual(expectedAction);
   });
 
-  it('should dispatch a success action when no errors occurs', () => {
+  it('delete favorite recipe action creator', () => {
     const store = mockStore({});
     axios.delete = jest.fn(() => Promise.resolve({
     }));
@@ -35,27 +35,5 @@ describe('Delete Favorite Action Creator', () => {
       .then(() => {
         expect(store.getActions()).toEqual(expectedAction);
       });
-  });
-  it('should dispatch a failure action when an error occurs', () => {
-    const store = mockStore({});
-    axios.delete = jest.fn(() => Promise.reject({
-      response: {
-        data: {
-          error: ''
-        }
-      }
-    }));
-    const expectedAction = [
-      {
-        type: types.DELETE_FAVORITE_FAILURE,
-        error: {
-          error: ''
-        }
-      }
-    ];
-
-    return store.dispatch(deletedFavorite({})).then(() => {
-      expect(store.getActions()).toEqual(expectedAction)
-    });
   });
 });

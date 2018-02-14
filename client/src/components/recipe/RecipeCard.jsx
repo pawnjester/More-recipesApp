@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
  *
  * @extends {Component}
  */
-export class RecipeCard extends Component {
+class RecipeCard extends Component {
   /**
    *@description renders the jsx element
    *
@@ -23,20 +23,14 @@ export class RecipeCard extends Component {
     return (
       <div className="col-md-4 col-xs-12 hvr-bob" >
         <div className="card">
-          <img className="card-img-top"
-          src={recipe.imageUrl}
-          style={style}
-          alt="recipeImage" />
+          <img className="card-img-top" src={recipe.imageUrl} style={style} alt="recipeImage" />
           <div className="card-body">
             <h4 className="card-title">{ellipsis}</h4>
           </div>
           <div className="card-body clearfix">
             <Link to={`/detail/${recipe.id}`}>
               <div className="text-center text-primary float-center">
-                <i className="fa fa-eye" aria-hidden="true" />
-                <span id="clickableAwesomeFont" className="view" >
-                &nbsp;View
-                </span>
+                <i className="fa fa-eye" aria-hidden="true" /><span id="clickableAwesomeFont" className="view" >&nbsp;View</span>
               </div>
             </Link>
 

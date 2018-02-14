@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import history from '../../utils/history';
-import TextFieldGroupComponent from '../common/TextFieldGroup';
+import TextFieldGroup from '../common/TextFieldGroup';
 import validateInput from '../validations/loginValidations';
 import { login } from '../../actions/loginActions';
 
@@ -14,7 +14,7 @@ import { login } from '../../actions/loginActions';
  *
  * @extends {React.Component}
  */
-export class LoginForm extends React.Component {
+class LoginForm extends React.Component {
   /**
    * Creates an instance of LoginForm.
    *
@@ -37,14 +37,14 @@ export class LoginForm extends React.Component {
   /**
  * @description submit action
  *
- * @param {any} event
+ * @param {any} e
  *
  * @memberof LoginForm
  *
  * @returns {void}
  */
-  onSubmit(event) {
-    event.preventDefault();
+  onSubmit(e) {
+    e.preventDefault();
 
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
@@ -70,14 +70,14 @@ export class LoginForm extends React.Component {
   }
   /**
  *
- * @param {any} event
+ * @param {any} e
  *
  * @memberof LoginForm
  *
  * @returns {void}
  */
-  onChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
   }
   /**
  *
@@ -107,7 +107,7 @@ export class LoginForm extends React.Component {
       <div>
         <form onSubmit={this.onSubmit}>
           {errors.message && <div className="alert alert-danger">{errors.message}</div>}
-          <TextFieldGroupComponent
+          <TextFieldGroup
             error={errors.identifier || errors.errorname}
             onChange={this.onChange}
             value={this.state.identifier}
@@ -117,7 +117,7 @@ export class LoginForm extends React.Component {
             required
           />
 
-          <TextFieldGroupComponent
+          <TextFieldGroup
             error={errors.password}
             onChange={this.onChange}
             value={this.state.password}
@@ -129,12 +129,10 @@ export class LoginForm extends React.Component {
             disabled={this.state.isLoading}
             type="submit"
             value="Submit"
-            className="btn btn-outline-danger btn-block text-dark login-submit"
+            className="btn btn-outline-danger btn-block text-dark"
           />
           <div>
-            <Link to="/reset_password" className="forgot mt-5">
-            Forgot Password?
-            </Link><br />
+            <Link to="/reset_password" className="forgot mt-5">Forgot Password?</Link><br />
             <Link to="/" className="mt-5">Sign Up</Link>
           </div>
         </form>

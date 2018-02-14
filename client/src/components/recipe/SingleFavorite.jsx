@@ -10,7 +10,7 @@ import { confirmAlert } from 'react-confirm-alert';
  *
  * @extends {Component}
  */
-export class SingleFavorite extends Component {
+class SingleFavorite extends Component {
   /**
    * Creates an instance of SingleFavorite.
    *
@@ -59,16 +59,11 @@ export class SingleFavorite extends Component {
           </div>
           <div className="card-body clearfix">
             <div className="text-right text-danger float-right">
-              <i className="fa fa-trash delete-favorite" aria-hidden="true" />
-              <span id="clickableAwesomeFont" onClick={() => this.onDelete()} className="delete">&nbsp;Remove
-              </span>
+              <i className="fa fa-trash" aria-hidden="true" /><span id="clickableAwesomeFont" onClick={() => this.onDelete()} className="delete">&nbsp;Remove</span>
             </div>
             <Link to={`/detail/${recipe.id}`}>
               <div className="text-left text-success float-left">
-                <i className="fa fa-eye" aria-hidden="true" />
-                <a href="detail.html">
-                  <span id="clickableAwesomeFont" className="text-dark">&nbsp;View</span>
-                </a>
+                <i className="fa fa-eye" aria-hidden="true" /><a href="detail.html"><span id="clickableAwesomeFont" className="text-dark">&nbsp;View</span></a>
               </div>
             </Link>
           </div>

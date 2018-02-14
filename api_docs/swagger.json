@@ -843,65 +843,11 @@
       }
     },
     "/recipes/{recipeId}/favorite": {
-      "post": {
-        "tags": [
-          "/favorites"
-        ],
-        "summary": "Add recipe as favorite",
-        "description": "This method allows authenticated user add recipe as favorite",
-        "operationId": "createFavorite",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "x-access-token",
-            "in": "header",
-            "description": "Authentication Token",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Recipe"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "schema": {
-              "description": "Recipe removed from favorite list",
-              "$ref": "#/definitions/FavoriteCreated"
-            }
-          },
-          "201": {
-            "schema": {
-              "description": "recipe favorited",
-              "$ref": "#/definitions/CreatedRecipe"
-            }
-          },
-          "404": {
-            "description": "Validation exception",
-            "schema": {
-              "$ref": "#/definitions/RecipeValidation"
-            }
-          },
-          "default": {
-            "description": "An error occured"
-          }
-        }
-      },
       "delete": {
         "tags": [
           "/favorites"
         ],
-        "summary": "Delete recipe as favorite",
+        "summary": "Add recipe as favorite",
         "description": "This method allows authenticated user add recipe as favorite",
         "operationId": "createFavorite",
         "consumes": [
@@ -1324,18 +1270,6 @@
       ],
       "properties": {
         "recipe": {
-          "$ref": "#/definitions/Recipe"
-        }
-      }
-    },
-    "FavoriteCreated": {
-      "type": "object",
-      "required":[
-        "message",
-        "recipe"
-      ],
-      "properties":{
-        "recipe":{
           "$ref": "#/definitions/Recipe"
         }
       }

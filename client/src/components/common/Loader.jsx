@@ -2,7 +2,7 @@ import React from 'react';
 import { RingLoader } from 'react-spinners';
 
 
-export const Loader = props => (
+const Loader = props => (
   <div className="sweet-loading loader-center">
     <RingLoader
       color="#e50000"

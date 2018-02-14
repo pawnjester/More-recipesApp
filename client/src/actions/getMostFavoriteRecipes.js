@@ -18,7 +18,7 @@ const getMostFavorites = () => dispatch => axios
     dispatch(getMostFavoritesSuccess(response.data));
   })
   .catch((err) => {
-    dispatch(getMostFavoritesFailure(err.response.data));
+    dispatch(getMostFavoritesFailure(err.respone.data));
   });
 
 export default getMostFavorites;

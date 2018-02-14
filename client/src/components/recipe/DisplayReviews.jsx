@@ -9,7 +9,7 @@ import toastr from 'toastr';
  *
  * @extends {Component}
  */
-export class DisplayReview extends Component {
+class DisplayReview extends Component {
   /**
    * Creates an instance of DisplayReview.
    *
@@ -54,31 +54,13 @@ export class DisplayReview extends Component {
               <div className="card mb-3">
                 <div className="card-body">
                   <div className="row">
-                    <img
-                      className="col-sm-2
-                    card-img-top
-                    img-fluid
-                    round define-width text-center"
-                      alt="profile"
-                      src={this.props.Review.User.profileImg}
-                    />
+                    <img className="col-sm-2 card-img-top img-fluid round define-width text-center" alt="profile" src={this.props.Review.User.profileImg} />
                     <div className="col-sm-8 wrap-word">
                       <p className="card-text">{this.props.Review.data}</p>
-                      <p className="card-text"><b>posted by</b>
-                        {this.props.Review.User.username}
-                      </p>
-                      <p className="card-text bold">
-                        {moment(new Date(this.props.Review.createdAt)).fromNow()}
-                      </p>
+                      <p className="card-text"><b>posted by</b> {this.props.Review.User.username} </p>
+                      <p className="card-text bold">{moment(new Date(this.props.Review.createdAt)).fromNow()}</p>
                     </div>
-                    {this.props.Review.User.id === this.props.userDetail.id &&
-                    <span
-                      aria-hidden="true"
-                      className="delete-review-id"
-                      onClick={() => this.onDelete()}
-                      style={{ fontSize: 25 }}
-                    >&times;
-                    </span>}
+                    {this.props.Review.User.id === this.props.userDetail.id && <span aria-hidden="true" onClick={() => this.onDelete()} style={{ fontSize: 25 }}>&times;</span>}
                   </div>
                 </div>
               </div>

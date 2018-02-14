@@ -15,16 +15,18 @@
     "heroku-postbuild": "npm run build:client && npm run build:server",
     "build:client": "webpack --config webpack.config.prod.js",
     "build:server": "babel ./server -d ./dist",
-    "test:client": "NODE_ENV=jest jest ./client/test/*/*.spec.js --coverage --collectCoverageFrom=client/**/*.{js,jsx}",
-    "client": "jest",
-    "pre:test": "sequelize db:migrate:undo:all && sequelize db:migrate",
-    "e2e-setup": "node_modules/selenium-standalone/bin/selenium-standalone install",
-    "e2e:test": "npm run pre:test && nightwatch ./e2etests/*.js"
+    "test:client": "NODE_ENV=jest jest ./client/test/*/*.spec.js --coverage --collectCoverageFrom=client/**/*.{js,jsx}"
   },
   "jest": {
+    "automock": false,
+    "verbose": true,
+    "setupFiles": [
+      "./setup.js"
+    ],
+    "modulePathIgnorePatterns": [],
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/client/test/__mocks__/fileMock.js",
-      "\\.(css|less)$": "identity-obj-proxy"
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/assetsTransformer.js",
+      "\\.(css|less)$": "<rootDir>/assetsTransformer.js"
     }
   },
   "repository": {
@@ -62,14 +64,10 @@
     "dotenv": "^4.0.0",
     "dotenv-webpack": "^1.5.4",
     "enzyme": "^3.3.0",
-    "enzyme-adapter-react-15": "^1.0.5",
-    "enzyme-adapter-react-16": "^1.1.1",
-    "enzyme-to-json": "^3.3.1",
     "expect": "^21.2.1",
     "express": "^4.15.5",
     "extract-text-webpack-plugin": "^3.0.2",
     "faker": "^4.1.0",
-    "fetch-mock": "^6.0.0",
     "file-loader": "^1.1.5",
     "font-loader": "^0.1.2",
     "history": "^4.7.2",
@@ -97,7 +95,6 @@
     "promise": "^8.0.1",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
-    "react-avatar": "^2.5.1",
     "react-bootstrap": "^0.31.5",
     "react-confirm-alert": "^1.0.8",
     "react-dom": "^16.0.0",
@@ -128,11 +125,9 @@
     "validator": "^9.0.0",
     "webpack": "^3.7.1",
     "webpack-dev-middleware": "^1.12.0",
-    "webpack-hot-middleware": "^2.19.1",
-    "winston": "^2.4.0"
+    "webpack-hot-middleware": "^2.19.1"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
     "eslint": "^4.7.2",
@@ -142,14 +137,8 @@
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.5.1",
     "expect": "^21.2.1",
-    "identity-obj-proxy": "^3.0.0",
     "mocha": "^3.5.3",
     "nodemon": "^1.12.1",
-    "react-test-renderer": "^16.2.0",
-    "regenerator": "^0.12.3",
-    "runtime": "^0.14.1",
-    "selenium-standalone": "^6.12.0",
-    "sinon": "^4.2.2",
     "supertest": "^3.0.0"
   }
 }

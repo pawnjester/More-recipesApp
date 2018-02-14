@@ -8,8 +8,8 @@ import * as types from '../../src/actions/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('Favorite Recipe Action Creator', () => {
-  it('should dispatch a success action when no error occurs', () => {
+describe('favoriteRecipeAction', () => {
+  it('favorite recipe success action', () => {
     const favorite = { id: '2', name: 'farmhouse', ingredients: 'beans and tomatoes' };
     const expectedAction = {
       type: types.FAVORITE_RECIPE_SUCCESS,
@@ -19,7 +19,7 @@ describe('Favorite Recipe Action Creator', () => {
     expect(favoriteRecipeSuccess(favorite)).toEqual(expectedAction);
   });
 
-  it('should dispatch a success action when no error occurs', () => {
+  it('favorite recipe action creator', () => {
     const store = mockStore({});
     axios.post = jest.fn(() => Promise.resolve({
       data: {
@@ -30,7 +30,7 @@ describe('Favorite Recipe Action Creator', () => {
     const expectedAction = [
       {
         type: types.FAVORITE_RECIPE_SUCCESS,
-        favorite: {
+        favorite: { //what the action returns
           id: '2', name: 'farmhouse', ingredients: 'beans and tomatoes'
         }
       }
@@ -40,27 +40,5 @@ describe('Favorite Recipe Action Creator', () => {
       .then(() => {
         expect(store.getActions()).toEqual(expectedAction);
       });
-  });
-  it('should dispatch a failure action when an error occurs', () => {
-    const store = mockStore({});
-    axios.post = jest.fn(() => Promise.reject({
-      response: {
-        data: {
-          error: ''
-        }
-      }
-    }));
-    const expectedAction = [
-      {
-        type: types.FAVORITE_RECIPE_FAILURE,
-        error: {
-          error: ''
-        }
-      }
-    ];
-
-    return store.dispatch(favoriteRecipe({})).then(() => {
-      expect(store.getActions()).toEqual(expectedAction)
-    });
   });
 });

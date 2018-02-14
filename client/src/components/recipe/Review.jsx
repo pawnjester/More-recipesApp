@@ -11,7 +11,7 @@ import '../../styles/detail.scss';
  *
  * @extends {Component}
  */
-export class Reviews extends Component {
+class Reviews extends Component {
   /**
    * @description Creates an instance of Reviews.
    *
@@ -89,7 +89,7 @@ export class Reviews extends Component {
         <div className="col-sm-12 pt-5 pb-5">
           <div className="add-review">
             <h2 className="mb-3">Add A Review</h2>
-            <form onSubmit={this.onSubmit} id="add-review-section" >
+            <form onSubmit={this.onSubmit} >
               <div className="form-group">
                 <textarea
                   className="form-control"
@@ -103,17 +103,7 @@ export class Reviews extends Component {
                 />
               </div>
               {errors.data && <small style={{ color: '#A43741' }}>{errors.data}</small>}
-              <button
-                type="submit"
-                className="btn
-              btn-outline-light
-              pull-right
-              bg-danger
-              btn-lg
-              add-review-btn"
-              >
-              POST
-              </button>
+              <button type="submit" className="btn btn-outline-light  pull-right bg-danger btn-lg">POST</button>
             </form>
           </div>
         </div>

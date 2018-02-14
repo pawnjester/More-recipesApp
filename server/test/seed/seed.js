@@ -116,12 +116,12 @@ const fakeData = {
     password: '',
   },
   recipe1: {
-    name: 'rice',
+    name: 'Rice',
     ingredients: 'water rice',
     method: 'boil rice',
   },
   recipe2: {
-    name: 'beans',
+    name: 'Beans',
     ingredients: 'water, beans',
     method: 'fry beans'
   },
