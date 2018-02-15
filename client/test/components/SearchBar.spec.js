@@ -1,24 +1,21 @@
-import React from 'React';
-import { shallow, mount, configure } from 'enzyme';
+import React from 'react';
+import { shallow, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import expect from 'expect';
-import sinon from 'sinon';
-import { provider } from 'react-redux';
 import { SearchBar } from '../../src/components/SearchBar';
-import store from '../../src/store/store';
 
 configure({ adapter: new Adapter() });
 
 const props = {
   searchRecipe: jest.fn(),
-}
+};
 
 const setup = () => {
-  const shallowWrapper = shallow(<SearchBar {...props}/> );
+  const shallowWrapper = shallow(<SearchBar {...props} />);
   return {
     shallowWrapper,
-  }
-}
+  };
+};
 describe('Search bar', () => {
   it('should render correctly', () => {
     const { shallowWrapper } = setup();
@@ -37,13 +34,3 @@ describe('onChange() should', () => {
     expect(shallowWrapper.instance().state.search).toBe('phil');
   });
 });
-
-// describe('onFocus should', () => {
-//   it('redirect to another page', () => {
-//     sinon.spy(SearchBar.prototype, 'onFocus');
-//     const { shallowWrapper } = setup();
-//     const searchField = shallowWrapper.find('#search-bar');
-//     searchField.simulate('focus');
-//     expect(SearchBar.prototype.onFocus.calledOnce).toEqual(true);
-//   });
-// });

@@ -1,7 +1,6 @@
 import React from 'react';
-import Proptypes from 'prop-types';
 import { connect } from 'react-redux';
-import LoginFormComponent from './LoginForm';
+import LoginFormComponent from './loginForm';
 import { login } from '../../actions/loginActions';
 
 
@@ -27,9 +26,5 @@ export const LoginPage = () => (
   </div>
 
 );
-
-LoginPage.proptypes = {
-  login: Proptypes.func.isRequired,
-};
 
 export default connect(null, { login })(LoginPage);

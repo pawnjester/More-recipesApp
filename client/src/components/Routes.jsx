@@ -6,7 +6,7 @@ import LoginPageComponent from './login/LoginPage';
 import RecipePageComponent from './recipe/addRecipe/RecipePage';
 import DetailComponent from './recipe/Detail';
 import NotFound from './NotFound';
-import ProfileComponent from './user/Profile';
+import ProfileComponent from './user/profile';
 import Favorite from './recipe/FavoriteRecipe';
 import SearchPageComponent from './SearchPage';
 import PasswordResetComponent from './PasswordReset';

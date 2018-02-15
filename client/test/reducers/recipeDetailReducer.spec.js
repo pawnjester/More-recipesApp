@@ -1,6 +1,6 @@
+import expect from 'expect';
 import * as types from '../../src/actions/types';
 import recipeDetailReducer from '../../src/reducers/recipeDetailReducer';
-
 
 const initialState = {
   currentRecipe: {},
@@ -67,7 +67,7 @@ describe('Recipe Detail Reducer', () => {
         downvotes: 0,
         Favorites: [{}]
       }
-    }
+    };
     const action = {
       type: types.GET_RECIPE_DETAIL_SUCCESS,
       detail
@@ -239,8 +239,8 @@ describe('Recipe Detail Reducer', () => {
         success: false,
         errors: error
       }
-    })
-  })
+    });
+  });
   it('should delete a review', () => {
     const deletedReview = 1;
     const action = {
@@ -260,14 +260,14 @@ describe('Recipe Detail Reducer', () => {
           }
         ]
       }
-    }
+    };
     const newState = recipeDetailReducer(state, action);
     expect(newState).toEqual({
       currentRecipe: {
         Reviews: [
           {
             id: 2,
-            review: ""
+            review: ''
           }
         ]
       },
@@ -275,12 +275,12 @@ describe('Recipe Detail Reducer', () => {
       success: true
     });
   });
-  it('should handle errors for deleting a review',() => {
+  it('should handle errors for deleting a review', () => {
     const error = {};
     const action = {
       type: types.DELETE_REVIEW_FAILURE,
       error
-    }
+    };
     const newState = recipeDetailReducer(initialState, action);
     expect(newState).toEqual({
       ...initialState,
@@ -288,7 +288,7 @@ describe('Recipe Detail Reducer', () => {
         success: false,
         errors: error
       }
-    })
+    });
   });
   it('should delete a favorite', () => {
     const deletedFavorite = 1;
@@ -311,7 +311,7 @@ describe('Recipe Detail Reducer', () => {
           }
         ]
       }
-    }
+    };
     const newState = recipeDetailReducer(state, action);
     expect(newState).toEqual({
       favoriteRecipes: {
@@ -323,20 +323,20 @@ describe('Recipe Detail Reducer', () => {
           }
         ]
       }
-    })
+    });
   });
   it('should handle errors for deleting a favorite recipes', () => {
     const error = {};
     const action = {
       type: types.DELETE_FAVORITE_FAILURE,
       error
-    }
+    };
     const newState = recipeDetailReducer(initialState, action);
     expect(newState).toEqual({
       ...initialState,
       ...{
         errors: error
       }
-    })
-  })
+    });
+  });
 });

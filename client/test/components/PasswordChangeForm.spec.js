@@ -1,13 +1,10 @@
-import React from 'React';
-import { shallow, mount, configure } from 'enzyme';
+import React from 'react';
+import { shallow, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import expect from 'expect';
 import sinon from 'sinon';
 import jwt from 'jsonwebtoken';
 import { PasswordChangeForm } from '../../src/components/PasswordChangeForm';
-import store from '../../src/store/store';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
 
 
 configure({ adapter: new Adapter() });
@@ -19,13 +16,13 @@ const props = {
     }
   },
   resetPassword: jest.fn(() => Promise.resolve())
-}
-function setup() {
+};
+const setup = () => {
   const shallowWrapper = shallow(<PasswordChangeForm {...props} />);
   return {
     shallowWrapper,
   };
-}
+};
 describe('Test For change Password Form', () => {
   it('should render correctly', () => {
     const { shallowWrapper } = setup();
@@ -55,12 +52,15 @@ describe('onSubmit', () => {
         password: 'andela',
         passwordConfirmation: 'andela'
       }
-    }
-      const form = shallowWrapper.find('.password-color');
-      form.simulate('submit', event);
-      shallowWrapper.setState({ password: 'andela',
-      passwordConfirmation: 'andela', errors: {} });
-      shallowWrapper.instance().onSubmit(event);
-      expect(PasswordChangeForm.prototype.onSubmit.calledOnce).toEqual(true);
+    };
+    const form = shallowWrapper.find('.password-color');
+    form.simulate('submit', event);
+    shallowWrapper.setState({
+      password: 'andela',
+      passwordConfirmation: 'andela',
+      errors: {}
+    });
+    shallowWrapper.instance().onSubmit(event);
+    expect(PasswordChangeForm.prototype.onSubmit.calledOnce).toEqual(true);
   });
 });

@@ -1,8 +1,10 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import axios from 'axios';
+import expect from 'expect';
 
-import deletedFavorite, { deletedFavoriteSuccess } from '../../src/actions/deleteFavorite';
+import deletedFavoriteRecipe, { deletedFavoriteSuccess }
+  from '../../src/actions/deleteFavorite';
 import * as types from '../../src/actions/types';
 
 const middlewares = [thunk];
@@ -31,7 +33,7 @@ describe('Delete Favorite Action Creator', () => {
       }
     ];
 
-    return store.dispatch(deletedFavorite({}))
+    return store.dispatch(deletedFavoriteRecipe({}))
       .then(() => {
         expect(store.getActions()).toEqual(expectedAction);
       });
@@ -54,7 +56,7 @@ describe('Delete Favorite Action Creator', () => {
       }
     ];
 
-    return store.dispatch(deletedFavorite({})).then(() => {
+    return store.dispatch(deletedFavoriteRecipe({})).then(() => {
       expect(store.getActions()).toEqual(expectedAction)
     });
   });

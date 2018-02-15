@@ -1,11 +1,8 @@
-import React from 'React';
-import { shallow, mount, configure } from 'enzyme';
+import React from 'react';
+import { shallow, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import expect from 'expect';
-import sinon from 'sinon';
-import { provider } from 'react-redux';
 import { Detail } from '../../src/components/recipe/Detail';
-import store from '../../src/store/store';
 
 
 configure({ adapter: new Adapter() });
@@ -45,7 +42,7 @@ const match = {
   params: {
     recipeId: 1
   }
-}
+};
 const setup = (favoriteStatus = false) => {
   const props = {
     singleRecipe,
@@ -54,31 +51,31 @@ const setup = (favoriteStatus = false) => {
     favoriteStatus,
     match,
     ...pageProps
-  }
-  return shallow(<Detail {...props}/> )
+  };
+  return shallow(<Detail {...props} />);
 };
 
 describe('Recipe detail Component', () => {
   it('should render correctly', () => {
-    const wrapper  = setup();
+    const wrapper = setup();
     expect(wrapper).toMatchSnapshot();
   });
 
   it('should allow user upvote recipe', () => {
     const wrapper = setup();
     wrapper.find('.upvote-btn').simulate('click');
-    expect(upvoteSpy).toHaveBeenCalledWith(match.params.recipeId)
+    expect(upvoteSpy).toHaveBeenCalledWith(match.params.recipeId);
   });
 
   it('should allow user downvote recipe', () => {
     const wrapper = setup();
     wrapper.find('.downvote-btn').simulate('click');
-    expect(downvoteSpy).toHaveBeenCalledWith(match.params.recipeId)
+    expect(downvoteSpy).toHaveBeenCalledWith(match.params.recipeId);
   });
 
   it('should allow user favorite recipe', () => {
     const wrapper = setup();
     wrapper.find('.favorite-btn').simulate('click');
-    expect(favoriteSpy).toHaveBeenCalledWith(match.params.recipeId)
+    expect(favoriteSpy).toHaveBeenCalledWith(match.params.recipeId);
   });
 });

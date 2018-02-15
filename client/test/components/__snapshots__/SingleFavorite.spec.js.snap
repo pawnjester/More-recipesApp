@@ -22,7 +22,7 @@ exports[`Test for Single Favorite Recipes should render correctly 1`] = `
       <h4
         className="card-title"
       >
-        nodejs...
+        ...
       </h4>
     </div>
     <div

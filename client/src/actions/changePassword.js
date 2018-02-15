@@ -12,7 +12,8 @@ export const changePasswordFailure = error => ({
 });
 
 
-const changePassword = values => dispatch => axios.put('/api/v1/users/change-password', values)
+const changePassword = values => dispatch => axios
+  .put('/api/v1/users/change-password', values)
   .then((response) => {
     dispatch(changePasswordSuccess(response.data));
   })

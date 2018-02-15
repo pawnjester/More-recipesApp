@@ -1,12 +1,8 @@
-import React from 'React';
-import { shallow, mount, configure } from 'enzyme';
+import React from 'react';
+import { shallow, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import expect from 'expect';
-import { ChangePasswordForm } from '../../src/components/changePasswordForm';
-import store from '../../src/store/store';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-import sinon from 'sinon';
+import { ChangePasswordForm } from '../../src/components/ChangePasswordForm';
 
 
 configure({ adapter: new Adapter() });
@@ -51,8 +47,10 @@ describe('onSubmit', () => {
       }
     };
     const form = wrapper.find('.password-color');
-    wrapper.setState({ oldPassword: 'andela001',
-      password: 'andela234' });
+    wrapper.setState({
+      oldPassword: 'andela001',
+      password: 'andela234'
+    });
     form.simulate('click', event);
     expect(wrapper.instance().state.oldPassword).toEqual('andela001');
   });

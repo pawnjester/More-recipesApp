@@ -125,9 +125,11 @@ export class PasswordChangeForm extends Component {
                       />
                     </div>
                     {(errors.error || errors.passwordConfirmation)
-                      && <small style={{ marginLeft: 250 }}>
+                      &&
+                      <small style={{ marginLeft: 250 }}>
                         {(errors.error || errors.passwordConfirmation)}
-                      </small>}
+                      </small>
+                        }
                   </div>
                   <div className="form-group">
                     <div>
@@ -147,9 +149,11 @@ export class PasswordChangeForm extends Component {
                       />
                     </div>
                     {(errors.error || errors.passwordConfirmation)
-                      && <small style={{ marginLeft: 250 }}>
+                      &&
+                      <small style={{ marginLeft: 250 }}>
                         {(errors.error || errors.passwordConfirmation)}
-                         </small>}
+                      </small>
+                        }
                   </div>
                   <button
                     onClick={this.onSubmit}

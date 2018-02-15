@@ -1,6 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import axios from 'axios';
+import expect from 'expect';
 
 import deleteReview, { deleteReviewSuccess } from '../../src/actions/deleteReview';
 import * as types from '../../src/actions/types';
@@ -48,11 +49,11 @@ describe('Delete Review Action Creator', () => {
     const expectedAction = [
       {
         type: types.DELETE_REVIEW_FAILURE,
-        error: {'error': ''}
+        error: { error: '' }
       }
     ];
     return store.dispatch(deleteReview({})).then(() => {
-      expect(store.getActions()).toEqual(expectedAction)
-    })
-  })
+      expect(store.getActions()).toEqual(expectedAction);
+    });
+  });
 });

@@ -1,8 +1,10 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import axios from 'axios';
+import expect from 'expect';
 
-import changePassword, { changePasswordSuccess } from '../../src/actions/changePassword'
+import changePassword, { changePasswordSuccess }
+  from '../../src/actions/changePassword';
 import * as types from '../../src/actions/types';
 
 const middlewares = [thunk];
@@ -36,9 +38,9 @@ describe('Change Password Action Creator', () => {
     ];
 
     return store.dispatch(changePassword({}))
-    .then(() => {
-      expect(store.getActions()).toEqual(expectedAction);
-    });
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedAction);
+      });
   });
 
   it('should dispatch an failure action when an error occurs', () => {
@@ -60,7 +62,7 @@ describe('Change Password Action Creator', () => {
     ];
 
     return store.dispatch(changePassword({})).then(() => {
-      expect(store.getActions()).toEqual(expectedAction)
+      expect(store.getActions()).toEqual(expectedAction);
     });
   });
-})
+});

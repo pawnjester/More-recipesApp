@@ -1,11 +1,8 @@
-import React from 'React';
-import { shallow, mount, configure } from 'enzyme';
+import React from 'react';
+import { shallow, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import expect from 'expect';
-import sinon from 'sinon';
-import { provider } from 'react-redux';
 import { AddRecipeModal } from '../../src/components/Modal/AddRecipeModal';
-import store from '../../src/store/store';
 
 configure({ adapter: new Adapter() });
 
@@ -14,14 +11,14 @@ const props = {
   errors: {},
   getRecipe: jest.fn(),
   currentPage: 1
-}
+};
 
 const setup = () => {
-  const shallowWrapper = shallow(<AddRecipeModal {...props} /> );
+  const shallowWrapper = shallow(<AddRecipeModal {...props} />);
   return {
     shallowWrapper,
-  }
-}
+  };
+};
 
 describe('Test for Add Recipe Modal', () => {
   it('should render correctly', () => {
@@ -58,5 +55,5 @@ describe('onSubmit() should', () => {
     });
     shallowWrapper.instance().onSubmit(event);
     expect(props.createRecipe.mock.calls.length).toEqual(1);
-});
+  });
 });

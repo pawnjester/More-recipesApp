@@ -1,11 +1,8 @@
-import React from 'React';
-import { shallow, mount, configure } from 'enzyme';
+import React from 'react';
+import { shallow, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import expect from 'expect';
-import sinon from 'sinon';
-import { provider } from 'react-redux';
 import { TextFieldGroup } from '../../src/components/common/TextFieldGroup';
-import store from '../../src/store/store';
 
 configure({ adapter: new Adapter() });
 
@@ -16,14 +13,14 @@ const props = {
   type: '',
   onChange: jest.fn(),
   placeholder: '',
-}
+};
 
-function setup() {
-  const shallowWrapper = shallow(<TextFieldGroup {...props} /> );
+const setup = () => {
+  const shallowWrapper = shallow(<TextFieldGroup {...props} />);
   return {
     shallowWrapper,
-  }
-}
+  };
+};
 
 describe('Test for TextFieldGroup', () => {
   it('should render correctly', () => {

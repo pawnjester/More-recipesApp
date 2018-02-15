@@ -1,8 +1,10 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import axios from 'axios';
+import expect from 'expect';
 
-import addReview, { addReviewToRecipeSuccess } from '../../src/actions/reviewRecipe';
+import addReview, { addReviewToRecipeSuccess }
+  from '../../src/actions/reviewRecipe';
 import * as types from '../../src/actions/types';
 
 const middlewares = [thunk];
@@ -55,12 +57,12 @@ describe('Add Review Action Creator', () => {
     const expectedAction = [
       {
         type: types.ADD_REVIEW_FAILURE,
-          error: 'Unable to add review'
+        error: 'Unable to add review'
       }
     ];
 
     return store.dispatch(addReview({})).then(() => {
-      expect(store.getActions()).toEqual(expectedAction)
+      expect(store.getActions()).toEqual(expectedAction);
     });
   });
 });

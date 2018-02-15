@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import JwtDecode from 'jwt-decode';
 import SignUpFormComponent from './signup/SignUpForm';
 import UpvotedRecipesComponent from './UpvotedRecipes';
-import { userSignupRequest } from '../actions/signupActions';
+import userSignupRequest from '../actions/signupActions';
 import getFavoriteRecipe from '../actions/getFavoriteRecipes';
 import getUpvotedRecipes from '../actions/getUpvotedRecipes';
 import getMostFavoriteRecipe from '../actions/getMostFavoriteRecipes';

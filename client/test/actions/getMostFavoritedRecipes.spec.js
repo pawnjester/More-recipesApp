@@ -1,12 +1,10 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import axios from 'axios';
-import fetchMock from 'fetch-mock';
+import expect from 'expect';
 
-import getMostFavorites, { getMostFavoritesSuccess, getMostFavoritesFailure } from
-  '../../src/actions/getMostFavoriteRecipes';
+import getMostFavorites, { getMostFavoritesSuccess } from '../../src/actions/getMostFavoriteRecipes';
 import * as types from '../../src/actions/types';
-import getMostFavoriteRecipes from '../../src/actions/getMostFavoriteRecipes';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

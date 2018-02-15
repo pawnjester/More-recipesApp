@@ -5,9 +5,9 @@
 
   <testsuite name="userInteraction.test"
     errors="0" failures="0" hostname="" id="" package="userInteraction.test" skipped="0"
-    tests="14" time="121.5" timestamp="Wed, 14 Feb 2018 14:23:17 GMT">
+    tests="14" time="121.7" timestamp="Wed, 14 Feb 2018 18:05:36 GMT">
   
-    <testcase name="user receives error when the sign up form is not properly filled" classname="userInteraction.test" time="14.94" assertions="4">
+    <testcase name="user receives error when the sign up form is not properly filled" classname="userInteraction.test" time="15.70" assertions="4">
 
     
 
@@ -18,18 +18,18 @@
     
     </testcase>
   
-    <testcase name="user get automatically logged in when he sign up form is correctly filled" classname="userInteraction.test" time="4.161" assertions="0">
+    <testcase name="user get automatically logged in when he sign up form is correctly filled" classname="userInteraction.test" time="4.164" assertions="0">
     </testcase>
   
-    <testcase name="user can sign out from the app" classname="userInteraction.test" time="4.860" assertions="0">
+    <testcase name="user can sign out from the app" classname="userInteraction.test" time="4.450" assertions="0">
     </testcase>
   
-    <testcase name="do not allow a user sign in with no empty passsword" classname="userInteraction.test" time="9.722" assertions="1">
+    <testcase name="do not allow a user sign in with no empty passsword" classname="userInteraction.test" time="9.695" assertions="1">
 
     
     </testcase>
   
-    <testcase name="do not allow a user sign in with a wrong passsword" classname="userInteraction.test" time="10.16" assertions="3">
+    <testcase name="do not allow a user sign in with a wrong passsword" classname="userInteraction.test" time="10.15" assertions="3">
 
     
 
@@ -38,7 +38,7 @@
     
     </testcase>
   
-    <testcase name="allow a user sign in " classname="userInteraction.test" time="12.12" assertions="2">
+    <testcase name="allow a user sign in " classname="userInteraction.test" time="12.18" assertions="2">
 
     
 
@@ -48,13 +48,13 @@
     <testcase name="allow a user create a recipe" classname="userInteraction.test" time="4.866" assertions="0">
     </testcase>
   
-    <testcase name="allow a user edit a recipe" classname="userInteraction.test" time="8.783" assertions="0">
+    <testcase name="allow a user edit a recipe" classname="userInteraction.test" time="8.756" assertions="0">
     </testcase>
   
-    <testcase name="allow a user view a recipe" classname="userInteraction.test" time="2.103" assertions="0">
+    <testcase name="allow a user view a recipe" classname="userInteraction.test" time="2.091" assertions="0">
     </testcase>
   
-    <testcase name="allow a user favorite a recipe" classname="userInteraction.test" time="2.634" assertions="2">
+    <testcase name="allow a user favorite a recipe" classname="userInteraction.test" time="2.639" assertions="2">
 
     
 
@@ -66,14 +66,14 @@
     
     </testcase>
   
-    <testcase name="allow a user downvote a recipe" classname="userInteraction.test" time="4.119" assertions="2">
+    <testcase name="allow a user downvote a recipe" classname="userInteraction.test" time="4.114" assertions="2">
 
     
 
     
     </testcase>
   
-    <testcase name="allow a user add a review to a recipe" classname="userInteraction.test" time="22.34" assertions="3">
+    <testcase name="allow a user add a review to a recipe" classname="userInteraction.test" time="22.33" assertions="3">
 
     
 
@@ -82,7 +82,7 @@
     
     </testcase>
   
-    <testcase name="navigate through the dropwdown" classname="userInteraction.test" time="17.56" assertions="2">
+    <testcase name="navigate through the dropwdown" classname="userInteraction.test" time="17.50" assertions="2">
 
     
 

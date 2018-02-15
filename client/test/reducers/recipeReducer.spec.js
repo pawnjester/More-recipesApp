@@ -1,3 +1,4 @@
+import expect from 'expect';
 import * as types from '../../src/actions/types';
 import recipeReducer from '../../src/reducers/recipeReducer';
 
@@ -27,8 +28,8 @@ describe('Recipe Reducer', () => {
         recipes: payload.recipes,
         deleted: false
       }
-    })
-  })
+    });
+  });
   it('should delete a recipe', () => {
     const recipes = [];
     const action = {
@@ -44,7 +45,7 @@ describe('Recipe Reducer', () => {
         recipes
       }
     });
-  })
+  });
   it('it should get all the recipes', () => {
     const recipes = {
       id: 1,
@@ -110,8 +111,8 @@ describe('Recipe Reducer', () => {
         searchResults: error,
         deleted: false
       }
-    })
-  })
+    });
+  });
   it('should get upvoted recipes', () => {
     const upvotedRecipes = {
       id: 1,
@@ -208,8 +209,8 @@ describe('Recipe Reducer', () => {
           method: 'sffdxsfd'
         }
       ],
-      "deleted": true,
-      "totalContent": 1
+      deleted: true,
+      totalContent: 1
     });
   });
   it('should handle errors for creating recipes', () => {

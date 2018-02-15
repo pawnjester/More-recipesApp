@@ -1,6 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import axios from 'axios';
+import expect from 'expect';
 
 import favoriteRecipe, { favoriteRecipeSuccess } from '../../src/actions/favoriteRecipe';
 import * as types from '../../src/actions/types';

@@ -1,6 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import axios from 'axios';
+import expect from 'expect';
 
 import upvoteRecipe, { upvoteRecipeSuccess } from '../../src/actions/upvoteRecipe';
 import * as types from '../../src/actions/types';
@@ -55,14 +56,14 @@ describe('Upvote Recipe Action Creator', () => {
     const expectedAction = [
       {
         type: types.UPVOTE_RECIPE_FAILURE,
-          error: {
-            error: ''
-          }
+        error: {
+          error: ''
+        }
       }
     ];
 
     return store.dispatch(upvoteRecipe({})).then(() => {
-      expect(store.getActions()).toEqual(expectedAction)
+      expect(store.getActions()).toEqual(expectedAction);
     });
   });
 });
