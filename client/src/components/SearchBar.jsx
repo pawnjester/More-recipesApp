@@ -62,7 +62,7 @@ export class SearchBar extends Component {
       <div>
         <form className=" my-2 my-lg-0">
           <input
-            id= "search-bar"
+            id="search-bar"
             className=" mr-sm-2 searchbars"
             type="text"
             name="search"

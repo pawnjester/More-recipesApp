@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import NavigationBar from './NavigationBar';
-import Footer from '../components/common/Footer';
+import NavigationBarComponent from './NavigationBar';
+import FooterComponent from '../components/common/Footer';
 import '../styles/search.scss';
 import '../styles/recipes.scss';
 import search from '../actions/searchRecipe';
@@ -98,7 +98,7 @@ export class SearchPage extends Component {
 
     return (
       <div>
-        <NavigationBar />
+        <NavigationBarComponent />
         <div className="container">
           <h1 className="text-center top-margin text-danger">
           Search New Awesome Recipes
@@ -126,7 +126,7 @@ export class SearchPage extends Component {
             {recipesList}
           </div>
         </div>
-        <Footer />
+        <FooterComponent />
       </div>
     );
   }

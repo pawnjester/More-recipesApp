@@ -1,11 +1,9 @@
-import React from 'React';
-import { shallow, mount, configure } from 'enzyme';
+import React from 'react';
+import { shallow, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import expect from 'expect';
 import sinon from 'sinon';
-import { Provider } from 'react-redux';
 import { Reviews } from '../../src/components/recipe/Review';
-import store from '../../src/store/store';
 
 
 configure({ adapter: new Adapter() });
@@ -18,13 +16,13 @@ const pageProps = {
 const setup = () => {
   const props = {
     ...pageProps
-  }
-  return shallow(<Reviews {...props}/> )
+  };
+  return shallow(<Reviews {...props} />);
 };
 
 describe('Add Review Form Component', () => {
   it('should render correctly', () => {
-    const wrapper  = setup();
+    const wrapper = setup();
     expect(wrapper).toMatchSnapshot();
   });
 });
@@ -48,11 +46,11 @@ describe('onSubmit', () => {
       target: {
         data: 'this meal is nice'
       }
-    }
-      const form = wrapper.find('.add-review-btn');
-      form.simulate('submit', event);
-      wrapper.setState({ data: 'great' });
-      wrapper.instance().onSubmit(event);
-      expect(Reviews.prototype.onSubmit.calledOnce).toEqual(true);
+    };
+    const form = wrapper.find('.add-review-btn');
+    form.simulate('submit', event);
+    wrapper.setState({ data: 'great' });
+    wrapper.instance().onSubmit(event);
+    expect(Reviews.prototype.onSubmit.calledOnce).toEqual(true);
   });
 });

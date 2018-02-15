@@ -1,6 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import axios from 'axios';
+import expect from 'expect';
 
 import searchRecipe, { searchRecipeSuccess } from
   '../../src/actions/searchRecipe';
@@ -56,14 +57,14 @@ describe('Search Recipe Action Creator', () => {
     const expectedAction = [
       {
         type: types.SEARCH_RECIPE_FAILURE,
-          error: {
-            error: ''
-          }
+        error: {
+          error: ''
+        }
       }
     ];
 
     return store.dispatch(searchRecipe({})).then(() => {
-      expect(store.getActions()).toEqual(expectedAction)
+      expect(store.getActions()).toEqual(expectedAction);
     });
   });
 });

@@ -5,7 +5,7 @@ import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import { Provider } from 'react-redux';
-import App from './components/App';
+import AppComponent from './components/App';
 import store from './store/store';
 import setAuthorizationToken from './utils/setAuthorizationtoken';
 import { setCurrentUser } from './actions/loginActions';
@@ -27,7 +27,7 @@ if (localStorage.jwtToken) {
 render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <AppComponent />
     </BrowserRouter>
   </Provider>,
   document.getElementById('app'),

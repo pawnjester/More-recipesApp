@@ -15,7 +15,7 @@ export const deletedFavoriteFailure = error => ({
 const deletedFavorite = favoriteId => dispatch => axios
   .delete(`/api/v1/recipes/${favoriteId}/favorite`)
   .then(() => {
-    return dispatch(deletedFavoriteSuccess(favoriteId));
+    dispatch(deletedFavoriteSuccess(favoriteId));
   })
   .catch((error) => {
     dispatch(deletedFavoriteFailure(error.response.data));

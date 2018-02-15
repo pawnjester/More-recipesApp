@@ -12,7 +12,7 @@ import { setCurrentUser } from './loginActions';
  *
  * @returns {void}
  */
-export function userSignupRequest(userData) {
+const userSignupRequest = (userData) => {
   return dispatch => axios.post('/api/v1/users/signup', userData).then((res) => {
     const { token } = res.data;
     localStorage.setItem('jwtToken', token);
@@ -20,3 +20,5 @@ export function userSignupRequest(userData) {
     dispatch(setCurrentUser(jwtDecode(token)));
   });
 };
+
+export default userSignupRequest;

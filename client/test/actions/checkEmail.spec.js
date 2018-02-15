@@ -1,9 +1,11 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import axios from 'axios';
+import expect from 'expect';
+
 
 import checkEmail, { checkEmailSuccess } from '../../src/actions/checkEmail';
-import * as types from '../../src/actions/types'
+import * as types from '../../src/actions/types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -36,8 +38,8 @@ describe('Check Email Action creator', () => {
     ];
 
     return store.dispatch(checkEmail({}))
-    .then(() => {
-      expect(store.getActions()).toEqual(expectedAction);
-    });
-  })
-})
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedAction);
+      });
+  });
+});

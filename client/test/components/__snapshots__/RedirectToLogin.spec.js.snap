@@ -26,7 +26,7 @@ exports[`Redirect to Login Page should render correctly 1`] = `
             Your Password has been changed,
             <br />
             <br />
-            Please click this 
+            Please click this
             <Link
               replace={false}
               to="/signin"

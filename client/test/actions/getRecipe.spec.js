@@ -1,6 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import axios from 'axios';
+import expect from 'expect';
 
 import getRecipe, { getUserRecipesSuccess } from
   '../../src/actions/getRecipe';
@@ -23,25 +24,27 @@ describe('Get User Recipe Action Creator', () => {
   it('should dispatch a success action when no error occurs', () => {
     const store = mockStore({});
     axios.get = jest.fn(() => Promise.resolve({
-        data: {
-          recipes: [],
-          pagination: {
-            NumberOfItems: 1, Limit:5, Pages:1, CurrentPage:1,
-          }
+      data: {
+        recipes: [],
+        pagination: {
+          NumberOfItems: 1, Limit: 5, Pages: 1, CurrentPage: 1,
+        }
       }
     }));
 
     const expectedAction = [
       {
         type: types.GET_RECIPES,
-        payload: {recipes: [],
+        payload: {
+          recipes: [],
           pagination: {
-            NumberOfItems: 1, Limit:5, Pages:1, CurrentPage:1,
-          } },
+            NumberOfItems: 1, Limit: 5, Pages: 1, CurrentPage: 1,
+          }
+        },
       },
       {
         detail: {
-          NumberOfItems: 1, Limit:5, Pages:1, CurrentPage:1,
+          NumberOfItems: 1, Limit: 5, Pages: 1, CurrentPage: 1,
         },
         type: 'GET_PAGE_DETAIL'
       }
@@ -73,7 +76,7 @@ describe('Get User Recipe Action Creator', () => {
     ];
 
     return store.dispatch(getRecipe({})).then(() => {
-      expect(store.getActions()).toEqual(expectedAction)
+      expect(store.getActions()).toEqual(expectedAction);
     });
   });
 });

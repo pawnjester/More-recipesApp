@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../actions/loginActions';
 import getUserDetail from '../actions/getUserDetail';
-import SearchBar from './SearchBar';
+import SearchBarComponent from './SearchBar';
 /**
  * @description Navigation Bar
  *
@@ -126,41 +126,44 @@ export class NavigationBar extends React.Component {
         </div>
 
         <ul className="show-mobile">
-          <li><Link
-            to="/favorites"
-            className="dropdown-item"
-          >
-          My Favorites
-              </Link>
+          <li>
+            <Link
+              to="/favorites"
+              className="dropdown-item"
+            >My Favorites
+            </Link>
           </li>
-          <li><Link
-            to="/recipes"
-            className="dropdown-item"
-          >
-          My Recipes
-              </Link>
+          <li>
+            <Link
+              to="/recipes"
+              className="dropdown-item"
+            >My Recipes
+            </Link>
           </li>
-          <li><Link
-            to="/all-recipes"
-            className="dropdown-item"
-          >
+          <li>
+            <Link
+              to="/all-recipes"
+              className="dropdown-item"
+            >
           All Recipes
-              </Link>
+            </Link>
           </li>
-          <li><Link
-            to="/profile"
-            className="dropdown-item"
-          >
+          <li>
+            <Link
+              to="/profile"
+              className="dropdown-item"
+            >
           My Profile
-              </Link>
+            </Link>
           </li>
-          <li><Link
-            to="/"
-            onClick={this.logout}
-            className=" dropdown-item"
-            styles="border-radius: 4px;"
-          >Log out
-              </Link>
+          <li>
+            <Link
+              to="/"
+              onClick={this.logout}
+              className=" dropdown-item"
+              styles="border-radius: 4px;"
+            >Log out
+            </Link>
           </li>
         </ul>
       </div>
@@ -191,7 +194,7 @@ export class NavigationBar extends React.Component {
         >
         More-Recipes
         </Link>
-        {this.props.search && <SearchBar />}
+        {this.props.search && <SearchBarComponent />}
         <button
           className="navbar-toggler"
           type="button"

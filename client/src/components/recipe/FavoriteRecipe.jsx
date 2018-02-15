@@ -38,10 +38,6 @@ export class FavoriteRecipe extends Component {
   componentDidMount() {
     this.props.getFavoriteRecipe();
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   this
-  // }
   /**
  * @description set state to currentPage
  *

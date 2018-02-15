@@ -1,6 +1,6 @@
+import expect from 'expect';
 import * as types from '../../src/actions/types';
 import userDetailReducer from '../../src/reducers/userDetailReducer';
-
 
 const initialState = {
   userDetail: {},
@@ -25,12 +25,12 @@ describe('User Reducer', () => {
       }
     });
   });
-  it('should handle errors for change password',() => {
+  it('should handle errors for change password', () => {
     const error = {};
     const action = {
       type: types.CHANGE_PASSWORD_FAILURE,
       error
-    }
+    };
     const newState = userDetailReducer(initialState, action);
     expect(newState).toEqual({
       ...initialState,
@@ -38,6 +38,6 @@ describe('User Reducer', () => {
         success: false,
         errors: error
       }
-    })
+    });
   });
 });
